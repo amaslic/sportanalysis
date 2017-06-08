@@ -1,0 +1,29 @@
+.login-logo {
+  max-width: 150px;
+}
+
+.btn-signup {
+  min-width: 120px
+}
+
+.sign-in-notice {
+  color: #afb2cf;
+}
+
+.sign-in-form {
+  padding: 30px;
+  text-align: left;
+}
+
+.green{
+    color:#1db954
+}
+
+.mat-checkbox-checked /deep/ .mat-checkbox-background {
+  background-color: #1db954;
+}
+@media screen and (max-width: 750px) {
+  .pull-right-sm {
+    float: right;
+  }
+}

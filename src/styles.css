@@ -1,0 +1,25 @@
+/* You can add global styles to this file, and also import other style files */
+
+.btn.btn-round {
+  border-radius: 24px;
+  font-weight:800;
+}
+
+.btn.btn-dark-grey {
+  background: #6b6b6b;
+  color: white;
+}
+.dark-grey{
+  color:#6b6b6b;
+}
+
+.btn.btn-green {
+  background: #1db954;
+  color: white;
+}
+
+.padding-rm {
+  padding: 0
+}
+
+
