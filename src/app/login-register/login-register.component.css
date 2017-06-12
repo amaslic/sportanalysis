@@ -14,13 +14,6 @@
   text-align: center;
   height: 400px;
   position: relative;
-  -webkit-transition: -webkit-transform .33s;
-  transition: transform .33s;
-  /* Animate the transform properties */
-  cursor: pointer;
-  -webkit-transform-style: preserve-3d;
-  transform-style: preserve-3d;
-  /* <-NB */
 }
 
 .login,
@@ -35,6 +28,7 @@
   -webkit-box-shadow: 0 5px 20px rgba(105, 108, 109, .3), 0 0 8px 5px rgba(208, 223, 226, .4) inset;
   box-shadow: 0 5px 20px rgba(105, 108, 109, .3), 0 0 8px 5px rgba(208, 223, 226, .4) inset;
   padding: 50px 10px 50px 10px;
+  overflow: auto;
 }
 
 .login {
@@ -42,30 +36,34 @@
 }
 
 .register {
-  transform: rotateY(-90deg) translateX(-50px);
-  -webkit-transform: rotateY(-90deg) translateX(-50px);
+  height: 700px;
+  padding-bottom: 0;
+  margin-bottom: 0;
+  padding-top: 10px;
 }
 
 .right-border {
   border-right: 1px solid #e1e1e1;
 }
 
-
-.cube:hover {
-  transform: translateX(50px) rotateY(90deg);
-  -webkit-transform: translateX(50px) rotateY(90deg);
+.cube.registration-side {
+  height: 700px;
 }
 
 @media screen and (max-width: 750px) {
   #login-register-container {
     display: block;
     padding-top: 20px;
+    padding-bottom: 20px;
   }
   .cube,
   .login,
   .register {
     width: 100%;
-    height: auto;
+    height: 100%;
+  }
+  .cube.registration-side {
+    height: 100%;
   }
   .right-border {
     border: none;

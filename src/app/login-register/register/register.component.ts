@@ -11,12 +11,14 @@ import {
 import {
   Router
 } from '@angular/router';
+
+
 @Component({
-  selector: 'app-login',
-  templateUrl: './login.component.html',
-  styleUrls: ['./login.component.css']
+  selector: 'app-register',
+  templateUrl: './register.component.html',
+  styleUrls: ['./register.component.css']
 })
-export class LoginComponent implements OnInit {
+export class RegisterComponent implements OnInit {
   public user: User = new User();
   private router: Router;
 
@@ -31,20 +33,19 @@ export class LoginComponent implements OnInit {
       return false;
     }
     console.log(this.user);
-    this.userService.login(f.value)
+    this.userService.createNewUser(this.user)
       .subscribe(
-        (response) => this.onLoginSuccess(response),
+        (response) => this.onSignupSuccess(response),
         (error) => this.onError(error)
       );
   }
 
-  onLoginSuccess(response) {
+  onSignupSuccess(response) {
     const responseBody = JSON.parse(response._body);
     console.log(responseBody);
-    alert('Login Ok! Got token');
-    this.userService.setUser(responseBody.user);
-    this.userService.setToken(responseBody.token);
-    this.router.navigateByUrl('');
+    alert(responseBody.msg);
+    this.user = new User();
+    this.router.navigateByUrl('/auth/login');
   }
 
   onError(error) {
