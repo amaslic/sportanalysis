@@ -7,6 +7,7 @@ export class User {
   public clubFunction: string;
   public phone: string;
   private password: string;
+  private confirmed: boolean;
 
   constructor() {}
 

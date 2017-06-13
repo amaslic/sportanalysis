@@ -25,7 +25,11 @@
   background-color: #1db954;
 }
 @media screen and (max-width: 750px) {
-  .pull-right-sm {
-    float: right;
+  .text-right.xs-fix{
+    padding: 20px;
+     text-align: center !important;
+  }
+  .text-center-xs{
+    text-align: center !important;
   }
 }
