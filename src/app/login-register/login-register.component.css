@@ -36,7 +36,7 @@
 }
 
 .register {
-  height: 700px;
+  height: 630px;
   padding-bottom: 0;
   margin-bottom: 0;
   padding-top: 10px;
@@ -47,7 +47,7 @@
 }
 
 .cube.registration-side {
-  height: 700px;
+  height: 630px;
 }
 
 @media screen and (max-width: 750px) {

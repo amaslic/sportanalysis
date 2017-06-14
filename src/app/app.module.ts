@@ -14,11 +14,13 @@ import { RegisterComponent } from './login-register/register/register.component'
 import { UserService } from './services/user.service';
 import { MainComponent } from './main/main.component';
 import { AuthGuard } from './auth-guard.service';
+import { SidebarModule } from 'ng-sidebar';
 
 const appRoutes: Routes = [
   { path: 'auth', component: LoginRegisterComponent},
   { path: 'auth/:type', component: LoginRegisterComponent},
-  { path: '', canActivate: [AuthGuard], component: MainComponent}
+  //{ path: '', canActivate: [AuthGuard], component: MainComponent}
+  { path: '', component: MainComponent}
 ];
 
 @NgModule({
@@ -34,7 +36,8 @@ const appRoutes: Routes = [
     FormsModule, ReactiveFormsModule,
     HttpModule,
     BrowserAnimationsModule, MdButtonModule, MdCheckboxModule,
-    RouterModule.forRoot(appRoutes)
+    RouterModule.forRoot(appRoutes),
+    SidebarModule.forRoot()
   ],
   providers: [UserService, AuthGuard],
   bootstrap: [AppComponent]

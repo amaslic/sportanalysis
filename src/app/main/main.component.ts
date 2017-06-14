@@ -1,4 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import {
+  Component,
+  OnInit
+} from '@angular/core';
 
 @Component({
   selector: 'app-main',
@@ -7,9 +10,14 @@ import { Component, OnInit } from '@angular/core';
 })
 export class MainComponent implements OnInit {
 
-  constructor() { }
+  private _opened = true;
 
-  ngOnInit() {
+  private _toggleSidebar() {
+    this._opened = !this._opened;
   }
+
+  constructor() {}
+
+  ngOnInit() {}
 
 }
