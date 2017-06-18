@@ -21,6 +21,12 @@ app-root {
   color: #6b6b6b;
 }
 
+.btn.btn-blue-outline{
+  border: 2px solid #22a9ff;
+  color: #22a9ff;
+  background: none;
+}
+
 .btn.btn-green {
   background: #1db954;
   color: white;

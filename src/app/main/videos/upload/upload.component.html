@@ -1,0 +1,41 @@
+<div class="panel panel-default">
+  <div class="panel-heading">Upload to Sportanalysis.tv</div>
+  <div class="panel-body">
+    <div class="progress" *ngIf="uploading">
+      <div class="progress-bar" role="progressbar" aria-valuenow="70" aria-valuemin="0" aria-valuemax="100" style="width:70%">
+        <span class="sr-only">70% Complete</span>
+      </div>
+    </div>
+
+    <div class="row container">
+      <div class="form-group col-sm-12 text-center" id="upload-area">
+        <label for="attachments" style="width:100%">
+          <div class="dropzone_cont" id="dropzone" (drop)="onDrop($event)" (dragover)="onDragOver($event)" (dragenter)="onDragEnter($event)">
+            <img src="/assets/icons/upload.svg" alt="upload" class="image-responsive upload-icon">
+            <h4>DROP FILES TO UPLOAD</h4>
+            <p>or click to pick manually</p>
+          </div>
+          <input type="file" (change)="onSelectFile($event)" name="attachments" [(ngModel)]="attachments" id="attachments" style="display:none">
+        </label>
+      </div>
+      <form class="form-inline  col-xs-12 col-xs-offset-0 col-sm-8 col-sm-offset-2 text-center" id="video-metadata" #f="ngForm" (ngSubmit)="onSubmit(f)" novalidate [ngClass]="{'submited' : f._submitted}">
+        <div class="form-group">
+          <input type="title" [(ngModel)]="name" class="form-control" name="title" id="video-name" placeholder="Video Name" required>
+        </div>
+        <div class="form-group">
+          <input [(ngModel)]="date" class="form-control" name="date" ngui-datetime-picker date-only="true" placeholder="Date of event"
+            required>
+        </div>
+        <div class="form-group">
+          <md-radio-group required [(ngModel)]="type" name="type">
+            <md-radio-button value="Match">Match</md-radio-button>
+            <md-radio-button value="Event">Event</md-radio-button>
+            <md-radio-button value="Training">Training</md-radio-button>
+          </md-radio-group>
+        </div>
+        <br/>
+        <button class="btn btn-round btn-blue-outline btn-upload" type="submit" [disabled]="!f.form.valid && f._submitted">Upload Video</button>
+      </form>
+    </div>
+  </div>
+</div>

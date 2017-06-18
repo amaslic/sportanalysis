@@ -1,0 +1,29 @@
+.progress{
+    height:5px;
+    margin: 0;
+}
+.panel{
+    border-radius: 0;
+    margin-top:20px;
+    color:#b0b0b0;
+}
+.upload-icon{
+    width:100px;
+}
+#upload-area{
+    cursor:pointer;
+}
+#video-metadata .form-group{
+  margin-left: auto;
+  margin-right: auto;
+}
+.mat-radio-checked /deep/ .mat-radio-inner-circle {
+  background-color: #1db954;
+}
+.mat-radio-checked /deep/ .mat-radio-outer-circle {
+  border-color: #1db954;
+}
+.btn-upload{
+    margin: auto;
+    margin-top: 20px;
+}
