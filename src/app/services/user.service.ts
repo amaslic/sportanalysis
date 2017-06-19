@@ -10,6 +10,7 @@ import {
 import {
   Http
 } from '@angular/http';
+import { LocalStorageService } from 'angular-2-local-storage';
 
 @Injectable()
 export class UserService {
@@ -17,8 +18,10 @@ export class UserService {
   public user: User;
   public token: String;
 
-  constructor(private http: Http) {
+  constructor(private http: Http, private localStorageService: LocalStorageService) {
     console.log('User service initialised...');
+    this.user = <User>this.loadUserFromStorage();
+    this.token = <string>this.loadTokenFromStorage();
   }
 
   createNewUser(user: User) {
@@ -35,6 +38,19 @@ export class UserService {
 
   public setToken(_token: String) {
     this.token = _token;
+  }
+
+  public saveUserToStorage(){
+    this.localStorageService.set('user', this.user);
+    this.localStorageService.set('token', this.token);
+  }
+
+  public loadUserFromStorage(){
+    return this.localStorageService.get('user');
+  }
+
+  public loadTokenFromStorage(){
+    return this.localStorageService.get('token');
   }
 
   isAuthenticated(){

@@ -1,4 +1,17 @@
-<p>
-  Videos works!
-  <a [routerLink]="['/videos/upload']">Upload Video</a>
-</p>
+<div class="container">
+  <p>
+    <a [routerLink]="['/videos/upload']">Upload Video</a>
+  </p>
+  <h3>Just example UI</h3>
+  <ul class="list-unstyled video-list-thumbs row" *ngIf="videoList">
+    <li class="col-lg-3 col-sm-4 col-xs-6" *ngFor="let video of videoList">
+      <a href="#" title="Claudio Bravo, antes su debut con el Barça en la Liga">
+        <img src="assets/images/bg.png" alt="test" class="img-responsive" height="130px" />
+        <h2>{{video.title}}</h2>
+        <span class="glyphicon glyphicon-play-circle"></span>
+        <span class="duration">{{video.type}}</span>
+        <span class="date">{{video.date | date:"dd.MM.yyyy"}}</span>
+      </a>
+    </li>
+  </ul>
+</div>

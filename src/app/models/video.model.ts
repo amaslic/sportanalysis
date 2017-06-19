@@ -1,4 +1,5 @@
 export class Video {
+  public _id: any;
   public title: string;
   public type: string;
   public date: string;

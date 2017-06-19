@@ -44,6 +44,7 @@ export class LoginComponent implements OnInit {
     //alert('Login Ok! Got token');
     this.userService.setUser(responseBody.user);
     this.userService.setToken(responseBody.token);
+    this.userService.saveUserToStorage();
     this.router.navigateByUrl('/home');
   }
 

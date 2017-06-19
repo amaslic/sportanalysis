@@ -3,6 +3,8 @@ import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
 import { Routes, RouterModule } from '@angular/router';
+import { LocalStorageModule } from 'angular-2-local-storage';
+import { ProgressHttpModule } from "angular-progress-http";
 
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {MdButtonModule, MdCheckboxModule, MdRadioModule} from '@angular/material';
@@ -61,11 +63,15 @@ const appRoutes: Routes = [
   imports: [
     BrowserModule,
     FormsModule, ReactiveFormsModule,
-    HttpModule,
+    HttpModule, ProgressHttpModule,
     BrowserAnimationsModule, MdButtonModule, MdCheckboxModule, MdRadioModule,
     RouterModule.forRoot(appRoutes),
     SidebarModule.forRoot(),
-    NguiDatetimePickerModule
+    NguiDatetimePickerModule,
+    LocalStorageModule.withConfig({
+      prefix: 'sportanalysis',
+      storageType: 'localStorage'
+    })
   ],
   providers: [UserService, VideoService, AuthGuard],
   bootstrap: [AppComponent]

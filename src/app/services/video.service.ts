@@ -8,22 +8,43 @@ import {
   Video
 } from './../models/video.model';
 import {
-  Http
+  Http, RequestOptions, Headers
 } from '@angular/http';
-
+import { ProgressHttp } from "angular-progress-http";
+import  { Observable } from 'rxjs/Observable';
+import  { Subject } from 'rxjs/Subject';
 @Injectable()
 export class VideoService {
   private baseApiUrl = GlobalVariables.BASE_API_URL;
+  progress$: Observable<number>;
+  private progressSubject: Subject<number>;
 
-  constructor(private http: Http) {}
+  constructor(private http: Http, private p_http: ProgressHttp) {
+    this.progressSubject = new Subject<number>();
+    this.progress$ = this.progressSubject.asObservable();
+  }
 
   upload(data: any) {
     console.log(data);
     const form: any = new FormData();
     form.append('uploader', data.uploader);
-    form.append('title', 'title');
+    form.append('title', data.title);
     form.append('videoFile', data.selectedFile._file);
     form.append('date', data.date);
     form.append('type', data.type);
+    let headers = new Headers({ 'Authorization': data.token });
+    let options = new RequestOptions({ headers: headers });
+
+     return this.p_http.withUploadProgressListener(progress => { 
+        console.log(`Uploading ${progress.percentage}%`);
+        this.progressSubject.next(progress.percentage);
+     }).post(this.baseApiUrl+"video/upload", form, options)
   }
+  
+  getVideos(token: String){
+    let headers = new Headers({ 'Authorization': token });
+    let options = new RequestOptions({ headers: headers });
+    return this.http.get(this.baseApiUrl + 'video/fetchAll', options);
+  }
+
 }

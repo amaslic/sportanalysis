@@ -2,8 +2,8 @@
   <div class="panel-heading">Upload to Sportanalysis.tv</div>
   <div class="panel-body">
     <div class="progress" *ngIf="uploading">
-      <div class="progress-bar" role="progressbar" aria-valuenow="70" aria-valuemin="0" aria-valuemax="100" style="width:70%">
-        <span class="sr-only">70% Complete</span>
+      <div class="progress-bar" role="progressbar" [attr.aria-valuenow]="progress" aria-valuemin="0" aria-valuemax="100" [style.width]="progress + '%'">
+        <span class="sr-only">{{progress}}% Complete</span>
       </div>
     </div>
 
@@ -12,8 +12,12 @@
         <label for="attachments" style="width:100%">
           <div class="dropzone_cont" id="dropzone" (drop)="onDrop($event)" (dragover)="onDragOver($event)" (dragenter)="onDragEnter($event)">
             <img src="/assets/icons/upload.svg" alt="upload" class="image-responsive upload-icon">
-            <h4>DROP FILES TO UPLOAD</h4>
+            <h4>DROP FILE TO UPLOAD</h4>
             <p>or click to pick manually</p>
+            <span *ngIf="selectedFile.name">{{selectedFile.name}} - {{getSizeInMB(selectedFile.size)}}</span>
+            <span *ngIf="!selectedFile.name">&nbsp;
+              <span *ngIf="!f.form.valid && f._submitted" style="color:red">Please select Video file</span>
+            </span>
           </div>
           <input type="file" (change)="onSelectFile($event)" name="attachments" [(ngModel)]="attachments" id="attachments" style="display:none">
         </label>

@@ -14,15 +14,26 @@ import {
   VideoService
 } from './../../../services/video.service';
 
+import {
+  Router
+} from '@angular/router';
+
 @Component({
   selector: 'app-upload',
   templateUrl: './upload.component.html',
   styleUrls: ['./upload.component.css']
 })
 export class UploadComponent implements OnInit {
-  selectedFile = {};
+  uploading : boolean = false;
+  selectedFile : any = {};
   type = 'Match';
-  constructor(private videoService: VideoService, private userService: UserService) {}
+  progress : number = 0;
+  private router: Router;
+  
+  constructor(private videoService: VideoService, private userService: UserService, r: Router) {
+    videoService.progress$.subscribe((newValue: number) => { this.progress = newValue; });
+    this.router = r;
+  }
 
   ngOnInit() {}
   onSelectFile(e) {
@@ -62,12 +73,35 @@ export class UploadComponent implements OnInit {
   }
 
    onSubmit(f) {
-    if (!f.valid) {
+    if (!f.valid || !this.selectedFile.name) {
       return false;
     }
+    this.uploading = true;
     f.value.selectedFile = this.selectedFile;
     f.value.token = this.userService.token;
     f.value.uploader = this.userService.user._id;
-    this.videoService.upload(f.value);
+    this.videoService.upload(f.value).subscribe(
+        (response) => this.onUploadSuccess(response),
+        (error) => this.onError(error)
+      );;
    }
+   
+   onUploadSuccess(response){
+     console.log(response);
+     this.uploading = false;
+     let res = JSON.parse(response._body);
+     alert(res.msg);
+     this.router.navigateByUrl('/videos');
+   }
+
+   onError(error) {
+    const errorBody = JSON.parse(error._body);
+    console.error(errorBody);
+    this.uploading = false;
+    alert(errorBody.msg);
+  }
+
+  getSizeInMB(size){
+    return Math.round(size/1024/1024)+'MB';
+  }
 }
