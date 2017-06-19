@@ -23,6 +23,7 @@
     "@angular/platform-browser-dynamic": "^4.0.0",
     "@angular/router": "^4.0.0",
     "@ngui/datetime-picker": "^0.16.2",
+    "angular-2-local-storage": "^1.0.1",
     "angular-progress-http": "^0.5.0",
     "angular2-jwt": "^0.2.3",
     "bootstrap": "^3.3.7",
