@@ -36,6 +36,7 @@ export class TrackingDataService {
     form.append('title', data.title);
     form.append('trackingDataFile', data.trackingDataFile);
     form.append('video', data.video);
+    form.append('default', data.default);
      return this.p_http.withUploadProgressListener(progress => {
         console.log(`Uploading ${progress.percentage}%`);
         this.progressSubject.next(progress.percentage);

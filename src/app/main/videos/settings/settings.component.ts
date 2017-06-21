@@ -1,5 +1,10 @@
-import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import {
+  Component,
+  OnInit
+} from '@angular/core';
+import {
+  ActivatedRoute
+} from '@angular/router';
 import {
   UserService
 } from './../../../services/user.service';
@@ -15,31 +20,35 @@ export class VideoSettingsComponent implements OnInit {
 
   private sub: any;
   private videoId: any;
-  selectedFile: any = {name: ''};
+  selectedFile: any = {
+    name: ''
+  };
   uploading = false;
-  constructor(private route: ActivatedRoute, private trackingDataService: TrackingDataService, private userService: UserService) { }
+  videoTrackingData: any = [];
+  constructor(private route: ActivatedRoute, private trackingDataService: TrackingDataService, private userService: UserService) {}
 
   ngOnInit() {
-       this.sub = this.route.params.subscribe(params => {
-       this.videoId = params['id'];
-       this.getVideoTrackingDataItems(this.videoId);
+    this.sub = this.route.params.subscribe(params => {
+      this.videoId = params['id'];
+      this.getVideoTrackingDataItems(this.videoId);
     });
   }
 
-  getVideoTrackingDataItems(id: String){
+  getVideoTrackingDataItems(id: String) {
     this.trackingDataService.getDataTrackingForVideo(id, this.userService.token).subscribe(
-        (response) => this.onGetVideoTrackingDataItemsSuccess(response),
-        (error) => this.onError(error)
-      );
+      (response) => this.onGetVideoTrackingDataItemsSuccess(response),
+      (error) => this.onError(error)
+    );
   }
 
-    onGetVideoTrackingDataItemsSuccess(response){
-     console.log(response);
-     const res = JSON.parse(response._body);
-     console.log(res);
-   }
+  onGetVideoTrackingDataItemsSuccess(response) {
+    console.log(response);
+    const res = JSON.parse(response._body);
+    console.log(res);
+    this.videoTrackingData = res;
+  }
 
-   onError(error) {
+  onError(error) {
     const errorBody = JSON.parse(error._body);
     console.error(errorBody);
     alert(errorBody.msg);
@@ -66,17 +75,19 @@ export class VideoSettingsComponent implements OnInit {
     f.value.selectedFile = this.selectedFile;
     f.value.token = this.userService.token;
     f.value.user = this.userService.user._id;
-    f.value.video =   this.videoId;
-    this.trackingDataService.addTrackingData(f.value, this.userService.token).subscribe(
+    f.value.video = this.videoId;
+    f.value.default = this.videoTrackingData.length > 0 ? false : true;
+      this.trackingDataService.addTrackingData(f.value, this.userService.token).subscribe(
         (response) => this.onUploadSuccess(response),
         (error) => this.onError(error)
       );
-   }
+  }
 
-   onUploadSuccess(response){
-     console.log(response);
-     this.uploading = false;
-     const res = JSON.parse(response._body);
-     alert(res.msg);
-   }
+  onUploadSuccess(response) {
+    console.log(response);
+    this.uploading = false;
+    const res = JSON.parse(response._body);
+    this.getVideoTrackingDataItems(this.videoId);
+    alert(res.msg);
+  }
 }

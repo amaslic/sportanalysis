@@ -4,13 +4,13 @@
       <div class="col-md-8">
         <h3>Tracking Data Files:</h3>
         <div class="list-group">
-          <a class="list-group-item clearfix" onclick="alert('Action1 -> Details');">
-            Action1
-            <span class="pull-right">
+          <a class="list-group-item clearfix" *ngFor="let data of videoTrackingData">
+            {{data.title}} ({{data.original_filename}})
+            <!--<span class="pull-right">
               <a href="#" onclick="alert('Action1 -> Play');">
                 Set as default
               </a>
-          </span>
+          </span>-->
           </a>
         </div>
       </div>
