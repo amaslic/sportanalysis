@@ -4,7 +4,11 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
 import { Routes, RouterModule } from '@angular/router';
 import { LocalStorageModule } from 'angular-2-local-storage';
-import { ProgressHttpModule } from "angular-progress-http";
+import { ProgressHttpModule } from 'angular-progress-http';
+import {VgCoreModule} from 'videogular2/core';
+import {VgControlsModule} from 'videogular2/controls';
+import {VgOverlayPlayModule} from 'videogular2/overlay-play';
+import {VgBufferingModule} from 'videogular2/buffering';
 
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {MdButtonModule, MdCheckboxModule, MdRadioModule} from '@angular/material';
@@ -27,6 +31,8 @@ import { ProfileComponent } from './main/profile/profile.component';
 import { PlaylistComponent } from './main/playlist/playlist.component';
 import { HelpComponent } from './main/help/help.component';
 import { UploadComponent } from './main/videos/upload/upload.component';
+import { ViewComponent } from './main/videos/view/view.component';
+import { VideoSettingsComponent } from './main/videos/settings/settings.component';
 
 
 
@@ -39,6 +45,8 @@ const appRoutes: Routes = [
       {path: 'matches', component: MatchesComponent},
       {path: 'videos', component: VideosComponent},
       {path: 'videos/upload', component: UploadComponent},
+      {path: 'videos/view/:id', component: ViewComponent},
+      {path: 'videos/settings/:id', component: VideoSettingsComponent},
       {path: 'profile', component: PlaylistComponent},
       {path: 'help', component: HelpComponent}
   ]}
@@ -58,7 +66,9 @@ const appRoutes: Routes = [
     ProfileComponent,
     PlaylistComponent,
     HelpComponent,
-    UploadComponent
+    UploadComponent,
+    ViewComponent,
+    VideoSettingsComponent
   ],
   imports: [
     BrowserModule,
@@ -71,7 +81,11 @@ const appRoutes: Routes = [
     LocalStorageModule.withConfig({
       prefix: 'sportanalysis',
       storageType: 'localStorage'
-    })
+    }),
+    VgCoreModule,
+    VgControlsModule,
+    VgOverlayPlayModule,
+    VgBufferingModule
   ],
   providers: [UserService, VideoService, AuthGuard],
   bootstrap: [AppComponent]

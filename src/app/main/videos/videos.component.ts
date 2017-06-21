@@ -22,7 +22,7 @@ export class VideosComponent implements OnInit {
   ngOnInit() {
     this.getVideos();
   }
-  
+
   getVideos(){
     this.videoService.getVideos(this.userService.token).subscribe(
         (response) => this.onGetVideosSuccess(response),

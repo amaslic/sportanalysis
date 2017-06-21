@@ -41,7 +41,7 @@ export class LoginComponent implements OnInit {
   onLoginSuccess(response) {
     const responseBody = JSON.parse(response._body);
     console.log(responseBody);
-    //alert('Login Ok! Got token');
+    // alert('Login Ok! Got token');
     this.userService.setUser(responseBody.user);
     this.userService.setToken(responseBody.token);
     this.userService.saveUserToStorage();
