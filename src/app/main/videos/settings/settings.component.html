@@ -1,3 +1,40 @@
-<p>
-  settings works!
-</p>
+<div class="content add-margin">
+  <div class="container">
+    <div class="row">
+      <div class="col-md-8">
+        <h3>Tracking Data Files:</h3>
+        <div class="list-group">
+          <a class="list-group-item clearfix" onclick="alert('Action1 -> Details');">
+            Action1
+            <span class="pull-right">
+              <a href="#" onclick="alert('Action1 -> Play');">
+                Set as default
+              </a>
+          </span>
+          </a>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <h3>Add new tracking data file</h3>
+        <form #f="ngForm" (ngSubmit)="onSubmit(f)" novalidate [ngClass]="{'submited' : f._submitted}">
+          <div class="form-group">
+            <input type="text" name="title" [(ngModel)]="title" class="form-control" placeholder="Title" required title>
+          </div>
+          <div class="form-group" style="width:100%">
+            <div class="input-group">
+              <label class="input-group-btn">
+              <span class="btn btn-primary">
+                Tracking Data XML <input type="file" (change)="onSelectFile($event)" id="trackingData" style="display: none;" #fileInput>
+                </span>
+            </label>
+              <input type="text" class="form-control" readonly (click)="fileInput.click()" [value]="selectedFile.name">
+              <input type="hidden" class="form-control" [(ngModel)]="selectedFile._file" name="trackingDataFile" readonly (click)="fileInput.click()" [value]="selectedFile.name">
+            </div>
+          </div>
+          <div class="form-group text-center">
+            <button class="btn btn-round" type="submit" [disabled]="!f.form.valid && f._submitted">Add Tracking data</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>

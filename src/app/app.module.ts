@@ -18,8 +18,11 @@ import { AppComponent } from './app.component';
 import { LoginRegisterComponent } from './login-register/login-register.component';
 import { LoginComponent } from './login-register/login/login.component';
 import { RegisterComponent } from './login-register/register/register.component';
+
 import { UserService } from './services/user.service';
 import { VideoService } from './services/video.service';
+import { TrackingDataService } from './services/trackingData.service';
+
 import { MainComponent } from './main/main.component';
 import { AuthGuard } from './auth-guard.service';
 import { SidebarModule } from 'ng-sidebar';
@@ -87,7 +90,7 @@ const appRoutes: Routes = [
     VgOverlayPlayModule,
     VgBufferingModule
   ],
-  providers: [UserService, VideoService, AuthGuard],
+  providers: [UserService, VideoService, TrackingDataService, AuthGuard],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

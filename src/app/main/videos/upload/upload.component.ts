@@ -24,12 +24,12 @@ import {
   styleUrls: ['./upload.component.css']
 })
 export class UploadComponent implements OnInit {
-  uploading : boolean = false;
-  selectedFile : any = {};
+  uploading = false;
+  selectedFile: any = {};
   type = 'Match';
-  progress : number = 0;
+  progress = 0;
   private router: Router;
-  
+
   constructor(private videoService: VideoService, private userService: UserService, r: Router) {
     videoService.progress$.subscribe((newValue: number) => { this.progress = newValue; });
     this.router = r;
@@ -38,7 +38,7 @@ export class UploadComponent implements OnInit {
   ngOnInit() {}
   onSelectFile(e) {
     console.log(e);
-    let files = e.target.files;
+    const files = e.target.files;
     for (let i = 0; i < files.length; i++) {
       this.selectedFile = {
         name: files[i].name,
@@ -53,7 +53,7 @@ export class UploadComponent implements OnInit {
     e.preventDefault();
     e.stopPropagation();
     console.log(e.dataTransfer.files);
-    let files = e.dataTransfer.files;
+    const files = e.dataTransfer.files;
     for (let i = 0; i < files.length; i++) {
       this.selectedFile = {
         name: files[i].name,

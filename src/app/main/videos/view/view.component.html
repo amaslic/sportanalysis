@@ -29,3 +29,4 @@
         <source [src]="baseVideoUrl + video.path" [type]="video.mimetype">
     </video>
 </vg-player>
+<a *ngIf="video" [routerLink]="['/videos/settings', video._id]">Video Settings</a>
