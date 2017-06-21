@@ -4,27 +4,109 @@
 }
 
 .btn-signup {
-  min-width: 120px
+  padding: 10px 40px 10px 40px;
 }
 
 .sign-in-notice {
-  color: #afb2cf;
+  color: #383f87;
+  text-align: center;
 }
 
-.sign-in-form {
+.padding-rm form{
   padding: 30px;
-  text-align: left;
+}
+
+.right-border {
+  border-right: 1px solid #e1e1e1;
+  padding-top: 280px;  
 }
 
 .green{
     color:#1db954
 }
 
+.new-member{
+  margin-top:48px;
+}
+
+.sign-in-form {
+  max-width: 320px;
+  margin: auto;
+  text-align: left;
+}
+
+form .form-group .form-control{
+  border-radius: 0;
+  border-color: #dfe0e6;
+  color: #6a7177;
+  padding: 20px;
+}
+
+form .form-group .form-control::-webkit-input-placeholder { /* WebKit, Blink, Edge */
+    color:    #6a7177;
+}
+form .form-group .form-control:-moz-placeholder { /* Mozilla Firefox 4 to 18 */
+   color:    #6a7177;
+   opacity:  1;
+}
+form .form-group .form-control::-moz-placeholder { /* Mozilla Firefox 19+ */
+   color:    #6a7177;
+   opacity:  1;
+}
+form .form-group .form-control:-ms-input-placeholder { /* Internet Explorer 10-11 */
+   color:    #6a7177;
+}
+form .form-group .form-control::-ms-input-placeholder { /* Microsoft Edge */
+   color:    #6a7177;
+}
+
+.custom-fb{
+  text-align: center;
+}
+
+.btn-custom-fb{
+  background-color: #383f87;
+  color: white;
+  padding: 10px;
+  border-radius: 50px;
+  max-width: 260px;
+  width: 100%;
+  text-align: left;
+  padding-left: 30px;
+}
+
+.copyright{
+  color: #92979b;
+  margin-top: 29px;
+  font-size: 14px;
+}
+
+.copyright a{
+  color: #383f87;
+}
+
+.or{
+  padding-top: 10px;
+  text-align: center;
+}
+
 .mat-checkbox-checked /deep/ .mat-checkbox-background {
   background-color: #1db954;
 }
+
+
+
 @media screen and (max-width: 750px) {
   .pull-right-sm {
     float: right;
+  }
+  .right-border{
+    padding-top: 10px;
+    border-right: none;
+    border-bottom: 1px solid #e1e1e1;
+    padding-bottom: 30px;
+  }
+  .sign-in-form{
+    padding-top: 30px;
   }
 }

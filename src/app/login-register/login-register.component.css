@@ -7,12 +7,16 @@
   display: flex;
   justify-content: center;
   align-items: center;
+  font-family: serif;
 }
 
+
 .cube {
-  width: 800px;
+  max-width: 980px;
+  width: 100%;
   text-align: center;
-  height: 400px;
+  max-height: 680px;
+  height: 100%;
   position: relative;
 }
 
@@ -23,8 +27,8 @@
   position: absolute;
   -webkit-border-radius: 5px;
   border-radius: 5px;
-  width: 800px;
-  height: 400px;
+  max-width: 100%;
+  height: 100%;
   -webkit-box-shadow: 0 5px 20px rgba(105, 108, 109, .3), 0 0 8px 5px rgba(208, 223, 226, .4) inset;
   box-shadow: 0 5px 20px rgba(105, 108, 109, .3), 0 0 8px 5px rgba(208, 223, 226, .4) inset;
   padding: 50px 10px 50px 10px;
@@ -36,19 +40,20 @@
 }
 
 .register {
-  height: 630px;
-  padding-bottom: 0;
-  margin-bottom: 0;
-  padding-top: 10px;
+  display: block;
+  
 }
 
 .right-border {
-  border-right: 1px solid #e1e1e1;
+  border-right: 1px solid #e1e1e1;;
 }
 
 .cube.registration-side {
-  height: 630px;
+  max-height: 920px;
+  height: 100%;
 }
+
+
 
 @media screen and (max-width: 750px) {
   #login-register-container {
@@ -63,6 +68,7 @@
   .register {
     width: 100%;
     height: auto;
+    margin-bottom: 20px;
   }
   .login, .register{
         padding:20px;
