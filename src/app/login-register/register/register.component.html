@@ -1,11 +1,15 @@
 <div class="container">
-  <div class="row">
-    <div class="col-md-6 padding-rm right-border" style="padding-top:30px">
+  <div class="row center-elements">
+    <div class="col-md-6 padding-rm right-border">
       <img src="/assets/images/logo.png" alt="" class="img-fluid login-logo">
-      <p style="margin-top:35px" class="dark-grey">Alerady have an account?</p>
+      <p class="dark-grey new-member">Alerady have an account?</p>
       <button class="btn btn-round btn-dark-grey btn-signup" [routerLink]="['/auth', 'login']">Login</button>
     </div>
     <div class="col-md-6 padding-rm sign-in-form">
+      <div class="custom-fb">
+        <button class="btn btn-custom-fb">Sign up with facebook</button>
+      </div>
+      <div class="or">or</div>
       <h4 class="sign-in-notice">Sign up with your email address</h4>
       <form #f="ngForm" (ngSubmit)="onSubmit(f)" novalidate [ngClass]="{'submited' : f._submitted}">  
         <div class="form-group">
@@ -40,7 +44,7 @@
             [disabled]="!f.form.valid && f._submitted"
             type="submit">Sign Up</button>
         </div>
-        <p class="text-center">
+        <p class="text-center copyright">
           © 2017 provispo. All rights reserved.<br> By singnin up. I agree to provispo’s<br>
           <a href="#">Terms of Services.</a>
         </p>
