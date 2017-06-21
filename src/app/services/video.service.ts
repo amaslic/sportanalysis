@@ -35,7 +35,7 @@ export class VideoService {
     const headers = new Headers({ 'Authorization': data.token });
     const options = new RequestOptions({ headers: headers });
 
-     return this.p_http.withUploadProgressListener(progress => { 
+     return this.p_http.withUploadProgressListener(progress => {
         console.log(`Uploading ${progress.percentage}%`);
         this.progressSubject.next(progress.percentage);
      }).post(this.baseApiUrl + 'video/upload', form, options)

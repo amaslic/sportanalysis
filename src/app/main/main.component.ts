@@ -2,6 +2,8 @@ import {
   Component,
   OnInit
 } from '@angular/core';
+import { LocalStorageService } from 'angular-2-local-storage';
+
 
 @Component({
   selector: 'app-main',
@@ -16,8 +18,12 @@ export class MainComponent implements OnInit {
     this._opened = !this._opened;
   }
 
-  constructor() {}
+  constructor(private localStorageService: LocalStorageService) {}
 
   ngOnInit() {}
 
+  logout() {
+    this.localStorageService.remove('token');
+    this.localStorageService.remove('user');
+  }
 }

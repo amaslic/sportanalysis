@@ -10,6 +10,7 @@
   </ng-sidebar>
   <header class="demo-header">
     <button (click)="_toggleSidebar()" class="demo-header__toggle">Toggle sidebar</button>
+    <p class="pull-right"><a href="#" (click)="logout()">Logout</a></p>
   </header>
   <section class="demo-contents">
     <router-outlet></router-outlet>
