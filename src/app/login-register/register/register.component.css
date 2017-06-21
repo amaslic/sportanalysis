@@ -62,6 +62,7 @@ form .form-group .form-control::-ms-input-placeholder { /* Microsoft Edge */
 
 .custom-fb{
   text-align: center;
+  display: none;
 }
 
 .btn-custom-fb{
@@ -88,6 +89,7 @@ form .form-group .form-control::-ms-input-placeholder { /* Microsoft Edge */
 .or{
   padding-top: 10px;
   text-align: center;
+  display: none;
 }
 
 .mat-checkbox-checked /deep/ .mat-checkbox-background {

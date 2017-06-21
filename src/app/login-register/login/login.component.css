@@ -85,7 +85,10 @@ form .form-group .form-control::-ms-input-placeholder { /* Microsoft Edge */
 .copyright{
   text-align: center;
   padding-top: 60px;
+  color: #92979b;
 }
+
+
 
 @media screen and (max-width: 750px) {
   .text-right.xs-fix{
