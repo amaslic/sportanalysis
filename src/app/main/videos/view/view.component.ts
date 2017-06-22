@@ -15,6 +15,9 @@ import {
   GlobalVariables
 } from './../../../models/global.model';
 
+import {
+  TrackingDataService
+} from './../../../services/trackingData.service';
 @Component({
   selector: 'app-view',
   templateUrl: './view.component.html',
@@ -24,16 +27,32 @@ export class ViewComponent implements OnInit {
   private sub: any;
   private videoId: any;
   private baseVideoUrl = GlobalVariables.BASE_VIDEO_URL;
-
+  videoTrackingData: any = [];
+  
   video: Video;
 
-  constructor(private route: ActivatedRoute, private videoService: VideoService, private userService: UserService) { }
+  constructor(private route: ActivatedRoute, private videoService: VideoService, private userService: UserService, private trackingDataService: TrackingDataService) { }
 
   ngOnInit() {
     this.sub = this.route.params.subscribe(params => {
        this.videoId = params['id'];
        this.getVideo(this.videoId);
+       this.getVideoTrackingDataItems(this.videoId);
     });
+  }
+
+  getVideoTrackingDataItems(id: String) {
+    this.trackingDataService.getDataTrackingForVideo(id, this.userService.token).subscribe(
+      (response) => this.onGetVideoTrackingDataItemsSuccess(response),
+      (error) => this.onError(error)
+    );
+  }
+
+  onGetVideoTrackingDataItemsSuccess(response) {
+    console.log(response);
+    const res = JSON.parse(response._body);
+    console.log(res);
+    this.videoTrackingData = res;
   }
 
   getVideo(id){

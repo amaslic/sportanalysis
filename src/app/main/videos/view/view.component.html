@@ -1,3 +1,4 @@
+<a *ngIf="video" [routerLink]="['/videos/settings', video._id]">Video Settings</a>
 <vg-player *ngIf="video">
     <vg-overlay-play></vg-overlay-play>
     <vg-buffering></vg-buffering>
@@ -29,4 +30,3 @@
         <source [src]="baseVideoUrl + video.path" [type]="video.mimetype">
     </video>
 </vg-player>
-<a *ngIf="video" [routerLink]="['/videos/settings', video._id]">Video Settings</a>

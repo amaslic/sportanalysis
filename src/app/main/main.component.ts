@@ -3,7 +3,9 @@ import {
   OnInit
 } from '@angular/core';
 import { LocalStorageService } from 'angular-2-local-storage';
-
+import {
+  Router
+} from '@angular/router';
 
 @Component({
   selector: 'app-main',
@@ -18,12 +20,13 @@ export class MainComponent implements OnInit {
     this._opened = !this._opened;
   }
 
-  constructor(private localStorageService: LocalStorageService) {}
+  constructor(private localStorageService: LocalStorageService ,private router: Router) {}
 
   ngOnInit() {}
 
   logout() {
     this.localStorageService.remove('token');
     this.localStorageService.remove('user');
+    this.router.navigateByUrl('/auth/login');
   }
 }
