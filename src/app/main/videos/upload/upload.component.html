@@ -19,7 +19,7 @@
               <h4>Select the file to upload</h4>
               <p class="or">or</p>
               <p class="drag-file">
-                <img src="/assets/images/drag.png" alt="drag" class="image-responsive"> Drag file here
+                <i class="fa fa-file-video-o" aria-hidden="true"></i> Drag file here
               </p>
               <span *ngIf="selectedFile.name">{{selectedFile.name}} - {{getSizeInMB(selectedFile.size)}}</span>
               <span *ngIf="!selectedFile.name">&nbsp;
