@@ -2,7 +2,6 @@
 .progress{
     font-size: 12px;
     margin: 0;
-    padding-left: 100px;
     height: 4px;
 }
 .panel{
@@ -12,10 +11,6 @@
     min-height: 450px;
     max-width: 1240px;
     margin: auto;
-}
-span.uploading{
-    position: absolute;
-    left: 140px;
 }
 
 .panel-body{
@@ -31,6 +26,29 @@ span.uploading{
     border: 0;
 }
 
+.uploading{
+    font-size: 16px;
+    color: white;
+}
+
+.inner{
+    opacity:0.7;
+    filter: alpha(opacity=20);
+    background-color:#000; 
+    width:100%; 
+    height:100%; 
+    z-index:99999999;
+    top:0; 
+    left:0; 
+    position:fixed; 
+    display: table;
+}
+
+.inner div.center-all{
+    display: table-cell;
+    vertical-align: middle;
+    text-align: center;
+}
 
 .upload-icon{
     width:100px;
@@ -54,8 +72,9 @@ span.uploading{
     margin-top: 20px;
 }
 .bar{
-    padding-top: 50px;
-    padding-bottom: 120px;
+    padding-top: 40px;
+    max-width: 320px;
+    margin: auto;
 }
 .progress{
     background: #ffffff;

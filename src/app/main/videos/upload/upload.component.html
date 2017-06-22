@@ -1,17 +1,26 @@
 
-<div class="bar">
-    <div class="progress" *ngIf="uploading">
-        <span class="uploading">Uploading</span> <div class="progress-bar" role="progressbar" [attr.aria-valuenow]="progress" aria-valuemin="0" aria-valuemax="100" [style.width]="progress + '%'">
-          <span class="sr-only">{{progress}}%</span>
+
+ <div class="inner" *ngIf="uploading">
+  <div class="center-all">
+    
+    <div class="uploading">Uploading.. {{progress}}%  <i class="fa fa-spinner fa-spin" aria-hidden="true"></i></div>
+    <div class="bar">
+        <div class="progress">
+          <div class="progress-bar" role="progressbar" [attr.aria-valuenow]="progress" aria-valuemin="0" aria-valuemax="100" [style.width]="progress + '%'">
+            
+          </div>
         </div>
-      </div>
+      </div>  
   </div>
+</div>
+
   <div class="panel panel-default">
     <div class="panel-heading">Upload to Sportanalysis.tv</div>
     <div class="panel-body">
       
 
       <div class="row container">
+       
         <div class="form-group col-sm-12 text-center" id="upload-area">
           <label for="attachments" style="width:100%">
             <div class="dropzone_cont" id="dropzone" (drop)="onDrop($event)" (dragover)="onDragOver($event)" (dragenter)="onDragEnter($event)">
@@ -19,7 +28,7 @@
               <h4>Select the file to upload</h4>
               <p class="or">or</p>
               <p class="drag-file">
-                <img src="/assets/images/drag.png" alt="drag" class="image-responsive"> Drag file here
+                <i class="fa fa-file-video-o" aria-hidden="true"></i> Drag file here
               </p>
               <span *ngIf="selectedFile.name">{{selectedFile.name}} - {{getSizeInMB(selectedFile.size)}}</span>
               <span *ngIf="!selectedFile.name">&nbsp;
@@ -51,8 +60,9 @@
         </form>
       </div>
     </div>
+  
 </div>
- <div class="panel panel-default video-area">
+ <div class="panel panel-default video-area" *ngIf="false">
       <div class="col-md-12">
         <div class="col-md-6">
           <div class="video-name">
