@@ -36,6 +36,7 @@ import { HelpComponent } from './main/help/help.component';
 import { UploadComponent } from './main/videos/upload/upload.component';
 import { ViewComponent } from './main/videos/view/view.component';
 import { VideoSettingsComponent } from './main/videos/settings/settings.component';
+import { FooterComponent } from './main/footer/footer.component';
 
 
 
@@ -71,7 +72,8 @@ const appRoutes: Routes = [
     HelpComponent,
     UploadComponent,
     ViewComponent,
-    VideoSettingsComponent
+    VideoSettingsComponent,
+    FooterComponent
   ],
   imports: [
     BrowserModule,
