@@ -32,6 +32,25 @@ span.uploading{
 }
 
 
+.inner{
+    position: absolute;
+    top: 0;
+    left: 0;
+    background: rgba(0, 0, 0, 0.4);
+    max-width: 1240px;
+    width:100%;
+    min-height: 450px;
+    height:100%;
+    z-index: 1;
+    display: table;
+}
+
+.inner p{
+    display: table-cell;
+    vertical-align: middle;
+    text-align: center;
+}
+
 .upload-icon{
     width:100px;
 }
