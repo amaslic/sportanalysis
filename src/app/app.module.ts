@@ -37,6 +37,8 @@ import { UploadComponent } from './main/videos/upload/upload.component';
 import { ViewComponent } from './main/videos/view/view.component';
 import { VideoSettingsComponent } from './main/videos/settings/settings.component';
 import { FooterComponent } from './main/footer/footer.component';
+import { BackofficeComponent } from './backoffice/backoffice.component';
+import { UsersComponent } from './backoffice/users/users.component';
 
 
 
@@ -53,6 +55,9 @@ const appRoutes: Routes = [
       {path: 'videos/settings/:id', component: VideoSettingsComponent},
       {path: 'profile', component: PlaylistComponent},
       {path: 'help', component: HelpComponent}
+  ]},
+  { path: 'backoffice', component: BackofficeComponent, children:[
+      {path: 'users', component: UsersComponent}
   ]}
 ];
 
@@ -73,7 +78,9 @@ const appRoutes: Routes = [
     UploadComponent,
     ViewComponent,
     VideoSettingsComponent,
-    FooterComponent
+    FooterComponent,
+    BackofficeComponent,
+    UsersComponent
   ],
   imports: [
     BrowserModule,
