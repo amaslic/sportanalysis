@@ -48,6 +48,7 @@ span.uploading{
 .mat-radio-checked /deep/ .mat-radio-outer-circle {
   border-color: #1db954;
 }
+
 .btn-upload{
     margin: auto;
     margin-top: 20px;
@@ -64,6 +65,7 @@ span.uploading{
 }
 .upload-div{
         margin: auto;
+        width: 100%;
 }
 p.or{
     margin: auto;
@@ -152,7 +154,7 @@ form .form-group .form-control::-ms-input-placeholder { /* Microsoft Edge */
     margin-top: 10px;
 }
 
-.events img{
+.events i{
     cursor: pointer;
 }
 
@@ -203,6 +205,11 @@ form .form-group .form-control::-ms-input-placeholder { /* Microsoft Edge */
     }
     .events .col-md-4{
         padding-bottom: 10px;
+    }
+    .video-area .panel-body h4{
+        display: inline;
+        color: #888ea7;
+        font-size: 11px;
     }
 
 }

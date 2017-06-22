@@ -6,11 +6,12 @@
       <li [routerLink]="['/home']" [routerLinkActive]="['is-active']"><span><i class="fa fa-home fa-2x" aria-hidden="true"></i><br>HOME</span></li>
       <li [routerLink]="['/team']" [routerLinkActive]="['is-active']"><span><i class="fa fa-users fa-2x" aria-hidden="true"></i><br>TEAM</span></li>
       <li [routerLink]="['/videos']" [routerLinkActive]="['is-active']"><span><i class="fa fa-video-camera fa-2x" aria-hidden="true"></i><br>VIDEOS</span></li>
+      <li (click)="logout()"><span><i class="fa fa-sign-out fa-2x" aria-hidden="true"></i><br>LOGOUT</span></li>
     </ul>
   </ng-sidebar>
   <header class="demo-header">
     <button (click)="_toggleSidebar()" class="demo-header__toggle">Toggle sidebar</button>
-    <p class="pull-right"><a href="#" (click)="logout()">Logout</a></p>
+    
   </header>
   <section class="demo-contents">
     <router-outlet></router-outlet>

@@ -7,11 +7,12 @@
 body,
 html {
   height: 100%;
-  width: 100%
+  width: 100%;
+
 }
 
 body {
-  background: #ffffff;
+  background: #f2f1f6;
   font: 400 1em/1.25 Source Sans Pro, Helvetica, Arial, sans-serif
 }
 
