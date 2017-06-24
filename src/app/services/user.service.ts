@@ -31,6 +31,10 @@ export class UserService {
   login(user: any){
     return this.http.post(this.baseApiUrl + 'user/signin', user);
   }
+  
+  getUserList(limit, page){
+    return this.http.get(this.baseApiUrl  + 'user/fetchAll?page='+page+'&limit='+limit);
+  }
 
   public setUser(_user: User) {
     this.user = _user;
