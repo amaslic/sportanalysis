@@ -28,10 +28,9 @@ body {
 .demo-header {
   align-items: center;
   background: #ffffff;
-  box-shadow: 0 .1em 1.5em rgba(84, 85, 85, .5);
   color: black;
   display: flex;
-  padding: 1em
+
 }
 
 .demo-header__toggle {
@@ -81,6 +80,37 @@ body {
   padding: 5px;
   background: transparent;
 }
+
+.st0{display:none;}
+.st1{fill:none;stroke: #303030;stroke-width:0.7;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:10;}
+.st2{fill:#303030;}
+
+li:hover .svg-icon{
+    fill:red;
+}
+
+/*
+.test{
+  background-image: url('/assets/images/bell.png');
+  background-size: 18px;
+  background-repeat: no-repeat;
+  background-position: center 5px;
+}
+
+.test:hover{
+  background-image: url('/assets/images/bubble.png');
+}
+*/
+
+@media screen and (max-width: 779px) {
+  .demo-header .list-inline{
+    display: grid;
+  }
+  .demo-header .list-inline li{
+    text-align: center;
+  }
+}
+
 
 @media screen and (max-width: 500px) {
   .demo-header__toggle {
@@ -140,3 +170,4 @@ body {
 .menu-item-list li a:hover{
     text-decoration:none;
 }
+

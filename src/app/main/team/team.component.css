@@ -1,0 +1,95 @@
+
+.article-info {
+	max-width: 363px;
+	width: 100%;
+}
+.match-status h2.title {
+	color: #009cff;
+	font-size: 14px;
+	margin-bottom: 20px;
+}
+.match-club div {
+  display: inline-block;
+  vertical-align: middle;
+}
+.club-img {
+  width: 60px;
+  text-align: center;
+}
+.club-content {
+  width: calc(100% - 130px);
+  text-align: center;
+}
+.player-info a {
+    color: #383f87;
+    padding-bottom: 8px;
+    display: block;
+    font-size: 11px;
+}
+.player-info .pull-right {
+	text-align: right;
+}
+.club-content h2 {
+    color: #383f87;
+    font-size: 14px;
+    margin: 0;
+}
+.club-content h4 {
+    color: #434343;
+    font-weight: bold;
+    font-size: 14px;
+    margin: 0;
+}
+.match-club .match-result {
+    display: block;
+    text-align: center;
+}
+.match-club .match-result h1 {
+    color: #383f87;
+    font-size: 34px;
+    margin-top: 10px;
+	font-weight: bold;
+	margin-bottom: 20px;
+}
+.match-info {
+    border-bottom: 1px solid #d5d5d5;
+    padding-bottom: 30px;
+}
+.tactics {
+    border-bottom: 1px solid #d5d5d5;
+    padding-bottom: 30px;
+}
+.tactics ul {
+    padding: 0;
+    list-style: none;
+    margin: 0;
+    display: flex;
+}
+.tactics ul li {
+  	display: inline-block;
+  	width: 30%;
+  	margin-right: 4%;
+  	text-align: center;
+	color: #a5a5a5;
+	font-size: 12px;
+}
+.tactics ul li p {
+	margin-top: 10px;
+}
+.tactics-box {
+  border: 1px solid #ccc;
+	height: 96px;
+	width: 100%;
+	display: inline-flex;
+}
+.tactics-box img {
+  height: ;
+  margin: auto;
+}
+.match-alerts p {
+	color: #767878;
+	font-size: 14px;
+}
+.match-alerts{
+    padding-bottom: 80px;
+}
