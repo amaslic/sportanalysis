@@ -48,6 +48,40 @@ body {
   width: 2rem
 }
 
+.menu-item-list li img{
+  max-width: 32px;
+}
+
+.demo-header ul li button.btn-upload-custom{
+   color: white;
+   padding: 5px 20px 5px 20px;
+   background: #009cff;
+   border-radius: 50px;
+}
+
+.demo-header ul li{
+  padding: 10px;
+}
+
+.demo-header ul li img{
+  padding: 5px 0px 5px 0px;
+  cursor: pointer;
+}
+
+.demo-header ul li:first-child, .demo-header ul li:nth-child(2){
+  border-right: 1px solid #cdceda;
+}
+
+.demo-header ul li:last-child{
+  background: #767d9a;
+  color: white;
+}
+
+.demo-header ul li:last-child button{
+  padding: 5px;
+  background: transparent;
+}
+
 @media screen and (max-width: 500px) {
   .demo-header__toggle {
     display: block;
