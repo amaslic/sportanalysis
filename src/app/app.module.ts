@@ -9,6 +9,7 @@ import {VgCoreModule} from 'videogular2/core';
 import {VgControlsModule} from 'videogular2/controls';
 import {VgOverlayPlayModule} from 'videogular2/overlay-play';
 import {VgBufferingModule} from 'videogular2/buffering';
+import { NgxDatatableModule } from '@swimlane/ngx-datatable';
 
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {MdButtonModule, MdCheckboxModule, MdRadioModule} from '@angular/material';
@@ -24,6 +25,7 @@ import { VideoService } from './services/video.service';
 import { TrackingDataService } from './services/trackingData.service';
 
 import { MainComponent } from './main/main.component';
+import { AdminGuard } from './admin-guard.service';
 import { AuthGuard } from './auth-guard.service';
 import { SidebarModule } from 'ng-sidebar';
 import { HomeComponent } from './main/home/home.component';
@@ -56,7 +58,7 @@ const appRoutes: Routes = [
       {path: 'profile', component: PlaylistComponent},
       {path: 'help', component: HelpComponent}
   ]},
-  { path: 'backoffice', component: BackofficeComponent, children:[
+  { path: 'backoffice', component: BackofficeComponent, canActivate:[AdminGuard], children:[
       {path: 'users', component: UsersComponent}
   ]}
 ];
@@ -97,9 +99,10 @@ const appRoutes: Routes = [
     VgCoreModule,
     VgControlsModule,
     VgOverlayPlayModule,
-    VgBufferingModule
+    VgBufferingModule,
+    NgxDatatableModule
   ],
-  providers: [UserService, VideoService, TrackingDataService, AuthGuard],
+  providers: [UserService, VideoService, TrackingDataService, AuthGuard, AdminGuard],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
