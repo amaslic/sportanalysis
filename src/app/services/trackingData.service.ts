@@ -11,41 +11,83 @@ import {
   TrackingData
 } from './../models/trackingData.model';
 import {
-  Http, RequestOptions, Headers
+  Http,
+  RequestOptions,
+  Headers
 } from '@angular/http';
-import { ProgressHttp } from 'angular-progress-http';
-import { Observable } from 'rxjs/Observable';
-import { Subject } from 'rxjs/Subject';
+import {
+  ProgressHttp
+} from 'angular-progress-http';
+import {
+  Observable
+} from 'rxjs/Observable';
+import {
+  Subject
+} from 'rxjs/Subject';
+import {
+  Parser
+} from 'xml2js';
+
 @Injectable()
 export class TrackingDataService {
   private baseApiUrl = GlobalVariables.BASE_API_URL;
-  progress$: Observable<number>;
-  private progressSubject: Subject<number>;
+  private baseTrackingDataUrl = GlobalVariables.BASE_TRACKINGDATA_URL;
+  progress$: Observable < number > ;
+  private progressSubject: Subject < number > ;
 
   constructor(private http: Http, private p_http: ProgressHttp) {
-    this.progressSubject = new Subject<number>();
+    this.progressSubject = new Subject < number > ();
     this.progress$ = this.progressSubject.asObservable();
   }
 
   addTrackingData(data: any, token: String) {
     console.log(data);
-    const headers = new Headers({ 'Authorization': token });
-    const options = new RequestOptions({ headers: headers });
+    const headers = new Headers({
+      'Authorization': token
+    });
+    const options = new RequestOptions({
+      headers: headers
+    });
     const form: any = new FormData();
     form.append('user', data.user);
     form.append('title', data.title);
     form.append('trackingDataFile', data.trackingDataFile);
     form.append('video', data.video);
     form.append('default', data.default);
-     return this.p_http.withUploadProgressListener(progress => {
-        console.log(`Uploading ${progress.percentage}%`);
-        this.progressSubject.next(progress.percentage);
-     }).post(this.baseApiUrl + 'trackingData/upload', form, options);
+    return this.p_http.withUploadProgressListener(progress => {
+      console.log(`Uploading ${progress.percentage}%`);
+      this.progressSubject.next(progress.percentage);
+    }).post(this.baseApiUrl + 'trackingData/upload', form, options);
   }
 
-   getDataTrackingForVideo(videoId: any, token: String){
-    const headers = new Headers({ 'Authorization': token });
-    const options = new RequestOptions({ headers: headers });
+  getDataTrackingForVideo(videoId: any, token: String) {
+    const headers = new Headers({
+      'Authorization': token
+    });
+    const options = new RequestOptions({
+      headers: headers
+    });
     return this.http.get(this.baseApiUrl + 'trackingData/getForVideo?id=' + videoId, options);
+  }
+
+  getXmlFile(trackingData: any) {
+    console.log(trackingData);
+    return this.http.get(this.baseTrackingDataUrl + trackingData.path);
+  }
+
+  parseXML(xml: String) {
+    var parser = new Parser({
+      trim: true,
+      explicitArray: false
+    });
+    return new Promise(function (resolve, reject) {
+      parser.parseString(xml, (err, result) => {
+        if (err) {
+          reject(err);
+        } else {
+          resolve(result);
+        }
+      });
+    });
   }
 }

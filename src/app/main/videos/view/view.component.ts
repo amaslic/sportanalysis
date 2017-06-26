@@ -18,6 +18,7 @@ import {
 import {
   TrackingDataService
 } from './../../../services/trackingData.service';
+
 @Component({
   selector: 'app-view',
   templateUrl: './view.component.html',
@@ -27,6 +28,8 @@ export class ViewComponent implements OnInit {
   private sub: any;
   private videoId: any;
   private baseVideoUrl = GlobalVariables.BASE_VIDEO_URL;
+  private baseTrackingDataUrl = GlobalVariables.BASE_TRACKINGDATA_URL;
+  trackingJsonData: any[];
   videoTrackingData: any = [];
   
   video: Video;
@@ -53,6 +56,17 @@ export class ViewComponent implements OnInit {
     const res = JSON.parse(response._body);
     console.log(res);
     this.videoTrackingData = res;
+    this.trackingDataService.getXmlFile(this.videoTrackingData[0]).subscribe(
+        (response:any) => {
+          console.log(response);
+            this.trackingDataService.parseXML(response._body).then(
+              (response:any) => {
+                this.trackingJsonData = response.recording.annotations.annotation;
+                console.log(this.trackingJsonData);
+              }); 
+        },
+        (error) => this.onError(error)
+      );;
   }
 
   getVideo(id){

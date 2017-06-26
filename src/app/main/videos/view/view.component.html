@@ -30,3 +30,6 @@
         <source [src]="baseVideoUrl + video.path" [type]="video.mimetype">
     </video>
 </vg-player>
+<div class="list-group">
+  <a href="#" class="list-group-item" *ngFor="let event of trackingJsonData"><span *ngIf="event.start !== 'NaN'">{{event.start}}s - {{event.end}}s</span> {{event.name}}</a>
+</div>
