@@ -2,6 +2,7 @@
 .article-info {
 	max-width: 363px;
 	width: 100%;
+    float: left;
 }
 .match-status h2.title {
 	color: #009cff;
@@ -92,4 +93,126 @@
 }
 .match-alerts{
     padding-bottom: 80px;
+}
+
+.right-sidebar {
+	max-width: 363px;
+	width: 100%;
+    float: right;
+}
+.filters h2.title {
+	color: #767878;
+	font-size: 14px;
+	margin-bottom: 20px;
+}
+
+
+
+.search{
+    margin: auto;
+    width: 100%;
+    max-width: 300px;
+}
+
+.search input{
+    border: 0;
+    background: transparent;
+    -webkit-box-shadow: none;
+    -moz-box-shadow: none;
+    box-shadow: none;
+    padding: 15px;
+    padding: 10px 20px 10px 20px;
+    width: 100%;
+    max-width: 320px;
+    background: #ececec;
+    border-radius: 20px;
+}
+
+.search input:focus { 
+    border: 0;
+    -webkit-box-shadow: none;
+    -moz-box-shadow: none;
+    box-shadow: none;
+}
+
+.search .form-group span{
+    padding-right: 5px;
+    cursor: pointer;
+}
+
+.showing{
+    margin-top: 20px;
+}
+
+.showing p{
+    color: #888a8a;
+}
+
+.showing p span{
+    color: #c5f0e4;
+}
+
+.showing select{
+    background: #59719a;
+    border-radius: 7px;
+    border: 0;
+    padding: 1px;
+    color: white;
+}
+
+.showing img{
+    cursor: pointer;
+}
+
+.match-club .match-result {
+    display: block;
+    text-align: center;
+}
+
+.events-list h2.title{
+    font-size: 18px;
+    color: #7f8181;
+}
+
+.events-list table{
+    margin: auto;
+}
+
+.events-list table tr td{
+    padding: 0px 30px 0px 30px;
+    color: #767878;
+    font-weight: 700;
+    text-transform: uppercase;
+}
+
+.events-list table img{
+    max-width: 40px;
+}
+
+.playlist h2{
+    font-size: 16px;
+}
+
+.playlist hr{
+    max-width: 320px;
+    margin-top: 0;
+    margin-bottom: 0;
+    border: 1px solid #cfcfcf;
+}
+
+.playlist span.playlist-time{
+    border-left: 1px solid #a8abbf;
+    padding-left: 5px;
+}
+
+.playlist-info{
+    margin: 0;
+    padding-top: 10px;
+    color: #a8abbf;
+}
+
+.playlist-date{
+    padding-left: 21px;
+    font-size: 12px;
+    color: #dbdade;
 }
