@@ -30,7 +30,8 @@ body {
   background: #ffffff;
   color: black;
   display: flex;
-
+  padding-left:20px;
+  padding-right:20px;
 }
 
 .demo-header__toggle {
@@ -44,7 +45,8 @@ body {
   height: 1.5rem;
   margin-right: 1rem;
   position: relative;
-  width: 2rem
+  width: 2rem;
+  float:left;
 }
 
 .menu-item-list li img{
@@ -166,11 +168,24 @@ body {
   .demo-header .list-inline li{
     text-align: center;
   }
+  .header-menu-items{
+    width:100%
+  }
+  .demo-header ul.header-menu-items li{
+    border-right:0px;
+  }
 }
 
+.left-sidebar-toggle{
+   display: none;
+   float:left;
+}
 
 @media screen and (max-width: 500px) {
   .demo-header__toggle {
+    display: block;
+  }
+  .left-sidebar-toggle{
     display: block;
   }
 }

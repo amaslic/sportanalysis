@@ -14,15 +14,22 @@
 
   </ng-sidebar>
   <header class="demo-header">
-    <button (click)="_toggleSidebar()" class="demo-header__toggle">Toggle sidebar</button>
+
 
     <!--<ng-sidebar [(opened)]="_second_opened" [mode]="'push'"  [position]="'top'" [dock]="false" [dockedSize]="'50px'" [autoCollapseHeight]="500"
     [autoCollapseWidth]="500" [showBackdrop]="false" [animate]="true" [sidebarClass]="'main-sidebar'" [ariaLabel]="'Main Menu'">-->
     <div class="col-md-12">
       <nav class="navbar navbar-positive">
-        <div class="container-fluid">
+        <div class="">
           <div class="navbar-header">
-            <button type="button" class="navbar-toggle collapsed" (click)="toggleState()">
+            <button type="button" class="navbar-toggle collapsed left-sidebar-toggle" (click)="_toggleSidebar()"  style="margin-top:15px">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <!--<button (click)="_toggleSidebar()" class="demo-header__toggle">Toggle sidebar</button>-->
+            <button type="button" class="navbar-toggle collapsed" (click)="toggleState()" style="margin-top:15px">
                 <span class="sr-only">Toggle navigation</span>
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
@@ -30,7 +37,7 @@
             </button>
           </div>
           <div class="collapse navbar-collapse" [ngClass]="{ 'in': isIn }">
-            <ul class="list-inline pull-right">
+            <ul class="list-inline pull-right header-menu-items">
               <li>
                 <button class="btn btn-upload-custom">Upload</button>
               </li>
