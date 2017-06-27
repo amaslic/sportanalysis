@@ -1,5 +1,5 @@
 <a *ngIf="video" [routerLink]="['/videos/settings', video._id]">Video Settings</a>
-<vg-player *ngIf="video">
+<vg-player *ngIf="video" (onPlayerReady)="onPlayerReady($event)">
     <vg-overlay-play></vg-overlay-play>
     <vg-buffering></vg-buffering>
 
@@ -31,5 +31,12 @@
     </video>
 </vg-player>
 <div class="list-group">
-  <a href="#" class="list-group-item" *ngFor="let event of trackingJsonData"><span *ngIf="event.start !== 'NaN'">{{event.start}}s - {{event.end}}s</span> {{event.name}}</a>
+    <a 
+        (click)="event.start !== 'NaN' && api.getDefaultMedia().currentTime = event.start" 
+        class="list-group-item event" 
+        *ngFor="let event of trackingJsonData"
+        [class.disabled]="event.start == 'NaN'"
+        [class.active]="checkIfCurrentTime(event)">
+        <span *ngIf="event.start !== 'NaN'">{{event.start}}s - {{event.end}}s</span> {{event.name}} [{{event.team}}]
+    </a>
 </div>

@@ -2,7 +2,9 @@ import {
   Component,
   OnInit
 } from '@angular/core';
-import { LocalStorageService } from 'angular-2-local-storage';
+import {
+  LocalStorageService
+} from 'angular-2-local-storage';
 import {
   Router
 } from '@angular/router';
@@ -20,8 +22,13 @@ export class MainComponent implements OnInit {
     this._opened = !this._opened;
   }
 
+  isIn = false; // store state
+  toggleState() { // click handler
+    let bool = this.isIn;
+    this.isIn = bool === false ? true : false;
+  }
 
-  constructor(private localStorageService: LocalStorageService ,private router: Router) {}
+  constructor(private localStorageService: LocalStorageService, private router: Router) {}
 
   ngOnInit() {}
 

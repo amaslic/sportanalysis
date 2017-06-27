@@ -228,3 +228,6 @@ body {
     text-decoration:none;
 }
 
+.navbar-toggle.collapsed .icon-bar{
+  background:black;
+}

@@ -1,5 +1,10 @@
-import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import {
+  Component,
+  OnInit
+} from '@angular/core';
+import {
+  ActivatedRoute
+} from '@angular/router';
 import {
   Video
 } from './../../../models/video.model';
@@ -18,6 +23,9 @@ import {
 import {
   TrackingDataService
 } from './../../../services/trackingData.service';
+import {
+  VgAPI
+} from 'videogular2/core';
 
 @Component({
   selector: 'app-view',
@@ -31,16 +39,16 @@ export class ViewComponent implements OnInit {
   private baseTrackingDataUrl = GlobalVariables.BASE_TRACKINGDATA_URL;
   trackingJsonData: any[];
   videoTrackingData: any = [];
-  
+  api: VgAPI;
   video: Video;
 
-  constructor(private route: ActivatedRoute, private videoService: VideoService, private userService: UserService, private trackingDataService: TrackingDataService) { }
+  constructor(private route: ActivatedRoute, private videoService: VideoService, private userService: UserService, private trackingDataService: TrackingDataService) {}
 
   ngOnInit() {
     this.sub = this.route.params.subscribe(params => {
-       this.videoId = params['id'];
-       this.getVideo(this.videoId);
-       this.getVideoTrackingDataItems(this.videoId);
+      this.videoId = params['id'];
+      this.getVideo(this.videoId);
+      this.getVideoTrackingDataItems(this.videoId);
     });
   }
 
@@ -56,20 +64,24 @@ export class ViewComponent implements OnInit {
     const res = JSON.parse(response._body);
     console.log(res);
     this.videoTrackingData = res;
+    if(!this.videoTrackingData[0]) return false;
     this.trackingDataService.getXmlFile(this.videoTrackingData[0]).subscribe(
-        (response:any) => {
-          console.log(response);
-            this.trackingDataService.parseXML(response._body).then(
-              (response:any) => {
-                this.trackingJsonData = response.recording.annotations.annotation;
-                console.log(this.trackingJsonData);
-              }); 
-        },
-        (error) => this.onError(error)
-      );;
+      (response: any) => {
+        console.log(response);
+        this.trackingDataService.parseXML(response._body).then(
+          (response: any) => {
+            if (response.recording) {
+              this.trackingJsonData = response.recording.annotations.annotation;
+              console.log(this.trackingJsonData);
+            }
+
+          });
+      },
+      (error) => this.onError(error)
+    );;
   }
 
-  getVideo(id){
+  getVideo(id) {
     this.videoService.getVideoById(id, this.userService.token)
       .subscribe(
         (response) => this.onGetVideoSuccess(response),
@@ -77,7 +89,7 @@ export class ViewComponent implements OnInit {
       );
   }
 
-  onGetVideoSuccess(response){
+  onGetVideoSuccess(response) {
     console.log(response);
     this.video = JSON.parse(response._body);
     console.log(this.video);
@@ -88,4 +100,28 @@ export class ViewComponent implements OnInit {
     console.error(errorBody);
     alert(errorBody.msg);
   }
+
+  onPlayerReady(api: VgAPI) {
+    this.api = api;
+    console.log("player ready");
+    this.api.getDefaultMedia().subscriptions.ended.subscribe(
+      () => {
+        // Set the video to the beginning
+        this.api.getDefaultMedia().currentTime = 0;
+      }
+    );
+
+    this.api.getDefaultMedia().subscriptions.timeUpdate.subscribe(
+      () => {
+        //console.log(this.api.getDefaultMedia().currentTime)
+      }
+    );
+  }
+
+  checkIfCurrentTime(event){
+    if(parseInt(event.start) <= this.api.getDefaultMedia().currentTime && parseInt(event.end) >= this.api.getDefaultMedia().currentTime){
+      return true;
+    }
+  }
+
 }
