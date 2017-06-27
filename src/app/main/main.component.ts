@@ -20,6 +20,7 @@ export class MainComponent implements OnInit {
     this._opened = !this._opened;
   }
 
+
   constructor(private localStorageService: LocalStorageService ,private router: Router) {}
 
   ngOnInit() {}

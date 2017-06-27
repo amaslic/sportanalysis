@@ -81,12 +81,69 @@ body {
   background: transparent;
 }
 
-.st0{display:none;}
-.st1{fill:none;stroke: #303030;stroke-width:0.7;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:10;}
-.st2{fill:#303030;}
 
-li:hover .svg-icon{
-    fill:red;
+.menu-item-list li.video-hover:hover, .menu-item-list li.video-hover.is-active{
+  background-image: url('/assets/images/video-hover.png');
+  background-size: 30px;
+  background-repeat: no-repeat;
+  background-position: center 18px;
+}
+
+
+.video-hover{
+  background-image: url('/assets/icons/video.svg');
+  background-size: 42px;
+  background-repeat: no-repeat;
+  background-position: center 5px;
+}
+
+.match-hover{
+  background-image: url('/assets/icons/pitch.svg');
+  background-size: 42px;
+  background-repeat: no-repeat;
+  background-position: center 5px;
+}
+
+.menu-item-list li.match-hover:hover, .menu-item-list li.match-hover.is-active{
+  background-image: url('/assets/images/match-hover.png');
+  background-size: 42px;
+  background-repeat: no-repeat;
+  background-position: center 15px;
+}
+
+.team-hover{
+  background-image: url('/assets/icons/team.svg');
+  background-size: 42px;
+  background-repeat: no-repeat;
+  background-position: center 5px;
+}
+
+.help-hover{
+  background-image: url('/assets/icons/chat.svg');
+  background-size: 42px;
+  background-repeat: no-repeat;
+  background-position: center 5px;
+}
+
+.menu-item-list li.help-hover:hover, .menu-item-list li.help-hover.is-active{
+  background-image: url('/assets/images/help-hover.png');
+  background-size: 25px;
+  background-repeat: no-repeat;
+  background-position: center 15px;
+}
+
+.list-hover{
+  background-image: url('/assets/icons/list.svg');
+  background-size: 42px;
+  background-repeat: no-repeat;
+  background-position: center 5px;
+}
+
+.menu-item-list li.list-hover:hover, .menu-item-list li.list-hover.is-active{
+  background-image: url('/assets/images/list-hover.png');
+  background-size: 25px;
+  background-repeat: no-repeat;
+  background-position: center 15px;
 }
 
 /*

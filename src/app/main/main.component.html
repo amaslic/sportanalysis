@@ -8,16 +8,20 @@
     <img src="/assets/images/menu-logo.png" alt="logo" class="image-responsive" style="max-width:80px;margin-top:10px;">
     <ul class="menu-item-list">
       <li [routerLink]="['/home']" [routerLinkActive]="['is-active']"><span><i class="fa fa-home fa-2x" aria-hidden="true"></i><br>HOME</span></li>
-      <li [routerLink]="['/team']" [routerLinkActive]="['is-active']"><span><img src="assets/icons/team.svg" alt="Team" /><br>TEAM</span></li>
-      <li [routerLinkActive]="['is-active']"><span><img src="assets/icons/pitch.svg" alt="Matches" /><br>Matches</span></li>
-      <li [routerLink]="['/videos']" [routerLinkActive]="['is-active']"><span><img src="assets/icons/video.svg" alt="Video" /><br>VIDEOS</span></li>
-      <li  [routerLinkActive]="['is-active']"><span><img src="assets/icons/list.svg" alt="Video" /><br>Playlist</span></li>
-      <li [routerLinkActive]="['is-active']"><span><img src="assets/icons/chat.svg" alt="Help" /><br>Help</span></li>
+      <li [routerLink]="['/team']" [routerLinkActive]="['is-active']" class="team-hover"><span><br>TEAM</span></li>
+      <li [routerLinkActive]="['is-active']" class="match-hover"><span><br>Matches</span></li>
+      <li [routerLink]="['/videos']" [routerLinkActive]="['is-active']"  class="video-hover"><span><br>VIDEOS</span></li>
+      <li  [routerLinkActive]="['is-active']" class="list-hover"><span><br>Playlist</span></li>
+      <li [routerLinkActive]="['is-active']" class="help-hover"><span><br>Help</span></li>
       <li (click)="logout()"><span><i class="fa fa-sign-out fa-2x" aria-hidden="true"></i><br>LOGOUT</span></li>
     </ul>
+    
   </ng-sidebar>
   <header class="demo-header">
     <button (click)="_toggleSidebar()" class="demo-header__toggle">Toggle sidebar</button>
+   
+    <!--<ng-sidebar [(opened)]="_opened" [mode]="'push'"  [position]="'top'" [dock]="false" [dockedSize]="'50px'" [autoCollapseHeight]="500"
+    [autoCollapseWidth]="500" [showBackdrop]="false" [animate]="true" [sidebarClass]="'main-sidebar'" [ariaLabel]="'Main Menu'"> -->
     <div class="col-md-12">
       <ul class="list-inline pull-right">
         <li>
@@ -37,6 +41,7 @@
       </ul>
 
     </div>
+    <!--</ng-sidebar>-->
   </header>
   <section class="demo-contents">
     <router-outlet></router-outlet>
