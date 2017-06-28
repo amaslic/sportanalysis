@@ -27,6 +27,7 @@
       "../node_modules/@swimlane/ngx-datatable/release/assets/icons.css",
       "assets/icons/icons.css",
       "styles.css"
+      
     ],
     "scripts": [],
     "environmentSource": "environments/environment.ts",
@@ -59,4 +60,5 @@
     "styleExt": "css",
     "component": {}
   }
+  
 }

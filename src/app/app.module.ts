@@ -42,7 +42,7 @@ import { FooterComponent } from './main/footer/footer.component';
 import { BackofficeComponent } from './backoffice/backoffice.component';
 import { UsersComponent } from './backoffice/users/users.component';
 
-
+import { NouisliderModule } from 'ng2-nouislider';
 
 const appRoutes: Routes = [
   { path: 'auth', component: LoginRegisterComponent},
