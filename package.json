@@ -32,6 +32,7 @@
     "font-awesome": "^4.7.0",
     "install": "^0.10.1",
     "ng-sidebar": "^5.1.0",
+    "ng2-slider-component": "^1.0.9",
     "ngx-bootstrap": "^1.7.1",
     "npm": "^5.0.3",
     "rxjs": "^5.1.0",
