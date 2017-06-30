@@ -1,14 +1,73 @@
-<a *ngIf="video" [routerLink]="['/videos/settings', video._id]">Video Settings</a>
-<vg-player *ngIf="video" (onPlayerReady)="onPlayerReady($event)">
-    <vg-overlay-play></vg-overlay-play>
-    <vg-buffering></vg-buffering>
+<div class="article-info">
+  <div class="match-info match-status col-xs-12">
+    <h2 class="title">Match Info</h2>
+    <div class="match-club  clearfix">
+      <div class="club-img"><img src="assets/images/img2.png" class="img-responsive"></div>
+      <div class="club-content">
+        <h2>Final - Cardiff</h2>
+        <h4>Sunday 4 June</h4>
+      </div>
+      <div class="club-img"><img src="assets/images/img1.png" class="img-responsive"></div>
+      <div class="clearfix match-result">
+        <h1>1 - 4</h1>
+      </div>
+    </div>
+    <div class="clearfix player-info">
+      <div class="pull-left col-xs-6">
+        <a href="#">Mandzukic 27'</a>
+      </div>
+      <div class="pull-right col-xs-6">
+        <a href="#">20'.64' Ronaldo</a>
+        <a href="#">61' Casemiro</a>
+        <a href="#">90' +1 Asensio</a>
+      </div>
+    </div>
+  </div>
+  <div class="tactics match-status col-xs-12">
+    <h2 class="title">Tactics</h2>
+    <ul>
+      <li>
+        <div class="tactics-box">
+          <img src="assets/images/tac3.png" class="img-responsive">
+        </div>
+        <p>Build ups</p>
+      </li>
+      <li>
+        <div class="tactics-box">
+          <img src="assets/images/tac2.png" class="img-responsive">
+        </div>
+        <p>Ball Lost</p>
+      </li>
+      <li>
+        <div class="tactics-box">
+          <img src="assets/images/tac1.png" class="img-responsive">
+        </div>
+        <p>Counter attacks</p>
+      </li>
+    </ul>
+  </div>
+  <div class="match-alerts match-status col-xs-12">
+    <h2 class="title">Alerts</h2>
+    <p>Final report, statistics and expert analysis Stats: Madrid and Ronaldo rewrite record books</p>
+    <p>
+      Four reasons why there was no stopping Madrid</p>
+    <p>Ronaldo pips Messi to top scorer prize Ronaldo matches record of Iniesta and Seedorf
+    </p>
+  </div>
+</div>
+<!--timeline -->
+<div class="main-content">
+  <div class="video-box">
+    <vg-player *ngIf="video" (onPlayerReady)="onPlayerReady($event)">
+      <vg-overlay-play></vg-overlay-play>
+      <vg-buffering></vg-buffering>
 
-    <vg-scrub-bar>
+      <vg-scrub-bar>
         <vg-scrub-bar-current-time></vg-scrub-bar-current-time>
         <vg-scrub-bar-buffering-time></vg-scrub-bar-buffering-time>
-    </vg-scrub-bar>
+      </vg-scrub-bar>
 
-    <vg-controls>
+      <vg-controls>
         <vg-play-pause></vg-play-pause>
         <vg-playback-button></vg-playback-button>
 
@@ -24,19 +83,114 @@
         <vg-volume></vg-volume>
 
         <vg-fullscreen></vg-fullscreen>
-    </vg-controls>
+      </vg-controls>
 
-    <video [vgMedia]="media" #media id="singleVideo" preload="auto" crossorigin>
+      <video [vgMedia]="media" #media id="singleVideo" preload="auto" crossorigin>
         <source [src]="baseVideoUrl + video.path" [type]="video.mimetype">
-    </video>
-</vg-player>
-<div class="list-group">
-    <a 
-        (click)="event.start !== 'NaN' && api.getDefaultMedia().currentTime = event.start" 
-        class="list-group-item event" 
-        *ngFor="let event of trackingJsonData"
-        [class.disabled]="event.start == 'NaN'"
-        [class.active]="checkIfCurrentTime(event)">
-        <span *ngIf="event.start !== 'NaN'">{{event.start}}s - {{event.end}}s</span> {{event.name}} [{{event.team}}]
-    </a>
+      </video>
+    </vg-player>
+  </div>
+  <div class="video-timeline">
+    <div class="clearfix">
+
+    </div>
+    <!--<div class="clearfix">
+      <div class="pull-left">
+        <ul>
+          <li><i class="fa fa-step-forward" aria-hidden="true"></i></li>
+          <li><i class="fa fa-forward" aria-hidden="true"></i></li>
+          <li><i class="fa fa-play" aria-hidden="true"></i></li>
+          <li><i class="fa fa-backward" aria-hidden="true"></i></li>
+          <li><i class="fa fa-step-backward" aria-hidden="true"></i></li>
+          <li class="info"><i class="fa fa-info" aria-hidden="true"></i></li>
+          <li class="setting-icon"><i class="fa fa-cog" aria-hidden="true"></i></li>
+          <li class="trash-icon"><i class="fa fa-trash-o" aria-hidden="true"></i></li>
+          <li><i class="fa fa-list-ul" aria-hidden="true"></i></li>
+        </ul>
+      </div
+      <div class="pull-right">
+        <div class="timeline-info">
+          <i class="fa fa-files-o" aria-hidden="true"></i>Timeline
+        </div>
+      </div>
+    </div>-->
+  </div>
+  <div class="video-select clearfix" *ngFor="let evtGroup of videoEvents" [ngClass]="{'active': checkIfCurrentTime(evtGroup)}">
+    <div class="video-select-box">
+      <div class="dropdown" dropdown [dropdownToggle]="false">
+        <button class="btn btn-primary dropdown-toggle" type="button" dropdown-open><i class="fa fa-eye" aria-hidden="true"></i> {{evtGroup.key}}
+				</button>
+        <ul class="dropdown-menu">
+          <li  *ngFor="let evt of evtGroup.values"><a href="#" (click)="goToEvent($event, evt)">{{evt.team}} ({{evt.start}}s-{{evt.end}}s)</a></li>
+        </ul>
+      </div>
+    </div>
+    <!-- timeline preview -->
+    <div class="video-select-timeline">
+      <div *ngFor="let evt of evtGroup.values" class="video-line" [style.left]="evt.startPercentange + '%'" [style.width]="evt.durationPercentange+'%'"></div>
+    </div>
+    <!-- end of timeline preview -->
+  </div>
+</div>
+
+<!-- end of timeline -->
+
+<div class="right-sidebar">
+  <div class="match-info filters col-xs-12">
+    <h2 class="title">
+      Filters
+      <img src="assets/images/filter-circle.png" alt="Circle" class="pull-right">
+    </h2>
+
+    <div class="match-club  search clearfix form-inline">
+      <div class="form-group">
+        <label class="control-label" for="inputSuccess4"></label>
+        <input type="text" class="form-control" placeholder="Search">
+        <span *ngIf="false"><img src="assets/images/search.png" alt="Search"></span>
+      </div>
+    </div>
+
+    <div class="clearfix showing">
+      <div>
+        Showing <span> 1 to 10 </span> of 14 videos
+        <span class="pull-right">
+						<select>
+							<option>5</option>
+							<option>10</option>
+							<option>15</option>
+						</select>
+						<img src="assets/images/extend.png" alt="Extend">
+					</span>
+      </div>
+    </div>
+  </div>
+  <div class="events-list match-status col-xs-12">
+    <h2 class="title">Event list</h2>
+    <!--<table>
+      <tr>
+        <td><img src="assets/images/img1.png" class="img-responsive"></td>
+        <td>vs</td>
+        <td><img src="assets/images/img2.png" class="img-responsive"></td>
+      </tr>
+      <tr>
+        <td><img src="assets/images/img1.png" class="img-responsive"></td>
+        <td>vs</td>
+        <td><img src="assets/images/img2.png" class="img-responsive"></td>
+      </tr>
+    </table>-->
+  </div>
+  <div class="match-status playlist col-xs-12">
+    <!--<h2 class="title"><img src="assets/images/folder.png" alt="Folder">Playlist</h2>-->
+    <div class="stats">
+      <a style="display:block" class="playlist-info" href="#" (click)="goToEvent($event, event)" *ngFor="let event of trackingJsonData">
+        <img src="assets/images/camera.png" alt="Camera">
+        <span>{{event.name}} [{{event.team}}]</span> <span class="playlist-time">{{event.start}}s</span>
+        <img src="assets/images/more.png" alt="More" class="pull-right">
+      </a>
+      <!--<div class="playlist-date">
+        Friday, 9 June 2017
+      </div>-->
+      <hr>
+    </div>
+  </div>
 </div>

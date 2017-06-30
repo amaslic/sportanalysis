@@ -43,6 +43,7 @@ import { BackofficeComponent } from './backoffice/backoffice.component';
 import { UsersComponent } from './backoffice/users/users.component';
 
 import { NouisliderModule } from 'ng2-nouislider';
+import {DropdownModule} from "ngx-dropdown";
 
 const appRoutes: Routes = [
   { path: 'auth', component: LoginRegisterComponent},
@@ -100,7 +101,8 @@ const appRoutes: Routes = [
     VgControlsModule,
     VgOverlayPlayModule,
     VgBufferingModule,
-    NgxDatatableModule
+    NgxDatatableModule,
+    DropdownModule
   ],
   providers: [UserService, VideoService, TrackingDataService, AuthGuard, AdminGuard],
   bootstrap: [AppComponent]

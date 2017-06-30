@@ -90,4 +90,25 @@ export class TrackingDataService {
       });
     });
   }
+
+  groupEvents(trackingData: Array <any>, duration: number ) {
+    const groupedObj = trackingData.reduce((prev, cur) => {
+      const start = parseFloat(cur.start);
+      const end = parseFloat(cur.end);
+      if (cur.start !== "NaN" && start < duration) {
+        cur.durationPercentange = ((end-start)*duration)/100;
+        cur.startPercentange = (start*duration)/100;
+        if (!prev[cur["name"]]) {
+          prev[cur["name"]] = [cur];
+        } else {
+          prev[cur["name"]].push(cur);
+        }
+      }
+      return prev;
+    }, {});
+    return Object.keys(groupedObj).map(key => ({
+      key,
+      values: groupedObj[key]
+    }));
+  }
 }

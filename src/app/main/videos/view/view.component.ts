@@ -39,8 +39,10 @@ export class ViewComponent implements OnInit {
   private baseTrackingDataUrl = GlobalVariables.BASE_TRACKINGDATA_URL;
   trackingJsonData: any[];
   videoTrackingData: any = [];
+  videoEvents: any = [];
   api: VgAPI;
   video: Video;
+  showEventsIngGroup: any;
 
   constructor(private route: ActivatedRoute, private videoService: VideoService, private userService: UserService, private trackingDataService: TrackingDataService) {}
 
@@ -48,7 +50,6 @@ export class ViewComponent implements OnInit {
     this.sub = this.route.params.subscribe(params => {
       this.videoId = params['id'];
       this.getVideo(this.videoId);
-      this.getVideoTrackingDataItems(this.videoId);
     });
   }
 
@@ -60,19 +61,18 @@ export class ViewComponent implements OnInit {
   }
 
   onGetVideoTrackingDataItemsSuccess(response) {
-    console.log(response);
     const res = JSON.parse(response._body);
-    console.log(res);
     this.videoTrackingData = res;
-    if(!this.videoTrackingData[0]) return false;
+    if (!this.videoTrackingData[0]) return false;
     this.trackingDataService.getXmlFile(this.videoTrackingData[0]).subscribe(
       (response: any) => {
         console.log(response);
         this.trackingDataService.parseXML(response._body).then(
           (response: any) => {
             if (response.recording) {
-              this.trackingJsonData = response.recording.annotations.annotation;
-              console.log(this.trackingJsonData);
+              this.videoEvents = this.trackingDataService.groupEvents(response.recording.annotations.annotation, this.api.getDefaultMedia().duration);
+              this.trackingJsonData = response.recording.annotations.annotation;    
+              console.log(this.videoEvents);
             }
 
           });
@@ -90,9 +90,8 @@ export class ViewComponent implements OnInit {
   }
 
   onGetVideoSuccess(response) {
-    console.log(response);
     this.video = JSON.parse(response._body);
-    console.log(this.video);
+    this.getVideoTrackingDataItems(this.videoId);
   }
 
   onError(error) {
@@ -103,7 +102,6 @@ export class ViewComponent implements OnInit {
 
   onPlayerReady(api: VgAPI) {
     this.api = api;
-    console.log("player ready");
     this.api.getDefaultMedia().subscriptions.ended.subscribe(
       () => {
         // Set the video to the beginning
@@ -118,10 +116,19 @@ export class ViewComponent implements OnInit {
     );
   }
 
-  checkIfCurrentTime(event){
-    if(parseInt(event.start) <= this.api.getDefaultMedia().currentTime && parseInt(event.end) >= this.api.getDefaultMedia().currentTime){
-      return true;
-    }
+  checkIfCurrentTime(evtGroup) {
+    var ret = false;
+    evtGroup.values.forEach((event) => {
+      if (parseInt(event.start) <= this.api.getDefaultMedia().currentTime && parseInt(event.end) >= this.api.getDefaultMedia().currentTime) {
+        ret = true;
+      }
+    });
+    return ret;
   }
-
+  
+  goToEvent(e, event){
+    e.preventDefault();
+    this.api.getDefaultMedia().currentTime = event.start;
+    this.api.play();
+  }
 }
