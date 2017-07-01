@@ -150,7 +150,7 @@
       </div>
     </div>
 
-    <div class="clearfix showing">
+    <!--<div class="clearfix showing">
       <div>
         Showing <span> 1 to 10 </span> of 14 videos
         <span class="pull-right">
@@ -162,7 +162,7 @@
 						<img src="assets/images/extend.png" alt="Extend">
 					</span>
       </div>
-    </div>
+    </div>-->
   </div>
   <div class="events-list match-status col-xs-12">
     <h2 class="title">Event list</h2>
@@ -182,11 +182,13 @@
   <div class="match-status playlist col-xs-12">
     <!--<h2 class="title"><img src="assets/images/folder.png" alt="Folder">Playlist</h2>-->
     <div class="stats">
-      <a style="display:block" class="playlist-info" href="#" (click)="goToEvent($event, event)" *ngFor="let event of trackingJsonData">
-        <img src="assets/images/camera.png" alt="Camera">
-        <span>{{event.name}} [{{event.team}}]</span> <span class="playlist-time">{{event.start}}s</span>
-        <img src="assets/images/more.png" alt="More" class="pull-right">
-      </a>
+      <ng-container *ngFor="let event of trackingJsonData | orderBy: '+start'">
+        <a style="display:block" class="playlist-info" href="#" (click)="goToEvent($event, event)" *ngIf="event.start !== 'NaN'">
+          <img src="assets/images/camera.png" alt="Camera">
+          <span>{{event.name}} [{{event.team}}]</span> <span class="playlist-time">{{event.start}}s</span>
+          <img src="assets/images/more.png" alt="More" class="pull-right">
+        </a>
+      </ng-container>
       <!--<div class="playlist-date">
         Friday, 9 June 2017
       </div>-->

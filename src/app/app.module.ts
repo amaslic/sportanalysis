@@ -44,6 +44,7 @@ import { UsersComponent } from './backoffice/users/users.component';
 
 import { NouisliderModule } from 'ng2-nouislider';
 import {DropdownModule} from "ngx-dropdown";
+import { OrderByPipe } from './pipes/order-by.pipe';
 
 const appRoutes: Routes = [
   { path: 'auth', component: LoginRegisterComponent},
@@ -83,7 +84,8 @@ const appRoutes: Routes = [
     VideoSettingsComponent,
     FooterComponent,
     BackofficeComponent,
-    UsersComponent
+    UsersComponent,
+    OrderByPipe
   ],
   imports: [
     BrowserModule,

@@ -78,7 +78,7 @@ export class ViewComponent implements OnInit {
           });
       },
       (error) => this.onError(error)
-    );;
+    );
   }
 
   getVideo(id) {
@@ -91,7 +91,6 @@ export class ViewComponent implements OnInit {
 
   onGetVideoSuccess(response) {
     this.video = JSON.parse(response._body);
-    this.getVideoTrackingDataItems(this.videoId);
   }
 
   onError(error) {
@@ -112,6 +111,13 @@ export class ViewComponent implements OnInit {
     this.api.getDefaultMedia().subscriptions.timeUpdate.subscribe(
       () => {
         //console.log(this.api.getDefaultMedia().currentTime)
+      }
+    );
+
+    this.api.getDefaultMedia().subscriptions.loadedData.subscribe(
+      () => {
+        console.log('loaded videodata');
+        this.getVideoTrackingDataItems(this.videoId);
       }
     );
   }
