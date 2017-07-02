@@ -115,6 +115,7 @@
       </div>
     </div>-->
   </div>
+  <div class="box-container">
   <div class="video-select clearfix" *ngFor="let evtGroup of videoEvents" [ngClass]="{'active': checkIfCurrentTime(evtGroup)}">
     <div class="video-select-box">
       <div class="dropdown" dropdown [dropdownToggle]="false">
@@ -131,6 +132,7 @@
     </div>
     <!-- end of timeline preview -->
   </div>
+</div>
 </div>
 
 <!-- end of timeline -->

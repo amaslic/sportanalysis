@@ -189,6 +189,11 @@
     max-width: 40px;
 }
 
+.playlist{
+    max-height: 320px;
+    overflow: auto;
+}
+
 .playlist h2{
     font-size: 16px;
 }
@@ -275,12 +280,12 @@
     background: #f0f0f0;
 }
 .active .video-line {
-    /*background: #38affc;*/
+    background: #38affc;
 }
 .video-line::before {
     content: "";
     position: absolute;
-    width: 100%;
+    width: 2px;
     height: 2px;
     background: white;
     top: 1px;
@@ -288,7 +293,7 @@
 .video-line::after {
     content: "";
     position: absolute;
-    width: 100%;
+    width: 2px;
     height: 2px;
     bottom: 2px;
     background: white;
@@ -302,13 +307,17 @@
     background: #767d9a;
     border: none;
 }
+.box-container {
+    max-height: 250px;
+    overflow: auto;
+}
 .video-select-box .btn:hover {
     background: #27c79a;
 }
 .video-select-box .btn i {
     position: absolute;
     left: 0;
-    padding: 5px 4px;
+    padding: 7px 4px;
     top: 0;
 }
 .active .video-select-box .btn i {
@@ -321,6 +330,7 @@
 .video-select:last-child {
     border-bottom: 1px solid #ccc;
 }
+
 
 
 
