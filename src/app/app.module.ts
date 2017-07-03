@@ -32,7 +32,6 @@ import { HomeComponent } from './main/home/home.component';
 import { TeamComponent } from './main/team/team.component';
 import { MatchesComponent } from './main/matches/matches.component';
 import { VideosComponent } from './main/videos/videos.component';
-import { ProfileComponent } from './main/profile/profile.component';
 import { PlaylistComponent } from './main/playlist/playlist.component';
 import { HelpComponent } from './main/help/help.component';
 import { UploadComponent } from './main/videos/upload/upload.component';
@@ -45,6 +44,8 @@ import { UsersComponent } from './backoffice/users/users.component';
 import { NouisliderModule } from 'ng2-nouislider';
 import {DropdownModule} from "ngx-dropdown";
 import { OrderByPipe } from './pipes/order-by.pipe';
+import { ProfileComponent } from './main/profile/profile.component';
+import { ProfileMainComponent } from './main/profile/profile-main/profile-main.component';
 
 const appRoutes: Routes = [
   { path: 'auth', component: LoginRegisterComponent},
@@ -57,12 +58,14 @@ const appRoutes: Routes = [
       {path: 'videos/upload', component: UploadComponent},
       {path: 'videos/view/:id', component: ViewComponent},
       {path: 'videos/settings/:id', component: VideoSettingsComponent},
-      {path: 'profile', component: PlaylistComponent},
-      {path: 'help', component: HelpComponent}
+      {path: 'playlist', component: PlaylistComponent},
+      {path: 'help', component: HelpComponent},
+      {path: 'profile/main', component: ProfileComponent}
   ]},
   { path: 'backoffice', component: BackofficeComponent, canActivate:[AdminGuard], children:[
       {path: 'users', component: UsersComponent}
-  ]}
+  ]},
+  { path: "**", redirectTo: 'home' }
 ];
 
 @NgModule({
@@ -76,7 +79,6 @@ const appRoutes: Routes = [
     TeamComponent,
     MatchesComponent,
     VideosComponent,
-    ProfileComponent,
     PlaylistComponent,
     HelpComponent,
     UploadComponent,
@@ -85,7 +87,9 @@ const appRoutes: Routes = [
     FooterComponent,
     BackofficeComponent,
     UsersComponent,
-    OrderByPipe
+    OrderByPipe,
+    ProfileComponent,
+    ProfileMainComponent
   ],
   imports: [
     BrowserModule,
