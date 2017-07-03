@@ -71,7 +71,8 @@ export class ViewComponent implements OnInit {
           (response: any) => {
             if (response.recording) {
               this.videoEvents = this.trackingDataService.groupEvents(response.recording.annotations.annotation, this.api.getDefaultMedia().duration);
-              this.trackingJsonData = response.recording.annotations.annotation;    
+              this.trackingJsonData = response.recording.annotations.annotation;   
+              console.log( this.trackingJsonData) ;
               console.log(this.videoEvents);
             }
 
