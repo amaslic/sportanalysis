@@ -333,7 +333,7 @@
 
 
 
-
+/*
 @media screen and (max-width: 779px) {
     .main-content{
         max-width: 100%;
@@ -342,4 +342,163 @@
         float: none;
         margin: auto;
     }
+}*/
+
+
+.article-mobile{
+    display: none;
 }
+
+/* Nexus Portrait 
+@media screen 
+  and (device-width: 601px) 
+  and (device-height: 906px) 
+  and (-webkit-min-device-pixel-ratio: 1.331) 
+  and (-webkit-max-device-pixel-ratio: 1.332) 
+  and (orientation: portrait) {
+    .article-info{
+        display: none;
+        float: left;
+        max-width: 50%;
+    }
+    .article-mobile{
+        display: block;
+    }
+    .right-sidebar{
+        max-width: 50%;
+        float: right;
+    }
+}
+
+
+
+/* Nexus Landscape 
+@media screen 
+  and (device-width: 601px) 
+  and (device-height: 906px) 
+  and (-webkit-min-device-pixel-ratio: 1.331) 
+  and (-webkit-max-device-pixel-ratio: 1.332) 
+  and (orientation: landscape) {
+    .right-sidebar, .article-info{
+        max-width: 200px;
+    }
+    .club-img{
+        width: 30px;
+    }
+    .club-content{
+        width: calc(100% - 70px);
+    }
+    .main-content{
+         max-width: calc(100% - 400px);
+    }
+}
+
+/* iPad Portrait 
+
+@media only screen 
+  and (min-device-width: 768px) 
+  and (max-device-width: 1024px) 
+  and (orientation: portrait) 
+  and (-webkit-min-device-pixel-ratio: 2) {
+    .article-info{
+        display: none;    
+    }
+    .article-mobile{
+        display: block;
+        float: left;
+        max-width: 50%;
+    }
+    .right-sidebar{
+        max-width: 50%;
+        float: right;
+    }
+}
+
+
+/* iPad Landscape 
+
+@media only screen 
+  and (min-device-width: 768px) 
+  and (max-device-width: 1024px) 
+  and (orientation: landscape) 
+  and (-webkit-min-device-pixel-ratio: 2) {
+    .right-sidebar, .article-info{
+        max-width: 200px;
+    }
+    .club-img{
+        width: 30px;
+    }
+    .club-content{
+        width: calc(100% - 70px);
+    }
+    .main-content{
+         max-width: calc(100% - 400px);
+    }
+}
+*/
+
+@media screen and (max-width: 479px) {
+   
+}
+
+@media (max-width: 1339px) {
+   .right-sidebar, .article-info{
+        max-width: 300px;
+    }
+    .club-img{
+        width: 30px;
+    }
+    .club-content{
+        width: calc(100% - 70px);
+    }
+    .main-content{
+         max-width: calc(100% - 600px);
+    }
+}
+
+@media (max-width: 1099px) {
+   .right-sidebar, .article-info{
+        max-width: 200px;
+    }
+
+    .main-content{
+         max-width: calc(100% - 400px);
+    }
+}
+
+@media (max-width: 991px) {
+     .main-content{
+        max-width: 100%;
+    }
+    .article-info{
+        display: none;
+    }
+    .article-mobile{
+        display: block;
+        float: left;
+        max-width: 50%;
+    }
+    .right-sidebar{
+        max-width: 50%;
+        float: right;
+    }
+}
+
+
+
+
+@media (max-width: 768px) {
+    .article-info{
+        display: none;
+    }
+    .article-mobile{
+        display: block;
+        float: left;
+        max-width: 100%;
+    }
+    .right-sidebar{
+        max-width: 100%;
+        float: right;
+    }
+}
+
