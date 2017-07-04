@@ -38,7 +38,7 @@
             <input type="file" (change)="onSelectFile($event)" name="attachments" [(ngModel)]="attachments" id="attachments" style="display:none">
           </label>
         </div>
-        <form class="form-inline  col-xs-12 col-xs-offset-0 col-sm-8 col-sm-offset-2 text-center" id="video-metadata" #f="ngForm" (ngSubmit)="onSubmit(f)" novalidate [ngClass]="{'submited' : f._submitted}">
+        <form class="form-inline upload-inputs col-xs-12  col-sm-8 text-center" id="video-metadata" #f="ngForm" (ngSubmit)="onSubmit(f)" novalidate [ngClass]="{'submited' : f._submitted}">
           <div class="form-group">
             <input type="title" [(ngModel)]="name" class="form-control" name="title" id="video-name" placeholder="Video Name" required>
           </div>
@@ -46,7 +46,7 @@
             <input [(ngModel)]="date" class="form-control" name="date" ngui-datetime-picker date-only="true" placeholder="Date of event"
               required>
           </div>
-          <div class="form-group">
+          <div class="form-group circle-buttons">
             <md-radio-group required [(ngModel)]="type" name="type">
               <md-radio-button value="Match">Match</md-radio-button>
               <md-radio-button value="Event">Event</md-radio-button>

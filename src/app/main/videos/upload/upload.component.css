@@ -185,7 +185,27 @@ form .form-group .form-control::-ms-input-placeholder { /* Microsoft Edge */
     text-align: left;
 }
 
-@media screen and (max-width: 779px) {
+
+.panel-default{
+    margin-top: 130px;
+    margin-bottom: 160px;
+}
+
+form.upload-inputs{
+    margin: auto;
+}
+
+@media (max-width: 1339px) {
+
+   #video-metadata .form-group{
+       width: 100%;
+       margin-top: 15px;
+   }
+}
+
+
+
+@media (max-width: 779px) {
     .progress{
         padding-left: 0;
     }
@@ -193,18 +213,18 @@ form .form-group .form-control::-ms-input-placeholder { /* Microsoft Edge */
         display: none;
     }
     .mat-radio-button{
-        list-style-type: none;
-        display: list-item;
-        text-align: left;
+        padding-right: 5px;
+        font-size: 12px;
+    }
+    .md-radio-group{
+        display: inline-flex;
+        display: -webkit-inline-flex;
     }
     .panel-heading{
         text-align: center;
     }
     
-    #video-metadata .form-group{
-        max-width: 320px;
-        width: 100%;
-    }
+  
     .video-area .panel-body .col-md-4{
         text-align: left;
     }
@@ -230,5 +250,23 @@ form .form-group .form-control::-ms-input-placeholder { /* Microsoft Edge */
         color: #888ea7;
         font-size: 11px;
     }
+    #video-metadata .form-group{
+       width: auto;
+       margin-top: 15px;
+   }
+   form.upload-inputs{
+       margin: auto;
+   }
+}
 
+
+@media (max-width: 586px) {
+    .mat-radio-button{
+        list-style-type: none;
+        display: list-item;
+        text-align: left;
+    }
+    #video-metadata .form-group{
+        width: 100%;
+    }
 }
