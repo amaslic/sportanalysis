@@ -163,6 +163,17 @@ body {
 }
 */
 
+.dropdown-menu{
+  left: -11px;
+  font-size: 12px;
+  min-width: 110px;
+}
+
+.dropdown-menu li{
+  text-align: center;
+  cursor: pointer;
+}
+
 @media screen and (max-width: 779px) {
   .demo-header .list-inline{
     display: grid;
@@ -175,6 +186,11 @@ body {
   }
   .demo-header ul.header-menu-items li{
     border-right:0px;
+  }
+  .dropdown-menu{
+    left: 0;
+    min-width: 100%;
+    width: 100%;
   }
   
 }

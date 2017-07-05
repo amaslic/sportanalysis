@@ -106,7 +106,10 @@
 	margin-bottom: 20px;
 }
 
-
+.dropdown-menu{
+    min-width: 90px;
+    font-size: 13px;
+}
 
 .search{
     margin: auto;
