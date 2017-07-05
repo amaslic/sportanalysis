@@ -13,7 +13,8 @@ html {
 
 body {
   background: #f2f1f6;
-  font: 400 1em/1.25 Source Sans Pro, Helvetica, Arial, sans-serif
+  font: 400 1em/1.25 Source Sans Pro, Helvetica, Arial, sans-serif;
+ 
 }
 
 .loading {
@@ -174,6 +175,10 @@ body {
   cursor: pointer;
 }
 
+.ng-sidebar-container--animate{
+  padding-left: 99px;
+}
+
 @media screen and (max-width: 779px) {
   .demo-header .list-inline{
     display: grid;
@@ -195,10 +200,8 @@ body {
   
 }
 
-.left-sidebar-toggle{
-   display: none;
-   float:left;
-}
+
+
 
 @media screen and (max-width: 500px) {
   .demo-header__toggle {
@@ -206,6 +209,15 @@ body {
   }
   .left-sidebar-toggle{
     display: block;
+  }
+  .ng-sidebar-container--animate{
+    padding-left: 0px;
+  }
+  .left-sidebar-toggle{
+    position: absolute;
+    top: 2px;
+    left: 100px;
+    z-index: 99;
   }
 }
 
