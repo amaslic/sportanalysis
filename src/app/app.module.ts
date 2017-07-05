@@ -16,6 +16,9 @@ import {MdButtonModule, MdCheckboxModule, MdRadioModule} from '@angular/material
 
 import { IonRangeSliderComponent } from "ng2-ion-range-slider";
 
+import { PerfectScrollbarModule } from 'ngx-perfect-scrollbar';
+import { PerfectScrollbarConfigInterface } from 'ngx-perfect-scrollbar';
+
 import { NguiDatetimePickerModule } from '@ngui/datetime-picker';
 import { AppComponent } from './app.component';
 import { LoginRegisterComponent } from './login-register/login-register.component';
@@ -48,6 +51,8 @@ import {DropdownModule} from "ngx-dropdown";
 import { OrderByPipe } from './pipes/order-by.pipe';
 import { ProfileComponent } from './main/profile/profile.component';
 import { ProfileMainComponent } from './main/profile/profile-main/profile-main.component';
+
+const PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {};
 
 const appRoutes: Routes = [
   { path: 'auth', component: LoginRegisterComponent},
@@ -101,6 +106,7 @@ const appRoutes: Routes = [
     BrowserAnimationsModule, MdButtonModule, MdCheckboxModule, MdRadioModule,
     RouterModule.forRoot(appRoutes),
     SidebarModule.forRoot(),
+    PerfectScrollbarModule.forRoot(PERFECT_SCROLLBAR_CONFIG),
     NguiDatetimePickerModule,
     LocalStorageModule.withConfig({
       prefix: 'sportanalysis',

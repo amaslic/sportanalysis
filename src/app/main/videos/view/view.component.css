@@ -192,9 +192,9 @@
     max-width: 40px;
 }
 
-.playlist{
+.playlist ul{
     max-height: 320px;
-    overflow: auto;
+    /*overflow: auto;*/
 }
 
 .playlist h2{

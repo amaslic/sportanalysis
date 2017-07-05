@@ -26,7 +26,7 @@ import {
 import {
   VgAPI
 } from 'videogular2/core';
-
+import { PerfectScrollbarComponent, PerfectScrollbarDirective, PerfectScrollbarConfigInterface } from 'ngx-perfect-scrollbar';
 @Component({
   selector: 'app-view',
   templateUrl: './view.component.html',

@@ -115,25 +115,25 @@
       </div>
     </div>-->
   </div>
-  
+
   <div class="box-container">
-  <div class="video-select clearfix" *ngFor="let evtGroup of videoEvents" [ngClass]="{'active': checkIfCurrentTime(evtGroup)}">
-    <div class="video-select-box">
-      <div class="dropdown" dropdown [dropdownToggle]="false">
-        <button class="btn btn-primary dropdown-toggle" type="button" dropdown-open><i class="fa fa-eye" aria-hidden="true"></i> {{evtGroup.key}}
+    <div class="video-select clearfix" *ngFor="let evtGroup of videoEvents" [ngClass]="{'active': checkIfCurrentTime(evtGroup)}">
+      <div class="video-select-box">
+        <div class="dropdown" dropdown [dropdownToggle]="false">
+          <button class="btn btn-primary dropdown-toggle" type="button" dropdown-open><i class="fa fa-eye" aria-hidden="true"></i> {{evtGroup.key}}
 				</button>
-        <ul class="dropdown-menu">
-          <li  *ngFor="let evt of evtGroup.values"><a href="#" (click)="goToEvent($event, evt)">{{evt.team}} ({{evt.start}}s-{{evt.end}}s)</a></li>
-        </ul>
+          <ul class="dropdown-menu">
+            <li *ngFor="let evt of evtGroup.values"><a href="#" (click)="goToEvent($event, evt)">{{evt.team}} ({{evt.start}}s-{{evt.end}}s)</a></li>
+          </ul>
+        </div>
       </div>
+      <!-- timeline preview -->
+      <div class="video-select-timeline">
+        <div *ngFor="let evt of evtGroup.values" class="video-line" [style.left]="evt.startPercentange + '%'" [style.width]="evt.durationPercentange+'%'"></div>
+      </div>
+      <!-- end of timeline preview -->
     </div>
-    <!-- timeline preview -->
-    <div class="video-select-timeline">
-      <div *ngFor="let evt of evtGroup.values" class="video-line" [style.left]="evt.startPercentange + '%'" [style.width]="evt.durationPercentange+'%'"></div>
-    </div>
-    <!-- end of timeline preview -->
   </div>
-</div>
 </div>
 
 <!-- end of timeline -->
@@ -240,31 +240,35 @@
       </tr>
     </table>-->
   </div>
+
   <div class="match-status playlist col-xs-12">
     <!--<h2 class="title"><img src="assets/images/folder.png" alt="Folder">Playlist</h2>-->
     <div class="stats">
-      <ul>
-      <ng-container *ngFor="let event of trackingJsonData">
+      <perfect-scrollbar>
+        <ul>
+          <ng-container *ngFor="let event of trackingJsonData">
 
-        <li>
-          <a style="display:block" class="playlist-info" href="#" (click)="goToEvent($event, event)" *ngIf="event.start !== 'NaN'">
-				<div class="message-img">
-					<img src="assets/images/camera.png" alt="Camera">
-				</div>
-				<div class="message-list-content">
-					<h4>{{event.name}} [{{event.team}}] | {{event.start}}s</h4>
-					<p>Friday, 9 June 2017</p>
-					<div class="dots"><img src="assets/images/more.png"></div>
-				</div>
-        </a>
-			</li>
+            <li>
+              <a style="display:block" class="playlist-info" href="#" (click)="goToEvent($event, event)" *ngIf="event.start !== 'NaN'">
+                <div class="message-img">
+                  <img src="assets/images/camera.png" alt="Camera">
+                </div>
+                <div class="message-list-content">
+                  <h4>{{event.name}} [{{event.team}}] | {{event.start}}s</h4>
+                  <p>Friday, 9 June 2017</p>
+                  <div class="dots"><img src="assets/images/more.png"></div>
+                </div>
+              </a>
+            </li>
 
-      </ng-container>
-      </ul>
+          </ng-container>
+        </ul>
+      </perfect-scrollbar>
       <!--<div class="playlist-date">
         Friday, 9 June 2017
       </div>-->
-     
+
     </div>
   </div>
+
 </div>
