@@ -68,11 +68,39 @@ p {
     top: 4px;
     color: white;
 }
+
+.message-cb-showing {
+    position: absolute;
+    right: 7px;
+    top: 17px;
+}
+
+.message-cb{
+    position: absolute;
+    right: 7px;
+    top: 0px;
+}
+
+ .mat-checkbox /deep/ .mat-checkbox-inner-container{
+    height: 13px;
+    width: 13px;
+}
+
+.mat-checkbox /deep/ .mat-checkbox-frame{
+    border: 1px solid white;
+    border-radius: 0;
+}
+
+.mat-checkbox /deep/ .mat-checkbox-ripple{
+    left: 0;
+    right: 0;
+}
+
 .message-content ul li .message-date {
     position: absolute;
     right: 0;
     top: 24px;
-    min-width: 80px;
+    min-width: 90px;
 }
 .message-video ul {
   padding: 0;
@@ -129,13 +157,7 @@ p {
   font-size: 12px;
   color: #767d9a;
 }
-.last-watchd-clips span:last-child {
-  background: #767d9a;
-  color: white;
-  padding: 5px 9px;
-  border-radius: 25px;
-  margin-left: 6px;
-}
+
 .pull-right.showing-result {
     padding-right: 30px;
     position: relative;
@@ -162,4 +184,59 @@ p {
 .message-scroll{
     max-height: 360px;
     overflow: auto;
+}
+
+.btn-match{
+    background: #767d9a;
+    padding: 2px 6px;
+    border-radius: 25px;
+    margin-left: 6px;
+    color: white;
+    font-size: 12px;
+}
+
+.last-watchd-clips{
+    position: absolute;
+    top: -3px;
+    right: 15px;
+}
+
+.dropdown-menu{
+    min-width: auto;
+}
+
+.last-watchd-clips ul li{
+    padding: 7px 20px 7px 20px;
+}
+
+.dropdown-menu a{
+    padding: 0;
+}
+
+@media (max-width: 991px) {
+    .message-content.col-md-8, .message-video.col-md-4{
+        max-width: 100%;
+    }
+}
+
+
+@media (max-width: 561px) {
+    .message-content ul li h3{
+        font-size: 12px;
+    }
+    .message-content ul li p{
+        font-size: 10px;
+    }
+    .message-content ul li .message-date {
+        top: 8px;
+    }
+    .message-list-content h4{
+        font-size: 11px;
+    }
+}
+
+@media (max-width: 357px) {
+    .message-content ul li .message-date {
+        top: 55px;
+    }
 }

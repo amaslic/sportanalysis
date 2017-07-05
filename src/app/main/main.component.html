@@ -48,9 +48,15 @@
                 <img src="assets/images/bell.png" alt="bubble" />
               </li>
               <li>
-                <button class="btn btn-usr">
-                  Jon olson <span class="caret"></span>
-                </button>
+                <div class="dropdown" dropdown [dropdownToggle]="false">
+							<button class="btn dropdown-toggle btn-usr" type="button" dropdown-open>Jon olson
+									</button>
+                <ul class="dropdown-menu">
+                  <li [routerLink]="['/profile/main']">Profile</li>
+                  <li (click)="logout()">Logout</li>
+                </ul>
+              </div>
+              
               </li>
             </ul>
           </div>

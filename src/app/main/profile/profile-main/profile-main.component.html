@@ -1,12 +1,14 @@
 <div class="clearfix message-box">
-	<div class="col-sm-8 message-content">
+	<div class="col-md-8 message-content">
 		<div class="clearfix">
 			<div class="pull-left">
 				<h2><i class="fa fa-envelope-o" aria-hidden="true"></i> Messages</h2>
 			</div>
 			<div class="pull-right showing-result">
 				<p>Showing 1 to 6</p>
-				<i class="fa fa-square-o" aria-hidden="true"></i>
+				<div class="message-cb-showing">
+					<md-checkbox></md-checkbox>
+				</div>
 			</div>
 		</div>
     <div class="message-scroll">
@@ -17,7 +19,9 @@
 				<p>Last match was really awsome till end...</p>
 				<div class="message-date">
 					<p>June 14</p>
-					<i class="fa fa-square-o" aria-hidden="true"></i>
+					<div class="message-cb">
+						<md-checkbox></md-checkbox>
+					</div>
 				</div>
 			</li>
 			<li>
@@ -26,7 +30,9 @@
 				<p>Last match was really awsome till end...</p>
 				<div class="message-date">
 					<p>June 14</p>
-					<i class="fa fa-square-o" aria-hidden="true"></i>
+					<div class="message-cb">
+						<md-checkbox></md-checkbox>
+					</div>
 				</div>
 			</li>
 			<li>
@@ -35,7 +41,9 @@
 				<p>Last match was really awsome till end...</p>
 				<div class="message-date">
 					<p>June 14</p>
-					<i class="fa fa-square-o" aria-hidden="true"></i>
+					<div class="message-cb">
+						<md-checkbox></md-checkbox>
+					</div>
 				</div>
 			</li>
 			<li>
@@ -44,7 +52,9 @@
 				<p>Last match was really awsome till end...</p>
 				<div class="message-date">
 					<p>June 14</p>
-					<i class="fa fa-square-o" aria-hidden="true"></i>
+					<div class="message-cb">
+						<md-checkbox></md-checkbox>
+					</div>
 				</div>
 			</li>
 			<li>
@@ -53,21 +63,32 @@
 				<p>Last match was really awsome till end...</p>
 				<div class="message-date">
 					<p>June 14</p>
-					<i class="fa fa-square-o" aria-hidden="true"></i>
+					<div class="message-cb">
+						<md-checkbox></md-checkbox>
+					</div>
 				</div>
 			</li>
 		</ul>
 	</div>
   	</div>
-	<div class="col-sm-4 message-video">
+	<div class="col-md-4 message-video">
 		<div class="clearfix">
 			<div class="pull-left">
-				<a href="#"><i class="fa fa-video-camera" aria-hidden="true"></i> Last wtched clips</a>
+				<a href="#"><i class="fa fa-video-camera" aria-hidden="true"></i> Last watched clips</a>
 			</div>
 			<div class="pull-right">
 				<div class="last-watchd-clips">
-					<span>Sort</span>
-					<span>Match <i class="fa fa-caret-down" aria-hidden="true"></i></span>
+					<span>
+						<div class="dropdown" dropdown [dropdownToggle]="false">
+							<button class="btn dropdown-toggle btn-match" type="button" dropdown-open>Match
+									</button>
+							<ul class="dropdown-menu">
+								<li><a href="#">Match</a></li>
+								<li><a href="#">Match</a></li>
+								<li><a href="#">Match</a></li>
+							</ul>
+						</div>
+					</span>
 				</div>
 			</div>
 		</div>
