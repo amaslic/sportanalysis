@@ -14,6 +14,8 @@ import { NgxDatatableModule } from '@swimlane/ngx-datatable';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {MdButtonModule, MdCheckboxModule, MdRadioModule} from '@angular/material';
 
+import { IonRangeSliderComponent } from "ng2-ion-range-slider";
+
 import { NguiDatetimePickerModule } from '@ngui/datetime-picker';
 import { AppComponent } from './app.component';
 import { LoginRegisterComponent } from './login-register/login-register.component';
@@ -89,7 +91,8 @@ const appRoutes: Routes = [
     UsersComponent,
     OrderByPipe,
     ProfileComponent,
-    ProfileMainComponent
+    ProfileMainComponent,
+    IonRangeSliderComponent
   ],
   imports: [
     BrowserModule,
