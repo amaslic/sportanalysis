@@ -44,7 +44,6 @@
     "npm": "^5.0.3",
     "perfect-scrollbar": "^0.7.1",
     "rxjs": "^5.1.0",
-    "typescript": "^2.4.0",
     "videogular2": "^5.4.8",
     "xml2js": "^0.4.17",
     "zone.js": "^0.8.4"
@@ -68,6 +67,6 @@
     "protractor": "~5.1.0",
     "ts-node": "~2.0.0",
     "tslint": "~4.5.0",
-    "typescript": "^2.4.1"
+    "typescript": "^2.4.0"
   }
 }
