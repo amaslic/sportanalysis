@@ -13,6 +13,7 @@ import {
 import {
   UserService
 } from './services/user.service';
+import 'rxjs/Rx';
 
 @Injectable()
 export class AdminGuard implements CanActivate {
