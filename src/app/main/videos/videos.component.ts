@@ -4,6 +4,10 @@ import {
 } from './../../models/video.model';
 
 import {
+  GlobalVariables
+} from './../../models/global.model';
+
+import {
   UserService
 } from './../../services/user.service';
 import {
@@ -16,6 +20,7 @@ import {
   styleUrls: ['./videos.component.css']
 })
 export class VideosComponent implements OnInit {
+  private baseVideoUrl = GlobalVariables.BASE_VIDEO_URL;
   videoList: Video[];
   constructor(private videoService: VideoService, private userService: UserService) { }
 

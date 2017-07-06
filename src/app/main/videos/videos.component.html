@@ -6,7 +6,7 @@
   <ul class="list-unstyled video-list-thumbs row" *ngIf="videoList">
     <li class="col-lg-3 col-sm-4 col-xs-6" *ngFor="let video of videoList">
       <a [routerLink]="['/videos/view', video._id]" title="Claudio Bravo, antes su debut con el Barça en la Liga">
-        <img src="assets/images/bg.png" alt="test" class="img-responsive" height="130px" />
+        <img [src]="baseVideoUrl + video.screenshot_path" alt="video-screenshot" class="img-responsive" height="130px" />
         <h2>{{video.title}}</h2>
         <span class="glyphicon glyphicon-play-circle"></span>
         <span class="duration">{{video.type}}</span>
