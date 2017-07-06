@@ -270,5 +270,5 @@
 
     </div>
   </div>
-  <a [routerLink]="['/videos/settings', video._id]">Settings</a>
+  <a *ngIf="video" [routerLink]="['/videos/settings', video._id]">Settings</a>
 </div>
