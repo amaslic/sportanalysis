@@ -425,8 +425,9 @@
 .unvisible-scroll{
     max-width: calc(100% - 140px);
     width: 100%;
-    overflow: hidden;
-    height: 50px;
+    /*overflow: hidden;
+    height: 50px;*/
+    margin-bottom: 45px;
 }
 
 .video-controls-custom{
@@ -434,11 +435,11 @@
 }
 
 .time{
-    max-width: 100%;
+    max-width: calc(100% - 140px);
     width: 100%;
-    overflow: auto;
+   /* overflow: auto;
     height: 80px;
-    overflow-y: hidden;
+    overflow-y: hidden;*/
 }
 
 .range-slider /deep/ .irs{
@@ -463,8 +464,8 @@
 .range-slider /deep/ .irs-slider.single::after {
     position: absolute;
     content: '';
-    width: 1px;
-    height: 80px;
+    width: 2px;
+    height: 140px;
     background: #10ea99;
     left: 7.5px;
 }
