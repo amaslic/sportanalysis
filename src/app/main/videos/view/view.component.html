@@ -115,6 +115,8 @@
       </div>
     </div>
   </div>
+  <div class="scroll-time">
+    <perfect-scrollbar>
   <div class="clearfix">
         <div class="video-select-box">
           <div class="clock-time">
@@ -204,7 +206,7 @@
         <div class="timeline-time" style="left: 780px"></div>
         <div class="timeline-time" style="left: 790px"></div>
         <div class="timeline-time" style="left: 800px"></div>
-        <!--<div class="timeline-time" style="left: 810px"></div>
+        <div class="timeline-time" style="left: 810px"></div>
         <div class="timeline-time" style="left: 820px"></div>
         <div class="timeline-time" style="left: 830px"></div>
         <div class="timeline-time" style="left: 840px"></div>
@@ -232,7 +234,7 @@
         <div class="timeline-time" style="left: 1060px"></div>
         <div class="timeline-time" style="left: 1070px"></div>
         <div class="timeline-time" style="left: 1080px"></div>
-      -->
+     
         <ion-range-slider class="range-slider" type="single"
           min="0"
           max="90"
@@ -244,7 +246,7 @@
   </div>
 
   <div class="box-container">
-     <perfect-scrollbar>
+     <perfect-scrollbar class="perfect-scrollbar-timeline">
     <div class="video-select clearfix" *ngFor="let evtGroup of videoEvents" [ngClass]="{'active': checkIfCurrentTime(evtGroup)}">
       <div class="video-select-box">
         <div class="dropdown" dropdown [dropdownToggle]="false">
@@ -257,13 +259,16 @@
       </div>
       <!-- timeline preview -->
       <div class="video-select-timeline">
-        <div *ngFor="let evt of evtGroup.values" class="video-line" [style.left]="evt.startPercentange + '%'" [style.width]="evt.durationPercentange+'%'"></div>
+        <div *ngFor="let evt of evtGroup.values" class="video-line" [style.left]="evt.startPercentange*10 + 'px'" [style.width]="evt.durationPercentange*10+'px'"></div>
       </div>
       <!-- end of timeline preview -->
     </div>
     </perfect-scrollbar>
   </div>
-   
+
+    </perfect-scrollbar>
+   </div>
+  
 </div>
 
 <!-- end of timeline -->

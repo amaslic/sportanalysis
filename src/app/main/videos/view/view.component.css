@@ -434,6 +434,10 @@
     padding-top: 10px;
 }
 
+.perfect-scrollbar-timeline{
+    padding-bottom: 20px;
+}
+
 .time{
     max-width: calc(100% - 140px);
     width: 100%;
