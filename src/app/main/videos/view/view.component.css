@@ -419,6 +419,7 @@
     padding: 10px;
     background: #dddddd;
     text-align: center;
+    max-width: 140px;
 }
 
 .unvisible-scroll{
@@ -438,6 +439,10 @@
     overflow: auto;
     height: 80px;
     overflow-y: hidden;
+}
+
+.range-slider /deep/ .irs{
+   /* max-width: calc(100% - 140px);*/
 }
 
 .range-slider /deep/ .irs-min, .range-slider /deep/ .irs-max, .range-slider /deep/ .irs-single{
