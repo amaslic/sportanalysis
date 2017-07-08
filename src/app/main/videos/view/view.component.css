@@ -289,7 +289,7 @@
     top: 1px;
 }
 
-.timeline-time:nth-child(4n+1)::before {
+.timeline-time:nth-child(5n+1)::before {
     content: "";
     position: absolute;
     width: 1px;
