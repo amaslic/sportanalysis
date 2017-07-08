@@ -460,18 +460,22 @@
 }
 
 .range-slider /deep/ .irs-slider{
-    background: #9d8863;
-    top: 18px;
+    /*background-color: #9d8863;*/
+    background: url('/assets/images/timeline-circle.png');
+   
+  background-repeat: no-repeat;
+  cursor: pointer;
+    top: 10px;
     border-radius: 50px;
 }
 
 .range-slider /deep/ .irs-slider.single::after {
     position: absolute;
     content: '';
-    width: 2px;
+    width: 1px;
     height: 140px;
     background: #10ea99;
-    left: 7.5px;
+    left: 6px;
 }
 /*
 @media screen and (max-width: 779px) {
