@@ -233,6 +233,10 @@
     width: 100%;
 }
 
+.video-timeline{
+    display: none;
+}
+
 .video-timeline ul {
   padding: 0;
   list-style: none;
@@ -261,6 +265,28 @@
     max-width: 140px;
     width: 100%;
     height: 28px;
+    clear: both;
+    margin-bottom: 3px;
+}
+
+.timeline-left .video-select.clearfix{
+    border: 0;
+}
+
+.timeline-left{
+    float: left;
+    max-width: 140px;
+    width: 100%;
+}
+
+.timeline-right{
+    max-width: 900px;
+    width: calc(100% - 140px);
+    float: left;
+}
+
+.video-select-box.clock{
+    margin-bottom: 18px;
 }
 
 .timeline-time {
@@ -269,6 +295,13 @@
     background: transparent;
     position: absolute;
     left: 11%;
+}
+
+.timeline-time span{
+    position: absolute;
+    top: 12px;
+    font-size: 11px;
+    color: #adaeae;
 }
 
 .timeline-time::before {
@@ -309,7 +342,7 @@
     float: left;
     width: calc(100% - 140px);
     background: #ffffff;
-    height: 28px;
+    height: 30px;
     position: relative;
 }
 .active .video-select-timeline {
@@ -338,7 +371,7 @@
     width: 100%;
     border-radius: 2px;
     position: relative;
-    height: 28px;
+    height: 30px;
     padding: 0;
     background: #767d9a;
     border: none;
@@ -353,7 +386,7 @@
 .video-select-box .btn i {
     position: absolute;
     left: 0;
-    padding: 7px 4px;
+    padding: 8px 4px;
     top: 0;
 }
 .active .video-select-box .btn i {
@@ -448,6 +481,7 @@
 
 .range-slider /deep/ .irs{
    /* max-width: calc(100% - 140px);*/
+   margin-top: 9px;
 }
 
 .range-slider /deep/ .irs-min, .range-slider /deep/ .irs-max, .range-slider /deep/ .irs-single{
@@ -462,11 +496,12 @@
 .range-slider /deep/ .irs-slider{
     /*background-color: #9d8863;*/
     background: url('/assets/images/timeline-circle.png');
-   
+    background-position: 2px;
   background-repeat: no-repeat;
   cursor: pointer;
     top: 10px;
     border-radius: 50px;
+   margin-left: 4px;
 }
 
 .range-slider /deep/ .irs-slider.single::after {
@@ -475,7 +510,7 @@
     width: 1px;
     height: 140px;
     background: #10ea99;
-    left: 6px;
+    left: 7.5px;
 }
 /*
 @media screen and (max-width: 779px) {

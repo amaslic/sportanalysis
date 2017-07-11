@@ -116,13 +116,36 @@
     </div>
   </div>
   <div class="scroll-time">
-    <perfect-scrollbar>
-  <div class="clearfix">
-        <div class="video-select-box">
+      <div class="timeline-left">
+         <div class="video-select-box clock">
           <div class="clock-time">
               <i class="fa fa-clock-o" aria-hidden="true"></i> 0;00;15;05
           </div>
         </div>
+           <div class="video-select clearfix" *ngFor="let evtGroup of videoEvents" [ngClass]="{'active': checkIfCurrentTime(evtGroup)}">
+     <div class="video-select-box">
+        <div class="dropdown" dropdown [dropdownToggle]="false">
+          <button class="btn btn-primary dropdown-toggle" type="button" dropdown-open><i class="fa fa-eye" aria-hidden="true"></i> {{evtGroup.key}}
+				</button>
+          <ul class="dropdown-menu">
+            <li *ngFor="let evt of evtGroup.values"><a href="#" (click)="goToEvent($event, evt)">{{evt.team}} ({{evt.start}}s-{{evt.end}}s)</a></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+      </div>
+
+
+
+
+<div class="timeline-right">
+    <perfect-scrollbar>
+  <div class="clearfix">
+        <!--<div class="video-select-box">
+          <div class="clock-time">
+              <i class="fa fa-clock-o" aria-hidden="true"></i> 0;00;15;05
+          </div>
+        </div>-->
         <div class="unvisible-scroll">
       <div class="video-select-timeline time">
       
@@ -135,7 +158,7 @@
         <div class="timeline-time" style="left: 70px"></div>
         <div class="timeline-time" style="left: 80px"></div>
         <div class="timeline-time" style="left: 90px"></div>
-        <div class="timeline-time" style="left: 100px"></div>
+        <div class="timeline-time" style="left: 100px"> <span> 10sec </span> </div>
         <div class="timeline-time" style="left: 110px"></div>
         <div class="timeline-time" style="left: 120px"></div>
         <div class="timeline-time" style="left: 130px"></div>
@@ -145,7 +168,7 @@
         <div class="timeline-time" style="left: 170px"></div>
         <div class="timeline-time" style="left: 180px"></div>
         <div class="timeline-time" style="left: 190px"></div>
-        <div class="timeline-time" style="left: 200px"></div>
+        <div class="timeline-time" style="left: 200px"> <span> 20sec </span> </div>
         <div class="timeline-time" style="left: 210px"></div>
         <div class="timeline-time" style="left: 220px"></div>
         <div class="timeline-time" style="left: 230px"></div>
@@ -248,7 +271,7 @@
   <div class="box-container">
      <perfect-scrollbar class="perfect-scrollbar-timeline">
     <div class="video-select clearfix" *ngFor="let evtGroup of videoEvents" [ngClass]="{'active': checkIfCurrentTime(evtGroup)}">
-      <div class="video-select-box">
+     <!-- <div class="video-select-box">
         <div class="dropdown" dropdown [dropdownToggle]="false">
           <button class="btn btn-primary dropdown-toggle" type="button" dropdown-open><i class="fa fa-eye" aria-hidden="true"></i> {{evtGroup.key}}
 				</button>
@@ -256,7 +279,7 @@
             <li *ngFor="let evt of evtGroup.values"><a href="#" (click)="goToEvent($event, evt)">{{evt.team}} ({{evt.start}}s-{{evt.end}}s)</a></li>
           </ul>
         </div>
-      </div>
+      </div>-->
       <!-- timeline preview -->
       <div class="video-select-timeline">
         <div *ngFor="let evt of evtGroup.values" class="video-line" [style.left]="evt.startPercentange*10 + 'px'" [style.width]="evt.durationPercentange*10+'px'"></div>
@@ -268,7 +291,7 @@
 
     </perfect-scrollbar>
    </div>
-  
+   </div>
 </div>
 
 <!-- end of timeline -->
