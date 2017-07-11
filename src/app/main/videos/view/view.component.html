@@ -364,7 +364,7 @@
     <div class="match-club  search clearfix form-inline">
       <div class="form-group">
         <label class="control-label" for="inputSuccess4"></label>
-        <input type="text" class="form-control" placeholder="Search">
+        <input type="text" class="form-control" placeholder="Search" [(ngModel)]="searchQuery">
         <span *ngIf="false"><img src="assets/images/search.png" alt="Search"></span>
       </div>
     </div>
@@ -404,7 +404,7 @@
     <div class="stats">
       <perfect-scrollbar>
         <ul>
-          <ng-container *ngFor="let event of trackingJsonData">
+          <ng-container *ngFor="let event of trackingJsonData | search:'team,name':searchQuery">
 
             <li>
               <a style="display:block" class="playlist-info" href="#" (click)="goToEvent($event, event)" *ngIf="event.start !== 'NaN'">

@@ -51,6 +51,7 @@ import {DropdownModule} from "ngx-dropdown";
 import { OrderByPipe } from './pipes/order-by.pipe';
 import { ProfileComponent } from './main/profile/profile.component';
 import { ProfileMainComponent } from './main/profile/profile-main/profile-main.component';
+import { SearchPipe } from './pipes/search.pipe';
 
 const PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {};
 
@@ -97,7 +98,8 @@ const appRoutes: Routes = [
     OrderByPipe,
     ProfileComponent,
     ProfileMainComponent,
-    IonRangeSliderComponent
+    IonRangeSliderComponent,
+    SearchPipe
   ],
   imports: [
     BrowserModule,
