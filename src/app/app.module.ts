@@ -52,6 +52,7 @@ import { OrderByPipe } from './pipes/order-by.pipe';
 import { ProfileComponent } from './main/profile/profile.component';
 import { ProfileMainComponent } from './main/profile/profile-main/profile-main.component';
 import { SearchPipe } from './pipes/search.pipe';
+import { NumberCollectionPipe } from './pipes/number-collection.pipe';
 
 const PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {};
 
@@ -99,7 +100,8 @@ const appRoutes: Routes = [
     ProfileComponent,
     ProfileMainComponent,
     IonRangeSliderComponent,
-    SearchPipe
+    SearchPipe,
+    NumberCollectionPipe
   ],
   imports: [
     BrowserModule,

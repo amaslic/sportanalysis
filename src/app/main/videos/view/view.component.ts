@@ -1,6 +1,7 @@
 import {
   Component,
-  OnInit
+  OnInit,
+  ViewChild
 } from '@angular/core';
 import {
   ActivatedRoute
@@ -26,7 +27,11 @@ import {
 import {
   VgAPI
 } from 'videogular2/core';
-import { PerfectScrollbarComponent, PerfectScrollbarDirective, PerfectScrollbarConfigInterface } from 'ngx-perfect-scrollbar';
+import {
+  PerfectScrollbarComponent,
+  PerfectScrollbarDirective,
+  PerfectScrollbarConfigInterface
+} from 'ngx-perfect-scrollbar';
 @Component({
   selector: 'app-view',
   templateUrl: './view.component.html',
@@ -43,7 +48,14 @@ export class ViewComponent implements OnInit {
   api: VgAPI;
   video: Video;
   showEventsIngGroup: any;
+  videoDuration: any;
+  fancyVideoDuration: any;
+  secondsCollection: any;
+  roundedDuration: any;
+  currentVideoTime: any;
 
+  @ViewChild('eventTimelineScrollbar') eventTimelineScrollbar;
+  
   constructor(private route: ActivatedRoute, private videoService: VideoService, private userService: UserService, private trackingDataService: TrackingDataService) {}
 
   ngOnInit() {
@@ -71,8 +83,8 @@ export class ViewComponent implements OnInit {
           (response: any) => {
             if (response.recording) {
               this.videoEvents = this.trackingDataService.groupEvents(response.recording.annotations.annotation, this.api.getDefaultMedia().duration);
-              this.trackingJsonData = response.recording.annotations.annotation;   
-              console.log( this.trackingJsonData) ;
+              this.trackingJsonData = response.recording.annotations.annotation;
+              console.log(this.trackingJsonData);
               console.log(this.videoEvents);
             }
 
@@ -100,6 +112,8 @@ export class ViewComponent implements OnInit {
     alert(errorBody.msg);
   }
 
+
+
   onPlayerReady(api: VgAPI) {
     this.api = api;
     this.api.getDefaultMedia().subscriptions.ended.subscribe(
@@ -112,12 +126,22 @@ export class ViewComponent implements OnInit {
     this.api.getDefaultMedia().subscriptions.timeUpdate.subscribe(
       () => {
         //console.log(this.api.getDefaultMedia().currentTime)
+        this.currentVideoTime = this.api.getDefaultMedia().currentTime;
+        console.log(this.eventTimelineScrollbar);
+        
+        this.eventTimelineScrollbar.elementRef.nativeElement.childNodes[0].scrollLeft += 1;
       }
     );
 
     this.api.getDefaultMedia().subscriptions.loadedData.subscribe(
       () => {
         console.log('loaded videodata');
+        this.videoDuration = this.api.getDefaultMedia().duration;
+        this.roundedDuration = parseInt(this.videoDuration);
+        this.fancyVideoDuration = this.fancyTimeFormat(this.videoDuration);
+        console.log(this.videoDuration);
+        console.log(this.fancyVideoDuration);
+
         this.getVideoTrackingDataItems(this.videoId);
       }
     );
@@ -132,10 +156,40 @@ export class ViewComponent implements OnInit {
     });
     return ret;
   }
-  
-  goToEvent(e, event){
+
+  checkIfCurrentEvent(event) {
+    var ret = false;
+    if (parseInt(event.start) <= this.api.getDefaultMedia().currentTime && parseInt(event.end) >= this.api.getDefaultMedia().currentTime) {
+      ret = true;
+    }
+    return ret;
+  }
+  goToEvent(e, event) {
     e.preventDefault();
     this.api.getDefaultMedia().currentTime = event.start;
     this.api.play();
+  }
+
+  fancyTimeFormat(time) {
+    // Hours, minutes and seconds
+    var hrs = ~~(time / 3600);
+    var mins = ~~((time % 3600) / 60);
+    var secs = ~~(time % 60);
+
+    // Output like "1:01" or "4:03:59" or "123:03:59"
+    var ret = "";
+
+    if (hrs > 0) {
+      ret += "" + hrs + ":" + (mins < 10 ? "0" : "");
+    }
+
+    ret += "" + mins + ":" + (secs < 10 ? "0" : "");
+    ret += "" + secs;
+    return ret;
+  }
+  
+  public oldSliderTime = 0;
+  onChangeTimelineSlider(e){
+    this.api.getDefaultMedia().currentTime = e.from/100
   }
 }

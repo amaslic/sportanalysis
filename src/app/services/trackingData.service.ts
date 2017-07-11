@@ -98,6 +98,7 @@ export class TrackingDataService {
       if (cur.start !== "NaN" && start < duration) {
         cur.durationPercentange = ((end-start)*duration)/100;
         cur.startPercentange = (start*duration)/100;
+        cur.duration = end-start;
         if (!prev[cur["name"]]) {
           prev[cur["name"]] = [cur];
         } else {
