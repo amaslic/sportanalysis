@@ -88,7 +88,7 @@ export class ViewComponent implements OnInit {
             if (response.recording) {
               this.videoEvents = this.trackingDataService.groupEvents(response.recording.annotations.annotation, this.api.getDefaultMedia().duration);
               this.trackingJsonData = response.recording.annotations.annotation;
-              let greenLineHeight = this.videoEvents.length*30+37.5;
+              let greenLineHeight = this.videoEvents.length*30+45;
               document.styleSheets[0].addRule('.range-slider /deep/ .irs-slider.single::after', 'height: '+greenLineHeight+'px !important');
               console.log(document.styleSheets[0])
               console.log(this.trackingJsonData);

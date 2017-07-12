@@ -11,6 +11,10 @@ import {
 import {
   TrackingDataService
 } from './../../../services/trackingData.service';
+import {
+  VideoService
+} from './../../../services/video.service';
+
 @Component({
   selector: 'app-settings',
   templateUrl: './settings.component.html',
@@ -25,14 +29,32 @@ export class VideoSettingsComponent implements OnInit {
   };
   uploading = false;
   videoTrackingData: any = [];
-  constructor(private route: ActivatedRoute, private trackingDataService: TrackingDataService, private userService: UserService) {}
+  video: any = {};
+
+  constructor(private route: ActivatedRoute, private trackingDataService: TrackingDataService, private userService: UserService,  private videoService: VideoService) {}
 
   ngOnInit() {
     this.sub = this.route.params.subscribe(params => {
       this.videoId = params['id'];
       this.getVideoTrackingDataItems(this.videoId);
+      this.getVideo(this.videoId);
     });
   }
+
+  
+  getVideo(id) {
+    this.videoService.getVideoById(id, this.userService.token)
+      .subscribe(
+        (response) => this.onGetVideoSuccess(response),
+        (error) => this.onError(error)
+      );
+  }
+
+  onGetVideoSuccess(response) {
+    this.video = JSON.parse(response._body);
+    console.log(this.video);
+  }
+
 
   getVideoTrackingDataItems(id: String) {
     this.trackingDataService.getDataTrackingForVideo(id, this.userService.token).subscribe(

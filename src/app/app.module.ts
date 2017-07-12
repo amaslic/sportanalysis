@@ -12,7 +12,7 @@ import {VgBufferingModule} from 'videogular2/buffering';
 import { NgxDatatableModule } from '@swimlane/ngx-datatable';
 
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
-import {MdButtonModule, MdCheckboxModule, MdRadioModule} from '@angular/material';
+import {MdButtonModule, MdCheckboxModule, MdRadioModule, MdTabsModule} from '@angular/material';
 
 import { IonRangeSliderComponent } from "ng2-ion-range-slider";
 
@@ -107,7 +107,7 @@ const appRoutes: Routes = [
     BrowserModule,
     FormsModule, ReactiveFormsModule,
     HttpModule, ProgressHttpModule,
-    BrowserAnimationsModule, MdButtonModule, MdCheckboxModule, MdRadioModule,
+    BrowserAnimationsModule, MdButtonModule, MdCheckboxModule, MdRadioModule, MdTabsModule,
     RouterModule.forRoot(appRoutes),
     SidebarModule.forRoot(),
     PerfectScrollbarModule.forRoot(PERFECT_SCROLLBAR_CONFIG),
