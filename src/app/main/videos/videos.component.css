@@ -64,6 +64,8 @@
   text-decoration: underline;
 }
 
+
+
 @media (min-width:320px) and (max-width: 480px) {
   .video-list-thumbs .glyphicon-play-circle {
     font-size: 35px;

@@ -33,7 +33,24 @@ import {
   PerfectScrollbarConfigInterface
 } from 'ngx-perfect-scrollbar';
 
-declare var document:any;
+declare var document: any;
+declare var VTTCue;
+
+export interface ICuePoint {
+  title: string;
+  description: string;
+  src: string;
+  href: string;
+}
+
+export interface IWikiCue {
+  startTime: number;
+  endTime: number;
+  title: string;
+  description: string;
+  src: string;
+  href: string;
+}
 
 @Component({
   selector: 'app-view',
@@ -56,10 +73,12 @@ export class ViewComponent implements OnInit {
   secondsCollection: any;
   roundedDuration: any;
   currentVideoTime: any;
-  
+  track: TextTrack;
+  cuePointData: ICuePoint = null;
+
 
   @ViewChild('eventTimelineScrollbar') eventTimelineScrollbar;
-  
+
   constructor(private route: ActivatedRoute, private videoService: VideoService, private userService: UserService, private trackingDataService: TrackingDataService) {}
 
   ngOnInit() {
@@ -82,18 +101,34 @@ export class ViewComponent implements OnInit {
     if (!this.videoTrackingData[0]) return false;
     this.trackingDataService.getXmlFile(this.videoTrackingData[0]).subscribe(
       (response: any) => {
-        console.log(response);
+        //console.log(response);
         this.trackingDataService.parseXML(response._body).then(
           (response: any) => {
             if (response.recording) {
               this.videoEvents = this.trackingDataService.groupEvents(response.recording.annotations.annotation, this.api.getDefaultMedia().duration);
               this.trackingJsonData = response.recording.annotations.annotation;
-              let greenLineHeight = this.videoEvents.length*30+45;
-              document.styleSheets[0].addRule('.range-slider /deep/ .irs-slider.single::after', 'height: '+greenLineHeight+'px !important');
-              console.log(document.styleSheets[0])
-              console.log(this.trackingJsonData);
-              console.log(this.videoEvents);
+              this.trackingJsonData.forEach((event, index) => {
+                let start = parseInt(event.start);
+                let end = start + 1;
+                if (event.start !== "NaN" && event.name === "Goal" && this.api.getDefaultMedia().duration > event.start) {
+                  this.track.addCue(
+                    new VTTCue(start, end, JSON.stringify({
+                      title: event.name
+                    }))
+                  );
+                }
+              });
+
+
+
+              let greenLineHeight = this.videoEvents.length * 30 + 45;
+              document.styleSheets[0].addRule('.range-slider /deep/ .irs-slider.single::after', 'height: ' + greenLineHeight + 'px !important');
+              //console.log(document.styleSheets[0])
+              //console.log(this.trackingJsonData);
+              //console.log(this.videoEvents);
             }
+
+
 
           });
       },
@@ -123,6 +158,8 @@ export class ViewComponent implements OnInit {
 
   onPlayerReady(api: VgAPI) {
     this.api = api;
+    this.track = this.api.textTracks[0];
+
     this.api.getDefaultMedia().subscriptions.ended.subscribe(
       () => {
         // Set the video to the beginning
@@ -134,21 +171,20 @@ export class ViewComponent implements OnInit {
       () => {
         //console.log(this.api.getDefaultMedia().currentTime)
         this.currentVideoTime = this.api.getDefaultMedia().currentTime;
-        console.log(this.eventTimelineScrollbar);
-        
+        //console.log(this.eventTimelineScrollbar);
+
         this.eventTimelineScrollbar.elementRef.nativeElement.childNodes[0].scrollLeft += 1;
       }
     );
 
     this.api.getDefaultMedia().subscriptions.loadedData.subscribe(
       () => {
-        console.log('loaded videodata');
         this.videoDuration = this.api.getDefaultMedia().duration;
         this.roundedDuration = parseInt(this.videoDuration);
         this.fancyVideoDuration = this.fancyTimeFormat(this.videoDuration);
         console.log(this.videoDuration);
         console.log(this.fancyVideoDuration);
-        
+
         this.getVideoTrackingDataItems(this.videoId);
       }
     );
@@ -194,9 +230,19 @@ export class ViewComponent implements OnInit {
     ret += "" + secs;
     return ret;
   }
-  
+
   public oldSliderTime = 0;
-  onChangeTimelineSlider(e){
-    this.api.getDefaultMedia().currentTime = e.from/100
+  onChangeTimelineSlider(e) {
+    this.api.getDefaultMedia().currentTime = e.from / 100
+  }
+
+  onEnterCuePoint($event) {
+    console.log($event);
+    this.cuePointData = JSON.parse($event.text);
+
+  }
+
+  onExitCuePoint($event) {
+    this.cuePointData = null;
   }
 }

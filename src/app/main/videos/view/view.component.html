@@ -65,6 +65,7 @@
       <vg-scrub-bar>
         <vg-scrub-bar-current-time></vg-scrub-bar-current-time>
         <vg-scrub-bar-buffering-time></vg-scrub-bar-buffering-time>
+        <vg-scrub-bar-cue-points class="customCuePoints" [vgCuePoints]="metadataTrack.cues" [vgFor]="sportanalysis-video"></vg-scrub-bar-cue-points>
       </vg-scrub-bar>
 
       <vg-controls>
@@ -78,15 +79,17 @@
         <vg-time-display vgProperty="left" vgFormat="mm:ss"></vg-time-display>
         <vg-time-display vgProperty="total" vgFormat="mm:ss"></vg-time-display>
 
-        <vg-track-selector></vg-track-selector>
+        <!--<vg-track-selector></vg-track-selector>-->
         <vg-mute></vg-mute>
         <vg-volume></vg-volume>
 
         <vg-fullscreen></vg-fullscreen>
       </vg-controls>
 
-      <video [vgMedia]="media" #media id="singleVideo" preload="auto" crossorigin>
+      <video [vgMedia]="media" #media id="sportanalysis-video" preload="auto" crossorigin>
         <source [src]="baseVideoUrl + video.path" [type]="video.mimetype">
+        <track src="assets/data/cue-points.vtt" kind="metadata" label="Cue Points" default #metadataTrack vgCuePoints (onEnterCuePoint)="onEnterCuePoint($event)"
+          (onExitCuePoint)="onExitCuePoint($event)">
       </video>
     </vg-player>
   </div>
@@ -150,7 +153,8 @@
               </div>
 
 
-              <ion-range-slider class="range-slider" type="single" min="0" max="{{roundedDuration*100}}" from="{{currentVideoTime*100}}" from_min="0" from_max="{{roundedDuration*100}}" step="0.0001" (onChange)="onChangeTimelineSlider($event)"></ion-range-slider>
+              <ion-range-slider class="range-slider" type="single" min="0" max="{{roundedDuration*100}}" from="{{currentVideoTime*100}}"
+                from_min="0" from_max="{{roundedDuration*100}}" step="0.0001" (onChange)="onChangeTimelineSlider($event)"></ion-range-slider>
             </div>
           </div>
         </div>
@@ -160,7 +164,8 @@
             <div class="video-select clearfix" [style.width]="(roundedDuration*10) +'px'" *ngFor="let evtGroup of videoEvents" [ngClass]="{'active': checkIfCurrentTime(evtGroup)}">
               <!-- timeline preview -->
               <div class="video-select-timeline" [style.width]="(roundedDuration*10) +'px'">
-                <div *ngFor="let evt of evtGroup.values" class="video-line" [ngClass]="{'active': checkIfCurrentEvent(evt)}" [style.left]="evt.start*10 + 'px'" [style.width]="evt.duration*10+'px'"></div>
+                <div *ngFor="let evt of evtGroup.values" class="video-line" [ngClass]="{'active': checkIfCurrentEvent(evt)}" [style.left]="evt.start*10 + 'px'"
+                  [style.width]="evt.duration*10+'px'"></div>
               </div>
               <!-- end of timeline preview -->
             </div>
@@ -169,6 +174,9 @@
 
       </perfect-scrollbar>
     </div>
+  </div>
+  <div *ngIf="cuePointData?.title" class="info-layer">
+    <h3>{{ cuePointData?.title }}</h3>
   </div>
 </div>
 
@@ -309,4 +317,3 @@
   </div>
   <a *ngIf="video" [routerLink]="['/videos/settings', video._id]">Settings</a>
 </div>
-
