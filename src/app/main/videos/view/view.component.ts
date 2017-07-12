@@ -32,6 +32,9 @@ import {
   PerfectScrollbarDirective,
   PerfectScrollbarConfigInterface
 } from 'ngx-perfect-scrollbar';
+
+declare var document:any;
+
 @Component({
   selector: 'app-view',
   templateUrl: './view.component.html',
@@ -53,6 +56,7 @@ export class ViewComponent implements OnInit {
   secondsCollection: any;
   roundedDuration: any;
   currentVideoTime: any;
+  
 
   @ViewChild('eventTimelineScrollbar') eventTimelineScrollbar;
   
@@ -84,6 +88,9 @@ export class ViewComponent implements OnInit {
             if (response.recording) {
               this.videoEvents = this.trackingDataService.groupEvents(response.recording.annotations.annotation, this.api.getDefaultMedia().duration);
               this.trackingJsonData = response.recording.annotations.annotation;
+              let greenLineHeight = this.videoEvents.length*30+37.5;
+              document.styleSheets[0].addRule('.range-slider /deep/ .irs-slider.single::after', 'height: '+greenLineHeight+'px !important');
+              console.log(document.styleSheets[0])
               console.log(this.trackingJsonData);
               console.log(this.videoEvents);
             }
@@ -141,7 +148,7 @@ export class ViewComponent implements OnInit {
         this.fancyVideoDuration = this.fancyTimeFormat(this.videoDuration);
         console.log(this.videoDuration);
         console.log(this.fancyVideoDuration);
-
+        
         this.getVideoTrackingDataItems(this.videoId);
       }
     );

@@ -553,7 +553,7 @@
   position: absolute;
   content: '';
   width: 1px;
-  height: 140px;
+  height: 1px;
   background: #10ea99;
   left: 7.5px;
 }
