@@ -1,17 +1,45 @@
-<div class="container">
+<div class="container videos-list">
   <p>
     <a [routerLink]="['/videos/upload']">Upload Video</a>
   </p>
-  <h3>Just example UI</h3>
-  <ul class="list-unstyled video-list-thumbs row" *ngIf="videoList">
-    <li class="col-lg-3 col-sm-4 col-xs-6" *ngFor="let video of videoList">
+  <h3>Recent Matches</h3>
+  <perfect-scrollbar>
+  <div class="all-videos col-md-12" *ngIf="videoList">
+  <!--<ul class="list-unstyled video-list-thumbs row" *ngIf="videoList">
+    <li class="col-lg-3 col-sm-4 col-xs-6" *ngFor="let video of videoList">-->
+      <div class="col-lg-4 col-sm-6 col-xs-12" *ngFor="let video of videoList">
       <a [routerLink]="['/videos/view', video._id]" title="Claudio Bravo, antes su debut con el Barça en la Liga">
-        <img [src]="baseVideoUrl + video.screenshot_path" alt="video-screenshot" class="img-responsive" height="130px" />
-        <h2>{{video.title}}</h2>
-        <span class="glyphicon glyphicon-play-circle"></span>
+        <img [src]="baseVideoUrl + video.screenshot_path" alt="video-screenshot" class="img-responsive video-ss" height="130px" />
+        
+        <span class="glyphicon glyphicon-play-circle play-btn"></span>
         <span class="duration">{{video.type}}</span>
-        <span class="date">{{video.date | date:"dd.MM.yyyy"}}</span>
+        <span class="durationn">02:11:16</span>
+        <div class="teams">
+         <!-- <ul class="list-inline">
+            <li><img src="assets/images/img1.png" class="img-responsive"></li>
+            <li>1 : 2</li>
+            <li><img src="assets/images/img2.png" class="img-responsive"></li>
+          </ul>-->
+         <tr>
+        <td><img src="assets/images/real.png" class="img-responsive"></td>
+        <td>1 : 2</td>
+        <td><img src="assets/images/juve.png" class="img-responsive"></td>
+      </tr>
+        </div>
+    <div class="video-white-bg">
+    <h2 class="video-title">{{video.title}}</h2>
+        <div class="date">
+          <ul class="list-inline">
+            <li> 2414 views </li>
+            <li> <i class="fa fa-circle" aria-hidden="true"></i> </li>
+            <li>{{video.date | date:"dd.MM.yyyy"}}</li>
+          </ul>
+        </div>
+      </div>
       </a>
-    </li>
-  </ul>
+   <!-- </li>
+  </ul>-->
+     </div>
+   </div>
+     </perfect-scrollbar>
 </div>
