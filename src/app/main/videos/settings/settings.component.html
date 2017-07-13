@@ -1,8 +1,11 @@
 <div class="content add-margin">
   <div class="container">
     <h3>{{video.title}}</h3>
+  
     <md-tab-group>
-      <md-tab label="Video Details">
+        
+      <md-tab label="Video Details"> 
+        <perfect-scrollbar>
         <form class="form-horizontal" id="video-metadata-form" #f="ngForm" (ngSubmit)="onSubmit(f)" novalidate [ngClass]="{'submited' : f._submitted}">
           <div class="form-group">
             <label class="control-label col-sm-2" for="title">Video Title:</label>
@@ -45,7 +48,9 @@
             </div>
           </div>
         </form>
+        </perfect-scrollbar>
       </md-tab>
+      
       <md-tab label="Tracking Data">
         <div class="row">
           <div class="col-md-8">
@@ -86,6 +91,7 @@
           </div>
         </div>
       </md-tab>
+       
     </md-tab-group>
-
+   
   </div>
