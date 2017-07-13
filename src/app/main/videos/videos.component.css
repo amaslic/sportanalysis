@@ -188,6 +188,23 @@ div.date ul.list-inline li:nth-child(2) i{
 
 }
 
+.one-team{
+    max-width: 60px;
+    position: absolute;
+    bottom: 55%;
+    left: 40%;
+}
+
+.player-name{
+  position: absolute;
+    top: 5px;
+    color: white;
+    right: 30px;
+    background: rgba(0, 0, 0, .3);
+    padding: 1px 3px 1px 3px;
+    font-size: 12px;
+}
+
 @media (max-width: 768px) {
     div.teams{
       left: 20%;
