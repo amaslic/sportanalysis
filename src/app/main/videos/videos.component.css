@@ -25,12 +25,16 @@
   margin: 8px 0 0;
 }
 
+.video-ss{
+  margin: auto;
+}
+ 
 .container.videos-list{
-  max-width: 980px;
+ 
   width: 100%;
   margin: auto;
   padding: 20px;
-  margin-top: 40px;
+  margin-top: 20px;
 }
 
 .video-white-bg{
@@ -82,7 +86,7 @@
     position: absolute;
     bottom: 85px;
     color: white;
-    left: 30px;
+    left: 60px;
     font-size: 12px;
 }
 
@@ -98,7 +102,7 @@
 
 div.teams{
     position: absolute;
-    left: 23%;
+    left: 29%;
     bottom: 53%;
     font-size: 28px;
     color: white;
@@ -147,7 +151,7 @@ div.date ul.list-inline li:nth-child(2) i{
     position: absolute;
     bottom: 85px;
     color: white;
-    right: 30px;
+    right: 60px;
     background: rgba(0, 0, 0, .3);
     padding: 1px 3px 1px 3px;
     font-size: 12px;
@@ -188,11 +192,44 @@ div.date ul.list-inline li:nth-child(2) i{
 
 }
 
+h3.recent{
+  font-size: 18px;
+  padding-left: 30px;
+}
+ 
 .one-team{
     max-width: 60px;
     position: absolute;
     bottom: 55%;
     left: 40%;
+}
+
+.upload-search{
+  max-width: 480px;
+  margin: auto;
+ text-align: center;
+
+}
+
+.upload-search:first-child{
+  padding-bottom: 20px;
+}
+
+.upload-search a{
+  max-width: 220px;
+  width: 100%;
+  color: white;
+  padding: 6px 10px 6px 10px;
+  background: #009cff;
+  border-radius: 5px;
+  text-align: center;
+  margin: auto;
+}
+
+.upload-search input{
+  max-width: 320px;
+  width: 100%;
+  margin: auto;
 }
 
 .player-name{
@@ -205,6 +242,39 @@ div.date ul.list-inline li:nth-child(2) i{
     font-size: 12px;
 }
 
+@media (max-width: 1333px) {
+    div.teams{
+      left: 15%;
+      bottom: 55%;
+   
+    }
+    .duration{
+      bottom: 105px;
+      left: 25px;
+    }
+    .durationn{
+      bottom: 105px;
+      right: 25px;
+    }
+}
+
+@media (max-width: 997px) {
+    div.teams{
+      left: 15%;
+      bottom: 60%;
+      font-size: 12px;
+    }
+    
+}
+
+@media (max-width: 989px) {
+    div.teams{
+      left: 15%;
+      bottom: 55%;
+   
+    }
+}
+
 @media (max-width: 768px) {
     div.teams{
       left: 20%;
@@ -215,13 +285,13 @@ div.date ul.list-inline li:nth-child(2) i{
 
 @media (max-width: 576px) {
     div.teams{
-       left: 23%;
+       left: 20%;
       bottom: 53%;
       font-size: 28px;
     }
 }
 
-@media (max-width: 298px) {
+@media (max-width: 420px) {
    div.teams{
       left: 20%;
       bottom: 55%;

@@ -1,13 +1,16 @@
 <div class="container videos-list">
-  <p>
+  <!--<p  class="upload-search">
     <a [routerLink]="['/videos/upload']">Upload Video</a>
+  </p>-->
+  <p  class="upload-search">
+    <input type="text" class="form-control search-btn" placeholder="Search" />
   </p>
-  <h3>Recent Matches</h3>
+  <h3 class="recent">Recent Matches</h3>
   <perfect-scrollbar>
   <div class="all-videos col-md-12" *ngIf="videoList">
   <!--<ul class="list-unstyled video-list-thumbs row" *ngIf="videoList">
     <li class="col-lg-3 col-sm-4 col-xs-6" *ngFor="let video of videoList">-->
-      <div class="col-lg-4 col-sm-6 col-xs-12" *ngFor="let video of videoList">
+      <div class="col-lg-3 col-sm-6 col-xs-12" *ngFor="let video of videoList">
       <a [routerLink]="['/videos/view', video._id]" title="Claudio Bravo, antes su debut con el Barça en la Liga">
         <img [src]="baseVideoUrl + video.screenshot_path" alt="video-screenshot" class="img-responsive video-ss" height="130px" />
         
