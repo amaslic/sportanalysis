@@ -11,12 +11,6 @@ html {
 
 }
 
-body {
-  background: #f2f1f6;
-  font: 400 1em/1.25 Source Sans Pro, Helvetica, Arial, sans-serif;
- 
-}
-
 .loading {
   padding: 1em
 }
@@ -24,6 +18,8 @@ body {
 .demo-contents{
   background: #f2f1f6;
   padding-top: 50px;
+  min-height: calc(100vh - 240px);
+  overflow: auto;
 }
 
 

@@ -8,6 +8,12 @@ app-root {
   background: #f2f1f6;
 }
 
+body {
+
+  position: relative;
+}
+
+
 .btn.btn-round {
   border-radius: 24px;
   font-weight: 800;
