@@ -30,7 +30,7 @@
 }
  
 .container.videos-list{
- 
+  max-width: 1680px;
   width: 100%;
   margin: auto;
   padding: 20px;
@@ -90,6 +90,7 @@
 .all-videos .col-lg-4, .all-videos .col-lg-4, .all-videos .col-sm-6, .all-videos .col-xs-12{
   margin-bottom: 15px;
 }
+
 
 .duration{
     position: absolute;
