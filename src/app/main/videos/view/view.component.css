@@ -445,7 +445,7 @@
 .scroll-time .form-group{
   margin: 0;
 }
-
+ 
 .scroll-time .form-group .input-group{
     height: 30px;
     margin-bottom: 6px;
@@ -539,6 +539,7 @@
 
 .video-box {
   height: 550px;
+  max-width: 100%
 }
 
 .clock-time {
@@ -784,3 +785,8 @@
   }
 }
 
+@media (max-width: 567px) {
+  .video-box {
+    height: 360px;
+  }
+}
