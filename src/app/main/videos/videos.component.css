@@ -82,11 +82,20 @@
 }
 
 
+.all-videos .col-lg-4{
+  max-width: 320px;
+  width: 100%;
+}
+
+.all-videos .col-lg-4, .all-videos .col-lg-4, .all-videos .col-sm-6, .all-videos .col-xs-12{
+  margin-bottom: 15px;
+}
+
 .duration{
     position: absolute;
     bottom: 85px;
     color: white;
-    left: 60px;
+    left: 30px;
     font-size: 12px;
 }
 
@@ -102,7 +111,7 @@
 
 div.teams{
     position: absolute;
-    left: 29%;
+    left: 22%;
     bottom: 53%;
     font-size: 28px;
     color: white;
@@ -151,7 +160,7 @@ div.date ul.list-inline li:nth-child(2) i{
     position: absolute;
     bottom: 85px;
     color: white;
-    right: 60px;
+    right: 30px;
     background: rgba(0, 0, 0, .3);
     padding: 1px 3px 1px 3px;
     font-size: 12px;
@@ -244,7 +253,7 @@ h3.recent{
 
 @media (max-width: 1333px) {
     div.teams{
-      left: 15%;
+      left: 20%;
       bottom: 55%;
    
     }
@@ -262,7 +271,7 @@ h3.recent{
     div.teams{
       left: 15%;
       bottom: 60%;
-      font-size: 12px;
+     /* font-size: 12px; */
     }
     
 }
@@ -279,7 +288,7 @@ h3.recent{
     div.teams{
       left: 20%;
       bottom: 55%;
-      font-size: 12px;
+     /* font-size: 12px; */
     }
 }
 
@@ -293,8 +302,8 @@ h3.recent{
 
 @media (max-width: 420px) {
    div.teams{
-      left: 20%;
-      bottom: 55%;
+      left: 17%;
+      bottom: 58%;
       font-size: 12px;
     }
 }
