@@ -109,7 +109,7 @@ export class ViewComponent implements OnInit {
               this.trackingJsonData = response.recording.annotations.annotation;
               this.trackingJsonData.forEach((event, index) => {
                 let start = parseInt(event.start);
-                let end = start + 1;
+                let end = start + 0.5;
                 if (event.start !== "NaN" && event.name === "Goal" && this.api.getDefaultMedia().duration > event.start) {
                   this.track.addCue(
                     new VTTCue(start, end, JSON.stringify({

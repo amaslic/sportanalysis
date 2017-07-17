@@ -69,7 +69,8 @@ const appRoutes: Routes = [
       {path: 'videos/settings/:id', component: VideoSettingsComponent},
       {path: 'playlist', component: PlaylistComponent},
       {path: 'help', component: HelpComponent},
-      {path: 'profile/main', component: ProfileComponent}
+      {path: 'profile/main', component: ProfileComponent},
+      {path: '**', component: HomeComponent}
   ]},
   { path: 'backoffice', component: BackofficeComponent, canActivate:[AdminGuard], children:[
       {path: 'users', component: UsersComponent}
