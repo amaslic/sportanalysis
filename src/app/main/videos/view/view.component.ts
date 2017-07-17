@@ -110,7 +110,14 @@ export class ViewComponent implements OnInit {
               this.trackingJsonData.forEach((event, index) => {
                 let start = parseInt(event.start);
                 let end = start + 0.5;
-                if (event.start !== "NaN" && event.name === "Goal" && this.api.getDefaultMedia().duration > event.start) {
+                if (  event.start !== "NaN" && 
+                      ( event.name === "Goal" || 
+                        event.name === "Kick Off" || 
+                        event.name === "Red Card" || 
+                        event.name === "Yellow Card" || 
+                        event.name === "Change"
+                      ) && 
+                      this.api.getDefaultMedia().duration > event.start) {
                   this.track.addCue(
                     new VTTCue(start, end, JSON.stringify({
                       title: event.name

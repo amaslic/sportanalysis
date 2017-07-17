@@ -23,9 +23,11 @@ export class AdminGuard implements CanActivate {
      return this.userService.isAdmin().map(e => {
        console.log(e);
             if (e) {
+              console.log(e);
                 return true;
             }
         }).catch(() => {
+            console.log("Not admin");
             this.router.navigate(['/home']);
             return Observable.of(false);
         });

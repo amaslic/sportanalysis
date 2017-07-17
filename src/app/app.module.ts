@@ -28,6 +28,7 @@ import { RegisterComponent } from './login-register/register/register.component'
 import { UserService } from './services/user.service';
 import { VideoService } from './services/video.service';
 import { TrackingDataService } from './services/trackingData.service';
+import { ClubService } from './services/club.service';
 
 import { MainComponent } from './main/main.component';
 import { AdminGuard } from './admin-guard.service';
@@ -47,12 +48,13 @@ import { BackofficeComponent } from './backoffice/backoffice.component';
 import { UsersComponent } from './backoffice/users/users.component';
 
 import { NouisliderModule } from 'ng2-nouislider';
-import {DropdownModule} from "ngx-dropdown";
+import { DropdownModule } from "ngx-dropdown";
 import { OrderByPipe } from './pipes/order-by.pipe';
 import { ProfileComponent } from './main/profile/profile.component';
 import { ProfileMainComponent } from './main/profile/profile-main/profile-main.component';
 import { SearchPipe } from './pipes/search.pipe';
 import { NumberCollectionPipe } from './pipes/number-collection.pipe';
+import { ClubsAdministrationComponent } from './backoffice/clubs-administration/clubs-administration.component';
 
 const PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {};
 
@@ -70,12 +72,14 @@ const appRoutes: Routes = [
       {path: 'playlist', component: PlaylistComponent},
       {path: 'help', component: HelpComponent},
       {path: 'profile/main', component: ProfileComponent},
-      {path: '**', component: HomeComponent}
+      {path: '*', component: HomeComponent}
   ]},
   { path: 'backoffice', component: BackofficeComponent, canActivate:[AdminGuard], children:[
-      {path: 'users', component: UsersComponent}
+      {path: 'users', component: UsersComponent},
+      {path: 'clubs', component: ClubsAdministrationComponent},
+      {path: '*', component: UsersComponent}
   ]},
-  { path: "**", redirectTo: 'home' }
+  { path: "*", redirectTo: 'home' }
 ];
 
 @NgModule({
@@ -102,7 +106,8 @@ const appRoutes: Routes = [
     ProfileMainComponent,
     IonRangeSliderComponent,
     SearchPipe,
-    NumberCollectionPipe
+    NumberCollectionPipe,
+    ClubsAdministrationComponent
   ],
   imports: [
     BrowserModule,
@@ -124,7 +129,7 @@ const appRoutes: Routes = [
     NgxDatatableModule,
     DropdownModule
   ],
-  providers: [UserService, VideoService, TrackingDataService, AuthGuard, AdminGuard],
+  providers: [UserService, VideoService, TrackingDataService, AuthGuard, AdminGuard, ClubService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
