@@ -82,7 +82,7 @@
 }
 
 
-.all-videos .col-lg-4{
+.all-videos .col-lg-4, .all-videos .col-lg-4, .all-videos .col-sm-6, .all-videos .col-xs-12{
   max-width: 320px;
   width: 100%;
 }
