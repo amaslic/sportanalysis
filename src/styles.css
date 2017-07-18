@@ -88,6 +88,6 @@ vg-scrub-bar-cue-points.customCuePoints .cue-point-container .cue-point::before 
   border-right: 8px solid transparent;
   border-top: 8px solid #e8e8e8;
   clear: both;
-  left: -5px;
+  left: -3px;
   top: -11px;
 }
