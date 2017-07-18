@@ -324,7 +324,7 @@
 .timeline-time span {
   position: absolute;
   top: 12px;
-  font-size: 11px;
+  font-size: 13px;
   color: #adaeae;
 }
 
@@ -521,14 +521,14 @@
 }
 
 .message-list-content h4 {
-  font-size: 12px;
+  font-size: 14px;
   margin: 0;
   color: #767d9a;
 }
 
 .message-list-content p {
   color: #adadae;
-  font-size: 10px;
+  font-size: 11px;
 }
 
 .message-list-content .dots {
@@ -538,7 +538,7 @@
 }
 
 .video-box {
-  height: 550px;
+  height: 780px;
   max-width: 100%
 }
 
@@ -721,6 +721,12 @@
 }
 */
 
+@media (max-width: 1490px){
+  .video-box{
+    height: 550px;
+  }
+}
+
 @media screen and (max-width: 479px) {}
 
 @media (max-width: 1339px) {
@@ -738,6 +744,7 @@
    /* max-width: calc(100% - 600px); */
     max-width: calc(100% - 300px);
   }
+  
 }
 
 @media (max-width: 1099px) {
