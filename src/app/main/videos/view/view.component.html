@@ -128,25 +128,24 @@
       </div>
 
       <div class="form-group clearfix" style="font-size: 12px; text-align: center" *ngFor="let evtGroup of videoEvents" [ngClass]="{'active': checkIfCurrentTime(evtGroup)}">
-  <div class="input-group">
-    <i style="max-width: 20px; width: 100%; float: left; margin-top: 9px;" class="fa fa-eye" aria-hidden="true"></i> 
-    <div class="" style="max-width: 80px; width: 100%; float: left; margin-top: 7px;">
+        <div class="input-group">
+          <i style="max-width: 20px; width: 100%; float: left; margin-top: 9px;" class="fa fa-eye" aria-hidden="true"></i>
+          <div class="" style="max-width: 80px; width: 100%; float: left; margin-top: 7px;" (click)="fillQueue(evtGroup)">
             {{evtGroup.key}}
+          </div>
+          <div class="input-group-btn">
+            <div class="video-select-box">
+              <div class="dropdown" dropdown [dropdownToggle]="false">
+                <button class="btn btn-primary dropdown-toggle" type="button" dropdown-open></button>
+                <ul class="dropdown-menu">
+                  <li *ngFor="let evt of evtGroup.values"><a href="#" (click)="goToEvent($event, evt)">{{evt.team}} ({{evt.start}}s-{{evt.end}}s)</a></li>
+                </ul>
+              </div>
+            </div>
+          </div>
+
         </div>
-    <div class="input-group-btn">
-      <div class="video-select-box">
-          <div class="dropdown" dropdown [dropdownToggle]="false">
-            <button class="btn btn-primary dropdown-toggle" type="button" dropdown-open>
-				</button>
-            <ul class="dropdown-menu">
-              <li *ngFor="let evt of evtGroup.values"><a href="#" (click)="goToEvent($event, evt)">{{evt.team}} ({{evt.start}}s-{{evt.end}}s)</a></li>
-            </ul>
-          </div>
-          </div>
-    </div>
-    
-  </div>
-</div>
+      </div>
 
       <!--
       <div class="video-select clearfix" *ngFor="let evtGroup of videoEvents" [ngClass]="{'active': checkIfCurrentTime(evtGroup)}">
@@ -342,5 +341,6 @@
 
     </div>
   </div>
-  
+
 </div>
+

@@ -76,6 +76,8 @@ export class ViewComponent implements OnInit {
   track: TextTrack;
   cuePointData: ICuePoint = null;
 
+  eventPlayQueue: any = [];
+
 
   @ViewChild('eventTimelineScrollbar') eventTimelineScrollbar;
 
@@ -179,8 +181,12 @@ export class ViewComponent implements OnInit {
         //console.log(this.api.getDefaultMedia().currentTime)
         this.currentVideoTime = this.api.getDefaultMedia().currentTime;
         //console.log(this.eventTimelineScrollbar);
-
+        this.playNextFromQueue(this.currentVideoTime);
         this.eventTimelineScrollbar.elementRef.nativeElement.childNodes[0].scrollLeft += 1;
+        if(document.getElementsByClassName("irs-slider")[0].offsetLeft > document.getElementsByClassName("ps--active-x")[0].offsetWidth/2){
+          document.getElementsByClassName("ps--active-x")[0].scrollLeft = document.getElementsByClassName("irs-slider")[0].offsetLeft - (document.getElementsByClassName("ps--active-x")[0].offsetWidth/2)
+        }
+        
       }
     );
 
@@ -214,8 +220,10 @@ export class ViewComponent implements OnInit {
     }
     return ret;
   }
+
   goToEvent(e, event) {
-    e.preventDefault();
+    if(e) e.preventDefault();
+    console.log("Goto event",event.start)
     this.api.getDefaultMedia().currentTime = event.start;
     this.api.play();
   }
@@ -251,5 +259,25 @@ export class ViewComponent implements OnInit {
 
   onExitCuePoint($event) {
     this.cuePointData = null;
+  }
+
+  fillQueue(group){
+    this.eventPlayQueue = JSON.parse(JSON.stringify(group.values));
+    console.log("Fill Queue", group);
+    this.playFromQueue();
+  }
+
+  playFromQueue(){
+    if(this.eventPlayQueue[0]){
+      console.log("PLAYING QUEUE ", this.eventPlayQueue[0]);
+      this.goToEvent(false, this.eventPlayQueue[0]);
+    }
+  }
+  
+  playNextFromQueue(time){
+    if(this.eventPlayQueue && this.eventPlayQueue.length>0 && time >= this.eventPlayQueue[0].end){
+      this.eventPlayQueue.shift();
+      this.playFromQueue();
+    }
   }
 }
