@@ -270,6 +270,10 @@
       <img src="assets/images/filter-circle.png" alt="Circle" class="pull-right">
     </h2>
 
+    <div class="clearfix settings">
+      <a *ngIf="video" [routerLink]="['/videos/settings', video._id]">Settings</a>
+    </div>
+    
     <div class="match-club  search clearfix form-inline">
       <div class="form-group">
         <label class="control-label" for="inputSuccess4"></label>
@@ -278,9 +282,7 @@
       </div>
     </div>
 
-    <div class="clearfix settings">
-      <a *ngIf="video" [routerLink]="['/videos/settings', video._id]">Settings</a>
-    </div>
+    
 
     <!--<div class="clearfix showing">
       <div>

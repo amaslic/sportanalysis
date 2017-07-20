@@ -212,7 +212,7 @@
 }
 
 .playlist ul {
-  max-height: 320px;
+  max-height: 550px;
   /*overflow: auto;*/
 }
 
@@ -411,7 +411,7 @@
 }
 
 .settings{
-  padding-top: 20px;
+  padding-bottom: 20px;
   text-align: center;
 }
 
