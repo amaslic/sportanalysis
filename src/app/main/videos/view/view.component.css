@@ -725,6 +725,9 @@
   .video-box{
     height: 550px;
   }
+  .playlist ul{
+    max-height: 330px;
+  }
 }
 
 @media screen and (max-width: 479px) {}
