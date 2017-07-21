@@ -267,12 +267,10 @@
   <div class="match-info filters col-xs-12">
     <h2 class="title">
       Filters
+      <span class="settings"><a *ngIf="video" [routerLink]="['/videos/settings', video._id]">Settings</a></span>
       <img src="assets/images/filter-circle.png" alt="Circle" class="pull-right">
     </h2>
 
-    <div class="clearfix settings">
-      <a *ngIf="video" [routerLink]="['/videos/settings', video._id]">Settings</a>
-    </div>
     
     <div class="match-club  search clearfix form-inline">
       <div class="form-group">
