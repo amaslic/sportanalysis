@@ -1,56 +1,56 @@
 <div class="content add-margin">
   <div class="container">
     <h3>{{video.title}}</h3>
-  
+
     <md-tab-group class="video-md-settings">
-        
-      <md-tab label="Video Details"> 
+
+      <md-tab label="Video Details">
         <perfect-scrollbar>
-        <form class="form-horizontal" id="video-metadata-form" #f="ngForm" (ngSubmit)="onSubmit(f)" novalidate [ngClass]="{'submited' : f._submitted}">
-          <div class="form-group">
-            <label class="control-label col-sm-2" for="title">Video Title:</label>
-            <div class="col-sm-10">
-              <input type="text" class="form-control" id="title" name="title" [ngModel]="video.title" placeholder="Enter Title">
+          <form class="form-horizontal" id="video-metadata-form" #f="ngForm" (ngSubmit)="onSubmit(f)" novalidate [ngClass]="{'submited' : f._submitted}">
+            <div class="form-group">
+              <label class="control-label col-sm-2" for="title">Video Title:</label>
+              <div class="col-sm-10">
+                <input type="text" class="form-control" id="title" name="title" [ngModel]="video.title" placeholder="Enter Title">
+              </div>
             </div>
-          </div>
-          <div class="form-group">
-            <label class="control-label col-sm-2" for="date">Date:</label>
-            <div class="col-sm-10">
-              <input [ngModel]="video.date" class="form-control" name="date" id="date" ngui-datetime-picker date-only="true" placeholder="Date of event"
-                required>
+            <div class="form-group">
+              <label class="control-label col-sm-2" for="date">Date:</label>
+              <div class="col-sm-10">
+                <input [ngModel]="video.date" class="form-control" name="date" id="date" ngui-datetime-picker date-only="true" placeholder="Date of event"
+                  required>
+              </div>
             </div>
-          </div>
-          <div class="form-group">
-            <label class="control-label col-sm-2" for="type">Type:</label>
-            <div class="col-sm-10" style="margin-top: 24px;">
-              <md-radio-group required [(ngModel)]="video.type" id="type" name="type">
-                <md-radio-button value="Match">Match</md-radio-button>
-                <md-radio-button value="Event">Event</md-radio-button>
-                <md-radio-button value="Training">Training</md-radio-button>
-              </md-radio-group>
+            <div class="form-group">
+              <label class="control-label col-sm-2" for="type">Type:</label>
+              <div class="col-sm-10" style="margin-top: 24px;">
+                <md-radio-group required [(ngModel)]="video.type" id="type" name="type">
+                  <md-radio-button value="Match">Match</md-radio-button>
+                  <md-radio-button value="Event">Event</md-radio-button>
+                  <md-radio-button value="Training">Training</md-radio-button>
+                </md-radio-group>
+              </div>
             </div>
-          </div>
-          <div class="form-group" *ngIf="video.type==='Match' || video.type==='Event'">
-            <label class="control-label col-sm-2" for="team1">Team 1:</label>
-            <div class="col-sm-10">
-              <input type="text" class="form-control" id="team1" name="team1" [ngModel]="video.team1" placeholder="Enter Name">
+            <div class="form-group" *ngIf="video.type==='Match' || video.type==='Event'">
+              <label class="control-label col-sm-2" for="team1">Team 1:</label>
+              <div class="col-sm-10">
+                <input type="text" class="form-control" id="team1" name="team1" [ngModel]="video.team1" placeholder="Enter Name">
+              </div>
             </div>
-          </div>
-          <div class="form-group" *ngIf="video.type==='Match'">
-            <label class="control-label col-sm-2" for="team2">Team 2:</label>
-            <div class="col-sm-10">
-              <input type="text" class="form-control" id="team2" name="team2" [ngModel]="video.team2" placeholder="Enter Name">
+            <div class="form-group" *ngIf="video.type==='Match'">
+              <label class="control-label col-sm-2" for="team2">Team 2:</label>
+              <div class="col-sm-10">
+                <input type="text" class="form-control" id="team2" name="team2" [ngModel]="video.team2" placeholder="Enter Name">
+              </div>
             </div>
-          </div>
-          <div class="form-group" style="padding-bottom: 30px;"> 
-            <div class="col-sm-offset-2 col-sm-10">
-              <button type="submit" class="btn btn-default btn-save">Save</button>
+            <div class="form-group" style="padding-bottom: 30px;">
+              <div class="col-sm-offset-2 col-sm-10">
+                <button type="submit" class="btn btn-default btn-save">Save</button>
+              </div>
             </div>
-          </div>
-        </form>
+          </form>
         </perfect-scrollbar>
       </md-tab>
-      
+
       <md-tab label="Tracking Data">
         <div class="row">
           <div class="col-md-8">
@@ -91,7 +91,7 @@
           </div>
         </div>
       </md-tab>
-       
+
     </md-tab-group>
-   
+
   </div>
