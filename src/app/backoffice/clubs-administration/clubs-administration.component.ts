@@ -87,7 +87,8 @@ export class ClubsAdministrationComponent implements OnInit {
 
   onApproveClubSuccess(response){
     console.log(response);
-     this.getActivatedClubs()
+     this.getActivatedClubs();
+     alert("Club Approved");
   }
 
   onSelectFile(e) {
