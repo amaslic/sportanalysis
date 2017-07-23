@@ -4,6 +4,8 @@ export class Video {
   public type: string;
   public date: string;
   public file: object;
+  public mimetype: string;
+  public path: string;
 
   constructor() {}
 }

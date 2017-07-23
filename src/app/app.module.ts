@@ -55,6 +55,7 @@ import { ProfileMainComponent } from './main/profile/profile-main/profile-main.c
 import { SearchPipe } from './pipes/search.pipe';
 import { NumberCollectionPipe } from './pipes/number-collection.pipe';
 import { ClubsAdministrationComponent } from './backoffice/clubs-administration/clubs-administration.component';
+import {ModalModule} from "ngx-modal";
 
 const PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {};
 
@@ -127,7 +128,8 @@ const appRoutes: Routes = [
     VgOverlayPlayModule,
     VgBufferingModule,
     NgxDatatableModule,
-    DropdownModule
+    DropdownModule,
+    ModalModule
   ],
   providers: [UserService, VideoService, TrackingDataService, AuthGuard, AdminGuard, ClubService],
   bootstrap: [AppComponent]

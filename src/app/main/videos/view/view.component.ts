@@ -52,6 +52,12 @@ export interface IWikiCue {
   href: string;
 }
 
+export interface IMedia {
+  title: string;
+  src: string;
+  type: string;
+}
+
 @Component({
   selector: 'app-view',
   templateUrl: './view.component.html',
@@ -112,14 +118,14 @@ export class ViewComponent implements OnInit {
               this.trackingJsonData.forEach((event, index) => {
                 let start = parseInt(event.start);
                 let end = start + 0.5;
-                if (  event.start !== "NaN" && 
-                      ( event.name === "Goal" || 
-                        event.name === "Kick Off" || 
-                        event.name === "Red Card" || 
-                        event.name === "Yellow Card" || 
-                        event.name === "Change"
-                      ) && 
-                      this.api.getDefaultMedia().duration > event.start) {
+                if (event.start !== "NaN" &&
+                  (event.name === "Goal" ||
+                    event.name === "Kick Off" ||
+                    event.name === "Red Card" ||
+                    event.name === "Yellow Card" ||
+                    event.name === "Change"
+                  ) &&
+                  this.api.getDefaultMedia().duration > event.start) {
                   this.track.addCue(
                     new VTTCue(start, end, JSON.stringify({
                       title: event.name
@@ -152,9 +158,27 @@ export class ViewComponent implements OnInit {
         (error) => this.onError(error)
       );
   }
-
+  playlist: Array < IMedia > ;
   onGetVideoSuccess(response) {
     this.video = JSON.parse(response._body);
+    this.playlist = [{
+        title: 'Intro Video',
+        src: 'assets/videos/intro.mp4',
+        type: 'video/mp4'
+      },
+      {
+        title: this.video.title,
+        src: this.baseVideoUrl + this.video.path,
+        type: this.video.mimetype
+      },
+      {
+        title: 'Outro Video',
+        src: 'assets/videos/outro.mp4',
+        type: 'video/mp4'
+      }
+    ];
+    this.currentItem= this.playlist[this.currentIndex];
+    
   }
 
   onError(error) {
@@ -163,16 +187,29 @@ export class ViewComponent implements OnInit {
     alert(errorBody.msg);
   }
 
+  currentIndex = 0;
+  currentItem: IMedia;
 
 
+ onClickPlaylistItem(item: IMedia, index: number) {
+        this.currentIndex = index;
+        this.currentItem = item;
+    }
   onPlayerReady(api: VgAPI) {
     this.api = api;
     this.track = this.api.textTracks[0];
+    console.log(api);
+    //this.api.getDefaultMedia().subscriptions.loadedMetadata.subscribe(this.playVideo.bind(this));
 
     this.api.getDefaultMedia().subscriptions.ended.subscribe(
       () => {
         // Set the video to the beginning
-        this.api.getDefaultMedia().currentTime = 0;
+        console.log("Ended");
+        //this.api.getDefaultMedia().currentTime = 0;
+        // this.api.pause();
+         this.nextVideo();
+
+       
       }
     );
 
@@ -181,26 +218,63 @@ export class ViewComponent implements OnInit {
         //console.log(this.api.getDefaultMedia().currentTime)
         this.currentVideoTime = this.api.getDefaultMedia().currentTime;
         //console.log(this.eventTimelineScrollbar);
-        this.playNextFromQueue(this.currentVideoTime);
-        this.eventTimelineScrollbar.elementRef.nativeElement.childNodes[0].scrollLeft += 1;
-        if(document.getElementsByClassName("irs-slider")[0].offsetLeft > document.getElementsByClassName("ps--active-x")[0].offsetWidth/2){
-          document.getElementsByClassName("ps--active-x")[0].scrollLeft = document.getElementsByClassName("irs-slider")[0].offsetLeft - (document.getElementsByClassName("ps--active-x")[0].offsetWidth/2)
+        if( this.eventTimelineScrollbar && document.getElementsByClassName("ps--active-x")[0]){
+          this.playNextFromQueue(this.currentVideoTime);
+          this.eventTimelineScrollbar.elementRef.nativeElement.childNodes[0].scrollLeft += 1;
+          if (document.getElementsByClassName("irs-slider")[0].offsetLeft > document.getElementsByClassName("ps--active-x")[0].offsetWidth / 2) {
+            document.getElementsByClassName("ps--active-x")[0].scrollLeft = document.getElementsByClassName("irs-slider")[0].offsetLeft - (document.getElementsByClassName("ps--active-x")[0].offsetWidth / 2)
+          }
         }
-        
+
       }
     );
 
     this.api.getDefaultMedia().subscriptions.loadedData.subscribe(
       () => {
-        this.videoDuration = this.api.getDefaultMedia().duration;
-        this.roundedDuration = parseInt(this.videoDuration);
-        this.fancyVideoDuration = this.fancyTimeFormat(this.videoDuration);
-        console.log(this.videoDuration);
-        console.log(this.fancyVideoDuration);
+        console.log("Loaded data");
+        
+       // if (this.currentIndex == 1) {
+          this.videoDuration = this.api.getDefaultMedia().duration;
+          this.roundedDuration = parseInt(this.videoDuration);
+          this.fancyVideoDuration = this.fancyTimeFormat(this.videoDuration);
+          console.log(this.videoDuration);
+          console.log(this.fancyVideoDuration);
 
-        this.getVideoTrackingDataItems(this.videoId);
+          this.getVideoTrackingDataItems(this.videoId);
+          
+        
+        //}
+        if(this.currentIndex <= 2){
+           this.playVideo();
+        }
+   
       }
     );
+  }
+
+  nextVideo() {
+    console.log("Next video");
+    this.currentIndex++;
+    //setTimeout(function () {
+      if (this.currentIndex === this.playlist.length) {
+        this.currentIndex = 0;
+        this.currentItem = this.playlist[this.currentIndex];
+      } else {
+        this.currentItem = this.playlist[this.currentIndex];
+
+        //this.playVideo();
+
+
+      }
+
+    //}.bind(this), 500)
+    console.log(this.currentItem);
+
+  }
+
+
+  playVideo() {
+     this.api.play();
   }
 
   checkIfCurrentTime(evtGroup) {
@@ -222,8 +296,8 @@ export class ViewComponent implements OnInit {
   }
 
   goToEvent(e, event) {
-    if(e) e.preventDefault();
-    console.log("Goto event",event.start)
+    if (e) e.preventDefault();
+    console.log("Goto event", event.start)
     this.api.getDefaultMedia().currentTime = event.start;
     this.api.play();
   }
@@ -261,21 +335,21 @@ export class ViewComponent implements OnInit {
     this.cuePointData = null;
   }
 
-  fillQueue(group){
+  fillQueue(group) {
     this.eventPlayQueue = JSON.parse(JSON.stringify(group.values));
     console.log("Fill Queue", group);
     this.playFromQueue();
   }
 
-  playFromQueue(){
-    if(this.eventPlayQueue[0]){
+  playFromQueue() {
+    if (this.eventPlayQueue[0]) {
       console.log("PLAYING QUEUE ", this.eventPlayQueue[0]);
       this.goToEvent(false, this.eventPlayQueue[0]);
     }
   }
-  
-  playNextFromQueue(time){
-    if(this.eventPlayQueue && this.eventPlayQueue.length>0 && time >= this.eventPlayQueue[0].end){
+
+  playNextFromQueue(time) {
+    if (this.eventPlayQueue && this.eventPlayQueue.length > 0 && time >= this.eventPlayQueue[0].end) {
       this.eventPlayQueue.shift();
       this.playFromQueue();
     }

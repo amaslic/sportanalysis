@@ -1,4 +1,12 @@
-<p>
-  home works! <span class="icon icon-upload icon-2x"></span>
-</p>
-
+    <button (click)="firstModal.open()">modal with custom header content and footer</button>
+    <modal #firstModal>
+        <modal-header>
+            <h1>I am first modal</h1>
+        </modal-header>
+        <modal-content>
+            This modal has its own header, content and footer.
+        </modal-content>
+        <modal-footer>
+            <button class="btn btn-primary" (click)="firstModal.close()">okay!</button>
+        </modal-footer>
+    </modal>

@@ -56,13 +56,20 @@
   </div>
 </div>-->
 <!--timeline -->
+<!-- <ul>
+    <li *ngFor="let item of playlist; let $index = index"
+        (click)="onClickPlaylistItem(item, $index)"
+        [class.selected]="item === currentItem">
+        {{ item.title }}
+    </li>
+</ul> -->
 <div class="main-content">
   <div class="video-box">
-    <vg-player *ngIf="video" (onPlayerReady)="onPlayerReady($event)">
+    <vg-player *ngIf="video && playlist" (onPlayerReady)="onPlayerReady($event)">
       <vg-overlay-play></vg-overlay-play>
       <vg-buffering></vg-buffering>
 
-      <vg-scrub-bar>
+      <vg-scrub-bar  *ngIf="currentIndex===1">
         <vg-scrub-bar-current-time></vg-scrub-bar-current-time>
         <vg-scrub-bar-buffering-time></vg-scrub-bar-buffering-time>
         <vg-scrub-bar-cue-points class="customCuePoints" [vgCuePoints]="metadataTrack.cues" [vgFor]="sportanalysis-video"></vg-scrub-bar-cue-points>
@@ -74,7 +81,7 @@
 
         <vg-time-display vgProperty="current" vgFormat="mm:ss"></vg-time-display>
 
-        <vg-scrub-bar style="pointer-events: none;"></vg-scrub-bar>
+        <vg-scrub-bar></vg-scrub-bar>
 
         <vg-time-display vgProperty="left" vgFormat="mm:ss"></vg-time-display>
         <vg-time-display vgProperty="total" vgFormat="mm:ss"></vg-time-display>
@@ -86,14 +93,14 @@
         <vg-fullscreen></vg-fullscreen>
       </vg-controls>
 
-      <video [vgMedia]="media" #media id="sportanalysis-video" preload="auto" crossorigin>
-        <source [src]="baseVideoUrl + video.path" [type]="video.mimetype">
-        <track src="assets/data/cue-points.vtt" kind="metadata" label="Cue Points" default #metadataTrack vgCuePoints (onEnterCuePoint)="onEnterCuePoint($event)"
+      <video [vgMedia]="media" #media id="sportanalysis-video" preload="auto" crossorigin [src]="currentItem.src">
+        <!-- <source [src]="currentItem.src" [type]="currentItem.type"> -->
+        <track  src="assets/data/cue-points.vtt" kind="metadata" label="Cue Points" default #metadataTrack vgCuePoints (onEnterCuePoint)="onEnterCuePoint($event)"
           (onExitCuePoint)="onExitCuePoint($event)">
       </video>
     </vg-player>
   </div>
-  <div class="video-timeline">
+  <div class="video-timeline" *ngIf="currentIndex===1">
     <div class="clearfix">
 
     </div>
@@ -118,7 +125,7 @@
       </div>
     </div>
   </div>
-  <div class="scroll-time">
+  <div class="scroll-time" *ngIf="currentIndex===1">
     <div class="timeline-left">
       <div class="video-select-box clock">
 
