@@ -91,3 +91,29 @@ vg-scrub-bar-cue-points.customCuePoints .cue-point-container .cue-point::before 
     left: -4px;
     top: -11px;
 }
+
+.modal-header, .modal-footer{
+  border: 0;
+}
+
+.modal-header .close{
+  position: absolute;
+  right: 10px;
+}
+
+.modal-header .close span{
+  color: #767d9a; 
+}
+
+
+.modal-body p{
+  text-align: center;
+  color: #009cff;
+  font-size: 32px;
+}
+
+.error-modal .modal-body p{
+  text-align: center;
+  color: #767d9a;
+  font-size: 32px;
+}
