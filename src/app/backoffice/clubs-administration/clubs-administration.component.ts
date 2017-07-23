@@ -11,6 +11,9 @@ import {
 import {
   UserService
 } from './../../services/user.service';
+import {
+  GlobalVariables
+} from './../../models/global.model';
 @Component({
   selector: 'app-clubs-administration',
   templateUrl: './clubs-administration.component.html',
@@ -18,9 +21,11 @@ import {
 })
 export class ClubsAdministrationComponent implements OnInit {
 
+  private baseUrl = GlobalVariables.BASE_VIDEO_URL;
   clubList: Club[] = [];
   loadingIndicator: boolean = true;
   reorderable: boolean = true;
+  activatedClubList: Club[] = [];
 
   // columns = [
   //   { prop: 'ClubName' }
@@ -30,6 +35,7 @@ export class ClubsAdministrationComponent implements OnInit {
 
   ngOnInit() {
     this.getClubs();
+    this.getActivatedClubs();
   }
 
   getClubs() {
@@ -80,7 +86,8 @@ export class ClubsAdministrationComponent implements OnInit {
   }
 
   onApproveClubSuccess(response){
-    console.log(response)
+    console.log(response);
+     this.getActivatedClubs()
   }
 
   onSelectFile(e) {
@@ -94,5 +101,17 @@ export class ClubsAdministrationComponent implements OnInit {
       };
     }
     e.target.files = null;
+  }
+   
+  getActivatedClubs() {
+    this.clubService.getActivatedClubs(this.userService.token).subscribe(
+      (response) => this.onGetActivatedClubsSuccess(response),
+      (error) => this.onError(error)
+    );
+  }
+
+  onGetActivatedClubsSuccess(response){
+    this.activatedClubList = JSON.parse(response._body);
+    console.log(this.activatedClubList);
   }
 }

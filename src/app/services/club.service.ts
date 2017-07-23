@@ -61,4 +61,15 @@ export class ClubService {
       this.progressSubject.next(progress.percentage);
     }).post(this.baseApiUrl + 'club/activate', form, options);
   }
+
+
+   getActivatedClubs(token: String) {
+    const headers = new Headers({
+      'Authorization': token
+    });
+    const options = new RequestOptions({
+      headers: headers
+    });
+    return this.http.get(this.baseApiUrl + 'club/fetchAllActivated', options);
+  }
 }
