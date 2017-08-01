@@ -359,6 +359,7 @@ export class ViewComponent implements OnInit {
   timelineClicked(event, container){
     let percentange = (event.layerX-20)/container.width*100;     //17seconds for offset fix
     let currentTime = this.roundedDuration/100*percentange;
+    console.log("Timeline Clicked", currentTime);
     this.api.getDefaultMedia().currentTime = currentTime;
   }
 }
