@@ -104,7 +104,7 @@
           </div>
         </div>
 
-        <div class="box-container" style="width:100%">
+        <div class="box-container" style="width:100%" (click)="timelineClicked($event, timelineContainer.getBoundingClientRect())" #timelineContainer>
           <perfect-scrollbar class="perfect-scrollbar-timeline">
             <div class="video-select clearfix" style="width:100%" *ngFor="let evtGroup of videoEvents" [ngClass]="{'active': checkIfCurrentTime(evtGroup)}">
               <!-- timeline preview -->

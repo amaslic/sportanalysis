@@ -356,7 +356,9 @@ export class ViewComponent implements OnInit {
     }
   }
 
-  calculateDurationOnTimelune(event){
-
+  timelineClicked(event, container){
+    let percentange = (event.layerX-20)/container.width*100;     //17seconds for offset fix
+    let currentTime = this.roundedDuration/100*percentange;
+    this.api.getDefaultMedia().currentTime = currentTime;
   }
 }
