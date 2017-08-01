@@ -4,7 +4,7 @@
       <vg-overlay-play></vg-overlay-play>
       <vg-buffering></vg-buffering>
 
-      <vg-scrub-bar  *ngIf="currentIndex===1">
+      <vg-scrub-bar *ngIf="currentIndex===1">
         <vg-scrub-bar-current-time></vg-scrub-bar-current-time>
         <vg-scrub-bar-buffering-time></vg-scrub-bar-buffering-time>
         <vg-scrub-bar-cue-points class="customCuePoints" [vgCuePoints]="metadataTrack.cues" [vgFor]="sportanalysis-video"></vg-scrub-bar-cue-points>
@@ -30,7 +30,7 @@
 
       <video [vgMedia]="media" #media id="sportanalysis-video" preload="auto" crossorigin [src]="currentItem.src">
         <!-- <source [src]="currentItem.src" [type]="currentItem.type"> -->
-        <track  src="assets/data/cue-points.vtt" kind="metadata" label="Cue Points" default #metadataTrack vgCuePoints (onEnterCuePoint)="onEnterCuePoint($event)"
+        <track src="assets/data/cue-points.vtt" kind="metadata" label="Cue Points" default #metadataTrack vgCuePoints (onEnterCuePoint)="onEnterCuePoint($event)"
           (onExitCuePoint)="onExitCuePoint($event)">
       </video>
     </vg-player>
@@ -89,34 +89,28 @@
         </div>
       </div>
     </div>
-
-
-
-
     <div class="timeline-right">
       <perfect-scrollbar #eventTimelineScrollbar>
         <div class="clearfix">
           <div class="unvisible-scroll">
-            <div class="video-select-timeline time" [style.width]="(roundedDuration*10) +'px'">
-
-              <div class="timeline-time" [style.left]="10*sec+'px'" *ngFor="let sec of roundedDuration | numberCollection">
-                <span *ngIf="sec%10===0 && sec!==0">{{sec}}sec</span>
+            <!-- <div class="video-select-timeline time" [style.width]="(roundedDuration*10) +'px'"> -->
+            <div class="video-select-timeline time">
+              <div class="timeline-time" [style.left]="sec+'%'" *ngFor="let sec of 100 | numberCollection">
+                <span *ngIf="sec%20===0 && sec!==0 && sec!==100">{{sec*roundedDuration/100}}sec</span>
               </div>
-
-
               <ion-range-slider class="range-slider" type="single" min="0" max="{{roundedDuration*100}}" from="{{currentVideoTime*100}}"
                 from_min="0" from_max="{{roundedDuration*100}}" step="0.0001" (onChange)="onChangeTimelineSlider($event)"></ion-range-slider>
             </div>
           </div>
         </div>
 
-        <div class="box-container" [style.width]="(roundedDuration*10) +'px'">
+        <div class="box-container" style="width:100%">
           <perfect-scrollbar class="perfect-scrollbar-timeline">
-            <div class="video-select clearfix" [style.width]="(roundedDuration*10) +'px'" *ngFor="let evtGroup of videoEvents" [ngClass]="{'active': checkIfCurrentTime(evtGroup)}">
+            <div class="video-select clearfix" style="width:100%" *ngFor="let evtGroup of videoEvents" [ngClass]="{'active': checkIfCurrentTime(evtGroup)}">
               <!-- timeline preview -->
-              <div class="video-select-timeline" [style.width]="(roundedDuration*10) +'px'">
-                <div *ngFor="let evt of evtGroup.values" class="video-line" [ngClass]="{'active': checkIfCurrentEvent(evt)}" [style.left]="evt.start*10 + 'px'"
-                  [style.width]="evt.duration*10+'px'"></div>
+              <div class="video-select-timeline" style="width:100%">
+                <div *ngFor="let evt of evtGroup.values" class="video-line" [ngClass]="{'active': checkIfCurrentEvent(evt)}" [style.left]="evt.start/roundedDuration*100 + '%'"
+                  [style.width]="evt.duration/roundedDuration*100+'%'"></div>
               </div>
               <!-- end of timeline preview -->
             </div>
@@ -138,7 +132,7 @@
       <img src="assets/images/filter-circle.png" alt="Circle" class="pull-right">
     </h2>
 
-    
+
     <div class="match-club  search clearfix form-inline">
       <div class="form-group">
         <label class="control-label" for="inputSuccess4"></label>
@@ -179,4 +173,3 @@
   </div>
 
 </div>
-

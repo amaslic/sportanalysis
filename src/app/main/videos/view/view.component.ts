@@ -136,7 +136,7 @@ export class ViewComponent implements OnInit {
 
 
 
-              let greenLineHeight = this.videoEvents.length * 30 + 45;
+              let greenLineHeight = this.videoEvents.length * 30 + 60;
               document.styleSheets[0].addRule('.range-slider /deep/ .irs-slider.single::after', 'height: ' + greenLineHeight + 'px !important');
               //console.log(document.styleSheets[0])
               //console.log(this.trackingJsonData);
@@ -218,13 +218,13 @@ export class ViewComponent implements OnInit {
         //console.log(this.api.getDefaultMedia().currentTime)
         this.currentVideoTime = this.api.getDefaultMedia().currentTime;
         //console.log(this.eventTimelineScrollbar);
-        if( this.eventTimelineScrollbar && document.getElementsByClassName("ps--active-x")[0]){
-          this.playNextFromQueue(this.currentVideoTime);
-          this.eventTimelineScrollbar.elementRef.nativeElement.childNodes[0].scrollLeft += 1;
-          if (document.getElementsByClassName("irs-slider")[0].offsetLeft > document.getElementsByClassName("ps--active-x")[0].offsetWidth / 2) {
-            document.getElementsByClassName("ps--active-x")[0].scrollLeft = document.getElementsByClassName("irs-slider")[0].offsetLeft - (document.getElementsByClassName("ps--active-x")[0].offsetWidth / 2)
-          }
-        }
+        // if( this.eventTimelineScrollbar && document.getElementsByClassName("ps--active-x")[0]){
+        //   this.playNextFromQueue(this.currentVideoTime);
+        //   this.eventTimelineScrollbar.elementRef.nativeElement.childNodes[0].scrollLeft += 1;
+        //   if (document.getElementsByClassName("irs-slider")[0].offsetLeft > document.getElementsByClassName("ps--active-x")[0].offsetWidth / 2) {
+        //     document.getElementsByClassName("ps--active-x")[0].scrollLeft = document.getElementsByClassName("irs-slider")[0].offsetLeft - (document.getElementsByClassName("ps--active-x")[0].offsetWidth / 2)
+        //   }
+        // }
 
       }
     );
@@ -353,5 +353,9 @@ export class ViewComponent implements OnInit {
       this.eventPlayQueue.shift();
       this.playFromQueue();
     }
+  }
+
+  calculateDurationOnTimelune(event){
+
   }
 }

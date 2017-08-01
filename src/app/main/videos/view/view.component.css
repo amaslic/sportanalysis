@@ -550,7 +550,7 @@
 }
 
 .unvisible-scroll {
-  max-width: calc(100% - 140px);
+  /* max-width: calc(100% - 140px); */
   width: 100%;
   /*overflow: hidden;
     height: 50px;*/
@@ -601,7 +601,7 @@
   cursor: pointer;
   top: 10px;
   border-radius: 50px;
-  margin-left: -6px;
+  margin-left: -8px;
 }
 
 .range-slider /deep/ .irs-slider.single::after {
