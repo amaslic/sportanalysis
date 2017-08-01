@@ -217,6 +217,7 @@ export class ViewComponent implements OnInit {
       () => {
         //console.log(this.api.getDefaultMedia().currentTime)
         this.currentVideoTime = this.api.getDefaultMedia().currentTime;
+        this.playNextFromQueue(this.currentVideoTime);
         //console.log(this.eventTimelineScrollbar);
         // if( this.eventTimelineScrollbar && document.getElementsByClassName("ps--active-x")[0]){
         //   this.playNextFromQueue(this.currentVideoTime);
