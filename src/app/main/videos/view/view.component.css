@@ -601,7 +601,7 @@
   cursor: pointer;
   top: 10px;
   border-radius: 50px;
-  margin-left: -8px;
+  /* margin-left: -8px; */
 }
 
 .range-slider /deep/ .irs-slider.single::after {
