@@ -96,7 +96,7 @@
             <!-- <div class="video-select-timeline time" [style.width]="(roundedDuration*10) +'px'"> -->
             <div class="video-select-timeline time">
               <div class="timeline-time" [style.left]="sec+'%'" *ngFor="let sec of 100 | numberCollection">
-                <span *ngIf="sec%20===0 && sec!==0 && sec!==100">{{sec*roundedDuration/100}}sec</span>
+                <span *ngIf="sec%20===0 && sec!==0 && sec!==100">{{fancyTimeFormat(sec*roundedDuration/100)}}</span>
               </div>
               <ion-range-slider class="range-slider" type="single" min="0" max="{{roundedDuration*100}}" from="{{currentVideoTime*100}}"
                 from_min="0" from_max="{{roundedDuration*100}}" step="0.0001" (onChange)="onChangeTimelineSlider($event)"></ion-range-slider>
@@ -159,8 +159,8 @@
                   <img src="assets/images/camera.png" alt="Camera">
                 </div>
                 <div class="message-list-content">
-                  <h4>{{event.name}} [{{event.team}}] | {{event.start}}s</h4>
-                  <p>Friday, 9 June 2017</p>
+                  <h4>{{event.name}} [{{event.team}}] | {{fancyTimeFormat(event.start)}}</h4>
+                  <!-- <p>Friday, 9 June 2017</p> -->
                   <div class="dots"><img src="assets/images/more.png"></div>
                 </div>
               </a>
