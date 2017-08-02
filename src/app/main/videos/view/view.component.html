@@ -90,7 +90,7 @@
       </div>
     </div>
     <div class="timeline-right" (click)="timelineClicked($event, timelineContainer.getBoundingClientRect())" #timelineContainer>
-      <perfect-scrollbar #eventTimelineScrollbar>
+       <!-- <perfect-scrollbar #eventTimelineScrollbar>  -->
         <div class="clearfix">
           <div class="unvisible-scroll">
             <!-- <div class="video-select-timeline time" [style.width]="(roundedDuration*10) +'px'"> -->
@@ -105,19 +105,19 @@
         </div>
 
         <div class="box-container" style="width:100%" >
-          <perfect-scrollbar class="perfect-scrollbar-timeline">
+          <!-- <perfect-scrollbar class="perfect-scrollbar-timeline"> -->
             <div class="video-select clearfix" style="width:100%" *ngFor="let evtGroup of videoEvents" [ngClass]="{'active': checkIfCurrentTime(evtGroup)}">
               <!-- timeline preview -->
               <div class="video-select-timeline" style="width:100%">
-                <div *ngFor="let evt of evtGroup.values" class="video-line" [ngClass]="{'active': checkIfCurrentEvent(evt)}" [style.left]="evt.start/roundedDuration*100 + '%'"
+                <div *ngFor="let evt of evtGroup.values" class="video-line" (click)="goToEvent($event, evt)" [ngClass]="{'active': checkIfCurrentEvent(evt)}" [style.left]="evt.start/roundedDuration*100 + '%'"
                   [style.width]="evt.duration/roundedDuration*100+'%'"></div>
               </div>
               <!-- end of timeline preview -->
             </div>
-          </perfect-scrollbar>
+          <!-- </perfect-scrollbar> -->
         </div>
 
-      </perfect-scrollbar>
+      <!-- </perfect-scrollbar> -->
     </div>
   </div>
   <div *ngIf="cuePointData?.title" class="info-layer">

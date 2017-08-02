@@ -85,7 +85,7 @@ export class ViewComponent implements OnInit {
   eventPlayQueue: any = [];
 
 
-  @ViewChild('eventTimelineScrollbar') eventTimelineScrollbar;
+  //@ViewChild('eventTimelineScrollbar') eventTimelineScrollbar;
 
   constructor(private route: ActivatedRoute, private videoService: VideoService, private userService: UserService, private trackingDataService: TrackingDataService) {}
 
@@ -297,7 +297,10 @@ export class ViewComponent implements OnInit {
   }
 
   goToEvent(e, event) {
-    if (e) e.preventDefault();
+    if (e){
+      e.preventDefault();
+      e.stopPropagation();
+    } 
     console.log("Goto event", event.start)
     this.api.getDefaultMedia().currentTime = event.start;
     this.api.play();
