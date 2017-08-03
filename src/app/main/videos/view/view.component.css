@@ -510,6 +510,7 @@
 
 .stats ul li .message-list-content {
   border-bottom: 1px solid #ccc;
+  padding-bottom:4px;
 }
 
 .stats a {
@@ -799,4 +800,8 @@
   .video-box {
     height: 360px;
   }
+}
+
+a.playlist-info:hover .message-list-content h4{
+  color:#009cff
 }
