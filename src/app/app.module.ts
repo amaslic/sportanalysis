@@ -5,14 +5,14 @@ import { HttpModule } from '@angular/http';
 import { Routes, RouterModule } from '@angular/router';
 import { LocalStorageModule } from 'angular-2-local-storage';
 import { ProgressHttpModule } from 'angular-progress-http';
-import { VgCoreModule } from 'videogular2/core';
-import { VgControlsModule } from 'videogular2/controls';
-import { VgOverlayPlayModule } from 'videogular2/overlay-play';
-import { VgBufferingModule } from 'videogular2/buffering';
+import {VgCoreModule} from 'videogular2/core';
+import {VgControlsModule} from 'videogular2/controls';
+import {VgOverlayPlayModule} from 'videogular2/overlay-play';
+import {VgBufferingModule} from 'videogular2/buffering';
 import { NgxDatatableModule } from '@swimlane/ngx-datatable';
 
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { MdButtonModule, MdCheckboxModule, MdRadioModule, MdTabsModule } from '@angular/material';
+import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
+import {MdButtonModule, MdCheckboxModule, MdRadioModule, MdTabsModule} from '@angular/material';
 
 import { IonRangeSliderComponent } from "ng2-ion-range-slider";
 
@@ -53,39 +53,33 @@ import { OrderByPipe } from './pipes/order-by.pipe';
 import { ProfileComponent } from './main/profile/profile.component';
 import { ProfileMainComponent } from './main/profile/profile-main/profile-main.component';
 import { SearchPipe } from './pipes/search.pipe';
-import { SearchEventPipe } from './pipes/searchEvent.pipe'
 import { NumberCollectionPipe } from './pipes/number-collection.pipe';
 import { ClubsAdministrationComponent } from './backoffice/clubs-administration/clubs-administration.component';
-import { ModalModule } from "ngx-modal";
-import { MultiselectDropdownModule } from 'angular-2-dropdown-multiselect';
+import {ModalModule} from "ngx-modal";
 
 const PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {};
 
 const appRoutes: Routes = [
-  { path: 'auth', component: LoginRegisterComponent },
-  { path: 'auth/:type', component: LoginRegisterComponent },
-  {
-    path: '', component: MainComponent, canActivate: [AuthGuard], children: [
-      { path: 'home', component: HomeComponent },
-      { path: 'team', component: TeamComponent },
-      { path: 'matches', component: MatchesComponent },
-      { path: 'videos', component: VideosComponent },
-      { path: 'videos/upload', component: UploadComponent },
-      { path: 'videos/view/:id', component: ViewComponent },
-      { path: 'videos/settings/:id', component: VideoSettingsComponent },
-      { path: 'playlist', component: PlaylistComponent },
-      { path: 'help', component: HelpComponent },
-      { path: 'profile/main', component: ProfileComponent },
-      { path: '*', component: HomeComponent }
-    ]
-  },
-  {
-    path: 'backoffice', component: BackofficeComponent, canActivate: [AdminGuard], children: [
-      { path: 'users', component: UsersComponent },
-      { path: 'clubs', component: ClubsAdministrationComponent },
-      { path: '*', component: UsersComponent }
-    ]
-  },
+  { path: 'auth', component: LoginRegisterComponent},
+  { path: 'auth/:type', component: LoginRegisterComponent},
+  { path: '', component: MainComponent, canActivate: [AuthGuard], children: [
+      {path: 'home', component: HomeComponent},
+      {path: 'team', component: TeamComponent},
+      {path: 'matches', component: MatchesComponent},
+      {path: 'videos', component: VideosComponent},
+      {path: 'videos/upload', component: UploadComponent},
+      {path: 'videos/view/:id', component: ViewComponent},
+      {path: 'videos/settings/:id', component: VideoSettingsComponent},
+      {path: 'playlist', component: PlaylistComponent},
+      {path: 'help', component: HelpComponent},
+      {path: 'profile/main', component: ProfileComponent},
+      {path: '*', component: HomeComponent}
+  ]},
+  { path: 'backoffice', component: BackofficeComponent, canActivate:[AdminGuard], children:[
+      {path: 'users', component: UsersComponent},
+      {path: 'clubs', component: ClubsAdministrationComponent},
+      {path: '*', component: UsersComponent}
+  ]},
   { path: "*", redirectTo: 'home' }
 ];
 
@@ -113,7 +107,6 @@ const appRoutes: Routes = [
     ProfileMainComponent,
     IonRangeSliderComponent,
     SearchPipe,
-    SearchEventPipe,
     NumberCollectionPipe,
     ClubsAdministrationComponent
   ],
@@ -136,8 +129,7 @@ const appRoutes: Routes = [
     VgBufferingModule,
     NgxDatatableModule,
     DropdownModule,
-    ModalModule,
-    MultiselectDropdownModule
+    ModalModule
   ],
   providers: [UserService, VideoService, TrackingDataService, AuthGuard, AdminGuard, ClubService],
   bootstrap: [AppComponent]

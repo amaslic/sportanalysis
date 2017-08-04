@@ -32,7 +32,6 @@ import {
   PerfectScrollbarDirective,
   PerfectScrollbarConfigInterface
 } from 'ngx-perfect-scrollbar';
-import { IMultiSelectOption, IMultiSelectSettings, IMultiSelectTexts } from 'angular-2-dropdown-multiselect';
 
 declare var document: any;
 declare var VTTCue;
@@ -72,10 +71,6 @@ export class ViewComponent implements OnInit {
   trackingJsonData: any[];
   videoTrackingData: any = [];
   videoEvents: any = [];
-  trackEvent: any = [];
-  trackTeam: any = [];
-  trackTeamCheck: any = [];
-  trackEventCheck: any = [];
   api: VgAPI;
   video: Video;
   showEventsIngGroup: any;
@@ -89,66 +84,16 @@ export class ViewComponent implements OnInit {
 
   eventPlayQueue: any = [];
 
-  optionsModel: any[];
-  myOptions: IMultiSelectOption[];
-
-  optionsModel1: any[];
-  myOptions1: IMultiSelectOption[];
-  searchArray: any = [];
-
-  teamSettings: IMultiSelectSettings = {
-    enableSearch: false,
-    checkedStyle: 'fontawesome',
-    containerClasses: 'no-button-arrow',
-    buttonClasses: 'btn btn-default btn-block',
-    dynamicTitleMaxItems: 2,
-    displayAllSelectedText: true
-  };
-  eventSettings: IMultiSelectSettings = {
-    enableSearch: false,
-    checkedStyle: 'fontawesome',
-    containerClasses: 'no-button-arrow',
-    buttonClasses: 'btn btn-default btn-block',
-    dynamicTitleMaxItems: 2,
-    displayAllSelectedText: true
-  };
-
-  // Text configuration
-  teamTexts: IMultiSelectTexts = {
-    checkAll: 'Select all',
-    uncheckAll: 'Unselect all',
-    checked: 'Team selected',
-    checkedPlural: 'Teams selected',
-    searchPlaceholder: 'Find',
-    defaultTitle: '  By Team  ',
-    allSelected: 'All Team ',
-  };
-  eventTexts: IMultiSelectTexts = {
-    checkAll: 'Select all',
-    uncheckAll: 'Unselect all',
-    checked: 'Event selected',
-    checkedPlural: 'Event selected',
-    searchPlaceholder: 'Find',
-    defaultTitle: '  By Event  ',
-    allSelected: 'All Event',
-  };
-
 
   //@ViewChild('eventTimelineScrollbar') eventTimelineScrollbar;
 
-  constructor(private route: ActivatedRoute, private videoService: VideoService, private userService: UserService, private trackingDataService: TrackingDataService) { }
+  constructor(private route: ActivatedRoute, private videoService: VideoService, private userService: UserService, private trackingDataService: TrackingDataService) {}
 
   ngOnInit() {
     this.sub = this.route.params.subscribe(params => {
       this.videoId = params['id'];
       this.getVideo(this.videoId);
     });
-
-
-  }
-  onChange() {
-    // alert('hello');
-    this.searchArray = this.optionsModel.concat(this.optionsModel1);
   }
 
   getVideoTrackingDataItems(id: String) {
@@ -164,32 +109,13 @@ export class ViewComponent implements OnInit {
     if (!this.videoTrackingData[0]) return false;
     this.trackingDataService.getXmlFile(this.videoTrackingData[0]).subscribe(
       (response: any) => {
+        //console.log(response);
         this.trackingDataService.parseXML(response._body).then(
           (response: any) => {
-            console.log('parseXML response', response);
             if (response.recording) {
               this.videoEvents = this.trackingDataService.groupEvents(response.recording.annotations.annotation, this.api.getDefaultMedia().duration);
               this.trackingJsonData = response.recording.annotations.annotation;
-
               this.trackingJsonData.forEach((event, index) => {
-                if (event.start !== "NaN") {
-                  if (this.trackEventCheck.indexOf(event.name) == -1) {
-                    this.trackEventCheck.push(event.name);
-                    this.trackEvent.push({
-                      'id': event.name,
-                      'name': event.name
-                    });
-                  }
-                  if (this.trackTeamCheck.indexOf(event.team) == -1) {
-                    this.trackTeamCheck.push(event.team);
-                    this.trackTeam.push({
-                      'id': event.team,
-                      'name': event.team
-                    });
-
-                  }
-                }
-
                 let start = parseInt(event.start);
                 let end = start + 0.5;
                 if (event.start !== "NaN" &&
@@ -207,10 +133,7 @@ export class ViewComponent implements OnInit {
                   );
                 }
               });
-              // console.info('Event', this.trackEvent);
-              this.myOptions = this.trackTeam;
-              this.myOptions1 = this.trackEvent;
-              // console.info('Team', this.trackTeam);
+
 
 
               let greenLineHeight = this.videoEvents.length * 30 + 60;
@@ -231,31 +154,31 @@ export class ViewComponent implements OnInit {
   getVideo(id) {
     this.videoService.getVideoById(id, this.userService.token)
       .subscribe(
-      (response) => this.onGetVideoSuccess(response),
-      (error) => this.onError(error)
+        (response) => this.onGetVideoSuccess(response),
+        (error) => this.onError(error)
       );
   }
-  playlist: Array<IMedia>;
+  playlist: Array < IMedia > ;
   onGetVideoSuccess(response) {
     this.video = JSON.parse(response._body);
     this.playlist = [{
-      title: 'Intro Video',
-      src: 'assets/videos/intro.mp4',
-      type: 'video/mp4'
-    },
-    {
-      title: this.video.title,
-      src: this.baseVideoUrl + this.video.path,
-      type: this.video.mimetype
-    },
-    {
-      title: 'Outro Video',
-      src: 'assets/videos/outro.mp4',
-      type: 'video/mp4'
-    }
+        title: 'Intro Video',
+        src: 'assets/videos/intro.mp4',
+        type: 'video/mp4'
+      },
+      {
+        title: this.video.title,
+        src: this.baseVideoUrl + this.video.path,
+        type: this.video.mimetype
+      },
+      {
+        title: 'Outro Video',
+        src: 'assets/videos/outro.mp4',
+        type: 'video/mp4'
+      }
     ];
-    this.currentItem = this.playlist[this.currentIndex];
-
+    this.currentItem= this.playlist[this.currentIndex];
+    
   }
 
   onError(error) {
@@ -268,10 +191,10 @@ export class ViewComponent implements OnInit {
   currentItem: IMedia;
 
 
-  onClickPlaylistItem(item: IMedia, index: number) {
-    this.currentIndex = index;
-    this.currentItem = item;
-  }
+ onClickPlaylistItem(item: IMedia, index: number) {
+        this.currentIndex = index;
+        this.currentItem = item;
+    }
   onPlayerReady(api: VgAPI) {
     this.api = api;
     this.track = this.api.textTracks[0];
@@ -284,9 +207,9 @@ export class ViewComponent implements OnInit {
         console.log("Ended");
         //this.api.getDefaultMedia().currentTime = 0;
         // this.api.pause();
-        this.nextVideo();
+         this.nextVideo();
 
-
+       
       }
     );
 
@@ -310,22 +233,22 @@ export class ViewComponent implements OnInit {
     this.api.getDefaultMedia().subscriptions.loadedData.subscribe(
       () => {
         console.log("Loaded data");
+        
+       // if (this.currentIndex == 1) {
+          this.videoDuration = this.api.getDefaultMedia().duration;
+          this.roundedDuration = parseInt(this.videoDuration);
+          this.fancyVideoDuration = this.fancyTimeFormat(this.videoDuration);
+          console.log(this.videoDuration);
+          console.log(this.fancyVideoDuration);
 
-        // if (this.currentIndex == 1) {
-        this.videoDuration = this.api.getDefaultMedia().duration;
-        this.roundedDuration = parseInt(this.videoDuration);
-        this.fancyVideoDuration = this.fancyTimeFormat(this.videoDuration);
-        console.log(this.videoDuration);
-        console.log(this.fancyVideoDuration);
-
-        this.getVideoTrackingDataItems(this.videoId);
-
-
+          this.getVideoTrackingDataItems(this.videoId);
+          
+        
         //}
-        if (this.currentIndex <= 2) {
-          this.playVideo();
+        if(this.currentIndex <= 2){
+           this.playVideo();
         }
-
+   
       }
     );
   }
@@ -334,16 +257,16 @@ export class ViewComponent implements OnInit {
     console.log("Next video");
     this.currentIndex++;
     //setTimeout(function () {
-    if (this.currentIndex === this.playlist.length) {
-      this.currentIndex = 0;
-      this.currentItem = this.playlist[this.currentIndex];
-    } else {
-      this.currentItem = this.playlist[this.currentIndex];
+      if (this.currentIndex === this.playlist.length) {
+        this.currentIndex = 0;
+        this.currentItem = this.playlist[this.currentIndex];
+      } else {
+        this.currentItem = this.playlist[this.currentIndex];
 
-      //this.playVideo();
+        //this.playVideo();
 
 
-    }
+      }
 
     //}.bind(this), 500)
     console.log(this.currentItem);
@@ -352,7 +275,7 @@ export class ViewComponent implements OnInit {
 
 
   playVideo() {
-    this.api.play();
+     this.api.play();
   }
 
   checkIfCurrentTime(evtGroup) {
@@ -374,10 +297,10 @@ export class ViewComponent implements OnInit {
   }
 
   goToEvent(e, event) {
-    if (e) {
+    if (e){
       e.preventDefault();
       e.stopPropagation();
-    }
+    } 
     console.log("Goto event", event.start)
     this.api.getDefaultMedia().currentTime = event.start;
     this.api.play();
@@ -436,9 +359,9 @@ export class ViewComponent implements OnInit {
     }
   }
 
-  timelineClicked(event, container) {
-    let percentange = (event.layerX - 20) / container.width * 100;     //17seconds for offset fix
-    let currentTime = this.roundedDuration / 100 * percentange;
+  timelineClicked(event, container){
+    let percentange = (event.layerX-20)/container.width*100;     //17seconds for offset fix
+    let currentTime = this.roundedDuration/100*percentange;
     console.log("Timeline Clicked", currentTime);
     this.api.getDefaultMedia().currentTime = currentTime;
   }
