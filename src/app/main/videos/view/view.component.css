@@ -504,8 +504,8 @@
 
 .stats ul li .message-img {
   position: absolute;
-  top: 4px;
-  left: 9px;
+  top: 1px;
+  left: 15px;
 }
 
 .stats ul li .message-list-content {
