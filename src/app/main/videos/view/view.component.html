@@ -10,7 +10,7 @@
         <vg-scrub-bar-cue-points class="customCuePoints" [vgCuePoints]="metadataTrack.cues" [vgFor]="sportanalysis-video"></vg-scrub-bar-cue-points>
       </vg-scrub-bar>
 
-      <vg-controls>
+      <vg-controls [vgAutohide]="true" [vgAutohideTime]="1.5">
         <vg-play-pause></vg-play-pause>
         <vg-playback-button></vg-playback-button>
 
