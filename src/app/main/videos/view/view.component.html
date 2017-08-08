@@ -90,32 +90,32 @@
       </div>
     </div>
     <div class="timeline-right" (click)="timelineClicked($event, timelineContainer.getBoundingClientRect())" #timelineContainer>
-       <!-- <perfect-scrollbar #eventTimelineScrollbar>  -->
-        <div class="clearfix">
-          <div class="unvisible-scroll">
-            <!-- <div class="video-select-timeline time" [style.width]="(roundedDuration*10) +'px'"> -->
-            <div class="video-select-timeline time">
-              <div class="timeline-time" [style.left]="sec+'%'" *ngFor="let sec of 100 | numberCollection">
-                <span *ngIf="sec%20===0 && sec!==0 && sec!==100">{{fancyTimeFormat(sec*roundedDuration/100)}}</span>
-              </div>
-              <ion-range-slider class="range-slider" type="single" min="0" max="{{roundedDuration*100}}" from="{{currentVideoTime*100}}"
-                from_min="0" from_max="{{roundedDuration*100}}" step="0.0001" (onChange)="onChangeTimelineSlider($event)"></ion-range-slider>
+      <!-- <perfect-scrollbar #eventTimelineScrollbar>  -->
+      <div class="clearfix">
+        <div class="unvisible-scroll">
+          <!-- <div class="video-select-timeline time" [style.width]="(roundedDuration*10) +'px'"> -->
+          <div class="video-select-timeline time">
+            <div class="timeline-time" [style.left]="sec+'%'" *ngFor="let sec of 100 | numberCollection">
+              <span *ngIf="sec%20===0 && sec!==0 && sec!==100">{{fancyTimeFormat(sec*roundedDuration/100)}}</span>
             </div>
+            <ion-range-slider class="range-slider" type="single" min="0" max="{{roundedDuration*100}}" from="{{currentVideoTime*100}}"
+              from_min="0" from_max="{{roundedDuration*100}}" step="0.0001" (onChange)="onChangeTimelineSlider($event)"></ion-range-slider>
           </div>
         </div>
+      </div>
 
-        <div class="box-container" style="width:100%" >
-          <!-- <perfect-scrollbar class="perfect-scrollbar-timeline"> -->
-            <div class="video-select clearfix" style="width:100%" *ngFor="let evtGroup of videoEvents" [ngClass]="{'active': checkIfCurrentTime(evtGroup)}">
-              <!-- timeline preview -->
-              <div class="video-select-timeline" style="width:100%">
-                <div *ngFor="let evt of evtGroup.values" class="video-line" (click)="goToEvent($event, evt)" [ngClass]="{'active': checkIfCurrentEvent(evt)}" [style.left]="evt.start/roundedDuration*100 + '%'"
-                  [style.width]="evt.duration/roundedDuration*100+'%'"></div>
-              </div>
-              <!-- end of timeline preview -->
-            </div>
-          <!-- </perfect-scrollbar> -->
+      <div class="box-container" style="width:100%">
+        <!-- <perfect-scrollbar class="perfect-scrollbar-timeline"> -->
+        <div class="video-select clearfix" style="width:100%" *ngFor="let evtGroup of videoEvents" [ngClass]="{'active': checkIfCurrentTime(evtGroup)}">
+          <!-- timeline preview -->
+          <div class="video-select-timeline" style="width:100%">
+            <div *ngFor="let evt of evtGroup.values" class="video-line" (click)="goToEvent($event, evt)" [ngClass]="{'active': checkIfCurrentEvent(evt)}"
+              [style.left]="evt.start/roundedDuration*100 + '%'" [style.width]="evt.duration/roundedDuration*100+'%'"></div>
+          </div>
+          <!-- end of timeline preview -->
         </div>
+        <!-- </perfect-scrollbar> -->
+      </div>
 
       <!-- </perfect-scrollbar> -->
     </div>
@@ -132,16 +132,24 @@
       <img src="assets/images/filter-circle.png" alt="Circle" class="pull-right">
     </h2>
 
-
     <div class="match-club  search clearfix form-inline">
-      <div class="form-group">
+      <!-- <div class="form-group">
         <label class="control-label" for="inputSuccess4"></label>
         <input type="text" class="form-control" placeholder="Search" [(ngModel)]="searchQuery">
         <span *ngIf="false"><img src="assets/images/search.png" alt="Search"></span>
+      </div> -->
+      <div class="form-group" style="margin-right:4%">
+        <ss-multiselect-dropdown [options]="myOptions" [texts]="teamTexts" [settings]="teamSettings" [(ngModel)]="optionsModel" (ngModelChange)="onChange($event)"></ss-multiselect-dropdown>
+      </div>
+
+      <div class="form-group">
+        <ss-multiselect-dropdown [options]="myOptions1" [texts]="eventTexts" [settings]="eventSettings" [(ngModel)]="optionsModel1"
+          (ngModelChange)="onChange($event)"></ss-multiselect-dropdown>
       </div>
     </div>
 
   </div>
+
   <div class="events-list match-status col-xs-12">
     <h2 class="title">Event list</h2>
 
@@ -151,7 +159,7 @@
     <div class="stats">
       <perfect-scrollbar>
         <ul>
-          <ng-container *ngFor="let event of trackingJsonData | search:'team,name':searchQuery">
+          <ng-container *ngFor="let event of trackingJsonData | searchEvent:'team,name':[optionsModel,optionsModel1]">
 
             <li>
               <a style="display:block" class="playlist-info" href="#" (click)="goToEvent($event, event)" *ngIf="event.start !== 'NaN'">
@@ -171,7 +179,4 @@
       </perfect-scrollbar>
     </div>
   </div>
-
 </div>
-
-

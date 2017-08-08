@@ -32,11 +32,11 @@ import {
 export class TrackingDataService {
   private baseApiUrl = GlobalVariables.BASE_API_URL;
   private baseTrackingDataUrl = GlobalVariables.BASE_TRACKINGDATA_URL;
-  progress$: Observable < number > ;
-  private progressSubject: Subject < number > ;
+  progress$: Observable<number>;
+  private progressSubject: Subject<number>;
 
   constructor(private http: Http, private p_http: ProgressHttp) {
-    this.progressSubject = new Subject < number > ();
+    this.progressSubject = new Subject<number>();
     this.progress$ = this.progressSubject.asObservable();
   }
 
@@ -91,14 +91,14 @@ export class TrackingDataService {
     });
   }
 
-  groupEvents(trackingData: Array <any>, duration: number ) {
+  groupEvents(trackingData: Array<any>, duration: number) {
     const groupedObj = trackingData.reduce((prev, cur) => {
       const start = parseFloat(cur.start);
       const end = parseFloat(cur.end);
       if (cur.start !== "NaN" && start < duration) {
-        cur.durationPercentange = ((end-start)*duration)/100;
-        cur.startPercentange = (start*duration)/100;
-        cur.duration = end-start;
+        cur.durationPercentange = ((end - start) * duration) / 100;
+        cur.startPercentange = (start * duration) / 100;
+        cur.duration = end - start;
         if (!prev[cur["name"]]) {
           prev[cur["name"]] = [cur];
         } else {
