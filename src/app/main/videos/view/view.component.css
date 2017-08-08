@@ -496,21 +496,38 @@
   margin-top: 8px;
 }
 
+.stats ul li:first-child {
+
+  border-bottom: 0;
+}
+
 .stats ul li {
   position: relative;
   padding-left: 50px;
-  padding: 7px 10px 7px 50px;
+  padding: 5px 10px 5px 50px;
+  border-bottom: 1px solid #ccc;
+}
+
+.stats ul li:first-child:hover{
+  background: transparent;
+
+}
+
+.stats ul li:hover{
+  background: #009cff;
+  color: white;
 }
 
 .stats ul li .message-img {
   position: absolute;
-  top: -4px;
+  top: 2px;
   left: 7px;
 }
 
 .stats ul li .message-list-content {
-  border-bottom: 1px solid #ccc;
-  padding-bottom:15px;
+  
+  padding-bottom:10px;
+  padding-top: 10px;
 }
 
 .stats a {
@@ -524,7 +541,7 @@
 .message-list-content h4 {
   font-size: 14px;
   margin: 0;
-  color: #767d9a;
+  color: #767d9a!important;
 }
 
 .message-list-content p {
