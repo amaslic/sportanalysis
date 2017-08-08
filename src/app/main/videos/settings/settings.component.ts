@@ -105,6 +105,20 @@ export class VideoSettingsComponent implements OnInit {
       );
   }
 
+  onVideoEditSubmit(f){
+    console.log(f.value);
+    this.videoService.updateVideo(this.videoId, f.value, this.userService.token)
+      .subscribe(
+        (response) => this.onUpdateVideoSuccess(response),
+        (error) => this.onError(error)
+      );
+  }
+  
+  onUpdateVideoSuccess(response){
+    console.log(response);
+    // TODO: Handle this
+  }
+
   onUploadSuccess(response) {
     console.log(response);
     this.uploading = false;

@@ -52,4 +52,10 @@ export class VideoService {
     const options = new RequestOptions({ headers: headers });
     return this.http.get(this.baseApiUrl + 'video/getById?id=' + id, options);
   }
+
+  updateVideo(id, data, token){
+    const headers = new Headers({ 'Authorization': token });
+    const options = new RequestOptions({ headers: headers });
+    return this.http.put(this.baseApiUrl + 'video/edit?id=' + id, data, options);
+  }
 }

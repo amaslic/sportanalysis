@@ -365,4 +365,29 @@ export class ViewComponent implements OnInit {
     console.log("Timeline Clicked", currentTime);
     this.api.getDefaultMedia().currentTime = currentTime;
   }
+
+  getEventIcon(eventName){
+    switch(eventName) {
+        case 'Corner':
+            return 'assets/event-icons/corner-flag.svg';
+        case 'Goal':
+            return 'assets/event-icons/net-ball.svg';
+        case 'Offside':
+            return 'assets/event-icons/offside.svg';
+        case 'Free Kick':
+            return 'assets/event-icons/foot.svg';
+        case 'Shoot':
+            return 'assets/event-icons/ball.svg';
+        case 'Yellow Card':
+            return 'assets/event-icons/cards.svg';
+        case 'Red Card':
+            return 'assets/event-icons/cards.svg';
+        case 'Change':
+            return 'assets/event-icons/player-1.svg';
+        case 'Pass':
+            return 'assets/event-icons/ball-2.svg';
+        default:
+            return 'assets/event-icons/clock.svg';
+    }
+  }
 }

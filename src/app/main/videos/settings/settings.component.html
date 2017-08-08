@@ -6,7 +6,7 @@
 
       <md-tab label="Video Details">
         <perfect-scrollbar>
-          <form class="form-horizontal" id="video-metadata-form" #f="ngForm" (ngSubmit)="onSubmit(f)" novalidate [ngClass]="{'submited' : f._submitted}">
+          <form class="form-horizontal" id="video-metadata-form" #videoEditForm="ngForm" (ngSubmit)="onVideoEditSubmit(videoEditForm)" novalidate [ngClass]="{'submited' : videoEditForm._submitted}">
             <div class="form-group">
               <label class="control-label col-sm-2" for="title">Video Title:</label>
               <div class="col-sm-10">
