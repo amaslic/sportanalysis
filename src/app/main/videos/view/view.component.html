@@ -133,16 +133,17 @@
     </h2>
 
     <div class="match-club  search clearfix form-inline">
-      <!-- <div class="form-group">
+      <div class="form-group col-md-11">
         <label class="control-label" for="inputSuccess4"></label>
         <input type="text" class="form-control" placeholder="Search" [(ngModel)]="searchQuery">
         <span *ngIf="false"><img src="assets/images/search.png" alt="Search"></span>
-      </div> -->
-      <div class="form-group" style="margin-right:4%">
+      </div>
+      <br>
+      <div class="form-group" style="margin-right:4%;margin-top: 4%">
         <ss-multiselect-dropdown [options]="myOptions" [texts]="teamTexts" [settings]="teamSettings" [(ngModel)]="optionsModel" (ngModelChange)="onChange($event)"></ss-multiselect-dropdown>
       </div>
 
-      <div class="form-group">
+      <div class="form-group" style="margin-top: 4%">
         <ss-multiselect-dropdown [options]="myOptions1" [texts]="eventTexts" [settings]="eventSettings" [(ngModel)]="optionsModel1"
           (ngModelChange)="onChange($event)"></ss-multiselect-dropdown>
       </div>
@@ -159,12 +160,12 @@
     <div class="stats">
       <perfect-scrollbar>
         <ul>
-          <ng-container *ngFor="let event of trackingJsonData | searchEvent:'team,name':[optionsModel,optionsModel1]">
+          <ng-container *ngFor="let event of trackingJsonData | searchEvent:'team,name':[optionsModel,optionsModel1,searchQuery]">
 
             <li>
               <a style="display:block" class="playlist-info" href="#" (click)="goToEvent($event, event)" *ngIf="event.start !== 'NaN'">
                 <div class="message-img">
-                  <img [src]="getEventIcon(event.name)" alt="Event Icon" width = "38" height = "38">
+                  <img [src]="getEventIcon(event.name)" alt="Event Icon" width="38" height="38">
                 </div>
                 <div class="message-list-content">
                   <h4>{{fancyTimeFormat(event.start)}} {{event.name}} ({{event.team}}) </h4>
