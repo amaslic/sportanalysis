@@ -92,6 +92,25 @@ vg-scrub-bar-cue-points.customCuePoints .cue-point-container .cue-point::before 
     top: -11px;
 }
 
+vg-scrub-bar-cue-points.customCuePoints .cue-point-container .cue-point[data-tooltip='Red Card']::before{
+	border-top-color:red;
+}
+
+vg-scrub-bar-cue-points.customCuePoints .cue-point-container .cue-point[data-tooltip=Change]::before{
+	border-top-color:blue;
+}
+
+vg-scrub-bar-cue-points.customCuePoints .cue-point-container .cue-point[data-tooltip='Yellow Card']::before{
+	border-top-color:yellow;
+}
+
+vg-scrub-bar-cue-points.customCuePoints .cue-point-container .cue-point[data-tooltip=Goal]::before{
+	border-top-color:green;
+}
+vg-scrub-bar-cue-points.customCuePoints .cue-point-container .cue-point[data-tooltip='Kick Off']::before{
+	border-top-color:orange;
+}
+
 .modal-header, .modal-footer{
   border: 0;
 }
