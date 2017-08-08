@@ -92,6 +92,52 @@ vg-scrub-bar-cue-points.customCuePoints .cue-point-container .cue-point::before 
     top: -11px;
 }
 
+vg-scrub-bar-cue-points.customCuePoints .cue-point-container .cue-point[data-tooltip='Red Card']::before{
+	border-top-color:red;
+}
+
+vg-scrub-bar-cue-points.customCuePoints .cue-point-container .cue-point[data-tooltip=Change]::before{
+	border-top-color:blue;
+}
+
+vg-scrub-bar-cue-points.customCuePoints .cue-point-container .cue-point[data-tooltip='Yellow Card']::before{
+	border-top-color:yellow;
+}
+
+vg-scrub-bar-cue-points.customCuePoints .cue-point-container .cue-point[data-tooltip=Goal]::before{
+	border-top-color:green;
+}
+vg-scrub-bar-cue-points.customCuePoints .cue-point-container .cue-point[data-tooltip='Kick Off']::before{
+	border-top-color:orange;
+}
+
+.cue-point[data-tooltip]::after {
+    content: attr(data-tooltip);
+    display: block;
+    color: #fff;
+    position: absolute;
+    bottom: calc(100% + 11px);
+    background-color: rgba(0,0,0,0.9);
+    padding: 5px 10px;
+    left: 50%;
+    -webkit-transform: translateX(-50%);
+	-moz-transform: translateX(-50%);
+	transform: translateX(-50%);
+    white-space: nowrap;
+    font-family: 'Nexa';
+    border-radius: 4px;
+	-webkit-transition:all 0.3s ease;
+	-moz-transition:all 0.3s ease;
+	transition:all 0.3s ease;
+	opacity:0;
+	visibility:hidden;
+}
+
+.cue-point[data-tooltip]:hover::after{
+	opacity:1;
+	visibility:visible;
+}
+
 .modal-header, .modal-footer{
   border: 0;
 }
