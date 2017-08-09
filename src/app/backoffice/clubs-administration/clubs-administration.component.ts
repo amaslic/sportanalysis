@@ -64,6 +64,21 @@ export class ClubsAdministrationComponent implements OnInit {
 
   onRowSelected(e) {
     console.log(this.selectedClub);
+    this.generateNiceLinkName();
+  }
+
+  generateNiceLinkName(){
+   this.selectedClub[0].NiceLinkName = this.slugify(this.selectedClub[0].ClubName);
+   console.log(this.selectedClub[0].NiceLinkName)
+  }
+
+  slugify(text){
+    return text.toString().toLowerCase()
+      .replace(/\s+/g, '-')           // Replace spaces with -
+      .replace(/[^\w\-]+/g, '')       // Remove all non-word chars
+      .replace(/\-\-+/g, '-')         // Replace multiple - with single -
+      .replace(/^-+/, '')             // Trim - from start of text
+      .replace(/-+$/, '');            // Trim - from end of text
   }
 
   selectedFile;
