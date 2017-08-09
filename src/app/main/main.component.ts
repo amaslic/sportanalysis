@@ -17,7 +17,8 @@ import {
 export class MainComponent implements OnInit {
 
   private _opened = true;
-
+  private router: Router;
+  
   private _toggleSidebar() {
     this._opened = !this._opened;
   }
@@ -28,9 +29,13 @@ export class MainComponent implements OnInit {
     this.isIn = bool === false ? true : false;
   }
 
-  constructor(private localStorageService: LocalStorageService, private router: Router) {}
+  constructor(private localStorageService: LocalStorageService, r: Router) {
+    this.router = r;
+  }
 
-  ngOnInit() {}
+  ngOnInit() {
+    this.router.navigateByUrl('/videos');
+  }
 
   logout() {
     this.localStorageService.remove('token');

@@ -76,7 +76,7 @@ const appRoutes: Routes = [
       { path: 'playlist', component: PlaylistComponent },
       { path: 'help', component: HelpComponent },
       { path: 'profile/main', component: ProfileComponent },
-      { path: '*', component: HomeComponent }
+      { path: '*', component: VideosComponent }
     ]
   },
   {
@@ -86,7 +86,7 @@ const appRoutes: Routes = [
       { path: '*', component: UsersComponent }
     ]
   },
-  { path: "*", redirectTo: 'home' }
+  { path: "*", redirectTo: 'videos' }
 ];
 
 @NgModule({
