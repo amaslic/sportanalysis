@@ -42,4 +42,10 @@ export class MainComponent implements OnInit {
     this.localStorageService.remove('user');
     this.router.navigateByUrl('/auth/login');
   }
+
+  getUserDisplayName(){
+    let user: any = this.localStorageService.get('user');
+    return user.firstName + " " + user.lastName;
+  }
+
 }
