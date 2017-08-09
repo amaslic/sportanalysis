@@ -202,11 +202,13 @@ export class ViewComponent implements OnInit {
                   this.api.getDefaultMedia().duration > event.start) {
                   this.track.addCue(
                     new VTTCue(start, end, JSON.stringify({
-                      title: event.name
+                      title: event.name,
+                      team: event.team
                     }))
                   );
                 }
               });
+              console.log("TRACK",this.track);
               // console.info('Event', this.trackEvent);
               this.myOptions = this.trackTeam;
               this.myOptions1 = this.trackEvent;
@@ -222,19 +224,23 @@ export class ViewComponent implements OnInit {
               * Broken code from Kamal
               * TODO: Check why it's not working properly when there is time...
               */
+              let cueData = this.track.cues;
+              let intId = setInterval(function(){
+                var container = document.getElementsByClassName("cue-point-container")[0];
+                if(container){
+                  var container_child = container.getElementsByClassName('cue-point');
+                  if(container_child){
+                    for(var i=0; i<cueData.length;i++){
+                      let cuePoint = JSON.parse(cueData[i].text)
+                      let z = document.createAttribute('data-tooltip');
+                      z.value = cuePoint.title + " - " + cuePoint.team;
+                      container_child[i].setAttributeNode(z);
+                    }
+                    clearInterval(intId);
+                  }
+                }
 
-              // var intId = setInterval(function(){
-              //   var container = document.getElementsByClassName("cue-point-container")[0];
-              //   var container_child = container.getElementsByClassName('cue-point');
-              //   if(container_child){
-              //     for(var i=0; i<cueData.length;i++){
-              //       var z = document.createAttribute('data-tooltip');
-              //       z.value = JSON.parse(cueData[i].text).title;
-              //       container_child[i].setAttributeNode(z);
-              //     }
-              //     clearInterval(intId);
-              //   }
-              // }, 1000);
+              }, 1000);
               
               //console.log(document.styleSheets[0])
               //console.log(this.trackingJsonData);
