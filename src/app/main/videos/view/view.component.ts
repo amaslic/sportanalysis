@@ -288,7 +288,7 @@ export class ViewComponent implements OnInit {
     alert(errorBody.msg);
   }
 
-  currentIndex = 0;
+  currentIndex = 1; //Set this to 0 to enable Intro video;
   currentItem: IMedia;
 
 
@@ -301,7 +301,7 @@ export class ViewComponent implements OnInit {
     this.track = this.api.textTracks[0];
     console.log(api);
     //this.api.getDefaultMedia().subscriptions.loadedMetadata.subscribe(this.playVideo.bind(this));
-
+    
     this.api.getDefaultMedia().subscriptions.ended.subscribe(
       () => {
         // Set the video to the beginning
@@ -356,21 +356,19 @@ export class ViewComponent implements OnInit {
 
   nextVideo() {
     console.log("Next video");
-    this.currentIndex++;
-    //setTimeout(function () {
-    if (this.currentIndex === this.playlist.length) {
-      this.currentIndex = 0;
-      this.currentItem = this.playlist[this.currentIndex];
-    } else {
-      this.currentItem = this.playlist[this.currentIndex];
-
-      //this.playVideo();
-
-
-    }
-
-    //}.bind(this), 500)
-    console.log(this.currentItem);
+    //COMMENT THIS OUT TO ENABLE INTRO AND OUTRO
+    this.currentIndex = 1;
+    this.currentItem = this.playlist[this.currentIndex];
+    //UNCOMMENT THIS TO ENABLE INTRO AND OUTRO
+    // this.currentIndex++;
+    
+    // if (this.currentIndex === this.playlist.length) {
+    //   this.currentIndex = 0;
+    //   this.currentItem = this.playlist[this.currentIndex];
+    // } else {
+    //   this.currentItem = this.playlist[this.currentIndex];
+    // }
+    // console.log(this.currentItem);
 
   }
 
