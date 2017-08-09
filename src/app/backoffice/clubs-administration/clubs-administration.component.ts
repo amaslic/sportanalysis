@@ -115,4 +115,13 @@ export class ClubsAdministrationComponent implements OnInit {
     this.activatedClubList = JSON.parse(response._body);
     console.log(this.activatedClubList);
   }
+
+  deleteClub(clubId) {
+    this.clubService.deleteClub(clubId, this.userService.token).subscribe(
+      (response) => {
+        this. getActivatedClubs();
+      },
+      (error) => this.onError(error)
+    );
+  }
 }

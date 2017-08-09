@@ -97,7 +97,7 @@ vg-scrub-bar-cue-points.customCuePoints .cue-point-container .cue-point[data-too
 }
 
 vg-scrub-bar-cue-points.customCuePoints .cue-point-container .cue-point[data-tooltip^=Change]::before{
-	border-top-color:blue;
+	border-top-color:#767d9a;
 }
 
 vg-scrub-bar-cue-points.customCuePoints .cue-point-container .cue-point[data-tooltip^='Yellow Card']::before{
@@ -105,10 +105,10 @@ vg-scrub-bar-cue-points.customCuePoints .cue-point-container .cue-point[data-too
 }
 
 vg-scrub-bar-cue-points.customCuePoints .cue-point-container .cue-point[data-tooltip^=Goal]::before{
-	border-top-color:green;
+	border-top-color:#009cff;
 }
 vg-scrub-bar-cue-points.customCuePoints .cue-point-container .cue-point[data-tooltip^='Kick Off']::before{
-	border-top-color:orange;
+	border-top-color:#27c79a;
 }
 
 .cue-point[data-tooltip]::after {

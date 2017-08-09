@@ -62,8 +62,7 @@ export class ClubService {
     }).post(this.baseApiUrl + 'club/activate', form, options);
   }
 
-
-   getActivatedClubs(token: String) {
+  getActivatedClubs(token: String) {
     const headers = new Headers({
       'Authorization': token
     });
@@ -71,5 +70,15 @@ export class ClubService {
       headers: headers
     });
     return this.http.get(this.baseApiUrl + 'club/fetchAllActivated', options);
+  }
+
+  deleteClub(clubId, token){
+        const headers = new Headers({
+      'Authorization': token
+    });
+    const options = new RequestOptions({
+      headers: headers
+    });
+    return this.http.delete(this.baseApiUrl + 'club/delete?id='+clubId, options );
   }
 }

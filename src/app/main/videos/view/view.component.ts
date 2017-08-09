@@ -220,10 +220,6 @@ export class ViewComponent implements OnInit {
               document.styleSheets[0].addRule('vg-scrub-bar-cue-points .cue-point-container .cue-point', 'pointer-events:auto !important');
               document.styleSheets[0].addRule('vg-scrub-bar-cue-points', 'pointer-events:auto !important');
               
-              /*
-              * Broken code from Kamal
-              * TODO: Check why it's not working properly when there is time...
-              */
               let cueData = this.track.cues;
               let intId = setInterval(function(){
                 var container = document.getElementsByClassName("cue-point-container")[0];
