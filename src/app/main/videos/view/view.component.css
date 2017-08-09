@@ -7,7 +7,7 @@
 .match-status h2.title {
   color: #009cff;
   font-size: 14px;
-  margin-bottom: 20px;
+
 }
 
 .match-club div {
@@ -64,7 +64,7 @@
 
 .match-info {
   border-bottom: 1px solid #d5d5d5;
-  padding-bottom: 30px;
+  padding-bottom: 10px;
 }
 
 .tactics {
@@ -134,6 +134,7 @@
   margin: auto;
   width: 100%;
   max-width: 300px;
+  padding-top: 10px;
 }
 
 .search input {
@@ -212,8 +213,19 @@
 }
 
 .playlist ul {
-  max-height: 550px;
+  max-height: 615px;
   /*overflow: auto;*/
+}
+
+.first-dropdown{
+  max-width: 150px; 
+  float: left;
+}
+
+.second-dropdown{
+  float: left; 
+  margin-left: 5px; 
+  max-width: 150px;
 }
 
 .playlist h2 {
@@ -411,8 +423,16 @@
 }
 
 .settings{
-  margin-left: 90px;
+  /*margin-left: 90px;*/
   text-align: center;
+}
+
+.title-span{
+  float: left;
+      padding-top: 10px;
+    max-width: 60px;
+    width: 100%;
+
 }
 
 .settings a{
@@ -420,6 +440,9 @@
     padding: 5px 10px 5px 10px;
     background: #009cff;
     border-radius: 50px;
+    position: absolute;
+    right: 0;
+    top: 23px;
 }
 
 .settings a:hover{
@@ -537,6 +560,48 @@
   font-size: 12px;
   font-weight: bold;
 }
+
+.match-status.playlist.col-xs-12{
+  margin-top: -10px;
+  padding-bottom: 30px;
+}
+
+.chat-box{
+  padding: 20px;
+}
+.chat-box ul{
+  list-style-type: none;
+  max-height: 150px;
+}
+
+.chat-box ul li i{
+  padding-right: 5px;
+  font-weight: 700;
+}
+
+.chat-box ul li span{
+  font-size: 13px;
+}
+
+.chat-box .reply h5{
+  float: left;
+  padding-right: 5px;
+}
+
+.chat-box .reply input{
+  border: 0;
+  background: transparent;
+  border-bottom: 1px solid #ccc;
+  max-width: 260px;
+  width: 100%;
+}
+
+.chat-box .reply input:focus{
+  border: 0;
+  outline: none;
+   border-bottom: 1px solid #ccc;
+}
+
 
 .message-list-content h4 {
   font-size: 14px;
@@ -746,6 +811,14 @@
   .playlist ul{
     max-height: 330px;
   }
+  .first-dropdown{
+    float: none;
+    margin-left: 5px;
+  }
+  .second-dropdown{
+    float: none;
+    margin-top: 10px;
+  }
 }
 
 @media screen and (max-width: 479px) {}
@@ -796,6 +869,22 @@
     max-width: 100%;
     float: right;
   }
+  .first-dropdown{
+    float: left;
+    margin-left: 0;
+  }
+  .second-dropdown{
+    float: left;
+    margin-top: 0;
+  }
+  .search{
+
+    max-width: 250px;
+ 
+    float: left;
+
+    margin-top: -10px;
+  }
 }
 
 @media (max-width: 768px) {
@@ -816,6 +905,14 @@
 @media (max-width: 567px) {
   .video-box {
     height: 360px;
+  }
+  .first-dropdown{
+    float: none;
+    margin-left: 5px;
+  }
+  .second-dropdown{
+    float: none;
+    margin-top: 10px;
   }
 }
 

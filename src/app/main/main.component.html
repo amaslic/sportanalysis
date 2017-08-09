@@ -8,6 +8,9 @@
       <li [routerLink]="['/matches']" [routerLinkActive]="['is-active']"><span><i class="fa fa-futbol-o fa-2x" aria-hidden="true"></i><br>MATCHES</span></li>
       <li [routerLink]="['/videos']" [routerLinkActive]="['is-active']"><span><i class="fa fa-video-camera fa-2x" aria-hidden="true"></i><br>VIDEOS</span></li>
      <li [routerLinkActive]="['is-active']"><span><i class="fa fa-sliders fa-2x" aria-hidden="true"></i><br>PLAYLIST</span></li>
+     <li [routerLinkActive]="['is-active']" class="search-option"><span><i class="fa fa-search fa-2x" aria-hidden="true"></i><br>Search</span>
+
+    </li>
       <!-- <li [routerLinkActive]="['is-active']"><span><i class="fa fa-comment fa-2x" aria-hidden="true"></i><br>Help</span></li> -->
       <li (click)="logout()"><span><i class="fa fa-sign-out fa-2x" aria-hidden="true"></i><br>LOGOUT</span></li>
     </ul>

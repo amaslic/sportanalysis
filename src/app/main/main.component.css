@@ -25,6 +25,16 @@ html {
   overflow: auto;
 }
 
+.search{
+  display: none;
+  position: fixed;
+  left: 90px;
+  top: 490px;
+}
+
+.search-option:hover \ .search{
+    display: block;
+}
 
 
 .demo-header {
