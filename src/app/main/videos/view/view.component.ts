@@ -218,18 +218,23 @@ export class ViewComponent implements OnInit {
               document.styleSheets[0].addRule('vg-scrub-bar-cue-points .cue-point-container .cue-point', 'pointer-events:auto !important');
               document.styleSheets[0].addRule('vg-scrub-bar-cue-points', 'pointer-events:auto !important');
               
-              var intId = setInterval(function(){
-                var container = document.getElementsByClassName("cue-point-container")[0];
-                var container_child = container.getElementsByClassName('cue-point');
-                if(container_child){
-                  for(var i=0; i<cueData.length;i++){
-                    var z = document.createAttribute('data-tooltip');
-                    z.value = JSON.parse(cueData[i].text).title;
-                    container_child[i].setAttributeNode(z);
-                  }
-                  clearInterval(intId);
-                }
-              }, 1000);
+              /*
+              * Broken code from Kamal
+              * TODO: Check why it's not working properly when there is time...
+              */
+
+              // var intId = setInterval(function(){
+              //   var container = document.getElementsByClassName("cue-point-container")[0];
+              //   var container_child = container.getElementsByClassName('cue-point');
+              //   if(container_child){
+              //     for(var i=0; i<cueData.length;i++){
+              //       var z = document.createAttribute('data-tooltip');
+              //       z.value = JSON.parse(cueData[i].text).title;
+              //       container_child[i].setAttributeNode(z);
+              //     }
+              //     clearInterval(intId);
+              //   }
+              // }, 1000);
               
               //console.log(document.styleSheets[0])
               //console.log(this.trackingJsonData);
