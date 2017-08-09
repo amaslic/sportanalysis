@@ -197,7 +197,8 @@ export class ViewComponent implements OnInit {
                     event.name === "Kick Off" ||
                     event.name === "Red Card" ||
                     event.name === "Yellow Card" ||
-                    event.name === "Change"
+                    event.name === "Change" ||
+                    event.name === "Free Kick"
                   ) &&
                   this.api.getDefaultMedia().duration > event.start) {
                   this.track.addCue(
