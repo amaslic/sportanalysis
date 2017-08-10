@@ -290,3 +290,7 @@ html {
 .navbar-toggle.collapsed .icon-bar{
   background:black;
 }
+
+.navbar-brand{
+  line-height: 50px;
+}

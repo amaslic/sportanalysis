@@ -94,6 +94,7 @@ export class ClubsAdministrationComponent implements OnInit {
     data.token = this.userService.token;
     data.user = this.userService.user._id;
     data.logo = this.selectedFile;
+    console.log(data);
     this.clubService.approveClub(data, this.userService.token).subscribe(
       (response) => this.onApproveClubSuccess(response),
       (error) => this.onError(error)

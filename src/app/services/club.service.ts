@@ -55,6 +55,7 @@ export class ClubService {
     });
     const form: any = new FormData();
     form.append('name', data.name);
+    form.append('slug', data.slug);
     form.append('logoFile', data.logo._file);
     return this.p_http.withUploadProgressListener(progress => {
       console.log(`Uploading ${progress.percentage}%`);
@@ -72,8 +73,12 @@ export class ClubService {
     return this.http.get(this.baseApiUrl + 'club/fetchAllActivated', options);
   }
 
+  getClubBySlug(slug){
+     return this.http.get(this.baseApiUrl + 'club/getBySlug?slug=' + slug );
+  }
+
   deleteClub(clubId, token){
-        const headers = new Headers({
+    const headers = new Headers({
       'Authorization': token
     });
     const options = new RequestOptions({

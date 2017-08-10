@@ -6,7 +6,7 @@ import {
   LocalStorageService
 } from 'angular-2-local-storage';
 import {
-  Router
+  Router,ActivatedRoute
 } from '@angular/router';
 
 @Component({
@@ -18,7 +18,7 @@ export class MainComponent implements OnInit {
 
   private _opened = true;
   private router: Router;
-  
+  private sub: any;
   private _toggleSidebar() {
     this._opened = !this._opened;
   }
@@ -29,12 +29,18 @@ export class MainComponent implements OnInit {
     this.isIn = bool === false ? true : false;
   }
 
-  constructor(private localStorageService: LocalStorageService, r: Router) {
+  constructor(private localStorageService: LocalStorageService, r: Router, private route: ActivatedRoute) {
     this.router = r;
   }
 
   ngOnInit() {
-    this.router.navigateByUrl('/videos');
+    this.sub = this.route.params.subscribe(params => {
+      if(this.router.url==="/"){
+        this.router.navigateByUrl('/videos');
+      } 
+      document.getElementById("site-title").textContent="";
+      document.getElementById("site-logo").setAttribute( 'src', '/assets/images/menu-logo.png');
+    });
   }
 
   logout() {

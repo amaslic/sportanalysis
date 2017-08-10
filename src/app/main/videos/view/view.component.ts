@@ -285,7 +285,7 @@ export class ViewComponent implements OnInit {
   onError(error) {
     const errorBody = JSON.parse(error._body);
     console.error(errorBody);
-    alert(errorBody.msg);
+    alert(errorBody.message);
   }
 
   currentIndex = 1; //Set this to 0 to enable Intro video;

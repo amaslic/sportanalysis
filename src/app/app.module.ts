@@ -59,6 +59,8 @@ import { NumberCollectionPipe } from './pipes/number-collection.pipe';
 import { ClubsAdministrationComponent } from './backoffice/clubs-administration/clubs-administration.component';
 import { ModalModule } from "ngx-modal";
 import { MultiselectDropdownModule } from 'angular-2-dropdown-multiselect';
+import { ClubComponent } from './main/club/club.component';
+import { ClubsComponent } from './main/clubs/clubs.component';
 
 const PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {};
 
@@ -77,6 +79,8 @@ const appRoutes: Routes = [
       { path: 'playlist', component: PlaylistComponent },
       { path: 'help', component: HelpComponent },
       { path: 'profile/main', component: ProfileComponent },
+      { path: 'clubs', component: ClubsComponent },
+      { path: 'club/:slug', component: ClubComponent },
       { path: '*', component: VideosComponent }
     ]
   },
@@ -118,7 +122,9 @@ const appRoutes: Routes = [
     SearchEventPipe,
     NumberCollectionPipe,
     ClubsAdministrationComponent,
-    VideoOverviewComponent
+    VideoOverviewComponent,
+    ClubComponent,
+    ClubsComponent
   ],
   imports: [
     BrowserModule,
