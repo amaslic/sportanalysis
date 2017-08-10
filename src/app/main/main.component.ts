@@ -31,16 +31,16 @@ export class MainComponent implements OnInit {
 
   constructor(private localStorageService: LocalStorageService, r: Router, private route: ActivatedRoute) {
     this.router = r;
-  }
-
-  ngOnInit() {
-    this.sub = this.route.params.subscribe(params => {
-      if(this.router.url==="/"){
+     this.router.events.subscribe((val:any) => {
+      if(val.url==="/"){
         this.router.navigateByUrl('/videos');
       } 
       document.getElementById("site-title").textContent="";
       document.getElementById("site-logo").setAttribute( 'src', '/assets/images/menu-logo.png');
     });
+  }
+
+  ngOnInit() {
   }
 
   logout() {
