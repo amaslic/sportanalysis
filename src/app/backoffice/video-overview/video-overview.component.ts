@@ -49,13 +49,16 @@ export class VideoOverviewComponent implements OnInit {
 
   onGetUsersSuccess(response) {
     this.videoList = JSON.parse(response._body);
+    if (this.videoList.length > 0) {
+      this.videoList.forEach(element => {
+        console.log(element);
+        element['id'] = element._id;
+        element['ofilename'] = element['original_filename'];
 
-    this.videoList.forEach(element => {
-      console.log(element);
-      element['id'] = element._id;
-      element['ofilename'] = element['filename'];
+      });
 
-    });
+    }
+
     console.log(this.videoList);
     this.loadingIndicator = false;
   }
@@ -68,10 +71,12 @@ export class VideoOverviewComponent implements OnInit {
   blockAgents(id) {
     if (confirm("Are you sure to delete this video ?")) {
       this.videoService.deleteVideoById(id, this.userService.token).subscribe(
-        (response) => this.onGetUsersSuccess(response),
+        (response) => { this.getUsers() },
         (error) => this.onError(error)
       );
+
       // alert(id)
+      this.getUsers();
     }
 
 

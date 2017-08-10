@@ -62,5 +62,7 @@ export class VideoService {
     const headers = new Headers({ 'Authorization': token });
     const options = new RequestOptions({ headers: headers });
     return this.http.get(this.baseApiUrl + 'video/deleteById?id=' + id, options);
+
+
   }
 }
