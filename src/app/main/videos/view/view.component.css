@@ -377,7 +377,11 @@
   position: absolute;
   left: 11%;
   height: 30px;
-  
+  cursor: pointer;
+}
+
+.video-line:hover{
+  background: #27c79a;
 }
 
 .video-select-timeline {
@@ -446,6 +450,10 @@
     position: absolute;
     right: 0;
     top: 23px;
+}
+
+.settings a:hover{
+  background: #767d9a;
 }
 
 .settings a:hover{
@@ -632,7 +640,7 @@
 
 .message-list-content .dots {
   position: absolute;
-  right: 7px;
+  right: 12px;
   top: 10px;
   font-size: 20px;
 }

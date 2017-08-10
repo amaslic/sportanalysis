@@ -72,6 +72,10 @@ html {
    border-radius: 50px;
 }
 
+.demo-header ul li button.btn-upload-custom:hover{
+  background: #767d9a;
+}
+
 .demo-header ul li{
   padding: 10px;
 }
