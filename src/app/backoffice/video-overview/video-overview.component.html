@@ -1,0 +1,59 @@
+<div class="container" style="margin-top:10px;">
+  <h3>Video list</h3>
+  <ngx-datatable class="material" [columnMode]="'force'" [rows]="videoList" [loadingIndicator]="loadingIndicator" [limit]="10"
+    [headerHeight]="50" [rowHeight]="'auto'">
+
+
+    <ngx-datatable-column name="title">
+
+      <ng-template let-column="title" ngx-datatable-header-template>
+        Title
+      </ng-template>
+      <ng-template let-value="value" ngx-datatable-cell-template>
+
+        {{value}}
+      </ng-template>
+    </ngx-datatable-column>
+    <ngx-datatable-column name="type">
+
+      <ng-template let-column="type" ngx-datatable-header-template>
+        Type
+      </ng-template>
+      <ng-template let-value="value" ngx-datatable-cell-template>
+
+        {{value}}
+      </ng-template>
+    </ngx-datatable-column>
+    <ngx-datatable-column name="ofilename">
+
+      <ng-template let-column="ofilename" ngx-datatable-header-template>
+        Filename
+      </ng-template>
+      <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
+        {{value}}
+      </ng-template>
+    </ngx-datatable-column>
+    <ngx-datatable-column name="user">
+
+      <ng-template let-column="user" ngx-datatable-header-template>
+        Club
+      </ng-template>
+      <ng-template let-value="value" ngx-datatable-cell-template>
+
+        {{value.club}}
+      </ng-template>
+    </ngx-datatable-column>
+
+
+    <ngx-datatable-column name="id" sortable="false">
+      <ng-template let-column="column" let-sort="sortFn" ngx-datatable-header-template>
+        Action
+      </ng-template>
+      <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
+        <button (click)="blockAgents(value)" [disabled]="row['status']==='BLOCKED'">
+            <i class="fa fa-trash-o"></i>
+        </button>
+      </ng-template>
+    </ngx-datatable-column>
+  </ngx-datatable>
+</div>

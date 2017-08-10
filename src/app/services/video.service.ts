@@ -35,27 +35,34 @@ export class VideoService {
     const headers = new Headers({ 'Authorization': data.token });
     const options = new RequestOptions({ headers: headers });
 
-     return this.p_http.withUploadProgressListener(progress => {
-        console.log(`Uploading ${progress.percentage}%`);
-        this.progressSubject.next(progress.percentage);
-     }).post(this.baseApiUrl + 'video/upload', form, options)
+    return this.p_http.withUploadProgressListener(progress => {
+      console.log(`Uploading ${progress.percentage}%`);
+      this.progressSubject.next(progress.percentage);
+    }).post(this.baseApiUrl + 'video/upload', form, options)
   }
 
-  getVideos(token: String){
+  getVideos(token: String) {
     const headers = new Headers({ 'Authorization': token });
     const options = new RequestOptions({ headers: headers });
     return this.http.get(this.baseApiUrl + 'video/fetchAll', options);
   }
 
-  getVideoById(id: any, token: String){
+  getVideoById(id: any, token: String) {
     const headers = new Headers({ 'Authorization': token });
     const options = new RequestOptions({ headers: headers });
     return this.http.get(this.baseApiUrl + 'video/getById?id=' + id, options);
   }
 
-  updateVideo(id, data, token){
+  updateVideo(id, data, token) {
     const headers = new Headers({ 'Authorization': token });
     const options = new RequestOptions({ headers: headers });
     return this.http.put(this.baseApiUrl + 'video/edit?id=' + id, data, options);
+  }
+  deleteVideoById(id: any, token: String) {
+    const headers = new Headers({ 'Authorization': token });
+    const options = new RequestOptions({ headers: headers });
+    return this.http.get(this.baseApiUrl + 'video/deleteById?id=' + id, options);
+
+
   }
 }

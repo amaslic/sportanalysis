@@ -10,6 +10,7 @@ import { VgControlsModule } from 'videogular2/controls';
 import { VgOverlayPlayModule } from 'videogular2/overlay-play';
 import { VgBufferingModule } from 'videogular2/buffering';
 import { NgxDatatableModule } from '@swimlane/ngx-datatable';
+import { VideoOverviewComponent } from './backoffice/video-overview/video-overview.component';
 
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MdButtonModule, MdCheckboxModule, MdRadioModule, MdTabsModule } from '@angular/material';
@@ -80,10 +81,11 @@ const appRoutes: Routes = [
     ]
   },
   {
-    path: 'backoffice', component: BackofficeComponent, canActivate: [AdminGuard], children: [
+    path: 'backoffice', component: BackofficeComponent, children: [
       { path: 'users', component: UsersComponent },
       { path: 'clubs', component: ClubsAdministrationComponent },
-      { path: '*', component: UsersComponent }
+      { path: '*', component: UsersComponent },
+      { path: 'video-overview', component: VideoOverviewComponent },
     ]
   },
   { path: "*", redirectTo: 'videos' }
@@ -115,7 +117,8 @@ const appRoutes: Routes = [
     SearchPipe,
     SearchEventPipe,
     NumberCollectionPipe,
-    ClubsAdministrationComponent
+    ClubsAdministrationComponent,
+    VideoOverviewComponent
   ],
   imports: [
     BrowserModule,
