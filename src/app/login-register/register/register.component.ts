@@ -13,6 +13,7 @@ import {
 } from '@angular/router';
 
 
+
 @Component({
   selector: 'app-register',
   templateUrl: './register.component.html',
@@ -26,7 +27,7 @@ export class RegisterComponent implements OnInit {
     this.router = r;
   }
 
-  ngOnInit() {}
+  ngOnInit() { }
 
   onSubmit(f) {
     if (!f.valid) {
@@ -35,8 +36,8 @@ export class RegisterComponent implements OnInit {
     console.log(this.user);
     this.userService.createNewUser(this.user)
       .subscribe(
-        (response) => this.onSignupSuccess(response),
-        (error) => this.onError(error)
+      (response) => this.onSignupSuccess(response),
+      (error) => this.onError(error)
       );
   }
 
@@ -44,6 +45,7 @@ export class RegisterComponent implements OnInit {
     const responseBody = JSON.parse(response._body);
     console.log(responseBody);
     alert(responseBody.msg);
+
     this.user = new User();
     this.router.navigateByUrl('/auth/login');
   }
