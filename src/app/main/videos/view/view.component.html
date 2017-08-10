@@ -10,7 +10,7 @@
         <vg-scrub-bar-cue-points class="customCuePoints" [vgCuePoints]="metadataTrack.cues" [vgFor]="sportanalysis-video"></vg-scrub-bar-cue-points>
       </vg-scrub-bar>
 
-      <vg-controls [vgAutohide]="true" [vgAutohideTime]="1.5">
+      <vg-controls>
         <vg-play-pause></vg-play-pause>
         <vg-playback-button></vg-playback-button>
 
@@ -127,28 +127,25 @@
 <div class="right-sidebar">
   <div class="match-info filters col-xs-12">
     <h2 class="title">
-      <span class="title-span">Filters</span>
-       <div class="form-group" style= "" class="first-dropdown">
-        <ss-multiselect-dropdown [options]="myOptions" [texts]="teamTexts" [settings]="teamSettings" [(ngModel)]="optionsModel" (ngModelChange)="onChange($event)"></ss-multiselect-dropdown>
-      </div>
-       <div class="form-group" style="" class="second-dropdown">
-        <ss-multiselect-dropdown [options]="myOptions1" [texts]="eventTexts" [settings]="eventSettings" [(ngModel)]="optionsModel1"
-          (ngModelChange)="onChange($event)"></ss-multiselect-dropdown>
-      </div>
+      Filters
       <span class="settings"><a *ngIf="video" [routerLink]="['/videos/settings', video._id]">Settings</a></span>
-      
+      <img src="assets/images/filter-circle.png" alt="Circle" class="pull-right">
     </h2>
 
     <div class="match-club  search clearfix form-inline">
-      <div class="form-group col-md-11">
+      <!-- <div class="form-group">
         <label class="control-label" for="inputSuccess4"></label>
         <input type="text" class="form-control" placeholder="Search" [(ngModel)]="searchQuery">
         <span *ngIf="false"><img src="assets/images/search.png" alt="Search"></span>
+      </div> -->
+      <div class="form-group" style="margin-right:4%">
+        <ss-multiselect-dropdown [options]="myOptions" [texts]="teamTexts" [settings]="teamSettings" [(ngModel)]="optionsModel" (ngModelChange)="onChange($event)"></ss-multiselect-dropdown>
       </div>
-      <br>
-     
 
-     
+      <div class="form-group">
+        <ss-multiselect-dropdown [options]="myOptions1" [texts]="eventTexts" [settings]="eventSettings" [(ngModel)]="optionsModel1"
+          (ngModelChange)="onChange($event)"></ss-multiselect-dropdown>
+      </div>
     </div>
 
   </div>
@@ -162,15 +159,15 @@
     <div class="stats">
       <perfect-scrollbar>
         <ul>
-          <ng-container *ngFor="let event of trackingJsonData | searchEvent:'team,name':[optionsModel,optionsModel1,searchQuery]">
+          <ng-container *ngFor="let event of trackingJsonData | searchEvent:'team,name':[optionsModel,optionsModel1]">
 
             <li>
               <a style="display:block" class="playlist-info" href="#" (click)="goToEvent($event, event)" *ngIf="event.start !== 'NaN'">
                 <div class="message-img">
-                  <img [src]="getEventIcon(event.name)" alt="Event Icon" width="38" height="38">
+                  <img src="assets/images/camera.png" alt="Camera">
                 </div>
                 <div class="message-list-content">
-                  <h4>{{fancyTimeFormat(event.start)}} {{event.name}} ({{event.team}}) </h4>
+                  <h4>{{event.name}} [{{event.team}}] | {{fancyTimeFormat(event.start)}}</h4>
                   <!-- <p>Friday, 9 June 2017</p> -->
                   <div class="dots"><img src="assets/images/more.png"></div>
                 </div>
@@ -182,59 +179,5 @@
       </perfect-scrollbar>
     </div>
   </div>
- 
-    <div class="chat-box">
-      <h4>Comments:</h4>
-      <perfect-scrollbar>
-        <ul>
-          <li>
-            <i>@ Paul: </i>
-            <span>
-              Please attack in this situation
-            </span>
-          </li>
-          <li>
-            <i>@ Paul: </i>
-            <span>
-              Please attack in this situation
-            </span>
-          </li>
-          <li>
-            <i>@ Paul: </i>
-            <span>
-              Please attack in this situation
-            </span>
-          </li>
-          <li>
-            <i>@ Paul: </i>
-            <span>
-              Please attack in this situation
-            </span>
-          </li>
-          <li>
-            <i>@ Paul: </i>
-            <span>
-              Please attack in this situation
-            </span>
-          </li>
-           <li>
-            <i>@ Paul: </i>
-            <span>
-              Please attack in this situation
-            </span>
-          </li>
-           <li>
-            <i>@ Paul: </i>
-            <span>
-              Please attack in this situation
-            </span>
-          </li>
-        </ul>
-      </perfect-scrollbar>
-      <div class="reply">
-        <h5>Reply</h5>
-        <input type="text" />
-      </div>
-    </div>
 
 </div>
