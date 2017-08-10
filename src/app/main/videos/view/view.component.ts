@@ -197,16 +197,19 @@ export class ViewComponent implements OnInit {
                     event.name === "Kick Off" ||
                     event.name === "Red Card" ||
                     event.name === "Yellow Card" ||
-                    event.name === "Change"
+                    event.name === "Change" ||
+                    event.name === "Free Kick"
                   ) &&
                   this.api.getDefaultMedia().duration > event.start) {
                   this.track.addCue(
                     new VTTCue(start, end, JSON.stringify({
-                      title: event.name
+                      title: event.name,
+                      team: event.team
                     }))
                   );
                 }
               });
+              console.log("TRACK",this.track);
               // console.info('Event', this.trackEvent);
               this.myOptions = this.trackTeam;
               this.myOptions1 = this.trackEvent;
@@ -215,6 +218,27 @@ export class ViewComponent implements OnInit {
 
               let greenLineHeight = this.videoEvents.length * 30 + 60;
               document.styleSheets[0].addRule('.range-slider /deep/ .irs-slider.single::after', 'height: ' + greenLineHeight + 'px !important');
+              document.styleSheets[0].addRule('vg-scrub-bar-cue-points .cue-point-container .cue-point', 'pointer-events:auto !important');
+              document.styleSheets[0].addRule('vg-scrub-bar-cue-points', 'pointer-events:auto !important');
+              
+              let cueData = this.track.cues;
+              let intId = setInterval(function(){
+                var container = document.getElementsByClassName("cue-point-container")[0];
+                if(container){
+                  var container_child = container.getElementsByClassName('cue-point');
+                  if(container_child){
+                    for(var i=0; i<cueData.length;i++){
+                      let cuePoint = JSON.parse(cueData[i].text)
+                      let z = document.createAttribute('data-tooltip');
+                      z.value = cuePoint.title + " - " + cuePoint.team;
+                      container_child[i].setAttributeNode(z);
+                    }
+                    clearInterval(intId);
+                  }
+                }
+
+              }, 1000);
+              
               //console.log(document.styleSheets[0])
               //console.log(this.trackingJsonData);
               //console.log(this.videoEvents);
@@ -264,7 +288,7 @@ export class ViewComponent implements OnInit {
     alert(errorBody.msg);
   }
 
-  currentIndex = 0;
+  currentIndex = 1; //Set this to 0 to enable Intro video;
   currentItem: IMedia;
 
 
@@ -277,7 +301,7 @@ export class ViewComponent implements OnInit {
     this.track = this.api.textTracks[0];
     console.log(api);
     //this.api.getDefaultMedia().subscriptions.loadedMetadata.subscribe(this.playVideo.bind(this));
-
+    
     this.api.getDefaultMedia().subscriptions.ended.subscribe(
       () => {
         // Set the video to the beginning
@@ -332,21 +356,19 @@ export class ViewComponent implements OnInit {
 
   nextVideo() {
     console.log("Next video");
-    this.currentIndex++;
-    //setTimeout(function () {
-    if (this.currentIndex === this.playlist.length) {
-      this.currentIndex = 0;
-      this.currentItem = this.playlist[this.currentIndex];
-    } else {
-      this.currentItem = this.playlist[this.currentIndex];
-
-      //this.playVideo();
-
-
-    }
-
-    //}.bind(this), 500)
-    console.log(this.currentItem);
+    //COMMENT THIS OUT TO ENABLE INTRO AND OUTRO
+    this.currentIndex = 1;
+    this.currentItem = this.playlist[this.currentIndex];
+    //UNCOMMENT THIS TO ENABLE INTRO AND OUTRO
+    // this.currentIndex++;
+    
+    // if (this.currentIndex === this.playlist.length) {
+    //   this.currentIndex = 0;
+    //   this.currentItem = this.playlist[this.currentIndex];
+    // } else {
+    //   this.currentItem = this.playlist[this.currentIndex];
+    // }
+    // console.log(this.currentItem);
 
   }
 
@@ -441,5 +463,30 @@ export class ViewComponent implements OnInit {
     let currentTime = this.roundedDuration / 100 * percentange;
     console.log("Timeline Clicked", currentTime);
     this.api.getDefaultMedia().currentTime = currentTime;
+  }
+
+  getEventIcon(eventName){
+    switch(eventName) {
+        case 'Corner':
+            return 'assets/event-icons/corner-flag.svg';
+        case 'Goal':
+            return 'assets/event-icons/net-ball.svg';
+        case 'Offside':
+            return 'assets/event-icons/offside.svg';
+        case 'Free Kick':
+            return 'assets/event-icons/foot.svg';
+        case 'Shoot':
+            return 'assets/event-icons/ball.svg';
+        case 'Yellow Card':
+            return 'assets/event-icons/cards.svg';
+        case 'Red Card':
+            return 'assets/event-icons/cards.svg';
+        case 'Change':
+            return 'assets/event-icons/player-1.svg';
+        case 'Pass':
+            return 'assets/event-icons/ball-2.svg';
+        default:
+            return 'assets/event-icons/clock.svg';
+    }
   }
 }
