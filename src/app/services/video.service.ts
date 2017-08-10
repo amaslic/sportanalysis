@@ -58,4 +58,10 @@ export class VideoService {
     const options = new RequestOptions({ headers: headers });
     return this.http.put(this.baseApiUrl + 'video/edit?id=' + id, data, options);
   }
+
+  deleteVideoById(id: any, token: String) {
+    const headers = new Headers({ 'Authorization': token });
+    const options = new RequestOptions({ headers: headers });
+    return this.http.get(this.baseApiUrl + 'video/deleteById?id=' + id, options);
+  }
 }

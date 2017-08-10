@@ -46,6 +46,7 @@ import { VideoSettingsComponent } from './main/videos/settings/settings.componen
 import { FooterComponent } from './main/footer/footer.component';
 import { BackofficeComponent } from './backoffice/backoffice.component';
 import { UsersComponent } from './backoffice/users/users.component';
+import { VideoOverviewComponent } from './backoffice/video-overview/video-overview.component';
 
 import { NouisliderModule } from 'ng2-nouislider';
 import { DropdownModule } from "ngx-dropdown";
@@ -83,6 +84,7 @@ const appRoutes: Routes = [
     path: 'backoffice', component: BackofficeComponent, canActivate: [AdminGuard], children: [
       { path: 'users', component: UsersComponent },
       { path: 'clubs', component: ClubsAdministrationComponent },
+      { path: 'video-overview', component: VideoOverviewComponent },
       { path: '*', component: UsersComponent }
     ]
   },
@@ -115,7 +117,8 @@ const appRoutes: Routes = [
     SearchPipe,
     SearchEventPipe,
     NumberCollectionPipe,
-    ClubsAdministrationComponent
+    ClubsAdministrationComponent,
+    VideoOverviewComponent
   ],
   imports: [
     BrowserModule,
