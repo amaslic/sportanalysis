@@ -80,6 +80,7 @@ html {
   padding: 10px;
 }
 
+
 .demo-header ul li img{
   padding: 5px 0px 5px 0px;
   cursor: pointer;
@@ -293,4 +294,12 @@ html {
 
 .navbar-brand{
   line-height: 50px;
+}
+
+@media (max-width: 768px) {
+
+  #site-title{
+    margin-left: 140px;
+  }
+
 }
