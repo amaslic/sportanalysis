@@ -51,7 +51,7 @@ export class RegisterComponent implements OnInit {
     const responseBody = JSON.parse(response._body);
     console.log(responseBody);
     // alert(responseBody.msg);
-    this.successmsg = responseBody.msg;
+    this.successmsg = responseBody.message;
     this.regSucessModal.open();
 
     this.user = new User();
@@ -61,7 +61,7 @@ export class RegisterComponent implements OnInit {
   onError(error) {
     const errorBody = JSON.parse(error._body);
     console.error(errorBody);
-    this.errormsg = errorBody.msg;
+    this.errormsg = errorBody.message;
     this.regErrorModal.open();
 
     // alert(errorBody.msg);
