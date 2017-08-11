@@ -1,5 +1,5 @@
 .main-part{
-    max-width: 720px;
+    max-width: 980px;
     width: 100%;
     margin: auto;
     margin-top: 100px;
@@ -15,7 +15,7 @@ ul.list-inline.matches>li{
     padding-left: 40px;
 
     padding-bottom: 15px;
-    max-width: 160px;
+    max-width: 220px;
     width: 100%;
 }
 
