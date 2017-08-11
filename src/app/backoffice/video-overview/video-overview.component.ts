@@ -26,43 +26,44 @@ export class VideoOverviewComponent implements OnInit {
   reorderable: boolean = true;
 
   columns = [{
-      prop: 'title'
-    },
-    {
-      prop: 'type'
-    },
-    {
-      prop: 'original_filename'
-    },
-    {
-      prop: '_id'
-    },
-    {
-      prop: 'user.club',
-      name: 'Club'
-    },
-    {
-      prop: 'path',
-      name: 'File path'
-    },
-    {
-      name: 'Action'
-    }
+    prop: 'title'
+  },
+  {
+    prop: 'type'
+  },
+  {
+    prop: 'original_filename'
+  },
+  {
+    prop: '_id'
+  },
+  {
+    prop: 'user.club',
+    name: 'Club'
+  },
+  {
+    prop: 'path',
+    name: 'File path'
+  },
+  {
+    name: 'Action'
+  }
   ];
-  constructor(private videoService: VideoService, private userService: UserService) {}
+  constructor(private videoService: VideoService, private userService: UserService) { }
 
   ngOnInit() {
-    this.getUsers();
+    this.getVideos();
   }
 
-  getUsers() {
+
+  getVideos() {
     this.videoService.getVideos(this.userService.token).subscribe(
-      (response) => this.onGetUsersSuccess(response),
+      (response) => this.onGetVideosSuccess(response),
       (error) => this.onError(error)
     );
   }
 
-  onGetUsersSuccess(response) {
+  onGetVideosSuccess(response) {
     this.videoList = JSON.parse(response._body);
     if (this.videoList.length > 0) {
       this.videoList.forEach(element => {
@@ -84,14 +85,13 @@ export class VideoOverviewComponent implements OnInit {
     console.error(errorBody);
     alert(errorBody.msg);
   }
-  blockAgents(id) {
+  confirmDelete(id) {
     if (confirm("Are you sure to delete this video ?")) {
       this.videoService.deleteVideoById(id, this.userService.token).subscribe(
-        (response) => { this.getUsers() },
+        (response) => { this.getVideos() },
         (error) => this.onError(error)
       );
-      // alert(id)
-      this.getUsers();
+
     }
 
 

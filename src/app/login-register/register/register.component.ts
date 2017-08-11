@@ -1,6 +1,7 @@
 import {
   Component,
-  OnInit
+  OnInit,
+  ViewChild
 } from '@angular/core';
 import {
   UserService
@@ -13,6 +14,7 @@ import {
 } from '@angular/router';
 
 
+
 @Component({
   selector: 'app-register',
   templateUrl: './register.component.html',
@@ -20,13 +22,16 @@ import {
 })
 export class RegisterComponent implements OnInit {
   public user: User = new User();
+  successmsg: string;
+  errormsg: string;
   private router: Router;
-
+  @ViewChild('regSucessModal') regSucessModal;
+  @ViewChild('regErrorModal') regErrorModal;
   constructor(private userService: UserService, r: Router) {
     this.router = r;
   }
 
-  ngOnInit() {}
+  ngOnInit() { }
 
   onSubmit(f) {
     if (!f.valid) {
@@ -35,22 +40,30 @@ export class RegisterComponent implements OnInit {
     console.log(this.user);
     this.userService.createNewUser(this.user)
       .subscribe(
-        (response) => this.onSignupSuccess(response),
-        (error) => this.onError(error)
+      (response) => this.onSignupSuccess(response),
+      (error) => this.onError(error)
       );
   }
-
+  regSuccessPopupClose() {
+    this.router.navigateByUrl('/auth/login');
+  }
   onSignupSuccess(response) {
     const responseBody = JSON.parse(response._body);
     console.log(responseBody);
-    alert(responseBody.msg);
+    // alert(responseBody.msg);
+    this.successmsg = responseBody.msg;
+    this.regSucessModal.open();
+
     this.user = new User();
-    this.router.navigateByUrl('/auth/login');
+    // this.router.navigateByUrl('/auth/login');
   }
 
   onError(error) {
     const errorBody = JSON.parse(error._body);
     console.error(errorBody);
-    alert(errorBody.msg);
+    this.errormsg = errorBody.msg;
+    this.regErrorModal.open();
+
+    // alert(errorBody.msg);
   }
 }
