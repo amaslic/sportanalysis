@@ -54,7 +54,7 @@ export class LoginComponent implements OnInit {
   onError(error) {
     const errorBody = JSON.parse(error._body);
     console.error(errorBody);
-    this.errormsg = errorBody.msg;
+    this.errormsg = errorBody.message;
     this.loginErrorModal.open();
     // alert(errorBody.msg);
   }
