@@ -333,6 +333,10 @@ img.logo-img{
   .menu-item-list li{
     padding: 10px 10px 10px 10px!important;
   }
+
+  .demo-contents{
+    overflow-x: hidden;
+  }
 }
 
 @media (max-width: 975px){
