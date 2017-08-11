@@ -1,6 +1,7 @@
 import {
   Component,
-  OnInit
+  OnInit,
+  ViewChild
 } from '@angular/core';
 import {
   UserService
@@ -16,15 +17,17 @@ import {
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.css']
 })
+
 export class LoginComponent implements OnInit {
   public user: User = new User();
   private router: Router;
-
+  errormsg: string;
+  @ViewChild('loginErrorModal') loginErrorModal;
   constructor(private userService: UserService, r: Router) {
     this.router = r;
   }
 
-  ngOnInit() {}
+  ngOnInit() { }
 
   onSubmit(f) {
     if (!f.valid) {
@@ -33,8 +36,8 @@ export class LoginComponent implements OnInit {
     console.log(this.user);
     this.userService.login(f.value)
       .subscribe(
-        (response) => this.onLoginSuccess(response),
-        (error) => this.onError(error)
+      (response) => this.onLoginSuccess(response),
+      (error) => this.onError(error)
       );
   }
 
@@ -51,6 +54,8 @@ export class LoginComponent implements OnInit {
   onError(error) {
     const errorBody = JSON.parse(error._body);
     console.error(errorBody);
-    alert(errorBody.msg);
+    this.errormsg = errorBody.msg;
+    this.loginErrorModal.open();
+    // alert(errorBody.msg);
   }
 }

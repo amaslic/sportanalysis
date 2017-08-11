@@ -52,17 +52,18 @@ export class VideoOverviewComponent implements OnInit {
   constructor(private videoService: VideoService, private userService: UserService) { }
 
   ngOnInit() {
-    this.getVideo();
+    this.getVideos();
   }
 
-  getVideo() {
+
+  getVideos() {
     this.videoService.getVideos(this.userService.token).subscribe(
-      (response) => this.onGetUsersSuccess(response),
+      (response) => this.onGetVideosSuccess(response),
       (error) => this.onError(error)
     );
   }
 
-  onGetUsersSuccess(response) {
+  onGetVideosSuccess(response) {
     this.videoList = JSON.parse(response._body);
     if (this.videoList.length > 0) {
       this.videoList.forEach(element => {
@@ -87,7 +88,7 @@ export class VideoOverviewComponent implements OnInit {
   confirmDelete(id) {
     if (confirm("Are you sure to delete this video ?")) {
       this.videoService.deleteVideoById(id, this.userService.token).subscribe(
-        (response) => { this.getVideo() },
+        (response) => { this.getVideos() },
         (error) => this.onError(error)
       );
 

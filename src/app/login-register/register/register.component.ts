@@ -1,6 +1,7 @@
 import {
   Component,
-  OnInit
+  OnInit,
+  ViewChild
 } from '@angular/core';
 import {
   UserService
@@ -21,8 +22,11 @@ import {
 })
 export class RegisterComponent implements OnInit {
   public user: User = new User();
+  successmsg: string;
+  errormsg: string;
   private router: Router;
-
+  @ViewChild('regSucessModal') regSucessModal;
+  @ViewChild('regErrorModal') regErrorModal;
   constructor(private userService: UserService, r: Router) {
     this.router = r;
   }
@@ -40,19 +44,26 @@ export class RegisterComponent implements OnInit {
       (error) => this.onError(error)
       );
   }
-
+  regSuccessPopupClose() {
+    this.router.navigateByUrl('/auth/login');
+  }
   onSignupSuccess(response) {
     const responseBody = JSON.parse(response._body);
     console.log(responseBody);
-    alert(responseBody.msg);
+    // alert(responseBody.msg);
+    this.successmsg = responseBody.msg;
+    this.regSucessModal.open();
 
     this.user = new User();
-    this.router.navigateByUrl('/auth/login');
+    // this.router.navigateByUrl('/auth/login');
   }
 
   onError(error) {
     const errorBody = JSON.parse(error._body);
     console.error(errorBody);
-    alert(errorBody.msg);
+    this.errormsg = errorBody.msg;
+    this.regErrorModal.open();
+
+    // alert(errorBody.msg);
   }
 }

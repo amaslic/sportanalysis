@@ -68,7 +68,7 @@
   </div>
 </div>
 
-<modal #firstModal>
+<modal #regSucessModal>
   <modal-header>
 
   </modal-header>
@@ -77,11 +77,26 @@
       <i class="fa fa-check" aria-hidden="true"></i>
     </p>
     <p>
-      Success
+      {{successmsg}}
     </p>
   </modal-content>
   <modal-footer>
-    <button class="btn btn-primary" (click)="firstModal.close()">Ok</button>
+    <button class="btn btn-primary" (click)="regSuccessPopupClose()">Ok</button>
   </modal-footer>
 </modal>
-<button id="openModalButton" [hidden]="true" data-toggle="modal" data-target="#firstModal">Open Modal</button>
+<modal #regErrorModal class="error-modal">
+  <modal-header>
+
+  </modal-header>
+  <modal-content>
+    <p>
+      <i class="fa fa-close" aria-hidden="true"></i>
+    </p>
+    <p>
+      {{errormsg}}
+    </p>
+  </modal-content>
+  <modal-footer>
+    <button class="btn btn-primary" (click)="regErrorModal.close()">Ok</button>
+  </modal-footer>
+</modal>
