@@ -55,12 +55,16 @@ import { ProfileComponent } from './main/profile/profile.component';
 import { ProfileMainComponent } from './main/profile/profile-main/profile-main.component';
 import { SearchPipe } from './pipes/search.pipe';
 import { SearchEventPipe } from './pipes/searchEvent.pipe'
+import { SearchVideoEventPipe } from './pipes/searchVideoEvent.pipe'
+import { SearchVideoTimelinePipe } from './pipes/searchVideoTimeline.pipe'
 import { NumberCollectionPipe } from './pipes/number-collection.pipe';
 import { ClubsAdministrationComponent } from './backoffice/clubs-administration/clubs-administration.component';
 import { ModalModule } from "ngx-modal";
 import { MultiselectDropdownModule } from 'angular-2-dropdown-multiselect';
 import { ClubComponent } from './main/club/club.component';
 import { ClubsComponent } from './main/clubs/clubs.component';
+
+import { SearchVideoTimelineTeamPipe } from './pipes/searchVideoTimelineTeam.pipe'
 
 const PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {};
 
@@ -120,11 +124,14 @@ const appRoutes: Routes = [
     IonRangeSliderComponent,
     SearchPipe,
     SearchEventPipe,
+    SearchVideoEventPipe,
+    SearchVideoTimelinePipe,
     NumberCollectionPipe,
     ClubsAdministrationComponent,
     VideoOverviewComponent,
     ClubComponent,
-    ClubsComponent
+    ClubsComponent,
+    SearchVideoTimelineTeamPipe
   ],
   imports: [
     BrowserModule,

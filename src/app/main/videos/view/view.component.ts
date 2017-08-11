@@ -148,6 +148,7 @@ export class ViewComponent implements OnInit {
   }
   onChange() {
     // alert('hello');
+    if (!this.optionsModel) this.optionsModel = []
     this.searchArray = this.optionsModel.concat(this.optionsModel1);
   }
 
@@ -209,7 +210,7 @@ export class ViewComponent implements OnInit {
                   );
                 }
               });
-              console.log("TRACK",this.track);
+              console.log("TRACK", this.track);
               // console.info('Event', this.trackEvent);
               this.myOptions = this.trackTeam;
               this.myOptions1 = this.trackEvent;
@@ -220,14 +221,14 @@ export class ViewComponent implements OnInit {
               document.styleSheets[0].addRule('.range-slider /deep/ .irs-slider.single::after', 'height: ' + greenLineHeight + 'px !important');
               document.styleSheets[0].addRule('vg-scrub-bar-cue-points .cue-point-container .cue-point', 'pointer-events:auto !important');
               document.styleSheets[0].addRule('vg-scrub-bar-cue-points', 'pointer-events:auto !important');
-              
+
               let cueData = this.track.cues;
-              let intId = setInterval(function(){
+              let intId = setInterval(function () {
                 var container = document.getElementsByClassName("cue-point-container")[0];
-                if(container){
+                if (container) {
                   var container_child = container.getElementsByClassName('cue-point');
-                  if(container_child){
-                    for(var i=0; i<cueData.length;i++){
+                  if (container_child) {
+                    for (var i = 0; i < cueData.length; i++) {
                       let cuePoint = JSON.parse(cueData[i].text)
                       let z = document.createAttribute('data-tooltip');
                       z.value = cuePoint.title + " - " + cuePoint.team;
@@ -238,7 +239,7 @@ export class ViewComponent implements OnInit {
                 }
 
               }, 1000);
-              
+
               //console.log(document.styleSheets[0])
               //console.log(this.trackingJsonData);
               //console.log(this.videoEvents);
@@ -301,7 +302,7 @@ export class ViewComponent implements OnInit {
     this.track = this.api.textTracks[0];
     console.log(api);
     //this.api.getDefaultMedia().subscriptions.loadedMetadata.subscribe(this.playVideo.bind(this));
-    
+
     this.api.getDefaultMedia().subscriptions.ended.subscribe(
       () => {
         // Set the video to the beginning
@@ -361,7 +362,7 @@ export class ViewComponent implements OnInit {
     this.currentItem = this.playlist[this.currentIndex];
     //UNCOMMENT THIS TO ENABLE INTRO AND OUTRO
     // this.currentIndex++;
-    
+
     // if (this.currentIndex === this.playlist.length) {
     //   this.currentIndex = 0;
     //   this.currentItem = this.playlist[this.currentIndex];
@@ -465,28 +466,28 @@ export class ViewComponent implements OnInit {
     this.api.getDefaultMedia().currentTime = currentTime;
   }
 
-  getEventIcon(eventName){
-    switch(eventName) {
-        case 'Corner':
-            return 'assets/event-icons/corner-flag.svg';
-        case 'Goal':
-            return 'assets/event-icons/net-ball.svg';
-        case 'Offside':
-            return 'assets/event-icons/offside.svg';
-        case 'Free Kick':
-            return 'assets/event-icons/foot.svg';
-        case 'Shoot':
-            return 'assets/event-icons/ball.svg';
-        case 'Yellow Card':
-            return 'assets/event-icons/cards.svg';
-        case 'Red Card':
-            return 'assets/event-icons/cards.svg';
-        case 'Change':
-            return 'assets/event-icons/player-1.svg';
-        case 'Pass':
-            return 'assets/event-icons/ball-2.svg';
-        default:
-            return 'assets/event-icons/clock.svg';
+  getEventIcon(eventName) {
+    switch (eventName) {
+      case 'Corner':
+        return 'assets/event-icons/corner-flag.svg';
+      case 'Goal':
+        return 'assets/event-icons/net-ball.svg';
+      case 'Offside':
+        return 'assets/event-icons/offside.svg';
+      case 'Free Kick':
+        return 'assets/event-icons/foot.svg';
+      case 'Shoot':
+        return 'assets/event-icons/ball.svg';
+      case 'Yellow Card':
+        return 'assets/event-icons/cards.svg';
+      case 'Red Card':
+        return 'assets/event-icons/cards.svg';
+      case 'Change':
+        return 'assets/event-icons/player-1.svg';
+      case 'Pass':
+        return 'assets/event-icons/ball-2.svg';
+      default:
+        return 'assets/event-icons/clock.svg';
     }
   }
 }

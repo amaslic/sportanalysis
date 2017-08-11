@@ -44,20 +44,9 @@ export class SearchEventPipe implements PipeTransform {
             });
         }
         else {
-            // if (!search) return value;
-            // return (value || []).filter((item) => keys.split(',').some(key => item.hasOwnProperty(key) && new RegExp(search, 'gi').test(item[key])));
-
             return (value || []).filter((item) => {
-                //keys.split(',').some(key => item.hasOwnProperty(key) && term.indexOf(item[key]) > -1)
                 let result = false;
-
-
-
                 if ((!search || search.length > 0)) {
-                    console.info('Name ' + item['name']);
-                    console.info('team ' + item['team']);
-                    console.info('search ' + search);
-
                     if ((item['name'] && item['name'].toLowerCase().indexOf(search.toLowerCase()) != -1) || (item['team'] && item['team'].toLowerCase().indexOf(search.toLowerCase()) != -1)) {
                         result = true;
                     }
