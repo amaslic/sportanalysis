@@ -20,7 +20,7 @@ html {
 
 .demo-contents{
   background: #f2f1f6;
-  padding-top: 50px;
+  
   min-height: calc(100vh - 170px);
   overflow: auto;
 }
@@ -318,7 +318,7 @@ html {
 
 img.logo-img{
   max-width:80px;
-  margin-top:10px;
+  margin-top:5px;
 }
 
 
