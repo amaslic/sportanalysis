@@ -40,9 +40,14 @@ export class SearchVideoTimelinePipe implements PipeTransform {
             }
             else return true
         });
-
+        let greenLineHeight;
         if (fData.length > 0) {
-            let greenLineHeight = fData.length * 30 + 45;
+            if (fData.length <= 3) {
+                greenLineHeight = fData.length * 30 + 35;
+            }
+            else {
+                greenLineHeight = fData.length * 30 + 50;
+            }
 
             document.styleSheets[0].addRule('.range-slider /deep/ .irs-slider.single::after', 'height: ' + greenLineHeight + 'px !important');
             document.styleSheets[0].addRule('vg-scrub-bar-cue-points .cue-point-container .cue-point', 'pointer-events:auto !important');
