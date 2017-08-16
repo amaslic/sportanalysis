@@ -2,10 +2,14 @@ import {
     Pipe,
     PipeTransform
 } from '@angular/core';
-
+declare var document: any;
+declare var VTTCue;
 @Pipe({
     name: 'searchVideoTimeline'
 })
+
+
+
 export class SearchVideoTimelinePipe implements PipeTransform {
 
     public transform(value, keys: string, term: any) {
@@ -36,7 +40,16 @@ export class SearchVideoTimelinePipe implements PipeTransform {
             }
             else return true
         });
-        // console.log(fData);
+
+        if (fData.length > 0) {
+            let greenLineHeight = fData.length * 30 + 45;
+
+            document.styleSheets[0].addRule('.range-slider /deep/ .irs-slider.single::after', 'height: ' + greenLineHeight + 'px !important');
+            document.styleSheets[0].addRule('vg-scrub-bar-cue-points .cue-point-container .cue-point', 'pointer-events:auto !important');
+            document.styleSheets[0].addRule('vg-scrub-bar-cue-points', 'pointer-events:auto !important');
+        }
+
+
         return fData;
     }
 }

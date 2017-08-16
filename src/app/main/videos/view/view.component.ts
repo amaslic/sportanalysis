@@ -147,9 +147,10 @@ export class ViewComponent implements OnInit {
 
   }
   onChange() {
-    // alert('hello');
+    //alert('hello');
     if (!this.optionsModel) this.optionsModel = []
     this.searchArray = this.optionsModel.concat(this.optionsModel1);
+
   }
 
   getVideoTrackingDataItems(id: String) {
