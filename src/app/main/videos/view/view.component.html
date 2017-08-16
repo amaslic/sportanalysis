@@ -130,7 +130,8 @@
   </div>
 </div>
 <div class="right-sidebar">
-  <div class="match-info filters col-xs-12">
+  <i class="fa fa-search show-filters" aria-hidden="true" (click)="showFilters = !showFilters"></i>
+  <div class="match-info filters col-xs-12" *ngIf="showFilters">
     <h2 class="title">
       <span class="title-span">Filters</span>
       <div class="form-group" style="" class="first-dropdown">

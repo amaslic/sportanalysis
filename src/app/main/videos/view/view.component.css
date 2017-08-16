@@ -72,6 +72,20 @@
   padding-bottom: 30px;
 }
 
+i.show-filters{
+  max-width: 330px;
+  width: 100%;
+  text-align: right;
+  cursor: pointer;
+  font-size: 24px;
+  color: #59719a;
+  padding-top: 15px;
+}
+
+i.show-filters:hover{
+  color: #009cff;
+}
+
 .tactics ul {
   padding: 0;
   list-style: none;
@@ -214,7 +228,7 @@
 }
 
 .playlist ul {
-  max-height: 637px;
+  max-height: 695px;
   /*overflow: auto;*/
 }
 
@@ -230,6 +244,14 @@
   max-width: 100px;
   width: 100%;
 }
+/*
+.right-sidebar .match-status{
+  max-width: 360px;
+  width: 100%;
+  position: absolute;
+  background: #F2F1F6;
+  z-index: 999;
+}*/
 
 .playlist h2 {
   font-size: 16px;
@@ -893,6 +915,12 @@ ss-multiselect-dropdown /deep/ .btn{
 }
 
 @media (max-width: 991px) {
+  i.show-filters{
+    padding-top: 50px;
+    text-align: left;
+    padding-left: 15px;
+  }
+
   .main-content {
     max-width: 100%;
   }

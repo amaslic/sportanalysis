@@ -323,6 +323,7 @@ html {
     width: 100%;
     cursor:pointer;
     color:#59719a;
+    margin-left: -4px;
 }
 
 .menu-item-list li:hover, .menu-item-list li.is-active{
