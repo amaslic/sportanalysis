@@ -68,8 +68,8 @@
           <i class="fa fa-clock-o" aria-hidden="true"></i> Events
         </div>
       </div>
-      <!--| searchVideoTimeline:'team,name':[optionsModel,optionsModel1,searchQuery]"  -->
-      <div class="form-group clearfix" style="font-size: 12px; text-align: center" *ngFor="let evtGroup of videoEvents | searchVideoTimeline:'team,name':[optionsModel,optionsModel1,searchQuery]"
+      <!--| searchVideoTimeline:'team,name':[teamModel,eventModel,searchQuery]"  -->
+      <div class="form-group clearfix" style="font-size: 12px; text-align: center" *ngFor="let evtGroup of videoEvents | searchVideoTimeline:'team,name':[teamModel,eventModel,searchQuery]"
         [ngClass]="{'active': checkIfCurrentTime(evtGroup)}">
         <div class="input-group">
           <i style="max-width: 20px; width: 100%; float: left; margin-top: 9px;" class="fa fa-eye" aria-hidden="true"></i>
@@ -81,7 +81,7 @@
               <div class="dropdown" dropdown [dropdownToggle]="false">
                 <button class="btn btn-primary dropdown-toggle" type="button" dropdown-open></button>
                 <ul class="dropdown-menu">
-                  <li *ngFor="let evt of evtGroup.values | searchVideoTimelineTeam:'team,name':[optionsModel,optionsModel1,searchQuery]"><a href="#" (click)="goToEvent($event, evt)">{{evt.team}} ({{evt.start}}s-{{evt.end}}s)</a></li>
+                  <li *ngFor="let evt of evtGroup.values | searchVideoTimelineTeam:'team,name':[teamModel,eventModel,searchQuery]"><a href="#" (click)="goToEvent($event, evt)">{{evt.team}} ({{evt.start}}s-{{evt.end}}s)</a></li>
                 </ul>
               </div>
             </div>
@@ -108,12 +108,12 @@
       <div class="box-container" style="width:100%">
         <!-- <perfect-scrollbar class="perfect-scrollbar-timeline"> -->
         <!-- <pre>{{videoEvents | json}}</pre> -->
-        <div class="video-select clearfix" style="width:100%" *ngFor="let evtGroup of videoEvents | searchVideoTimeline:'team,name':[optionsModel,optionsModel1,searchQuery]"
+        <div class="video-select clearfix" style="width:100%" *ngFor="let evtGroup of videoEvents | searchVideoTimeline:'team,name':[teamModel,eventModel,searchQuery]"
           [ngClass]="{'active': checkIfCurrentTime(evtGroup)}">
           <!-- timeline preview -->
 
           <div class="video-select-timeline" style="width:100%">
-            <div *ngFor="let evt of evtGroup.values | searchVideoTimelineTeam:'team,name':[optionsModel,optionsModel1,searchQuery]" class="video-line"
+            <div *ngFor="let evt of evtGroup.values | searchVideoTimelineTeam:'team,name':[teamModel,eventModel,searchQuery]" class="video-line"
               (click)="goToEvent($event, evt)" [ngClass]="{'active': checkIfCurrentEvent(evt)}" [style.left]="evt.start/roundedDuration*100 + '%'"
               [style.width]="evt.duration/roundedDuration*100+'%'"></div>
           </div>
@@ -134,10 +134,10 @@
     <h2 class="title">
       <span class="title-span">Filters</span>
       <div class="form-group" style="" class="first-dropdown">
-        <ss-multiselect-dropdown [options]="myOptions" [texts]="teamTexts" [settings]="teamSettings" [(ngModel)]="optionsModel" (ngModelChange)="onChange($event)"></ss-multiselect-dropdown>
+        <ss-multiselect-dropdown [options]="myOptions" [texts]="teamTexts" [settings]="teamSettings" [(ngModel)]="teamModel" (ngModelChange)="onChange($event)"></ss-multiselect-dropdown>
       </div>
       <div class="form-group" style="" class="second-dropdown">
-        <ss-multiselect-dropdown [options]="myOptions1" [texts]="eventTexts" [settings]="eventSettings" [(ngModel)]="optionsModel1"
+        <ss-multiselect-dropdown [options]="myOptions1" [texts]="eventTexts" [settings]="eventSettings" [(ngModel)]="eventModel"
           (ngModelChange)="onChange($event)"></ss-multiselect-dropdown>
       </div>
       <span class="settings"><a *ngIf="video" [routerLink]="['/videos/settings', video._id]">Settings</a></span>
@@ -167,7 +167,7 @@
     <div class="stats">
       <perfect-scrollbar>
         <ul>
-          <ng-container *ngFor="let event of trackingJsonData | searchEvent:'team,name':[optionsModel,optionsModel1,searchQuery]">
+          <ng-container *ngFor="let event of trackingJsonData | searchEvent:'team,name':[teamModel,eventModel,searchQuery]">
 
             <li>
               <a style="display:block" class="playlist-info" href="#" (click)="goToEvent($event, event)" *ngIf="event.start !== 'NaN'">

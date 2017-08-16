@@ -89,10 +89,10 @@ export class ViewComponent implements OnInit {
 
   eventPlayQueue: any = [];
 
-  optionsModel: any[];
+  teamModel: any[];
   myOptions: IMultiSelectOption[];
 
-  optionsModel1: any[];
+  eventModel: any[];
   myOptions1: IMultiSelectOption[];
   searchArray: any = [];
 
@@ -148,8 +148,8 @@ export class ViewComponent implements OnInit {
   }
   onChange() {
     //alert('hello');
-    if (!this.optionsModel) this.optionsModel = []
-    this.searchArray = this.optionsModel.concat(this.optionsModel1);
+    if (!this.teamModel) this.teamModel = []
+    this.searchArray = this.teamModel.concat(this.eventModel);
 
   }
 
