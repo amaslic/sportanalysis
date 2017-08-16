@@ -35,7 +35,21 @@ export class UploadComponent implements OnInit {
     this.router = r;
   }
 
-  ngOnInit() {}
+  ngOnInit() {
+    if (!this.uploading) {
+      window.onbeforeunload = function (e) {
+        var e = e || window.event;
+
+        //IE & Firefox
+        if (e) {
+          e.returnValue = 'Are you sure?';
+        }
+
+        // For Safari
+        return 'Are you sure?';
+      };
+    }
+  }
   onSelectFile(e) {
     console.log(e);
     const files = e.target.files;
@@ -72,7 +86,7 @@ export class UploadComponent implements OnInit {
     event.preventDefault();
   }
 
-   onSubmit(f) {
+  onSubmit(f) {
     if (!f.valid || !this.selectedFile.name) {
       return false;
     }
@@ -81,27 +95,27 @@ export class UploadComponent implements OnInit {
     f.value.token = this.userService.token;
     f.value.user = this.userService.user._id;
     this.videoService.upload(f.value).subscribe(
-        (response) => this.onUploadSuccess(response),
-        (error) => this.onError(error)
-      );
-   }
+      (response) => this.onUploadSuccess(response),
+      (error) => this.onError(error)
+    );
+  }
 
-   onUploadSuccess(response){
-     console.log(response);
-     this.uploading = false;
-     const res = JSON.parse(response._body);
-     alert(res.msg);
-     this.router.navigateByUrl('/videos');
-   }
+  onUploadSuccess(response) {
+    console.log(response);
+    this.uploading = false;
+    const res = JSON.parse(response._body);
+    alert(res.msg);
+    this.router.navigateByUrl('/videos');
+  }
 
-   onError(error) {
+  onError(error) {
     const errorBody = JSON.parse(error._body);
     console.error(errorBody);
     this.uploading = false;
     alert(errorBody.msg);
   }
 
-  getSizeInMB(size){
+  getSizeInMB(size) {
     return Math.round(size / 1024 / 1024) + 'MB';
   }
 }

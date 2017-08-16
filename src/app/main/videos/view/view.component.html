@@ -68,8 +68,9 @@
           <i class="fa fa-clock-o" aria-hidden="true"></i> Events
         </div>
       </div>
-
-      <div class="form-group clearfix" style="font-size: 12px; text-align: center" *ngFor="let evtGroup of videoEvents" [ngClass]="{'active': checkIfCurrentTime(evtGroup)}">
+      <!--| searchVideoTimeline:'team,name':[optionsModel,optionsModel1,searchQuery]"  -->
+      <div class="form-group clearfix" style="font-size: 12px; text-align: center" *ngFor="let evtGroup of videoEvents | searchVideoTimeline:'team,name':[optionsModel,optionsModel1,searchQuery]"
+        [ngClass]="{'active': checkIfCurrentTime(evtGroup)}">
         <div class="input-group">
           <i style="max-width: 20px; width: 100%; float: left; margin-top: 9px;" class="fa fa-eye" aria-hidden="true"></i>
           <div class="" style="max-width: 80px; width: 100%; float: left; margin-top: 7px;" (click)="fillQueue(evtGroup)">
@@ -80,7 +81,7 @@
               <div class="dropdown" dropdown [dropdownToggle]="false">
                 <button class="btn btn-primary dropdown-toggle" type="button" dropdown-open></button>
                 <ul class="dropdown-menu">
-                  <li *ngFor="let evt of evtGroup.values"><a href="#" (click)="goToEvent($event, evt)">{{evt.team}} ({{evt.start}}s-{{evt.end}}s)</a></li>
+                  <li *ngFor="let evt of evtGroup.values | searchVideoTimelineTeam:'team,name':[optionsModel,optionsModel1,searchQuery]"><a href="#" (click)="goToEvent($event, evt)">{{evt.team}} ({{evt.start}}s-{{evt.end}}s)</a></li>
                 </ul>
               </div>
             </div>
@@ -106,11 +107,15 @@
 
       <div class="box-container" style="width:100%">
         <!-- <perfect-scrollbar class="perfect-scrollbar-timeline"> -->
-        <div class="video-select clearfix" style="width:100%" *ngFor="let evtGroup of videoEvents" [ngClass]="{'active': checkIfCurrentTime(evtGroup)}">
+        <!-- <pre>{{videoEvents | json}}</pre> -->
+        <div class="video-select clearfix" style="width:100%" *ngFor="let evtGroup of videoEvents | searchVideoTimeline:'team,name':[optionsModel,optionsModel1,searchQuery]"
+          [ngClass]="{'active': checkIfCurrentTime(evtGroup)}">
           <!-- timeline preview -->
+
           <div class="video-select-timeline" style="width:100%">
-            <div *ngFor="let evt of evtGroup.values" class="video-line" (click)="goToEvent($event, evt)" [ngClass]="{'active': checkIfCurrentEvent(evt)}"
-              [style.left]="evt.start/roundedDuration*100 + '%'" [style.width]="evt.duration/roundedDuration*100+'%'"></div>
+            <div *ngFor="let evt of evtGroup.values | searchVideoTimelineTeam:'team,name':[optionsModel,optionsModel1,searchQuery]" class="video-line"
+              (click)="goToEvent($event, evt)" [ngClass]="{'active': checkIfCurrentEvent(evt)}" [style.left]="evt.start/roundedDuration*100 + '%'"
+              [style.width]="evt.duration/roundedDuration*100+'%'"></div>
           </div>
           <!-- end of timeline preview -->
         </div>
@@ -128,15 +133,15 @@
   <div class="match-info filters col-xs-12">
     <h2 class="title">
       <span class="title-span">Filters</span>
-       <div class="form-group" style= "" class="first-dropdown">
+      <div class="form-group" style="" class="first-dropdown">
         <ss-multiselect-dropdown [options]="myOptions" [texts]="teamTexts" [settings]="teamSettings" [(ngModel)]="optionsModel" (ngModelChange)="onChange($event)"></ss-multiselect-dropdown>
       </div>
-       <div class="form-group" style="" class="second-dropdown">
+      <div class="form-group" style="" class="second-dropdown">
         <ss-multiselect-dropdown [options]="myOptions1" [texts]="eventTexts" [settings]="eventSettings" [(ngModel)]="optionsModel1"
           (ngModelChange)="onChange($event)"></ss-multiselect-dropdown>
       </div>
       <span class="settings"><a *ngIf="video" [routerLink]="['/videos/settings', video._id]">Settings</a></span>
-      
+
     </h2>
 
     <div class="match-club  search clearfix form-inline">
@@ -146,9 +151,9 @@
         <span *ngIf="false"><img src="assets/images/search.png" alt="Search"></span>
       </div>
       <br>
-     
 
-     
+
+
     </div>
 
   </div>
@@ -167,10 +172,11 @@
             <li>
               <a style="display:block" class="playlist-info" href="#" (click)="goToEvent($event, event)" *ngIf="event.start !== 'NaN'">
                 <div class="message-img">
-                  {{fancyTimeFormat(event.start)}} 
+                  {{fancyTimeFormat(event.start)}}
                 </div>
                 <div class="message-list-content">
-                  <h4><img [src]="getEventIcon(event.name)" alt="Event Icon" width="38" height="38">{{event.name}} ({{event.team}}) </h4>
+                  <h4><img [src]="getEventIcon(event.name)" alt="Event Icon" width="38" height="38">{{event.name}} ({{event.team}})
+                  </h4>
                   <!-- <p>Friday, 9 June 2017</p> -->
                   <div class="dots"><i class="fa fa-ellipsis-h" aria-hidden="true"></i></div>
                 </div>
@@ -182,23 +188,23 @@
       </perfect-scrollbar>
     </div>
   </div>
- 
-    <div class="chat-box">
-      <!--<h4>Comments:</h4>-->
-      <perfect-scrollbar style="visibility:hidden">
-        <ul>
-          <li>
-            <!--<i>@ Paul: </i>-->
-            <span>
+
+  <div class="chat-box">
+    <!--<h4>Comments:</h4>-->
+    <perfect-scrollbar style="visibility:hidden">
+      <ul>
+        <li>
+          <!--<i>@ Paul: </i>-->
+          <span>
               Please attack in this situation
             </span>
-          </li>
-        </ul>
-      </perfect-scrollbar>
-      <div class="reply">
-        <h5>Reply</h5>
-        <input type="text" />
-      </div>
+        </li>
+      </ul>
+    </perfect-scrollbar>
+    <div class="reply">
+      <h5>Reply</h5>
+      <input type="text" />
     </div>
+  </div>
 
 </div>
