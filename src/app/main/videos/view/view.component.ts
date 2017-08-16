@@ -234,6 +234,7 @@ export class ViewComponent implements OnInit {
                       let z = document.createAttribute('data-tooltip');
                       z.value = cuePoint.title + " - " + cuePoint.team;
                       container_child[i].setAttributeNode(z);
+                      console.log('z' + z.value);
                     }
                     clearInterval(intId);
                   }
@@ -243,7 +244,7 @@ export class ViewComponent implements OnInit {
 
               //console.log(document.styleSheets[0])
               //console.log(this.trackingJsonData);
-              //console.log(this.videoEvents);
+              //console.log('cuePoint' + this.trackingJsonData);
             }
 
 
@@ -431,13 +432,14 @@ export class ViewComponent implements OnInit {
   }
 
   onEnterCuePoint($event) {
-    console.log($event);
+    console.log('onEnterCuePointBefore' + $event);
     this.cuePointData = JSON.parse($event.text);
-
+    console.log('onEnterCuePointAfter' + this.cuePointData);
   }
 
   onExitCuePoint($event) {
     this.cuePointData = null;
+    console.log('onExitCuePointAfter' + this.cuePointData);
   }
 
   fillQueue(group) {
@@ -465,6 +467,56 @@ export class ViewComponent implements OnInit {
     let currentTime = this.roundedDuration / 100 * percentange;
     console.log("Timeline Clicked", currentTime);
     this.api.getDefaultMedia().currentTime = currentTime;
+  }
+  public getColour(name) {
+    let style: any = null;
+   // console.log(name);
+    switch (name) {
+      case 'Corner':
+        style = {
+          'background-color': 'red'
+        }
+
+      case 'Goal':
+        style = {
+          'background-color': '#27c79a'
+        }
+      case 'Offside':
+        style = {
+          'background-color': '#767d9a'
+        }
+      case 'Free Kick':
+        style = {
+          'background-color': '#009cff'
+        }
+      case 'Shoot':
+        style = {
+          'background-color': 'red'
+        }
+      case 'Yellow Card':
+        style = {
+          'background-color': 'yellow'
+        }
+      case 'Red Card':
+        style = {
+          'background-color': 'red'
+        }
+      case 'Change':
+        style = {
+          'background-color': '#009cff'
+        }
+      case 'Pass':
+        style = {
+          'background-color': 'red'
+        }
+      default:
+        style = {
+          'background-color': '#009cff'
+        }
+    }
+
+
+    return style;
   }
 
   getEventIcon(eventName) {
