@@ -21,7 +21,7 @@ html {
 .demo-contents{
   background: #f2f1f6;
   padding-top: 100px;
-  min-height: calc(100vh - 200px);
+  min-height: calc(100vh - 100px);
   overflow: auto;
 }
 
@@ -225,6 +225,14 @@ html {
 
 .ng-sidebar-container--animate{
   /*padding-left: 99px;*/
+}
+
+.header-menu-items{
+  line-height: 50px;
+}
+
+.header-menu-items ul li{
+  line-height: 0px;
 }
 
 @media screen and (max-width: 779px) {

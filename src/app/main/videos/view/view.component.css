@@ -73,13 +73,15 @@
 }
 
 i.show-filters{
-  max-width: 330px;
+ /* max-width: 330px;
   width: 100%;
-  text-align: right;
+  text-align: right;*/
   cursor: pointer;
   font-size: 24px;
   color: #59719a;
-  padding-top: 15px;
+  padding-top: 10px;
+  padding-right: 18px;
+  float: right;
 }
 
 i.show-filters:hover{
@@ -210,6 +212,7 @@ i.show-filters:hover{
   font-size: 18px;
   color: #7f8181;
   margin-top: 13px;
+  float: left;
 }
 
 .events-list table {
@@ -228,7 +231,7 @@ i.show-filters:hover{
 }
 
 .playlist ul {
-  max-height: 695px;
+  max-height: 745px;
   /*overflow: auto;*/
 }
 
@@ -916,9 +919,9 @@ ss-multiselect-dropdown /deep/ .btn{
 
 @media (max-width: 991px) {
   i.show-filters{
-    padding-top: 50px;
-    text-align: left;
-    padding-left: 15px;
+   /* padding-top: 50px; */
+   /* text-align: left;*/
+    /*padding-left: 15px;*/
   }
 
   .main-content {

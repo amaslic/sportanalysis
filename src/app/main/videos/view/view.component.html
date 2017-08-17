@@ -130,7 +130,10 @@
   </div>
 </div>
 <div class="right-sidebar">
-  <i class="fa fa-search show-filters" aria-hidden="true" (click)="showFilters = !showFilters"></i>
+   <div class="events-list match-status col-xs-12">
+    <h2 class="title">Event list</h2>
+    <i class="fa fa-search show-filters" aria-hidden="true" (click)="showFilters = !showFilters"></i>
+  </div> 
   <div class="match-info filters col-xs-12" *ngIf="showFilters">
     <h2 class="title">
       <span class="title-span">Filters</span>
@@ -159,10 +162,7 @@
 
   </div>
 
-  <div class="events-list match-status col-xs-12">
-    <h2 class="title">Event list</h2>
-
-  </div>
+ 
 
   <div class="match-status playlist col-xs-12">
     <div class="stats">
