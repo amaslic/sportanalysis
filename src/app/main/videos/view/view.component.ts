@@ -468,56 +468,6 @@ export class ViewComponent implements OnInit {
     console.log("Timeline Clicked", currentTime);
     this.api.getDefaultMedia().currentTime = currentTime;
   }
-  public getColour(name) {
-    let style: any = null;
-   // console.log(name);
-    switch (name) {
-      case 'Corner':
-        style = {
-          'background-color': 'red'
-        }
-
-      case 'Goal':
-        style = {
-          'background-color': '#27c79a'
-        }
-      case 'Offside':
-        style = {
-          'background-color': '#767d9a'
-        }
-      case 'Free Kick':
-        style = {
-          'background-color': '#009cff'
-        }
-      case 'Shoot':
-        style = {
-          'background-color': 'red'
-        }
-      case 'Yellow Card':
-        style = {
-          'background-color': 'yellow'
-        }
-      case 'Red Card':
-        style = {
-          'background-color': 'red'
-        }
-      case 'Change':
-        style = {
-          'background-color': '#009cff'
-        }
-      case 'Pass':
-        style = {
-          'background-color': 'red'
-        }
-      default:
-        style = {
-          'background-color': '#009cff'
-        }
-    }
-
-
-    return style;
-  }
 
   getEventIcon(eventName) {
     switch (eventName) {

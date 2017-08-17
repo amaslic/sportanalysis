@@ -65,6 +65,7 @@ import { ClubComponent } from './main/club/club.component';
 import { ClubsComponent } from './main/clubs/clubs.component';
 
 import { SearchVideoTimelineTeamPipe } from './pipes/searchVideoTimelineTeam.pipe'
+import { ClassNamePipe } from './pipes/className.pipe';
 
 const PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {};
 
@@ -131,7 +132,8 @@ const appRoutes: Routes = [
     VideoOverviewComponent,
     ClubComponent,
     ClubsComponent,
-    SearchVideoTimelineTeamPipe
+    SearchVideoTimelineTeamPipe,
+    ClassNamePipe
   ],
   imports: [
     BrowserModule,

@@ -113,9 +113,9 @@
           <!-- timeline preview -->
 
           <div class="video-select-timeline" style="width:100%">
-            <div *ngFor="let evt of evtGroup.values | searchVideoTimelineTeam:'team,name':[teamModel,eventModel,searchQuery]" class="video-line"
-              (click)="goToEvent($event, evt)" [ngClass]="{'active': checkIfCurrentEvent(evt)}" [ngStyle]="getColour(evt.name)"
-              [style.left]="evt.start/roundedDuration*100 + '%'" [style.width]="evt.duration/roundedDuration*100+'%'"> </div>
+            <div *ngFor="let evt of evtGroup.values | searchVideoTimelineTeam:'team,name':[teamModel,eventModel,searchQuery]" class="video-line {{evt.name | className}}"
+              (click)="goToEvent($event, evt)" [ngClass]="{'active': checkIfCurrentEvent(evt)}" [style.left]="evt.start/roundedDuration*100 + '%'"
+              [style.width]="evt.duration/roundedDuration*100+'%'"></div>
           </div>
           <!-- end of timeline preview -->
         </div>

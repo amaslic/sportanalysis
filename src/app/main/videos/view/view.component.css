@@ -373,11 +373,30 @@
 .video-line {
   height: 100%;
   width: 2px;
-  background: #b4b4b4;
+   background: #b4b4b4; 
   position: absolute;
   left: 11%;
   height: 30px;
   cursor: pointer;
+}
+
+.video-select-timeline .red_card{
+	background:red !important;
+}
+.video-select-timeline .change{
+	background:#009cff !important;
+}
+.video-select-timeline .free-kick{
+	background:#009cff !important;
+}
+.video-select-timeline .yellow-card{
+	background:yellow !important;
+}
+.video-select-timeline .goal{
+	background:#27c79a !important;
+}
+.video-select-timeline .kick-off{
+	background:#767d9a !important;
 }
 
 .video-line:hover{
