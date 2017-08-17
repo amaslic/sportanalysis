@@ -86,6 +86,8 @@ export class ViewComponent implements OnInit {
   currentVideoTime: any;
   track: TextTrack;
   cuePointData: ICuePoint = null;
+  enableOverlay: boolean;
+  videoLoaded: boolean;
 
   eventPlayQueue: any = [];
 
@@ -234,7 +236,7 @@ export class ViewComponent implements OnInit {
                       let z = document.createAttribute('data-tooltip');
                       z.value = cuePoint.title + " - " + cuePoint.team;
                       container_child[i].setAttributeNode(z);
-                      console.log('z' + z.value);
+
                     }
                     clearInterval(intId);
                   }
@@ -265,6 +267,7 @@ export class ViewComponent implements OnInit {
   playlist: Array<IMedia>;
   onGetVideoSuccess(response) {
     this.video = JSON.parse(response._body);
+    this.videoLoaded = true;
     this.playlist = [{
       title: 'Intro Video',
       src: 'assets/videos/intro.mp4',
@@ -431,10 +434,24 @@ export class ViewComponent implements OnInit {
     this.api.getDefaultMedia().currentTime = e.from / 100
   }
 
+  onmouseenter($event) {
+    this.enableOverlay = true;
+    setTimeout(() => {
+      this.enableOverlay = false;
+    }, 1500);
+
+  }
+
+  onmouseleave($event) {
+    setTimeout(() => {
+      this.enableOverlay = false;
+    }, 1500);
+  }
+
   onEnterCuePoint($event) {
-    console.log('onEnterCuePointBefore' + $event);
+
     this.cuePointData = JSON.parse($event.text);
-    console.log('onEnterCuePointAfter' + this.cuePointData);
+
   }
 
   onExitCuePoint($event) {

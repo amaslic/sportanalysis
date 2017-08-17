@@ -1,6 +1,19 @@
 <div class="main-content">
+
+  <div class="video-white-bg" id="text-overlay" *ngIf="enableOverlay && videoLoaded">
+    <h3 class="video-title">{{video.title}}</h3>
+    <div class="date">
+      <ul class="list-inline">
+        <li> 2414 views </li>
+        <li> <i class="fa fa-circle" aria-hidden="true"></i> </li>
+        <li>{{video.date | date:"dd.MM.yyyy"}}</li>
+      </ul>
+    </div>
+  </div>
   <div class="video-box">
-    <vg-player *ngIf="video && playlist" (onPlayerReady)="onPlayerReady($event)">
+
+    <vg-player *ngIf="video && playlist" (onPlayerReady)="onPlayerReady($event)" (mousemove)="onmouseenter()" (mouseover)="onmouseenter()"
+      (mouseleave)="onmouseleave()">
       <vg-overlay-play></vg-overlay-play>
       <vg-buffering></vg-buffering>
 
@@ -34,6 +47,7 @@
           (onExitCuePoint)="onExitCuePoint($event)">
       </video>
     </vg-player>
+
   </div>
   <div class="video-timeline" *ngIf="currentIndex===1">
     <div class="clearfix">
@@ -133,10 +147,10 @@
   <div class="match-info filters col-xs-12">
     <h2 class="title">
       <span class="title-span">Filters</span>
-      <div class="form-group" style="" class="first-dropdown">
+      <div class="form-group" class="first-dropdown">
         <ss-multiselect-dropdown [options]="myOptions" [texts]="teamTexts" [settings]="teamSettings" [(ngModel)]="teamModel" (ngModelChange)="onChange($event)"></ss-multiselect-dropdown>
       </div>
-      <div class="form-group" style="" class="second-dropdown">
+      <div class="form-group" class="second-dropdown">
         <ss-multiselect-dropdown [options]="myOptions1" [texts]="eventTexts" [settings]="eventSettings" [(ngModel)]="eventModel"
           (ngModelChange)="onChange($event)"></ss-multiselect-dropdown>
       </div>

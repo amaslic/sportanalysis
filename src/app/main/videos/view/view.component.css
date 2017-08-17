@@ -266,6 +266,8 @@
   /*max-width: calc(100% - 726px);*/
   max-width: calc(100% - 363px);
   width: 100%;
+
+  position: relative;
 }
 
 .video-timeline {
@@ -986,4 +988,13 @@ ss-multiselect-dropdown /deep/ .btn{
 a.playlist-info:hover .message-list-content h4{
   color: white;
   text-decoration: none;
+}
+#text-overlay{
+    position: absolute;
+    z-index: 9;
+    text-align: center;
+    top: 275px;
+    left: 0;
+    color: white;
+    width: 100%;
 }
