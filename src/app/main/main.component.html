@@ -58,8 +58,8 @@
       <li [routerLink]="['/matches']" [routerLinkActive]="['is-active']"><span><i class="fa fa-futbol-o fa-2x" aria-hidden="true"></i><br>MATCHES</span></li>
       <li [routerLink]="['/videos']" [routerLinkActive]="['is-active']"><span><i class="fa fa-video-camera fa-2x" aria-hidden="true"></i><br>VIDEOS</span></li>
       <li [routerLinkActive]="['is-active']"><span><i class="fa fa-sliders fa-2x" aria-hidden="true"></i><br>PLAYLIST</span></li>
-      <li [routerLink]="['/clubs']" [routerLinkActive]="['is-active']"><span><i class="fa fa-shield fa-2x" aria-hidden="true"></i><br>CLUBS</span></li>
-      <li [routerLinkActive]="['is-active']" class="search-option"><span><i class="fa fa-search fa-2x" aria-hidden="true"></i><br>SEARCH</span>
+     <!-- <li [routerLink]="['/clubs']" [routerLinkActive]="['is-active']"><span><i class="fa fa-shield fa-2x" aria-hidden="true"></i><br>CLUBS</span></li>
+      <li [routerLinkActive]="['is-active']" class="search-option"><span><i class="fa fa-search fa-2x" aria-hidden="true"></i><br>SEARCH</span>-->
         <li [routerLinkActive]="['is-active']" [routerLink]="['/videos/upload']" class="search-option"><span><i class="fa fa-upload fa-2x" aria-hidden="true"></i><br>UPLOAD</span>
       </li>
       <!-- <li [routerLinkActive]="['is-active']"><span><i class="fa fa-comment fa-2x" aria-hidden="true"></i><br>Help</span></li> -->
@@ -67,12 +67,12 @@
     </ul>
             <ul class="list-inline pull-right header-menu-items">
           
-              <li>
+            <!--  <li>
                 <img src="assets/images/bubble.png" alt="bubble" />
               </li>
               <li>
                 <img src="assets/images/bell.png" alt="bubble" />
-              </li>
+              </li>-->
               <li>
                 <div class="dropdown" dropdown [dropdownToggle]="false">
                   <button class="btn dropdown-toggle btn-usr" type="button" dropdown-open>{{getUserDisplayName()}}
