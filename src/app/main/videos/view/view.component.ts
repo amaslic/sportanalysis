@@ -65,6 +65,9 @@ export interface IMedia {
   styleUrls: ['./view.component.css']
 })
 export class ViewComponent implements OnInit {
+  timer: NodeJS.Timer;
+  starttime: number;
+  eventPause: boolean;
   private sub: any;
   private videoId: any;
   private baseVideoUrl = GlobalVariables.BASE_VIDEO_URL;
@@ -170,7 +173,7 @@ export class ViewComponent implements OnInit {
       (response: any) => {
         this.trackingDataService.parseXML(response._body).then(
           (response: any) => {
-            console.log('parseXML response', response);
+            // console.log('parseXML response', response);
             if (response.recording) {
               this.videoEvents = this.trackingDataService.groupEvents(response.recording.annotations.annotation, this.api.getDefaultMedia().duration);
               this.trackingJsonData = response.recording.annotations.annotation;
@@ -244,9 +247,7 @@ export class ViewComponent implements OnInit {
 
               }, 1000);
 
-              //console.log(document.styleSheets[0])
-              //console.log(this.trackingJsonData);
-              //console.log('cuePoint' + this.trackingJsonData);
+
             }
 
 
@@ -305,7 +306,7 @@ export class ViewComponent implements OnInit {
   onPlayerReady(api: VgAPI) {
     this.api = api;
     this.track = this.api.textTracks[0];
-    console.log(api);
+
     //this.api.getDefaultMedia().subscriptions.loadedMetadata.subscribe(this.playVideo.bind(this));
 
     this.api.getDefaultMedia().subscriptions.ended.subscribe(
@@ -398,17 +399,37 @@ export class ViewComponent implements OnInit {
     if (parseInt(event.start) <= this.api.getDefaultMedia().currentTime && parseInt(event.end) >= this.api.getDefaultMedia().currentTime) {
       ret = true;
     }
+
+
+    // console.log('event time' + event.end);
+
     return ret;
   }
 
   goToEvent(e, event) {
+
     if (e) {
       e.preventDefault();
       e.stopPropagation();
     }
-    console.log("Goto event", event.start)
+
     this.api.getDefaultMedia().currentTime = event.start;
     this.api.play();
+    this.cleartimer();
+    this.timer = setInterval(() => {
+      if (this.api.getDefaultMedia().currentTime >= parseInt(event.end)) {
+        this.api.pause();
+        this.cleartimer();
+      }
+    }, 1000);
+
+
+
+
+  }
+  cleartimer() {
+    if (this.timer)
+      clearInterval(this.timer);
   }
 
   fancyTimeFormat(time) {
@@ -431,7 +452,10 @@ export class ViewComponent implements OnInit {
 
   public oldSliderTime = 0;
   onChangeTimelineSlider(e) {
-    this.api.getDefaultMedia().currentTime = e.from / 100
+
+    this.api.getDefaultMedia().currentTime = e.from / 100;
+
+
   }
 
   onmouseenter($event) {
@@ -456,7 +480,7 @@ export class ViewComponent implements OnInit {
 
   onExitCuePoint($event) {
     this.cuePointData = null;
-    console.log('onExitCuePointAfter' + this.cuePointData);
+
   }
 
   fillQueue(group) {
@@ -482,7 +506,7 @@ export class ViewComponent implements OnInit {
   timelineClicked(event, container) {
     let percentange = (event.layerX - 20) / container.width * 100;     //17seconds for offset fix
     let currentTime = this.roundedDuration / 100 * percentange;
-    console.log("Timeline Clicked", currentTime);
+
     this.api.getDefaultMedia().currentTime = currentTime;
   }
 
@@ -509,5 +533,8 @@ export class ViewComponent implements OnInit {
       default:
         return 'assets/event-icons/clock.svg';
     }
+  }
+  ngOnDestroy() {
+    this.cleartimer();
   }
 }
