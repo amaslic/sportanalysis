@@ -426,6 +426,11 @@ i.show-filters:hover{
 	background:#767d9a !important;
 }
 
+.video-select-timeline .kick-off:hover, .video-select-timeline .goal:hover, .video-select-timeline .yellow-card:hover, .video-select-timeline .free-kick:hover, 
+.video-select-timeline .change:hover, .video-select-timeline .red_card:hover{
+  background: #0EE999!important;
+}
+
 .video-line:hover{
   background: #0EE999;
 }
@@ -631,7 +636,7 @@ i.show-filters:hover{
 .chat-box{
   padding: 20px;
       position: absolute;
-  
+ display: none;
     bottom: 35px;
 }
 .chat-box ul{
