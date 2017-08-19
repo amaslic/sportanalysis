@@ -20,22 +20,32 @@ import {
   styleUrls: ['./videos.component.css']
 })
 export class VideosComponent implements OnInit {
+  grid: boolean;
+  list: boolean;
   private baseVideoUrl = GlobalVariables.BASE_VIDEO_URL;
   videoList: Video[];
   constructor(private videoService: VideoService, private userService: UserService) { }
 
   ngOnInit() {
     this.getVideos();
+    this.gridView();
   }
-
-  getVideos(){
+  gridView() {
+    this.grid = true;
+    this.list = false;
+  }
+  listView() {
+    this.grid = false;
+    this.list = true;
+  }
+  getVideos() {
     this.videoService.getVideos(this.userService.token).subscribe(
-        (response) => this.onGetVideosSuccess(response),
-        (error) => this.onError(error)
-      );
+      (response) => this.onGetVideosSuccess(response),
+      (error) => this.onError(error)
+    );
   }
 
-  onGetVideosSuccess(response){
+  onGetVideosSuccess(response) {
     this.videoList = JSON.parse(response._body);
     console.log(this.videoList);
   }

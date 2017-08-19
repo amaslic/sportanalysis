@@ -65,6 +65,9 @@ export interface IMedia {
   styleUrls: ['./view.component.css']
 })
 export class ViewComponent implements OnInit {
+  timer: NodeJS.Timer;
+  starttime: number;
+  eventPause: boolean;
   private sub: any;
   private videoId: any;
   private baseVideoUrl = GlobalVariables.BASE_VIDEO_URL;
@@ -86,13 +89,15 @@ export class ViewComponent implements OnInit {
   currentVideoTime: any;
   track: TextTrack;
   cuePointData: ICuePoint = null;
+  enableOverlay: boolean;
+  videoLoaded: boolean;
 
   eventPlayQueue: any = [];
 
-  optionsModel: any[];
+  teamModel: any[];
   myOptions: IMultiSelectOption[];
 
-  optionsModel1: any[];
+  eventModel: any[];
   myOptions1: IMultiSelectOption[];
   searchArray: any = [];
 
@@ -148,8 +153,8 @@ export class ViewComponent implements OnInit {
   }
   onChange() {
     //alert('hello');
-    if (!this.optionsModel) this.optionsModel = []
-    this.searchArray = this.optionsModel.concat(this.optionsModel1);
+    if (!this.teamModel) this.teamModel = []
+    this.searchArray = this.teamModel.concat(this.eventModel);
 
   }
 
@@ -168,7 +173,7 @@ export class ViewComponent implements OnInit {
       (response: any) => {
         this.trackingDataService.parseXML(response._body).then(
           (response: any) => {
-            console.log('parseXML response', response);
+            // console.log('parseXML response', response);
             if (response.recording) {
               this.videoEvents = this.trackingDataService.groupEvents(response.recording.annotations.annotation, this.api.getDefaultMedia().duration);
               this.trackingJsonData = response.recording.annotations.annotation;
@@ -234,6 +239,7 @@ export class ViewComponent implements OnInit {
                       let z = document.createAttribute('data-tooltip');
                       z.value = cuePoint.title + " - " + cuePoint.team;
                       container_child[i].setAttributeNode(z);
+
                     }
                     clearInterval(intId);
                   }
@@ -241,9 +247,7 @@ export class ViewComponent implements OnInit {
 
               }, 1000);
 
-              //console.log(document.styleSheets[0])
-              //console.log(this.trackingJsonData);
-              //console.log(this.videoEvents);
+
             }
 
 
@@ -264,6 +268,7 @@ export class ViewComponent implements OnInit {
   playlist: Array<IMedia>;
   onGetVideoSuccess(response) {
     this.video = JSON.parse(response._body);
+    this.videoLoaded = true;
     this.playlist = [{
       title: 'Intro Video',
       src: 'assets/videos/intro.mp4',
@@ -301,7 +306,7 @@ export class ViewComponent implements OnInit {
   onPlayerReady(api: VgAPI) {
     this.api = api;
     this.track = this.api.textTracks[0];
-    console.log(api);
+
     //this.api.getDefaultMedia().subscriptions.loadedMetadata.subscribe(this.playVideo.bind(this));
 
     this.api.getDefaultMedia().subscriptions.ended.subscribe(
@@ -394,17 +399,37 @@ export class ViewComponent implements OnInit {
     if (parseInt(event.start) <= this.api.getDefaultMedia().currentTime && parseInt(event.end) >= this.api.getDefaultMedia().currentTime) {
       ret = true;
     }
+
+
+    // console.log('event time' + event.end);
+
     return ret;
   }
 
   goToEvent(e, event) {
+
     if (e) {
       e.preventDefault();
       e.stopPropagation();
     }
-    console.log("Goto event", event.start)
+
     this.api.getDefaultMedia().currentTime = event.start;
     this.api.play();
+    this.cleartimer();
+    this.timer = setInterval(() => {
+      if (this.api.getDefaultMedia().currentTime >= parseInt(event.end)) {
+        this.api.pause();
+        this.cleartimer();
+      }
+    }, 1000);
+
+
+
+
+  }
+  cleartimer() {
+    if (this.timer)
+      clearInterval(this.timer);
   }
 
   fancyTimeFormat(time) {
@@ -427,17 +452,35 @@ export class ViewComponent implements OnInit {
 
   public oldSliderTime = 0;
   onChangeTimelineSlider(e) {
-    this.api.getDefaultMedia().currentTime = e.from / 100
+
+    this.api.getDefaultMedia().currentTime = e.from / 100;
+
+
+  }
+
+  onmouseenter($event) {
+    this.enableOverlay = true;
+    setTimeout(() => {
+      this.enableOverlay = false;
+    }, 1500);
+
+  }
+
+  onmouseleave($event) {
+    setTimeout(() => {
+      this.enableOverlay = false;
+    }, 1500);
   }
 
   onEnterCuePoint($event) {
-    console.log($event);
+
     this.cuePointData = JSON.parse($event.text);
 
   }
 
   onExitCuePoint($event) {
     this.cuePointData = null;
+
   }
 
   fillQueue(group) {
@@ -463,7 +506,7 @@ export class ViewComponent implements OnInit {
   timelineClicked(event, container) {
     let percentange = (event.layerX - 20) / container.width * 100;     //17seconds for offset fix
     let currentTime = this.roundedDuration / 100 * percentange;
-    console.log("Timeline Clicked", currentTime);
+
     this.api.getDefaultMedia().currentTime = currentTime;
   }
 
@@ -490,5 +533,8 @@ export class ViewComponent implements OnInit {
       default:
         return 'assets/event-icons/clock.svg';
     }
+  }
+  ngOnDestroy() {
+    this.cleartimer();
   }
 }
