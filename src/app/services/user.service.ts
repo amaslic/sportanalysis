@@ -24,14 +24,16 @@ export class UserService {
 
   constructor(private http: Http, private localStorageService: LocalStorageService) {
     console.log('User service initialised...');
-    this.user = < User > this.loadUserFromStorage();
-    this.token = < string > this.loadTokenFromStorage();
+    this.user = <User>this.loadUserFromStorage();
+    this.token = <string>this.loadTokenFromStorage();
   }
 
   createNewUser(user: User) {
     return this.http.post(this.baseApiUrl + 'user/signup', user);
   }
-
+  updateProfile(user: User) {
+    return this.http.post(this.baseApiUrl + 'user/updateprofile', user);
+  }
   login(user: any) {
     return this.http.post(this.baseApiUrl + 'user/signin', user);
   }
@@ -80,10 +82,15 @@ export class UserService {
     });
     return this.http.get(this.baseApiUrl + 'user/permissions', options);
   }
-  
-   getUsers(token: String){
+
+  getUsers(token: String) {
     const headers = new Headers({ 'Authorization': token });
     const options = new RequestOptions({ headers: headers });
     return this.http.get(this.baseApiUrl + 'user/fetchAll', options);
+  }
+  fetchUsers(token: String) {
+    const headers = new Headers({ 'Authorization': token });
+    const options = new RequestOptions({ headers: headers });
+    return this.http.get(this.baseApiUrl + 'user/fetchUser', options);
   }
 }
