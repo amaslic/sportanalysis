@@ -29,6 +29,7 @@ import { UserService } from './services/user.service';
 import { VideoService } from './services/video.service';
 import { TrackingDataService } from './services/trackingData.service';
 import { ClubService } from './services/club.service';
+import { PlaylistService } from './services/playlist.service';
 
 import { MainComponent } from './main/main.component';
 import { AdminGuard } from './admin-guard.service';
@@ -46,6 +47,8 @@ import { VideoSettingsComponent } from './main/videos/settings/settings.componen
 import { FooterComponent } from './main/footer/footer.component';
 import { BackofficeComponent } from './backoffice/backoffice.component';
 import { UsersComponent } from './backoffice/users/users.component';
+import { PlaylistsComponent } from './backoffice/playlist/playlists.component';
+
 import { VideoOverviewComponent } from './backoffice/video-overview/video-overview.component';
 
 import { NouisliderModule } from 'ng2-nouislider';
@@ -93,6 +96,7 @@ const appRoutes: Routes = [
   {
     path: 'backoffice', component: BackofficeComponent, canActivate: [AdminGuard], children: [
       { path: 'users', component: UsersComponent },
+      { path: 'playlist', component: PlaylistsComponent },
       { path: 'clubs', component: ClubsAdministrationComponent },
       { path: 'video-overview', component: VideoOverviewComponent },
       { path: '*', component: UsersComponent }
@@ -113,6 +117,7 @@ const appRoutes: Routes = [
     MatchesComponent,
     VideosComponent,
     PlaylistComponent,
+    PlaylistsComponent,
     HelpComponent,
     UploadComponent,
     ViewComponent,
@@ -161,7 +166,7 @@ const appRoutes: Routes = [
     MultiselectDropdownModule,
     Ng2CompleterModule
   ],
-  providers: [UserService, VideoService, TrackingDataService, AuthGuard, AdminGuard, ClubService],
+  providers: [UserService, VideoService, TrackingDataService, AuthGuard, AdminGuard, ClubService, PlaylistService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
