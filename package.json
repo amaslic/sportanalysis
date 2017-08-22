@@ -37,6 +37,7 @@
     "ion-rangeslider": "^2.2.0",
     "jquery": "^3.2.1",
     "ng-sidebar": "^5.1.0",
+    "ng2-completer": "^1.6.1",
     "ng2-ion-range-slider": "^1.0.3",
     "ng2-nouislider": "^1.6.1",
     "ngx-bootstrap": "^1.7.1",

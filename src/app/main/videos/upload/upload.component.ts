@@ -3,6 +3,7 @@ import {
   OnInit
 } from '@angular/core';
 
+
 import {
   Video
 } from './../../../models/video.model';
@@ -13,10 +14,17 @@ import {
 import {
   VideoService
 } from './../../../services/video.service';
-
+import {
+  ClubService
+} from './../../../services/club.service';
 import {
   Router
 } from '@angular/router';
+import { FormControl } from "@angular/forms";
+import 'rxjs/add/operator/startWith';
+import 'rxjs/add/operator/map';
+
+import { CompleterService, CompleterData } from 'ng2-completer';
 
 @Component({
   selector: 'app-upload',
@@ -24,18 +32,35 @@ import {
   styleUrls: ['./upload.component.css']
 })
 export class UploadComponent implements OnInit {
+  clubData = [];
+  activatedClubList: any;
   uploading = false;
   selectedFile: any = {};
   type = 'Match';
   progress = 0;
   private router: Router;
+  clubCtrl: FormControl;
+  filteredClubs: any;
 
-  constructor(private videoService: VideoService, private userService: UserService, r: Router) {
+  protected dataService: CompleterData;
+
+  constructor(private completerService: CompleterService, private clubService: ClubService, private videoService: VideoService, private userService: UserService, r: Router) {
     videoService.progress$.subscribe((newValue: number) => { this.progress = newValue; });
     this.router = r;
+
+    this.clubCtrl = new FormControl();
+
+  }
+  filterClubs(val: string) {
+    return val ? this.clubData.filter(s => s.toLowerCase().indexOf(val.toLowerCase()) === 0)
+      : this.clubData;
   }
 
   ngOnInit() {
+    this.getActivatedClubs();
+    this.filteredClubs = this.clubCtrl.valueChanges
+      .startWith(null)
+      .map(name => this.filterClubs(name));
     if (!this.uploading) {
       window.onbeforeunload = function (e) {
         var e = e || window.event;
@@ -87,6 +112,7 @@ export class UploadComponent implements OnInit {
   }
 
   onSubmit(f) {
+    console.log(f.v);
     if (!f.valid || !this.selectedFile.name) {
       return false;
     }
@@ -117,5 +143,19 @@ export class UploadComponent implements OnInit {
 
   getSizeInMB(size) {
     return Math.round(size / 1024 / 1024) + 'MB';
+  }
+  getActivatedClubs() {
+    this.clubService.getActivatedClubs(this.userService.token).subscribe(
+      (response) => this.onGetActivatedClubsSuccess(response),
+      (error) => this.onError(error)
+    );
+  }
+
+  onGetActivatedClubsSuccess(response) {
+    this.activatedClubList = JSON.parse(response._body);
+    this.activatedClubList.forEach(element => {
+      this.clubData.push(element.name);
+    });
+    console.log(this.clubData);
   }
 }

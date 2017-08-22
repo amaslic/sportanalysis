@@ -12,7 +12,7 @@ import { VgBufferingModule } from 'videogular2/buffering';
 import { NgxDatatableModule } from '@swimlane/ngx-datatable';
 
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { MdButtonModule, MdCheckboxModule, MdRadioModule, MdTabsModule } from '@angular/material';
+import { MdButtonModule, MdCheckboxModule, MdRadioModule, MdTabsModule, MdAutocompleteModule, MdInputModule } from '@angular/material';
 
 import { IonRangeSliderComponent } from "ng2-ion-range-slider";
 
@@ -66,6 +66,7 @@ import { ClubsComponent } from './main/clubs/clubs.component';
 
 import { SearchVideoTimelineTeamPipe } from './pipes/searchVideoTimelineTeam.pipe'
 import { ClassNamePipe } from './pipes/className.pipe';
+import { Ng2CompleterModule } from "ng2-completer";
 
 const PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {};
 
@@ -140,6 +141,8 @@ const appRoutes: Routes = [
     FormsModule, ReactiveFormsModule,
     HttpModule, ProgressHttpModule,
     BrowserAnimationsModule, MdButtonModule, MdCheckboxModule, MdRadioModule, MdTabsModule,
+    MdAutocompleteModule,
+    MdInputModule,
     RouterModule.forRoot(appRoutes),
     SidebarModule.forRoot(),
     PerfectScrollbarModule.forRoot(PERFECT_SCROLLBAR_CONFIG),
@@ -155,7 +158,8 @@ const appRoutes: Routes = [
     NgxDatatableModule,
     DropdownModule,
     ModalModule,
-    MultiselectDropdownModule
+    MultiselectDropdownModule,
+    Ng2CompleterModule
   ],
   providers: [UserService, VideoService, TrackingDataService, AuthGuard, AdminGuard, ClubService],
   bootstrap: [AppComponent]

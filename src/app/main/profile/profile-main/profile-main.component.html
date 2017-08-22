@@ -1,4 +1,39 @@
 <div class="clearfix message-box">
+	<div class="col-md-8">
+		<form #f="ngForm" (ngSubmit)="onSubmit(f)" novalidate [ngClass]="{'submited' : f._submitted}">
+
+			<div class="form-group">
+				<input type="text" name="firstName" [(ngModel)]="user.firstName" #firstName="ngModel" class="form-control" placeholder="First Name"
+				 required>
+			</div>
+			<div class="form-group">
+				<input type="text" name="lastName" [(ngModel)]="user.lastName" #lastName="ngModel" class="form-control" placeholder="Last Name"
+				 required>
+			</div>
+			<div class="form-group">
+				<input type="text" name="phone" [(ngModel)]="user.phone" #phone="ngModel" class="form-control" placeholder="Phone" pattern="[0-9]*"
+				 minlength="10" maxlength="10" required>
+				<span class="help-block" [hidden]="!phone.hasError('minlength')">Phone number should be 10 digit</span>
+				<span class="help-block" [hidden]="!phone.hasError('pattern')">Phone number should be only digits</span>
+			</div>
+			<div class="form-group">
+				<input type="email" name="email" [(ngModel)]="user.email" #email="ngModel" class="form-control" placeholder="Email" required
+				 email>
+				<span class="help-block" *ngIf="!email.valid && f._submitted">Please enter a valid email</span>
+			</div>
+			<div class="form-group">
+				<input type="text" name="clubFunction" [(ngModel)]="user.clubFunction" #clubFunction="ngModel" class="form-control" placeholder="Club Function"
+				 required>
+			</div>
+
+
+			<div class="form-group text-right ">
+				<button class="btn btn-round btn-green btn-signup" [disabled]="!f.form.valid && f._submitted " type="submit ">Update Profile</button>
+			</div>
+		</form>
+	</div>
+</div>
+<div class="clearfix message-box">
 	<div class="col-md-8 message-content">
 		<div class="clearfix">
 			<div class="pull-left">
@@ -11,66 +46,66 @@
 				</div>
 			</div>
 		</div>
-    <div class="message-scroll">
-		<ul>
-			<li>
-				<img src="assets/images/img9.png">
-				<h3>JannidWhite</h3>
-				<p>Last match was really awsome till end...</p>
-				<div class="message-date">
-					<p>June 14</p>
-					<div class="message-cb">
-						<md-checkbox></md-checkbox>
+		<div class="message-scroll">
+			<ul>
+				<li>
+					<img src="assets/images/img9.png">
+					<h3>JannidWhite</h3>
+					<p>Last match was really awsome till end...</p>
+					<div class="message-date">
+						<p>June 14</p>
+						<div class="message-cb">
+							<md-checkbox></md-checkbox>
+						</div>
 					</div>
-				</div>
-			</li>
-			<li>
-				<img src="assets/images/img9.png">
-				<h3>JannidWhite</h3>
-				<p>Last match was really awsome till end...</p>
-				<div class="message-date">
-					<p>June 14</p>
-					<div class="message-cb">
-						<md-checkbox></md-checkbox>
+				</li>
+				<li>
+					<img src="assets/images/img9.png">
+					<h3>JannidWhite</h3>
+					<p>Last match was really awsome till end...</p>
+					<div class="message-date">
+						<p>June 14</p>
+						<div class="message-cb">
+							<md-checkbox></md-checkbox>
+						</div>
 					</div>
-				</div>
-			</li>
-			<li>
-				<img src="assets/images/img9.png">
-				<h3>JannidWhite</h3>
-				<p>Last match was really awsome till end...</p>
-				<div class="message-date">
-					<p>June 14</p>
-					<div class="message-cb">
-						<md-checkbox></md-checkbox>
+				</li>
+				<li>
+					<img src="assets/images/img9.png">
+					<h3>JannidWhite</h3>
+					<p>Last match was really awsome till end...</p>
+					<div class="message-date">
+						<p>June 14</p>
+						<div class="message-cb">
+							<md-checkbox></md-checkbox>
+						</div>
 					</div>
-				</div>
-			</li>
-			<li>
-				<img src="assets/images/img9.png">
-				<h3>JannidWhite</h3>
-				<p>Last match was really awsome till end...</p>
-				<div class="message-date">
-					<p>June 14</p>
-					<div class="message-cb">
-						<md-checkbox></md-checkbox>
+				</li>
+				<li>
+					<img src="assets/images/img9.png">
+					<h3>JannidWhite</h3>
+					<p>Last match was really awsome till end...</p>
+					<div class="message-date">
+						<p>June 14</p>
+						<div class="message-cb">
+							<md-checkbox></md-checkbox>
+						</div>
 					</div>
-				</div>
-			</li>
-			<li>
-				<img src="assets/images/img9.png">
-				<h3>JannidWhite</h3>
-				<p>Last match was really awsome till end...</p>
-				<div class="message-date">
-					<p>June 14</p>
-					<div class="message-cb">
-						<md-checkbox></md-checkbox>
+				</li>
+				<li>
+					<img src="assets/images/img9.png">
+					<h3>JannidWhite</h3>
+					<p>Last match was really awsome till end...</p>
+					<div class="message-date">
+						<p>June 14</p>
+						<div class="message-cb">
+							<md-checkbox></md-checkbox>
+						</div>
 					</div>
-				</div>
-			</li>
-		</ul>
+				</li>
+			</ul>
+		</div>
 	</div>
-  	</div>
 	<div class="col-md-4 message-video">
 		<div class="clearfix">
 			<div class="pull-left">
@@ -92,70 +127,103 @@
 				</div>
 			</div>
 		</div>
-    <div class="message-scroll">
-		<ul>
-			<li>
-				<div class="message-img">
-					<i class="fa fa-youtube-play" aria-hidden="true"></i>
-				</div>
-				<div class="message-list-content">
-					<h4>Yellow_card.mp4 | 00.13</h4>
-					<p>Friday, 9 June 2017</p>
-					<div class="dots"><img src="assets/images/more.png"></div>
-				</div>
-			</li>
-			<li>
-				<div class="message-img">
-					<i class="fa fa-youtube-play" aria-hidden="true"></i>
-				</div>
-				<div class="message-list-content">
-					<h4>Yellow_card.mp4 | 00.13</h4>
-					<p>Friday, 9 June 2017</p>
-					<div class="dots"><img src="assets/images/more.png"></div>
-				</div>
-			</li>
-			<li>
-				<div class="message-img">
-					<i class="fa fa-youtube-play" aria-hidden="true"></i>
-				</div>
-				<div class="message-list-content">
-					<h4>Yellow_card.mp4 | 00.13</h4>
-					<p>Friday, 9 June 2017</p>
-				  <div class="dots"><img src="assets/images/more.png"></div>
-				</div>
-			</li>
-			<li>
-				<div class="message-img">
-					<i class="fa fa-youtube-play" aria-hidden="true"></i>
-				</div>
-				<div class="message-list-content">
-					<h4>Yellow_card.mp4 | 00.13</h4>
-					<p>Friday, 9 June 2017</p>
-					<div class="dots"><img src="assets/images/more.png"></div>
-				</div>
-			</li>
-			<li>
-				<div class="message-img">
-					<i class="fa fa-youtube-play" aria-hidden="true"></i>
-				</div>
-				<div class="message-list-content">
-					<h4>Yellow_card.mp4 | 00.13</h4>
-					<p>Friday, 9 June 2017</p>
-					<div class="dots"><img src="assets/images/more.png"></div>
-				</div>
-			</li>
-			<li>
-				<div class="message-img">
-					<i class="fa fa-youtube-play" aria-hidden="true"></i>
-				</div>
-				<div class="message-list-content">
-					<h4>Yellow_card.mp4 | 00.13</h4>
-					<p>Friday, 9 June 2017</p>
-					<div class="dots"><img src="assets/images/more.png"></div>
-				</div>
-			</li>
-		</ul>
-    	</div>
+		<div class="message-scroll">
+			<ul>
+				<li>
+					<div class="message-img">
+						<i class="fa fa-youtube-play" aria-hidden="true"></i>
+					</div>
+					<div class="message-list-content">
+						<h4>Yellow_card.mp4 | 00.13</h4>
+						<p>Friday, 9 June 2017</p>
+						<div class="dots"><img src="assets/images/more.png"></div>
+					</div>
+				</li>
+				<li>
+					<div class="message-img">
+						<i class="fa fa-youtube-play" aria-hidden="true"></i>
+					</div>
+					<div class="message-list-content">
+						<h4>Yellow_card.mp4 | 00.13</h4>
+						<p>Friday, 9 June 2017</p>
+						<div class="dots"><img src="assets/images/more.png"></div>
+					</div>
+				</li>
+				<li>
+					<div class="message-img">
+						<i class="fa fa-youtube-play" aria-hidden="true"></i>
+					</div>
+					<div class="message-list-content">
+						<h4>Yellow_card.mp4 | 00.13</h4>
+						<p>Friday, 9 June 2017</p>
+						<div class="dots"><img src="assets/images/more.png"></div>
+					</div>
+				</li>
+				<li>
+					<div class="message-img">
+						<i class="fa fa-youtube-play" aria-hidden="true"></i>
+					</div>
+					<div class="message-list-content">
+						<h4>Yellow_card.mp4 | 00.13</h4>
+						<p>Friday, 9 June 2017</p>
+						<div class="dots"><img src="assets/images/more.png"></div>
+					</div>
+				</li>
+				<li>
+					<div class="message-img">
+						<i class="fa fa-youtube-play" aria-hidden="true"></i>
+					</div>
+					<div class="message-list-content">
+						<h4>Yellow_card.mp4 | 00.13</h4>
+						<p>Friday, 9 June 2017</p>
+						<div class="dots"><img src="assets/images/more.png"></div>
+					</div>
+				</li>
+				<li>
+					<div class="message-img">
+						<i class="fa fa-youtube-play" aria-hidden="true"></i>
+					</div>
+					<div class="message-list-content">
+						<h4>Yellow_card.mp4 | 00.13</h4>
+						<p>Friday, 9 June 2017</p>
+						<div class="dots"><img src="assets/images/more.png"></div>
+					</div>
+				</li>
+			</ul>
+		</div>
 	</div>
-		
-	</div>
+
+</div>
+
+<modal #updateSucessModal>
+	<modal-header>
+
+	</modal-header>
+	<modal-content>
+		<p>
+			<i class="fa fa-check" aria-hidden="true"></i>
+		</p>
+		<p>
+			{{successmsg}}
+		</p>
+	</modal-content>
+	<modal-footer>
+		<button class="btn btn-primary" (click)="updateSucessModal.close()">Ok</button>
+	</modal-footer>
+</modal>
+<modal #updateErrorModal class="error-modal">
+	<modal-header>
+
+	</modal-header>
+	<modal-content>
+		<p>
+			<i class="fa fa-close" aria-hidden="true"></i>
+		</p>
+		<p>
+			{{errormsg}}
+		</p>
+	</modal-content>
+	<modal-footer>
+		<button class="btn btn-primary" (click)="updateErrorModal.close()">Ok</button>
+	</modal-footer>
+</modal>
