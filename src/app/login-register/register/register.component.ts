@@ -21,7 +21,6 @@ import 'rxjs/add/operator/map';
 import { CompleterService, CompleterData } from 'ng2-completer';
 
 
-
 @Component({
   selector: 'app-register',
   templateUrl: './register.component.html',
@@ -31,18 +30,12 @@ export class RegisterComponent implements OnInit {
   public user: User = new User();
   successmsg: string;
   errormsg: string;
-  clubData = [];
+
   private router: Router;
   clubCtrl: FormControl;
   filteredClubs: any;
+  clubData = ['test'];
   activatedClubList: any;
-
-
-  protected captain: string;
-  protected dataService: CompleterData;
-
-  protected captains = ['Plutus', 'Rachel Garrett'];
-
 
 
   @ViewChild('regSucessModal') regSucessModal;
@@ -65,6 +58,7 @@ export class RegisterComponent implements OnInit {
     return val ? this.clubData.filter(s => s.toLowerCase().indexOf(val.toLowerCase()) === 0)
       : this.clubData;
   }
+
 
   onSubmit(f) {
     if (!f.valid) {
@@ -112,7 +106,7 @@ export class RegisterComponent implements OnInit {
     this.activatedClubList.forEach(element => {
       this.clubData.push(element.name);
     });
-    console.log(this.clubData);
+
   }
 }
 
