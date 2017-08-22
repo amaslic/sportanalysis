@@ -275,6 +275,47 @@ h3.recent{
     font-size: 12px;
 }
 
+.list-view{
+  background: white;
+}
+
+.list-view a img{
+  max-width: 240px;
+  width: 100%;
+}
+
+.list-view div.teams{
+  color: #337ab7;
+  left: 0;
+  top: 0;
+  position: relative;
+}
+
+.all-videos .list-view .teams{
+  left: 0;
+  top: 0;
+}
+
+.list-view .teams td img{
+  max-width: 140px;
+}
+
+.all-videos .list-view span.durationn{
+  left: 50%;
+}
+
+.upload-search{
+  margin-left: 10px;
+}
+
+.upload-search span{
+  float: left;
+}
+
+.upload-search input{
+  float: right;
+}
+
 @media (max-width: 1333px) {
     div.teams{
       left: 20%;

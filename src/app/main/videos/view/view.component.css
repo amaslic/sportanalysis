@@ -63,7 +63,7 @@
 }
 
 .match-info {
-  border-bottom: 1px solid #d5d5d5;
+  /*border-bottom: 1px solid #d5d5d5;*/
   padding-bottom: 10px;
 }
 
@@ -583,7 +583,7 @@ i.show-filters:hover{
 
 .stats ul li:first-child {
 
-  border-bottom: 0;
+ /* border-bottom: 0; */
 }
 
 .stats ul li {
