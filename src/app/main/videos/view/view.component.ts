@@ -16,6 +16,9 @@ import {
 import {
   VideoService
 } from './../../../services/video.service';
+import {
+  PlaylistService
+} from './../../../services/playlist.service';
 
 import {
   GlobalVariables
@@ -33,6 +36,7 @@ import {
   PerfectScrollbarConfigInterface
 } from 'ngx-perfect-scrollbar';
 import { IMultiSelectOption, IMultiSelectSettings, IMultiSelectTexts } from 'angular-2-dropdown-multiselect';
+import { Playlist } from "app/models/playlist.model";
 
 declare var document: any;
 declare var VTTCue;
@@ -65,6 +69,12 @@ export interface IMedia {
   styleUrls: ['./view.component.css']
 })
 export class ViewComponent implements OnInit {
+  saveClass: any;
+  updateMessage: string;
+  saveMessage: string;
+  trackPlaylist: any = [];
+  eId: any;
+  vId: any;
   timer: NodeJS.Timer;
   starttime: number;
   eventPause: boolean;
@@ -91,6 +101,7 @@ export class ViewComponent implements OnInit {
   cuePointData: ICuePoint = null;
   enableOverlay: boolean;
   videoLoaded: boolean;
+  public playlists: Playlist = new Playlist();
 
   eventPlayQueue: any = [];
 
@@ -100,7 +111,19 @@ export class ViewComponent implements OnInit {
   eventModel: any[];
   myOptions1: IMultiSelectOption[];
   searchArray: any = [];
-
+  playlistName: string;
+  playlistOptions: IMultiSelectOption[];
+  playlistModel: any[];
+  playlistSettings: IMultiSelectSettings = {
+    enableSearch: false,
+    checkedStyle: 'fontawesome',
+    containerClasses: 'no-button-arrow',
+    buttonClasses: 'btn btn-default btn-block',
+    selectionLimit: 1,
+    autoUnselect: true,
+    closeOnSelect: true,
+    fixedTitle: true
+  };
   teamSettings: IMultiSelectSettings = {
     enableSearch: false,
     checkedStyle: 'fontawesome',
@@ -119,6 +142,15 @@ export class ViewComponent implements OnInit {
   };
 
   // Text configuration
+  playlistTexts: IMultiSelectTexts = {
+    checkAll: 'Select all',
+    uncheckAll: 'Unselect all',
+    checked: 'Playlist selected',
+    checkedPlural: 'Playlist selected',
+    searchPlaceholder: 'Find',
+    defaultTitle: '  Playlist  ',
+    allSelected: 'All Playlist ',
+  };
   teamTexts: IMultiSelectTexts = {
     checkAll: 'Select all',
     uncheckAll: 'Unselect all',
@@ -139,15 +171,19 @@ export class ViewComponent implements OnInit {
   };
 
 
+  @ViewChild('createPlaylistModal') createPlaylistModal;
+  @ViewChild('updatePlaylistModal') updatePlaylistModal;
+
   //@ViewChild('eventTimelineScrollbar') eventTimelineScrollbar;
 
-  constructor(private route: ActivatedRoute, private videoService: VideoService, private userService: UserService, private trackingDataService: TrackingDataService) { }
+  constructor(private route: ActivatedRoute, private playlistService: PlaylistService, private videoService: VideoService, private userService: UserService, private trackingDataService: TrackingDataService) { }
 
   ngOnInit() {
     this.sub = this.route.params.subscribe(params => {
       this.videoId = params['id'];
       this.getVideo(this.videoId);
     });
+
 
 
   }
@@ -169,6 +205,7 @@ export class ViewComponent implements OnInit {
     const res = JSON.parse(response._body);
     this.videoTrackingData = res;
     if (!this.videoTrackingData[0]) return false;
+
     this.trackingDataService.getXmlFile(this.videoTrackingData[0]).subscribe(
       (response: any) => {
         this.trackingDataService.parseXML(response._body).then(
@@ -220,7 +257,7 @@ export class ViewComponent implements OnInit {
               // console.info('Event', this.trackEvent);
               this.myOptions = this.trackTeam;
               this.myOptions1 = this.trackEvent;
-              // console.info('Team', this.trackTeam);
+              console.info('Team', this.trackTeam);
 
 
               let greenLineHeight = this.videoEvents.length * 30 + 60;
@@ -537,4 +574,92 @@ export class ViewComponent implements OnInit {
   ngOnDestroy() {
     this.cleartimer();
   }
+  createPlaylist(vId, eId) {
+    this.vId = vId;
+    this.eId = eId;
+    this.playlistName = '';
+    this.createPlaylistModal.open();
+  }
+  addToPlaylist(vId, eId) {
+    this.vId = vId;
+    this.eId = eId;
+    this.playlistService.getPlaylists(this.userService.token).subscribe(
+      (response) => this.onGetPlaylistsSuccess(response),
+      (error) => this.onError(error)
+    );
+
+
+
+    this.updatePlaylistModal.open();
+  }
+  onGetPlaylistsSuccess(response) {
+
+    const play = JSON.parse(response._body);
+    console.log(play.playlists);
+    play.playlists.forEach((play, index) => {
+      this.trackPlaylist.push({
+        'id': play._id,
+        'name': play.name
+      });
+
+    });
+    this.playlistModel = [];  // here multiselect should be reset with an empty array.
+    this.playlistOptions = this.trackPlaylist;
+
+
+  }
+  updatePlaylist() {
+    this.playlists['vid'] = this.vId;
+    this.playlists['eId'] = this.eId;
+    this.playlists['playlistId'] = this.playlistModel;
+    this.playlists['user'] = this.userService.user._id;
+    this.playlists['token'] = this.userService.token;
+    console.log(this.vId);
+    console.log(this.eId);
+    console.log(this.playlistName);
+    console.log(this.playlists);
+
+    this.playlistService.updatePlaylists(this.playlists).subscribe(
+      (response) => this.onGetUpdatePlaylistSuccess(response),
+      (error) => this.onError(error)
+    );
+
+  }
+  onGetUpdatePlaylistSuccess(response) {
+    const updateMsg = JSON.parse(response._body);
+    console.log(updateMsg.message);
+    this.updateMessage = updateMsg.message;
+    setTimeout(() => {
+      this.updatePlaylistModal.close()
+      this.updateMessage = '';
+    }, 1500);
+  }
+  addPlaylist() {
+    this.playlists['vid'] = this.vId;
+    this.playlists['eId'] = this.eId;
+    this.playlists['playlistName'] = this.playlistName;
+    this.playlists['user'] = this.userService.user._id;
+    this.playlists['token'] = this.userService.token;
+    console.log(this.vId);
+    console.log(this.eId);
+    console.log(this.playlistName);
+    console.log(this.playlists);
+
+    this.playlistService.createPlaylists(this.playlists).subscribe(
+      (response) => this.onAddPlaylistSuccess(response),
+      (error) => this.onError(error)
+    );
+  }
+
+  onAddPlaylistSuccess(response) {
+    const saveMsg = JSON.parse(response._body);
+
+    this.saveMessage = saveMsg.message;
+    this.saveClass = saveMsg.success;
+    setTimeout(() => {
+      this.createPlaylistModal.close()
+      this.saveMessage = '';
+    }, 1500);
+  }
+
 }

@@ -72,22 +72,6 @@
   padding-bottom: 30px;
 }
 
-i.show-filters{
- /* max-width: 330px;
-  width: 100%;
-  text-align: right;*/
-  cursor: pointer;
-  font-size: 24px;
-  color: #59719a;
-  padding-top: 10px;
-  padding-right: 18px;
-  float: right;
-}
-
-i.show-filters:hover{
-  color: #009cff;
-}
-
 .tactics ul {
   padding: 0;
   list-style: none;
@@ -212,7 +196,6 @@ i.show-filters:hover{
   font-size: 18px;
   color: #7f8181;
   margin-top: 13px;
-  float: left;
 }
 
 .events-list table {
@@ -231,7 +214,7 @@ i.show-filters:hover{
 }
 
 .playlist ul {
-  max-height: 745px;
+  max-height: 637px;
   /*overflow: auto;*/
 }
 
@@ -247,14 +230,6 @@ i.show-filters:hover{
   max-width: 100px;
   width: 100%;
 }
-/*
-.right-sidebar .match-status{
-  max-width: 360px;
-  width: 100%;
-  position: absolute;
-  background: #F2F1F6;
-  z-index: 999;
-}*/
 
 .playlist h2 {
   font-size: 16px;
@@ -424,11 +399,6 @@ i.show-filters:hover{
 }
 .video-select-timeline .kick-off{
 	background:#767d9a !important;
-}
-
-.video-select-timeline .kick-off:hover, .video-select-timeline .goal:hover, .video-select-timeline .yellow-card:hover, .video-select-timeline .free-kick:hover, 
-.video-select-timeline .change:hover, .video-select-timeline .red_card:hover{
-  background: #0EE999!important;
 }
 
 .video-line:hover{
@@ -636,7 +606,7 @@ i.show-filters:hover{
 .chat-box{
   padding: 20px;
       position: absolute;
- display: none;
+  
     bottom: 35px;
 }
 .chat-box ul{
@@ -790,6 +760,47 @@ ss-multiselect-dropdown /deep/ .btn{
   color: white; 
 }
 
+.dropbtn {    
+    border: none;
+    cursor: pointer;
+}
+
+.dropdown {
+    position: relative;
+    display: inline-block;
+}
+
+.dropdown-content {
+    display: none;
+    position: absolute;
+    background-color: #f9f9f9;
+    min-width: 120px;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    z-index: 1;
+    right: -10px; 
+    bottom: 0;
+}
+
+.dropdown-content a {
+    color: black;
+    padding: 12px 16px;
+    text-decoration: none;
+    display: block;
+}
+
+.dropdown-content a:hover {background-color: #f1f1f1}
+
+.dropdown:hover .dropdown-content {
+    display: block;
+}
+
+.dropdown:hover .dropbtn {
+    background-color: #3e8e41;
+}
+.stats[_ngcontent-c5] ul[_ngcontent-c5] li[_ngcontent-c5]:nth-child(2) .dropdown[_ngcontent-c5]:hover .dropdown-content[_ngcontent-c5] {
+    bottom: auto;
+    top: 0px;
+}
 /*
 @media screen and (max-width: 779px) {
     .main-content{
@@ -944,12 +955,6 @@ ss-multiselect-dropdown /deep/ .btn{
 }
 
 @media (max-width: 991px) {
-  i.show-filters{
-   /* padding-top: 50px; */
-   /* text-align: left;*/
-    /*padding-left: 15px;*/
-  }
-
   .main-content {
     max-width: 100%;
   }
