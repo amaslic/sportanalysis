@@ -291,17 +291,18 @@ h3.recent{
   position: relative;
 }
 
-.all-videos .list-view .teams{
+.all-videos .list-view .teams, .all-videos .list-view .video-info-list{
   left: 0;
   top: 0;
+  padding-top: 45px;
 }
 
 .list-view .teams td img{
-  max-width: 140px;
+  max-width: 65px;
 }
 
 .all-videos .list-view span.durationn{
-  left: 50%;
+  left: 61%;
 }
 
 .upload-search{
@@ -347,6 +348,11 @@ h3.recent{
       bottom: 55%;
    
     }
+
+    .all-videos .list-view .teams, .all-videos .list-view .video-info-list{
+      font-size: 12px;
+    }
+
 }
 
 @media (max-width: 768px) {
@@ -362,6 +368,27 @@ h3.recent{
        left: 20%;
       bottom: 53%;
       font-size: 28px;
+    }
+
+    .list-view .col-sm-6{
+      margin: auto;
+      text-align: center;
+    }
+
+    .list-view .duration{
+      left: 50px;
+    }
+
+    .list-view span.durationn{
+      left: 68%;
+    }
+
+    .list-view .teams td  img{
+      max-width: 33px;
+    }
+
+    .all-videos.list-view  .teams, .all-videos .list-view  .video-info-list{
+      padding-top: 2px;
     }
 }
 

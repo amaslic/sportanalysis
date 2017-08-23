@@ -64,13 +64,13 @@
       <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 list-view" *ngFor="let video of videoList | search:'title,type,team1,team2':searchQuery">
         
         <a [routerLink]="['/videos/view', video._id]" title="Claudio Bravo, antes su debut con el Barça en la Liga">
-          <div class="col-md-3 col-sm-3">
+          <div class="col-md-2 col-sm-6">
             <img [src]="baseVideoUrl + video.screenshot_path" alt="video-screenshot" class="img-responsive video-ss" height="130px" />
             <span class="duration">{{video.type}}</span>
             <span class="durationn">02:11:16</span>
           </div>
        <!-- <div class="list-view-sideidetail">-->
-             <div class="teams col-md-5 col-sm-5">
+             <div class="teams col-md-3 col-sm-6">
                 <!-- <ul class="list-inline">
                     <li><img src="assets/images/img1.png" class="img-responsive"></li>
                     <li>1 : 2</li>
@@ -82,7 +82,7 @@
                 <td><img src="assets/images/juve.png" class="img-responsive"></td>
             </tr>
         </div>
-        <div class="col-md-4 col-sm-4">
+        <div class="col-md-3 col-sm-4 video-info-list">
           <span class="glyphicon glyphicon-play-circle play-btn"></span>
          
        
