@@ -45,12 +45,12 @@
           <input [(ngModel)]="date" class="form-control" name="date" ngui-datetime-picker date-only="true" placeholder="Date of event"
             required>
         </div>
-        <div class="form-group">
+        <div class="form-group" *ngIf="isAdmin">
           <ng2-completer #club="ngModel" id="selectClub" [(ngModel)]="clubName" name="clubName" placeholder="Club" [datasource]="clubData"
             [minSearchLength]="3"></ng2-completer>
 
         </div>
-        <div class="form-group circle-buttons">
+        <div class="form-group circle-buttons" [ngClass]="{'circle-margin': isAdmin}">
           <md-radio-group required [(ngModel)]="type" name="type" class="md-inputs">
             <md-radio-button value="Match">Match</md-radio-button>
             <md-radio-button value="Event">Event</md-radio-button>

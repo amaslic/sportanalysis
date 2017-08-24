@@ -203,7 +203,7 @@ form .form-group .form-control::-ms-input-placeholder { /* Microsoft Edge */
 form.upload-inputs{
     margin: auto;
 }
-.circle-buttons{
+.circle-margin{
         margin-top: 26px;
 }
 :host >>> .completer-input {border: none !important;outline: none;}
