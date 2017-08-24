@@ -274,8 +274,8 @@
 
     <div class="form-group">
       <label class="col-md-4 control-label">Select Playlist</label>
-      <ss-multiselect-dropdown class="col-md-4" [options]="playlistOptions" [texts]="playlistTexts" [settings]="playlistSettings"
-        [(ngModel)]="playlistModel"></ss-multiselect-dropdown>
+      <ss-multiselect-dropdown class="col-md-5" [options]="playlistOptions" [texts]="playlistTexts" [settings]="playlistSettings"
+        [(ngModel)]="playlistModel" (ngModelChange)="onChangeEvent($event)"></ss-multiselect-dropdown>
     </div>
 
 

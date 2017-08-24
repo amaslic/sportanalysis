@@ -27,7 +27,7 @@
 
     <div class="form-group">
       <label class="col-md-4 control-label">Select Users</label>
-      <ss-multiselect-dropdown class="col-md-4" [options]="userlistOptions" [texts]="userlistTexts" [settings]="userlistSettings"
+      <ss-multiselect-dropdown class="col-md-5" [options]="userlistOptions" [texts]="userlistTexts" [settings]="userlistSettings"
         [(ngModel)]="userlistModel"></ss-multiselect-dropdown>
     </div>
 
@@ -39,7 +39,7 @@
   </modal-content>
   <modal-footer>
 
-    <button class=" btn btn-primary " [disabled]="!playlistModel || playlistModel?.length==0 " (click)="updatePlaylist() ">Assign</button>
+    <button class=" btn btn-primary " [disabled]="!userlistModel || userlistModel?.length==0 " (click)="usersToPlaylist() ">Assign</button>
     <button class="btn btn-primary " (click)="updatePlaylistModal.close() ">Cancel</button>
 
 
