@@ -23,6 +23,7 @@ import { IMultiSelectOption, IMultiSelectSettings, IMultiSelectTexts } from 'ang
   styleUrls: ['./playlist.component.css']
 })
 export class PlaylistsComponent implements OnInit {
+  playListId: any;
   playList: Playlist[];
   trackUserlist: any = [];
   loadingIndicator: boolean = true;
@@ -77,9 +78,9 @@ export class PlaylistsComponent implements OnInit {
     this.playList = JSON.parse(response._body);
     this.playList = this.playList['playlists'];
     console.log(this.playList);
-    this.playList.forEach(element => {
+    // this.playList.forEach(element => {
 
-    });
+    // });
     this.loadingIndicator = false;
   }
 
@@ -89,11 +90,37 @@ export class PlaylistsComponent implements OnInit {
     alert(errorBody.msg);
   }
   assignUser(id) {
+    this.playListId = id;
+
+    this.playlistService.fetchPlaylistData(this.userService.token, this.playListId).subscribe(
+      (response) => this.fetchPlaylistSuccess(response),
+      (error) => this.onError(error)
+    );
     this.userService.getUsers(this.userService.token).subscribe(
       (response) => this.onGetUsersSuccess(response),
       (error) => this.onError(error)
     );
     this.updatePlaylistModal.open();
+  }
+  fetchPlaylistSuccess(response) {
+
+    this.userlistModel = []
+    const userSelect = JSON.parse(response._body);
+    userSelect.playlists[0]['assignedUsers'].forEach((usr, index) => {
+      this.userlistModel.push(usr);
+    });
+  }
+  usersToPlaylist() {
+    console.log(this.playListId);
+    console.log(this.userlistModel);
+    this.playlistService.assignPlaylist(this.userService.token, this.playListId, this.userlistModel).subscribe(
+      (response) => this.usersToPlaylistSuccess(response),
+      (error) => this.onError(error)
+    );
+  }
+  usersToPlaylistSuccess(response) {
+    alert("User Assigned to Playlist Success.");
+    this.updatePlaylistModal.close();
   }
   onGetUsersSuccess(response) {
     const userlist = JSON.parse(response._body);
@@ -104,7 +131,9 @@ export class PlaylistsComponent implements OnInit {
         'name': usr.firstName
       });
     });
-    this.userlistModel = [];  // here multiselect should be reset with an empty array.
+    // this.userlistModel = [];  // here multiselect should be reset with an empty array.
+
     this.userlistOptions = this.trackUserlist;
+
   }
 }
