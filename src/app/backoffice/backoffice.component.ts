@@ -13,7 +13,7 @@ export class BackofficeComponent implements OnInit {
   private _toggleSidebar() {
     this._opened = !this._opened;
   }
-  
+
   constructor() { }
 
   ngOnInit() {

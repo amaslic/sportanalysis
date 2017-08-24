@@ -12,9 +12,9 @@ export class SearchVideoTimelineTeamPipe implements PipeTransform {
         let team = term[0];//team
         let event = term[1];//event
         let search = term[2];//search field
-        console.log('team', team);
-        console.log('event', event);
-        console.log('search', search);
+        // console.log('team', team);
+        // console.log('event', event);
+        // console.log('search', search);
 
         let fData = (value || []).filter((tItem) => {
             if (search)

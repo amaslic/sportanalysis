@@ -144,11 +144,7 @@
   </div>
 </div>
 <div class="right-sidebar">
-   <div class="events-list match-status col-xs-12">
-    <h2 class="title">Event list</h2>
-    <i class="fa fa-search show-filters" aria-hidden="true" (click)="showFilters = !showFilters"></i>
-  </div> 
-  <div class="match-info filters col-xs-12" *ngIf="showFilters">
+  <div class="match-info filters col-xs-12">
     <h2 class="title">
       <span class="title-span">Filters</span>
       <div class="form-group" class="first-dropdown">
@@ -176,7 +172,10 @@
 
   </div>
 
- 
+  <div class="events-list match-status col-xs-12">
+    <h2 class="title">Event list</h2>
+
+  </div>
 
   <div class="match-status playlist col-xs-12">
     <div class="stats">
@@ -193,10 +192,17 @@
                   <h4><img [src]="getEventIcon(event.name)" alt="Event Icon" width="38" height="38">{{event.name}} ({{event.team}})
                   </h4>
                   <!-- <p>Friday, 9 June 2017</p> -->
-                  <div class="dots"><i class="fa fa-ellipsis-h" aria-hidden="true"></i></div>
+                  <div class="dots dropdown"><i class="dropbtn fa fa-ellipsis-h" aria-hidden="true"></i>
+                    <div class="dropdown-content">
+                      <a (click)="createPlaylist(video._id,event.id)">Create Playlist</a>
+                      <a (click)="addToPlaylist(video._id,event.id)">Add Playlist</a>
+
+                    </div>
+                  </div>
                 </div>
               </a>
             </li>
+
 
           </ng-container>
         </ul>
@@ -217,9 +223,72 @@
       </ul>
     </perfect-scrollbar>
     <div class="reply">
-      <!--<h5>Reply</h5>-->
+      <h5>Reply</h5>
       <input type="text" />
     </div>
   </div>
 
 </div>
+
+<modal #createPlaylistModal class="error-modal">
+
+  <modal-header>
+
+  </modal-header>
+
+  <modal-content>
+    <p>
+      Create Playlist
+    </p>
+    <form (ngSubmit)="addPlaylist()" #documentEditForm="ngForm">
+      <div class="col-md-12">
+        <div class="form-group">
+          <label class="col-md-4 control-label">Name</label>
+          <input type="text" name="playlistName" [(ngModel)]="playlistName" #playlist="ngModel" class="form-control col-md-6" placeholder="Playlist Name"
+            required>
+        </div>
+      </div>
+      <div class="col-md-12">
+        <div class="form-group pull-left" style="margin-top: 5%" *ngIf="saveMessage">
+          <span class="col-md-12">{{saveMessage}}</span>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-primary" [disabled]="!documentEditForm.form.valid">Add</button>
+        <button class="btn btn-primary" (click)="createPlaylistModal.close()">Cancel</button>
+      </div>
+
+    </form>
+  </modal-content>
+
+</modal>
+<modal #updatePlaylistModal class="error-modal">
+  <modal-header>
+
+
+  </modal-header>
+  <modal-content>
+    <p>
+      Add To Playlist
+    </p>
+
+    <div class="form-group">
+      <label class="col-md-4 control-label">Select Playlist</label>
+      <ss-multiselect-dropdown class="col-md-4" [options]="playlistOptions" [texts]="playlistTexts" [settings]="playlistSettings"
+        [(ngModel)]="playlistModel"></ss-multiselect-dropdown>
+    </div>
+
+
+
+    <div class="form-group pull-left" style="margin-top: 5%" *ngIf="updateMessage">
+      <span class="col-md-12">{{updateMessage}}</span>
+    </div>
+  </modal-content>
+  <modal-footer>
+
+    <button class=" btn btn-primary " [disabled]="!playlistModel || playlistModel?.length==0 " (click)="updatePlaylist() ">Add</button>
+    <button class="btn btn-primary " (click)="updatePlaylistModal.close() ">Cancel</button>
+
+
+  </modal-footer>
+</modal>
