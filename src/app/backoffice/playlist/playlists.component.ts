@@ -35,8 +35,10 @@ export class PlaylistsComponent implements OnInit {
     checkedStyle: 'fontawesome',
     containerClasses: 'no-button-arrow',
     buttonClasses: 'btn btn-default btn-block',
-    fixedTitle: true,
-    maxHeight: '100px'
+    fixedTitle: false,
+    maxHeight: '100px',
+    dynamicTitleMaxItems: 2,
+    closeOnClickOutside: true
   };
   userlistTexts: IMultiSelectTexts = {
     checkAll: 'Select all',
@@ -100,7 +102,7 @@ export class PlaylistsComponent implements OnInit {
       (response) => this.onGetUsersSuccess(response),
       (error) => this.onError(error)
     );
-    this.updatePlaylistModal.open();
+
   }
   fetchPlaylistSuccess(response) {
 
@@ -109,6 +111,8 @@ export class PlaylistsComponent implements OnInit {
     userSelect.playlists[0]['assignedUsers'].forEach((usr, index) => {
       this.userlistModel.push(usr);
     });
+
+    this.updatePlaylistModal.open();
   }
   usersToPlaylist() {
     console.log(this.playListId);
@@ -124,14 +128,14 @@ export class PlaylistsComponent implements OnInit {
   }
   onGetUsersSuccess(response) {
     const userlist = JSON.parse(response._body);
-    console.log(userlist);
+    this.trackUserlist = [];
+
     userlist.forEach((usr, index) => {
       this.trackUserlist.push({
         'id': usr._id,
         'name': usr.firstName
       });
     });
-    // this.userlistModel = [];  // here multiselect should be reset with an empty array.
 
     this.userlistOptions = this.trackUserlist;
 

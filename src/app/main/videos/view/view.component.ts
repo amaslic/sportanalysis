@@ -122,7 +122,7 @@ export class ViewComponent implements OnInit {
     selectionLimit: 1,
     autoUnselect: true,
     closeOnSelect: true,
-    fixedTitle: true
+    // fixedTitle: true
   };
   teamSettings: IMultiSelectSettings = {
     enableSearch: false,
@@ -590,12 +590,13 @@ export class ViewComponent implements OnInit {
 
 
 
-    this.updatePlaylistModal.open();
+
   }
   onGetPlaylistsSuccess(response) {
-
+    this.playlistOptions = [];
+    this.playlistModel = [];
+    this.trackPlaylist = [];
     const play = JSON.parse(response._body);
-    console.log(play.playlists);
     play.playlists.forEach((play, index) => {
       this.trackPlaylist.push({
         'id': play._id,
@@ -603,9 +604,8 @@ export class ViewComponent implements OnInit {
       });
 
     });
-    this.playlistModel = [];  // here multiselect should be reset with an empty array.
     this.playlistOptions = this.trackPlaylist;
-
+    this.updatePlaylistModal.open();
 
   }
   updatePlaylist() {
@@ -661,5 +661,10 @@ export class ViewComponent implements OnInit {
       this.saveMessage = '';
     }, 1500);
   }
+  onChangeEvent(e) {
 
+    console.log(this.playlistOptions);
+
+
+  }
 }
