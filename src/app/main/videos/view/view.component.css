@@ -662,7 +662,7 @@
 .message-list-content .dots {
   position: absolute;
   right: 12px;
-  top: 10px;
+  top: 6px;
   font-size: 20px;
 }
 
@@ -771,7 +771,7 @@ ss-multiselect-dropdown /deep/ .btn{
 }
 
 .dropdown-content {
-    display: none;
+   /* display: none;*/
     position: absolute;
     background-color: #f9f9f9;
     min-width: 120px;
@@ -779,6 +779,26 @@ ss-multiselect-dropdown /deep/ .btn{
     z-index: 1;
     right: -10px; 
     bottom: 0;
+}
+
+.dots a:hover{
+  color: #59719a!important;
+}
+
+.dots .dropdown-toggle.btn{
+  background: transparent;
+}
+
+.dots ul.dropdown-menu{
+  left: -130px;
+}
+
+.dots i{
+  font-size: 22px;
+}
+
+.dots .dropdown-toggle::after{
+  border: 0;
 }
 
 .dropdown-content a {
@@ -789,10 +809,10 @@ ss-multiselect-dropdown /deep/ .btn{
 }
 
 .dropdown-content a:hover {background-color: #f1f1f1}
-
+/*
 .dropdown:hover .dropdown-content {
     display: block;
-}
+}*/
 
 .dropdown:hover .dropbtn {
     background-color: #3e8e41;

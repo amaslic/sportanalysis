@@ -280,7 +280,7 @@ h3.recent{
 }
 
 .list-view a img{
-  max-width: 240px;
+  max-width: 160px;
   width: 100%;
 }
 
@@ -294,7 +294,7 @@ h3.recent{
 .all-videos .list-view .teams, .all-videos .list-view .video-info-list{
   left: 0;
   top: 0;
-  padding-top: 45px;
+  padding-top: 15px;
 }
 
 .list-view .teams td img{
@@ -302,7 +302,7 @@ h3.recent{
 }
 
 .all-videos .list-view span.durationn{
-  left: 61%;
+  left: 35%;
 }
 
 .upload-search{

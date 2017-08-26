@@ -192,12 +192,20 @@
                   <h4><img [src]="getEventIcon(event.name)" alt="Event Icon" width="38" height="38">{{event.name}} ({{event.team}})
                   </h4>
                   <!-- <p>Friday, 9 June 2017</p> -->
-                  <div class="dots dropdown"><i class="dropbtn fa fa-ellipsis-h" aria-hidden="true"></i>
+                <!--  <div class="dots dropdown"><i class="dropbtn fa fa-ellipsis-h" aria-hidden="true"></i>
                     <div class="dropdown-content">
                       <a (click)="createPlaylist(video._id,event.id)">Create Playlist</a>
                       <a (click)="addToPlaylist(video._id,event.id)">Add Playlist</a>
 
                     </div>
+                  </div>-->
+                  <div class="dots dropdown" dropdown [dropdownToggle]="false">
+                    <button class="btn dropdown-toggle btn-usr" type="button" dropdown-open><i class="dropbtn fa fa-ellipsis-h" aria-hidden="true"></i>
+                    </button>
+                    <ul class="dropdown-menu">
+                      <li> <a (click)="createPlaylist(video._id,event.id)">Create Playlist</a></li>
+                      <li><a (click)="addToPlaylist(video._id,event.id)">Add Playlist</a></li>
+                    </ul>
                   </div>
                 </div>
               </a>
