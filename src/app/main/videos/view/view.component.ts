@@ -541,6 +541,7 @@ export class ViewComponent implements OnInit {
   }
 
   timelineClicked(event, container) {
+    console.log(container);
     let percentange = (event.layerX - 20) / container.width * 100;     //17seconds for offset fix
     let currentTime = this.roundedDuration / 100 * percentange;
 
@@ -666,5 +667,12 @@ export class ViewComponent implements OnInit {
     console.log(this.playlistOptions);
 
 
+  }
+  onScrubBarMove(e, Container) {
+
+    console.log(this.api.getDefaultMedia().duration);
+    console.log(Container);
+
+    console.log(e.clientX / Container.width * this.api.getDefaultMedia().duration)
   }
 }
