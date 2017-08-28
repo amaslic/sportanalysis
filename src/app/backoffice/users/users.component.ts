@@ -15,6 +15,7 @@ import {
 })
 export class UsersComponent implements OnInit {
   videoList: User[];
+  unApprovedUsers;
   loadingIndicator: boolean = true;
   reorderable: boolean = true;
 
@@ -26,12 +27,14 @@ export class UsersComponent implements OnInit {
     { prop: 'clubFunction' },
     { prop: 'phone' },
     { prop: 'admin' },
-    { prop: 'confirmed' }
+    { prop: 'confirmed' },
+    { prop: 'superadmin'}
   ];
   constructor(private userService: UserService) {}
 
   ngOnInit() {
     this.getUsers();
+    this.getUnApprovedUsers();
   }
 
   getUsers() {
@@ -41,15 +44,35 @@ export class UsersComponent implements OnInit {
     );
   }
 
+  getUnApprovedUsers(){
+    this.userService.getUnApprovedUsers(this.userService.token).subscribe(
+        (response) => this.onGetUnApprovedUsers(response),
+        (error) => this.onError(error)
+      );
+  }
+
+
   onGetUsersSuccess(response) {
     this.videoList = JSON.parse(response._body);
     console.log(this.videoList);
     this.loadingIndicator = false;
   }
 
+
+  onGetUnApprovedUsers(response) {
+    this.unApprovedUsers = JSON.parse(response._body);
+    this.loadingIndicator = false;
+  }
+
   onError(error) {
     const errorBody = JSON.parse(error._body);
     console.error(errorBody);
-    alert(errorBody.msg);
+   
+  }
+  deleteUser(userId){
+    this.userService.deleteUser(this.userService.token,userId).subscribe(
+       (response) => this.ngOnInit(),
+        (error) => this.onError(error)
+      );
   }
 }

@@ -1,9 +1,39 @@
 <div class="container" style="margin-top:10px;">
-  <h3>User list</h3>
-  <ngx-datatable class="material"
-        [scrollbarH]="true"
-        [rows]="videoList"
-        [loadingIndicator]="loadingIndicator"
-        [columns]="columns">
-  </ngx-datatable>
+   <h3>User list</h3>
+   <md-tab-group>
+      <md-tab label="Approved users">
+         <h3>Approved users</h3>
+         <ngx-datatable class="material" [columnMode]="'force'" [rows]="videoList">
+         <ngx-datatable-column name="Email" prop="email" > </ngx-datatable-column>
+         <ngx-datatable-column name="First Name" prop="firstName" > </ngx-datatable-column>
+         <ngx-datatable-column name="Last Name" prop="lastName" > </ngx-datatable-column>
+         <ngx-datatable-column name="Club" prop="club" > </ngx-datatable-column>
+         <ngx-datatable-column name="Club Function" prop="clubFunction" > </ngx-datatable-column>
+         <ngx-datatable-column name="Phone Number" prop="phone" > </ngx-datatable-column>
+         <ngx-datatable-column name="Approval status" prop="clubFunction" > </ngx-datatable-column>
+         <ngx-datatable-column name="Action">
+            <ng-template let-row="row" ngx-datatable-cell-template>
+               <button (click)="deleteUser(row._id)">Delete</button>
+            </ng-template>
+         </ngx-datatable-column>
+         </ngx-datatable>
+      </md-tab>
+      <md-tab label="Waiting for admin approval users">
+         <h3>Unapproved Users</h3>
+         <ngx-datatable class="material" [columnMode]="'force'" [rows]="unApprovedUsers">
+         <ngx-datatable-column name="Email" prop="email" > </ngx-datatable-column>
+         <ngx-datatable-column name="First Name" prop="firstName" > </ngx-datatable-column>
+         <ngx-datatable-column name="Last Name" prop="lastName" > </ngx-datatable-column>
+         <ngx-datatable-column name="Club" prop="club" > </ngx-datatable-column>
+         <ngx-datatable-column name="Club Function" prop="clubFunction" > </ngx-datatable-column>
+         <ngx-datatable-column name="Phone Number" prop="phone" > </ngx-datatable-column>
+         <ngx-datatable-column name="Approval status" prop="clubFunction" > </ngx-datatable-column>
+         <ngx-datatable-column name="Action">
+            <ng-template let-row="row" ngx-datatable-cell-template>
+               <button (click)="deleteUser(row._id)">Delete</button>
+            </ng-template>
+         </ngx-datatable-column>
+         </ngx-datatable>
+      </md-tab>
+   </md-tab-group>
 </div>
