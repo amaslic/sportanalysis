@@ -32,6 +32,7 @@ import { CompleterService, CompleterData } from 'ng2-completer';
   styleUrls: ['./upload.component.css']
 })
 export class UploadComponent implements OnInit {
+  isAdmin: boolean;
   clubData = [];
   activatedClubList: any;
   uploading = false;
@@ -58,6 +59,10 @@ export class UploadComponent implements OnInit {
 
   ngOnInit() {
     this.getActivatedClubs();
+    this.userService.isAdmin().subscribe(
+      (response) => this.onIsAdminClubsSuccess(response),
+      (error) => this.onError(error)
+    );
     this.filteredClubs = this.clubCtrl.valueChanges
       .startWith(null)
       .map(name => this.filterClubs(name));
@@ -74,6 +79,12 @@ export class UploadComponent implements OnInit {
         return 'Are you sure?';
       };
     }
+  }
+  onIsAdminClubsSuccess(response) {
+    const userAdmin = JSON.parse(response._body);
+
+    if (userAdmin.success)
+      this.isAdmin = true;
   }
   onSelectFile(e) {
     console.log(e);
@@ -156,6 +167,6 @@ export class UploadComponent implements OnInit {
     this.activatedClubList.forEach(element => {
       this.clubData.push(element.name);
     });
-    console.log(this.clubData);
+    console.log(this.activatedClubList);
   }
 }
