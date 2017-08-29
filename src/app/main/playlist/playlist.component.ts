@@ -15,6 +15,8 @@ import {
 import {
   PlaylistService
 } from './../../services/playlist.service';
+import { IMultiSelectOption, IMultiSelectSettings, IMultiSelectTexts } from 'angular-2-dropdown-multiselect';
+import { RouterLink, Router } from '@angular/router';
 
 @Component({
   selector: 'app-playlist',
@@ -25,7 +27,28 @@ export class PlaylistComponent implements OnInit {
   playList: Playlist[];
   trackPlaylist: any = [];
   loadingIndicator: boolean = true;
-  constructor(private userService: UserService, private playlistService: PlaylistService) { }
+  playlistOptions: IMultiSelectOption[];
+  playlistModel: any[];
+  playlistSettings: IMultiSelectSettings = {
+    enableSearch: false,
+    checkedStyle: 'fontawesome',
+    containerClasses: 'no-button-arrow',
+    buttonClasses: 'btn btn-default btn-block',
+    selectionLimit: 1,
+    autoUnselect: true,
+    closeOnSelect: true,
+    // fixedTitle: true
+  };
+  playlistTexts: IMultiSelectTexts = {
+    checkAll: 'Select all',
+    uncheckAll: 'Unselect all',
+    checked: 'Playlist selected',
+    checkedPlural: 'Playlist selected',
+    searchPlaceholder: 'Find',
+    defaultTitle: ' Select Playlist ',
+    allSelected: 'All Playlist ',
+  };
+  constructor(router: Router, private userService: UserService, private playlistService: PlaylistService) { }
 
   ngOnInit() {
     this.getPlaylist();
@@ -45,6 +68,15 @@ export class PlaylistComponent implements OnInit {
     // this.playList.forEach(element => {
 
     // });
+    this.playList.forEach((play, index) => {
+      this.trackPlaylist.push({
+        'id': play._id,
+        'name': play.name
+      });
+
+    });
+    this.playlistOptions = this.trackPlaylist;
+
     this.loadingIndicator = false;
   }
   onError(error) {
@@ -52,8 +84,6 @@ export class PlaylistComponent implements OnInit {
     console.error(errorBody);
     alert(errorBody.msg);
   }
-  assignUser(id) {
-    alert(id);
-  }
+
 
 }

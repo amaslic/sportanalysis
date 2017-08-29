@@ -5,9 +5,14 @@
     </ngx-datatable-column>
     <ngx-datatable-column name="Club" prop="user.club">
     </ngx-datatable-column>
+    <ngx-datatable-column name="Created By">
+      <ng-template let-row="row" ngx-datatable-cell-template>
+        {{row.user.firstName}} {{row.user.lastName}}
+      </ng-template>
+    </ngx-datatable-column>
     <ngx-datatable-column name="Action">
       <ng-template let-row="row" ngx-datatable-cell-template>
-        <button (click)="assignUser(row._id)">Watch</button>
+        <button [routerLink]="['/playlist/view',row._id]">Watch</button>
       </ng-template>
     </ngx-datatable-column>
   </ngx-datatable>
