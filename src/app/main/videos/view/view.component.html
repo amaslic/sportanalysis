@@ -144,9 +144,14 @@
   </div>
 </div>
 <div class="right-sidebar">
-  <div class="match-info filters col-xs-12">
-    <h2 class="title">
-      <span class="title-span">Filters</span>
+ 
+     <div class="events-list match-status col-xs-12">
+        <h2 class="title">Event list</h2>
+       <i class="fa fa-search show-filters" aria-hidden="true" (click)="showFilters = !showFilters"></i>
+      </div> 
+       <div class="match-info filters col-xs-12" *ngIf="showFilters">
+  
+     <!-- <span class="title-span">Filters</span>-->
       <div class="form-group" class="first-dropdown">
         <ss-multiselect-dropdown [options]="myOptions" [texts]="teamTexts" [settings]="teamSettings" [(ngModel)]="teamModel" (ngModelChange)="onChange($event)"></ss-multiselect-dropdown>
       </div>
@@ -156,7 +161,7 @@
       </div>
       <span class="settings"><a *ngIf="video" [routerLink]="['/videos/settings', video._id]">Settings</a></span>
 
-    </h2>
+  
 
     <div class="match-club  search clearfix form-inline">
       <div class="form-group col-md-11">
@@ -169,11 +174,6 @@
 
 
     </div>
-
-  </div>
-
-  <div class="events-list match-status col-xs-12">
-    <h2 class="title">Event list</h2>
 
   </div>
 
@@ -218,24 +218,24 @@
     </div>
   </div>
 
-  <div class="chat-box">
-    <!--<h4>Comments:</h4>-->
+  <!-- <div class="chat-box">
+   <h4>Comments:</h4>
     <perfect-scrollbar style="visibility:hidden">
       <ul>
         <li>
-          <!--<i>@ Paul: </i>-->
+         <i>@ Paul: </i>
           <span>
               Please attack in this situation
             </span>
         </li>
       </ul>
     </perfect-scrollbar>
-    <div class="reply">
+   <div class="reply">
       <h5>Reply</h5>
       <input type="text" />
     </div>
   </div>
-
+-->
 </div>
 
 <modal #createPlaylistModal class="error-modal">

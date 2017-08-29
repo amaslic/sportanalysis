@@ -214,7 +214,8 @@
 }
 
 .playlist ul {
-  max-height: 637px;
+  /*max-height: 637px;*/
+  max-height: 745px;
   /*overflow: auto;*/
 }
 
@@ -469,8 +470,8 @@
     background: #009cff;
     border-radius: 50px;
     position: absolute;
-    right: 0;
-    top: 23px;
+    right: 20px;
+  
 }
 
 .settings a:hover{
@@ -802,6 +803,23 @@ ss-multiselect-dropdown /deep/ .btn{
   border: 0;
 }
 
+i.show-filters{
+ max-width: 330px;
+ width: 100%;
+ text-align: right;
+ cursor: pointer;
+ font-size: 24px;
+ color: #59719a;
+ 
+ top: 8px;
+ right: 25px;
+ position: absolute;
+}
+
+i.show-filters:hover{
+ color: #009cff;
+ }
+
 .dots .dropdown-menu>li {
   display: block;
   padding: 5px 30px 5px 30px;
@@ -812,6 +830,13 @@ ss-multiselect-dropdown /deep/ .btn{
   white-space: nowrap;
   max-width: 100%;
 }
+
+.video-select-timeline .kick-off:hover, .video-select-timeline .goal:hover, .video-select-timeline .yellow-card:hover, .video-select-timeline .free-kick:hover, 
+.video-select-timeline .change:hover, .video-select-timeline .red_card:hover{
+  background: #0EE999!important;
+}
+
+
 
 .dropdown-content a {
     color: black;
@@ -987,6 +1012,10 @@ ss-multiselect-dropdown /deep/ .btn{
 }
 
 @media (max-width: 991px) {
+  i.show-filters{
+
+  }
+
   .main-content {
     max-width: 100%;
   }
