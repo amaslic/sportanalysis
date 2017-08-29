@@ -200,11 +200,11 @@
                     </div>
                   </div>-->
                   <div class="dots dropdown" dropdown [dropdownToggle]="false">
-                    <button class="btn dropdown-toggle btn-usr" type="button" dropdown-open><i class="dropbtn fa fa-ellipsis-h" aria-hidden="true"></i>
+                    <button class="btn dropdown-toggle" type="button" dropdown-open><i class="dropbtn fa fa-ellipsis-h" aria-hidden="true"></i>
                     </button>
                     <ul class="dropdown-menu">
-                      <li> <a (click)="createPlaylist(video._id,event.id)">Create Playlist</a></li>
-                      <li><a (click)="addToPlaylist(video._id,event.id)">Add Playlist</a></li>
+                      <li (click)="createPlaylist(video._id,event.id)">Create Playlist</li>
+                      <li (click)="addToPlaylist(video._id,event.id)">Add to playlist</li>
                     </ul>
                   </div>
                 </div>
