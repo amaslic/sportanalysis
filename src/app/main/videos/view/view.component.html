@@ -184,6 +184,7 @@
           <ng-container *ngFor="let event of trackingJsonData | searchEvent:'team,name':[teamModel,eventModel,searchQuery]">
 
             <li>
+                <md-checkbox class="more-events"></md-checkbox>
               <a style="display:block" class="playlist-info" href="#" (click)="goToEvent($event, event)" *ngIf="event.start !== 'NaN'">
                 <div class="message-img">
                   {{fancyTimeFormat(event.start)}}
@@ -199,13 +200,25 @@
 
                     </div>
                   </div>-->
+                  
                   <div class="dots dropdown" dropdown [dropdownToggle]="false">
                     <button class="btn dropdown-toggle" type="button" dropdown-open><i class="dropbtn fa fa-ellipsis-h" aria-hidden="true"></i>
                     </button>
-                    <ul class="dropdown-menu">
+                    <ul class="dropdown-menu multi-level" role="menu" aria-labelledby="dropdownMenu">
+                 
+                        <li class="dropdown-submenu">
+                          <a tabindex="-1" href="#">Add to playlist</a>
+                          <ul class="dropdown-menu">
+                              <li (click)="createPlaylist(video._id,event.id)">Create Playlist</li>
+                              <li (click)="addToPlaylist(video._id,event.id)">Add to playlist</li>
+                       
+                          </ul>
+                        </li>
+                      </ul>
+                   <!-- <ul class="dropdown-menu">
                       <li (click)="createPlaylist(video._id,event.id)">Create Playlist</li>
                       <li (click)="addToPlaylist(video._id,event.id)">Add to playlist</li>
-                    </ul>
+                    </ul>-->
                   </div>
                 </div>
               </a>

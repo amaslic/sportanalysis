@@ -577,12 +577,12 @@
 .stats ul li .message-img {
   position: absolute;
   top: 16px;
-  left: 7px;
+  left: 30px;
 
 }
 
 .stats ul li .message-list-content {
-  
+  padding-left: 15px;
   padding-bottom:5px;
   padding-top: 5px;
 }
@@ -820,6 +820,37 @@ i.show-filters:hover{
  color: #009cff;
  }
 
+ .more-events{
+  position: absolute;
+  left: 5px;
+  top: 14px;
+ }
+
+ .dropdown:hover .dropbtn{
+  background: transparent;
+}
+
+ .more-events /deep/ .mat-checkbox-inner-container{
+   width: 15px;
+   height: 15px;
+ }
+
+ .more-events /deep/ .mat-checkbox-frame{
+   border-width: 1px;
+ }
+
+i.dropbtn:focus, .dots .dropdown-toggle.btn:focus, .dots .dropdown-toggle.btn:focus:hover{
+  background: transparent;
+}
+
+ .more-events  .mat-checkbox-inner-container /deep/ .mat-checkbox-checked.mat-accent .mat-checkbox-background, .more-events .mat-checkbox-inner-container /deep/  .mat-checkbox-indeterminate.mat-accent .mat-checkbox-background{
+  background-color: #0EE999!important;
+ }
+
+ .more-events /deep/ .mat-checkbox-background, .more-events /deep/ .mat-checkbox-frame{
+   border-radius: 0;
+ }
+
 .dots .dropdown-menu>li {
   display: block;
   padding: 5px 30px 5px 30px;
@@ -829,6 +860,10 @@ i.show-filters:hover{
   color: #333;
   white-space: nowrap;
   max-width: 100%;
+  color: #59719a;
+  display: block;
+  font-size: 12px;
+  font-weight: bold;
 }
 
 .video-select-timeline .kick-off:hover, .video-select-timeline .goal:hover, .video-select-timeline .yellow-card:hover, .video-select-timeline .free-kick:hover, 
@@ -852,9 +887,9 @@ i.show-filters:hover{
 }*/
 
 .dropdown:hover .dropbtn {
-    background-color: #3e8e41;
+    background-color: transparent;
 }
-.stats[_ngcontent-c5] ul[_ngcontent-c5] li[_ngcontent-c5]:nth-child(2) .dropdown[_ngcontent-c5]:hover .dropdown-content[_ngcontent-c5] {
+.stats ul li:nth-child(2) .dropdown:hover .dropdown-content {
     bottom: auto;
     top: 0px;
 }
@@ -873,6 +908,59 @@ i.show-filters:hover{
   display: none;
 }
 
+.dropdown-submenu {
+  position: relative;
+}
+
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  -webkit-border-radius: 0 6px 6px 6px;
+  -moz-border-radius: 0 6px 6px;
+  border-radius: 0 6px 6px 6px;
+}
+
+.dropdown-submenu:hover>.dropdown-menu {
+  display: block;
+}
+
+.dropdown-menu ul li:first-child:hover{
+  background: #009cff;
+}
+
+/*
+.dropdown-submenu>a:after {
+  display: block;
+  content: " ";
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #ccc;
+  margin-top: 5px;
+  margin-right: -10px;
+}
+
+.dropdown-submenu:hover>a:after {
+  border-left-color: #fff;
+}
+*/
+
+.dropdown-submenu.pull-left {
+  float: none;
+}
+
+.dropdown-submenu.pull-left>.dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+  -webkit-border-radius: 6px 0 6px 6px;
+  -moz-border-radius: 6px 0 6px 6px;
+  border-radius: 6px 0 6px 6px;
+}
 
 /* Nexus Portrait 
 @media screen 
