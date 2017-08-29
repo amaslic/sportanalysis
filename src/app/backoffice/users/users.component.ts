@@ -36,34 +36,27 @@ export class UsersComponent implements OnInit {
     this.getUsers();
     this.getUnApprovedUsers();
   }
-
   getUsers() {
     this.userService.getUsers(this.userService.token).subscribe(
       (response) => this.onGetUsersSuccess(response),
       (error) => this.onError(error)
     );
   }
-
   getUnApprovedUsers(){
     this.userService.getUnApprovedUsers(this.userService.token).subscribe(
         (response) => this.onGetUnApprovedUsers(response),
         (error) => this.onError(error)
       );
   }
-
-
   onGetUsersSuccess(response) {
     this.videoList = JSON.parse(response._body);
     console.log(this.videoList);
     this.loadingIndicator = false;
   }
-
-
   onGetUnApprovedUsers(response) {
     this.unApprovedUsers = JSON.parse(response._body);
     this.loadingIndicator = false;
   }
-
   onError(error) {
     const errorBody = JSON.parse(error._body);
     console.error(errorBody);

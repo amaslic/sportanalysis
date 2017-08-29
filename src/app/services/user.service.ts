@@ -85,13 +85,15 @@ export class UserService {
 
   getUsers(token: String) {
     const headers = new Headers({ 'Authorization': token });
-    const options = new RequestOptions({ headers: headers });
+    var loggedInUserId = this.localStorageService.get('user')['_id'];
+    const options = new RequestOptions({ headers: headers,params: { loggedInUserId: loggedInUserId }});
     return this.http.get(this.baseApiUrl + 'user/fetchAll', options);
   }
 
   getUnApprovedUsers(token: String) {
     const headers = new Headers({ 'Authorization': token });
-    const options = new RequestOptions({ headers: headers });
+    var loggedInUserId = this.localStorageService.get('user')['_id'];
+    const options = new RequestOptions({ headers: headers,params: { loggedInUserId: loggedInUserId }});
     return this.http.get(this.baseApiUrl + 'user/fetchUnApprovedUsers', options);
   }
 
