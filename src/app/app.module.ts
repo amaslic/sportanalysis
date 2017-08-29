@@ -47,6 +47,7 @@ import { VideoSettingsComponent } from './main/videos/settings/settings.componen
 import { FooterComponent } from './main/footer/footer.component';
 import { BackofficeComponent } from './backoffice/backoffice.component';
 import { UsersComponent } from './backoffice/users/users.component';
+import { AdminAddUserComponent } from './backoffice/admin-add-user/admin-add-user.component';
 import { PlaylistsComponent } from './backoffice/playlist/playlists.component';
 
 import { PlaylistViewComponent } from './main/playlist-view/playlist-view.component';
@@ -102,6 +103,7 @@ const appRoutes: Routes = [
       { path: 'playlist', component: PlaylistsComponent },
       { path: 'clubs', component: ClubsAdministrationComponent },
       { path: 'video-overview', component: VideoOverviewComponent },
+      { path: 'add-user', component: AdminAddUserComponent },
       { path: '*', component: UsersComponent }
     ]
   },
@@ -143,7 +145,9 @@ const appRoutes: Routes = [
     ClubsComponent,
     SearchVideoTimelineTeamPipe,
     ClassNamePipe,
-    PlaylistViewComponent
+    PlaylistViewComponent,
+    AdminAddUserComponent,
+    AdminEditUserComponent,
   ],
   imports: [
     BrowserModule,
