@@ -277,10 +277,11 @@ h3.recent{
 
 .list-view{
   background: white;
+  padding: 0 15px 15px 15px;
 }
 
 .list-view a img{
-  max-width: 100px;
+  max-width: 60px;
   width: 100%;
 }
 
@@ -303,11 +304,11 @@ h3.recent{
 .all-videos .list-view .teams, .all-videos .list-view .video-info-list{
   left: 0;
   top: 0;
-  padding-top: 15px;
+
 }
 
 .list-view .teams-result img{
-  max-width: 55px;
+  max-width: 35px;
   width: 100%;
 }
 

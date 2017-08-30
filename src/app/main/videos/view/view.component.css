@@ -843,8 +843,10 @@ i.dropbtn:focus, .dots .dropdown-toggle.btn:focus, .dots .dropdown-toggle.btn:fo
   background: transparent;
 }
 
- .more-events  .mat-checkbox-inner-container /deep/ .mat-checkbox-checked.mat-accent .mat-checkbox-background, .more-events .mat-checkbox-inner-container /deep/  .mat-checkbox-indeterminate.mat-accent .mat-checkbox-background{
-  background-color: #0EE999!important;
+
+
+md-checkbox.mat-checkbox-checked.more-events /deep/ .mat-checkbox-background {
+  background-color: #0EE999;
  }
 
  .more-events /deep/ .mat-checkbox-background, .more-events /deep/ .mat-checkbox-frame{
