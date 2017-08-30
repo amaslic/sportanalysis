@@ -24,6 +24,9 @@ import {
 import {
   GlobalVariables
 } from './../../models/global.model';
+import {
+  TrackingDataService
+} from './../../services/trackingData.service';
 
 import { IMultiSelectOption, IMultiSelectSettings, IMultiSelectTexts } from 'angular-2-dropdown-multiselect';
 
@@ -31,22 +34,42 @@ import {
   VgAPI
 } from 'videogular2/core';
 
+export interface IMedia {
+  title: string;
+  src: string;
+  type: string;
+  id: string;
+}
+
 @Component({
   selector: 'app-playlist',
   templateUrl: './playlist-view.component.html',
   styleUrls: ['./playlist-view.component.css']
 })
 export class PlaylistViewComponent implements OnInit {
+  videoLoaded: boolean;
   playlisName: any;
   private sub: any;
   private playId: any;
   private baseVideoUrl = GlobalVariables.BASE_VIDEO_URL;
   private baseTrackingDataUrl = GlobalVariables.BASE_TRACKINGDATA_URL;
+  api: VgAPI;
+  video: Video;
+  showEventsIngGroup: any;
+  videoDuration: any;
+  fancyVideoDuration: any;
+  secondsCollection: any;
+  roundedDuration: any;
+  currentVideoTime: any;
+  track: TextTrack;
+  eventPlayQueue: any = [];
   playList: Playlist[];
   trackPlaylist: any = [];
   loadingIndicator: boolean = true;
   playlistOptions: IMultiSelectOption[];
   playlistModel: any[];
+  timer: NodeJS.Timer;
+  playlist: any = [];
   playlistSettings: IMultiSelectSettings = {
     enableSearch: false,
     checkedStyle: 'fontawesome',
@@ -66,7 +89,7 @@ export class PlaylistViewComponent implements OnInit {
     defaultTitle: ' Select Playlist ',
     allSelected: 'All Playlist ',
   };
-  constructor(private route: ActivatedRoute, private playlistService: PlaylistService, private videoService: VideoService, private userService: UserService) { }
+  constructor(private route: ActivatedRoute, private playlistService: PlaylistService, private videoService: VideoService, private userService: UserService, private trackingDataService: TrackingDataService) { }
 
   ngOnInit() {
     this.sub = this.route.params.subscribe(params => {
@@ -74,6 +97,16 @@ export class PlaylistViewComponent implements OnInit {
       this.getPlaylistDetail(this.playId);
     });
   }
+
+
+  onmouseenter($event) {
+
+  }
+
+  onmouseleave($event) {
+
+  }
+
   getPlaylistDetail(id) {
     this.playlistService.fetchPlaylistData(this.userService.token, this.playId).subscribe(
       (response) => this.fetchPlaylistSuccess(response),
@@ -86,6 +119,44 @@ export class PlaylistViewComponent implements OnInit {
     this.playList = this.playList['playlists'][0]['playdata'];
     this.playList.forEach(element => {
       console.log(element['video']);
+
+
+      this.playlist.push({
+        'title': element['video']['title'],
+        'src': this.baseVideoUrl + element['video']['path'],
+        'type': element['video']['mimetype'],
+        'id': element['video']['_id']
+      });
+    });
+    console.log(this.playlist);
+    this.currentItem = this.playlist[0];
+
+    this.videoLoaded = true;
+    // this.playlist = [{
+    //   title: 'Intro Video',
+    //   src: 'assets/videos/intro.mp4',
+    //   type: 'video/mp4'
+    // },
+    // {
+    //   title: this.playList[0].title,
+    //   src: this.baseVideoUrl + this.video.path,
+    //   type: this.video.mimetype
+    // },
+    // {
+    //   title: 'Outro Video',
+    //   src: 'assets/videos/outro.mp4',
+    //   type: 'video/mp4'
+    // }
+    // ];
+
+    this.playList.forEach((play, index) => {
+      console.log(play);
+      this.trackPlaylist.push({
+        'id': play._id,
+        'name': play.name
+      });
+
+
     });
 
 
@@ -104,13 +175,7 @@ export class PlaylistViewComponent implements OnInit {
     // this.playList.forEach(element => {
 
     // });
-    this.playList.forEach((play, index) => {
-      this.trackPlaylist.push({
-        'id': play._id,
-        'name': play.name
-      });
 
-    });
     this.playlistOptions = this.trackPlaylist;
 
     this.loadingIndicator = false;
@@ -120,8 +185,178 @@ export class PlaylistViewComponent implements OnInit {
     console.error(errorBody);
     alert(errorBody.msg);
   }
-  assignUser(id) {
-    alert(id);
+
+  currentIndex = 0; //Set this to 0 to enable Intro video;
+  currentItem: IMedia;
+
+  nextVideo() {
+    console.log("Next video");
+    this.currentIndex++;
+
+    if (this.currentIndex === this.playlist.length) {
+      this.currentIndex = 0;
+    }
+
+    this.currentItem = this.playlist[this.currentIndex];
+    // this.playVideo()
+
+
+  }
+  playNextFromQueue(time) {
+    if (this.eventPlayQueue && this.eventPlayQueue.length > 0 && time >= this.eventPlayQueue[0].end) {
+      this.eventPlayQueue.shift();
+      this.playFromQueue();
+    }
+  }
+  playFromQueue() {
+    if (this.eventPlayQueue[0]) {
+      console.log("PLAYING QUEUE ", this.eventPlayQueue[0]);
+      this.goToEvent(false, this.eventPlayQueue[0]);
+    }
+  }
+  goToEvent(e, event) {
+    console.log(event.video._id);
+
+    if (e) {
+      e.preventDefault();
+      e.stopPropagation();
+    }
+    console.log(this.playlist);
+
+    var data = this.playlist;
+    var index = -1;
+    var val = event.video._id;
+    var filteredObj = data.find(function (item, i) {
+      if (item.id === val) {
+        index = i;
+        console.log('I' + i);
+      }
+    });
+
+    this.currentItem = this.playlist[index];
+    console.log(this.api.getMediaById());
+    this.api.getDefaultMedia().currentTime = event.eventStart;
+    this.api.play();
+    this.cleartimer();
+    this.timer = setInterval(() => {
+      if (this.api.getDefaultMedia().currentTime >= parseInt(event.eventEnd)) {
+        this.api.pause();
+        this.cleartimer();
+      }
+    }, 1000);
+
+
+
+
+  }
+  cleartimer() {
+    if (this.timer)
+      clearInterval(this.timer);
   }
 
+  fancyTimeFormat(time) {
+    // Hours, minutes and seconds
+    var hrs = ~~(time / 3600);
+    var mins = ~~((time % 3600) / 60);
+    var secs = ~~(time % 60);
+
+    // Output like "1:01" or "4:03:59" or "123:03:59"
+    var ret = "";
+
+    if (hrs > 0) {
+      ret += "" + hrs + ":" + (mins < 10 ? "0" : "");
+    }
+
+    ret += "" + mins + ":" + (secs < 10 ? "0" : "");
+    ret += "" + secs;
+    return ret;
+  }
+
+  getVideoTrackingDataItems(id: String) {
+    this.trackingDataService.getDataTrackingForVideo(id, this.userService.token).subscribe(
+      (response) => this.onGetVideoTrackingDataItemsSuccess(response),
+      (error) => this.onError(error)
+    );
+  }
+  onGetVideoTrackingDataItemsSuccess(response) {
+
+  }
+
+  onPlayerReady(api: VgAPI) {
+    this.api = api;
+    this.track = this.api.textTracks[0];
+
+    //this.api.getDefaultMedia().subscriptions.loadedMetadata.subscribe(this.playVideo.bind(this));
+
+    this.api.getDefaultMedia().subscriptions.ended.subscribe(
+      () => {
+        // Set the video to the beginning
+        console.log("Ended");
+        //this.api.getDefaultMedia().currentTime = 0;
+        // this.api.pause();
+        this.nextVideo();
+
+
+      }
+    );
+
+
+    this.api.getDefaultMedia().subscriptions.timeUpdate.subscribe(
+      () => {
+        //console.log(this.api.getDefaultMedia().currentTime)
+        this.currentVideoTime = this.api.getDefaultMedia().currentTime;
+        this.playNextFromQueue(this.currentVideoTime);
+
+      }
+    );
+
+    this.api.getDefaultMedia().subscriptions.loadedData.subscribe(
+      () => {
+        console.log("Loaded data");
+
+        // if (this.currentIndex == 1) {
+        this.videoDuration = this.api.getDefaultMedia().duration;
+        this.roundedDuration = parseInt(this.videoDuration);
+        this.fancyVideoDuration = this.fancyTimeFormat(this.videoDuration);
+        console.log(this.videoDuration);
+        console.log(this.fancyVideoDuration);
+
+        this.getVideoTrackingDataItems(this.playId);
+
+
+        //}
+
+        this.playVideo();
+
+
+      }
+    );
+  }
+  playVideo() {
+    this.api.play();
+  }
+  getEventIcon(eventName) {
+    switch (eventName) {
+      case 'Corner':
+        return 'assets/event-icons/corner-flag.svg';
+      case 'Goal':
+        return 'assets/event-icons/net-ball.svg';
+      case 'Offside':
+        return 'assets/event-icons/offside.svg';
+      case 'Free Kick':
+        return 'assets/event-icons/foot.svg';
+      case 'Shoot':
+        return 'assets/event-icons/ball.svg';
+      case 'Yellow Card':
+        return 'assets/event-icons/cards.svg';
+      case 'Red Card':
+        return 'assets/event-icons/cards.svg';
+      case 'Change':
+        return 'assets/event-icons/player-1.svg';
+      case 'Pass':
+        return 'assets/event-icons/ball-2.svg';
+      default:
+        return 'assets/event-icons/clock.svg';
+    }
+  }
 }
