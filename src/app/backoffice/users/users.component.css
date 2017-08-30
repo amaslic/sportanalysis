@@ -4,3 +4,19 @@
 .add-user-button{
 margin-right: 75%;
 }
+.deactive{
+    font-size: 20px;
+    margin-right: 5px;
+}
+.edit{
+    font-size: 20px;
+    margin-right: 5px;
+}
+.delete{
+    font-size: 20px;
+    margin-right: 5px;
+}
+.active{
+    font-size: 20px;
+    margin-right: 5px;
+}

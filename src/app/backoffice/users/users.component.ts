@@ -68,4 +68,17 @@ export class UsersComponent implements OnInit {
         (error) => this.onError(error)
       );
   }
+  activateUser(userId){
+    this.userService.activateUser(this.userService.token,userId).subscribe(
+      (response) => this.ngOnInit(),
+       (error) => this.onError(error)
+     );
+  }
+  deactivateUser(userId){
+    this.userService.deactivateUser(this.userService.token,userId).subscribe(
+      (response) => this.ngOnInit(),
+       (error) => this.onError(error)
+     );
+
+  }
 }

@@ -4,8 +4,8 @@
    <button class="pull-right" [routerLink]="['/backoffice/add-user']">Add User</button>
    </div>
    <md-tab-group>
-      <md-tab label="Approved users">
-         <h3>Approved users</h3>
+      <md-tab label="Active users">
+         <h3>Active users</h3>
          <ngx-datatable class="material" [columnMode]="'force'" [rows]="videoList">
          <ngx-datatable-column name="Email" prop="email" > </ngx-datatable-column>
          <ngx-datatable-column name="First Name" prop="firstName" > </ngx-datatable-column>
@@ -16,13 +16,15 @@
          <ngx-datatable-column name="Approval status" prop="clubFunction" > </ngx-datatable-column>
          <ngx-datatable-column name="Action">
             <ng-template let-row="row" ngx-datatable-cell-template>
-               <button (click)="deleteUser(row._id)">Delete</button>
+               <i class="fa fa-ban deactive" aria-hidden="true" (click)="deactivateUser(row._id)"></i>
+               <i class="fa fa-pencil edit" aria-hidden="true"  [routerLink]="['/backoffice/edit-user', row._id]" ></i>
+               <i class="fa fa-trash delete" aria-hidden="true" (click)="deleteUser(row._id)"></i>
             </ng-template>
          </ngx-datatable-column>
          </ngx-datatable>
       </md-tab>
-      <md-tab label="Waiting for admin approval users">
-         <h3>Unapproved Users</h3>
+      <md-tab label="Deactive Users">
+         <h3>Deactive Users</h3>
          <ngx-datatable class="material" [columnMode]="'force'" [rows]="unApprovedUsers">
          <ngx-datatable-column name="Email" prop="email" > </ngx-datatable-column>
          <ngx-datatable-column name="First Name" prop="firstName" > </ngx-datatable-column>
@@ -33,7 +35,9 @@
          <ngx-datatable-column name="Approval status" prop="clubFunction" > </ngx-datatable-column>
          <ngx-datatable-column name="Action">
             <ng-template let-row="row" ngx-datatable-cell-template>
-               <button (click)="deleteUser(row._id)">Delete</button>
+               <i class="fa fa-check-square active" aria-hidden="true" (click)="activateUser(row._id)"></i>
+               <i class="fa fa-pencil edit" aria-hidden="true"  [routerLink]="['/backoffice/edit-user', row._id]" ></i>
+               <i class="fa fa-trash delete" aria-hidden="true" (click)="deleteUser(row._id)"></i>
             </ng-template>
          </ngx-datatable-column>
          </ngx-datatable>
