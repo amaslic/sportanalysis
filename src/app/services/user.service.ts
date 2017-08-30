@@ -108,4 +108,19 @@ export class UserService {
     const options = new RequestOptions({ headers: headers });
     return this.http.get(this.baseApiUrl + 'user/fetchUser', options);
   }
+  getUserForEdit(token: String,userId) {
+    const headers = new Headers({ 'Authorization': token });
+    const options = new RequestOptions({ headers: headers,params: { id: userId } });
+    return this.http.get(this.baseApiUrl + 'user/getEditUser', options);
+  }
+  activateUser(token: String,userId) {
+    const headers = new Headers({ 'Authorization': token });
+    const options = new RequestOptions({ headers: headers,params: { id: userId } });
+    return this.http.get(this.baseApiUrl + 'user/activateUser', options);
+  }
+  deactivateUser(token: String,userId) {
+    const headers = new Headers({ 'Authorization': token });
+    const options = new RequestOptions({ headers: headers,params: { id: userId } });
+    return this.http.get(this.baseApiUrl + 'user/deactivateUser', options);
+  }
 }
