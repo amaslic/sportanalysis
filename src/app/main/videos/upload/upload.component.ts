@@ -1,6 +1,7 @@
 import {
   Component,
-  OnInit
+  OnInit,
+  ViewChild
 } from '@angular/core';
 
 
@@ -32,6 +33,8 @@ import { CompleterService, CompleterData } from 'ng2-completer';
   styleUrls: ['./upload.component.css']
 })
 export class UploadComponent implements OnInit {
+  errormsg: any;
+  successmsg: any;
   isAdmin: boolean;
   clubData = [];
   activatedClubList: any;
@@ -44,6 +47,9 @@ export class UploadComponent implements OnInit {
   filteredClubs: any;
 
   protected dataService: CompleterData;
+
+  @ViewChild('uploadSucessModal') uploadSucessModal;
+  @ViewChild('uploadErrorModal') uploadErrorModal;
 
   constructor(private completerService: CompleterService, private clubService: ClubService, private videoService: VideoService, private userService: UserService, r: Router) {
     videoService.progress$.subscribe((newValue: number) => { this.progress = newValue; });
@@ -138,18 +144,18 @@ export class UploadComponent implements OnInit {
   }
 
   onUploadSuccess(response) {
-    console.log(response);
     this.uploading = false;
     const res = JSON.parse(response._body);
-    alert(res.msg);
-    this.router.navigateByUrl('/videos');
+    this.successmsg = res.message;
+    this.uploadSucessModal.open();
+    // this.router.navigateByUrl('/videos');
   }
 
   onError(error) {
     const errorBody = JSON.parse(error._body);
-    console.error(errorBody);
     this.uploading = false;
-    alert(errorBody.msg);
+    this.errormsg = errorBody.message;
+    this.uploadErrorModal.open();
   }
 
   getSizeInMB(size) {
