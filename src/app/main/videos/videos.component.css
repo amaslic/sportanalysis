@@ -100,7 +100,7 @@
 
 
 .all-videos .col-lg-4, .all-videos .col-lg-4, .all-videos .col-sm-6, .all-videos .col-xs-12{
-  margin-bottom: 15px;
+  margin-bottom: 5px;
 }
 
 
@@ -166,7 +166,7 @@ div.date ul.list-inline li:nth-child(2) i{
   font-size: 8px;
   position: absolute;
   margin-left: -3px;
-  bottom: 16px;
+  bottom: 18px;
 }
 
 .durationn{
@@ -277,7 +277,7 @@ h3.recent{
 
 .list-view{
   background: white;
-  padding: 0 15px 15px 15px;
+  padding: 3 15px 3px 15px;
 }
 
 .list-view a img{
@@ -293,12 +293,22 @@ h3.recent{
 }
 
 .list-view li.type-duration span:first-child{
-  position: absolute;
-  top: 35px;
+ /* position: absolute;
+  top: 35px; */
 }
 
-.list-view div.date ul.list-inline li:nth-child(2) i{
-  bottom: 45px;
+.list-view div.date ul.list-inline li:nth-child(3) i{
+  bottom: 30px;
+  font-size: 8px;
+  position: absolute;
+}
+
+.list-view div.date ul.list-inline li:last-child{
+  padding-left: 15px;
+}
+
+.list-view date i{
+  font-size: 10px;
 }
 
 .all-videos .list-view .teams, .all-videos .list-view .video-info-list{
