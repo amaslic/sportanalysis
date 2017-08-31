@@ -89,6 +89,9 @@ export class PlaylistViewComponent implements OnInit {
     defaultTitle: ' Select Playlist ',
     allSelected: 'All Playlist ',
   };
+
+  currentIndex = 0; //Set this to 0 to enable Intro video;
+  currentItem: IMedia;
   constructor(private route: ActivatedRoute, private playlistService: PlaylistService, private videoService: VideoService, private userService: UserService, private trackingDataService: TrackingDataService) { }
 
   ngOnInit() {
@@ -119,8 +122,11 @@ export class PlaylistViewComponent implements OnInit {
     this.playList = this.playList['playlists'][0]['playdata'];
     this.playList.forEach(element => {
       console.log(element['video']);
+      var filteredObj = this.playlist.find(function (item, i) {
+        return (item.id == element['video']['_id']);
+      });
 
-
+      //if (!filteredObj || filteredObj.length == 0)
       this.playlist.push({
         'title': element['video']['title'],
         'src': this.baseVideoUrl + element['video']['path'],
@@ -129,7 +135,7 @@ export class PlaylistViewComponent implements OnInit {
       });
     });
     console.log(this.playlist);
-    this.currentItem = this.playlist[0];
+    this.currentItem = this.playlist[this.currentIndex];
 
     this.videoLoaded = true;
     // this.playlist = [{
@@ -186,36 +192,30 @@ export class PlaylistViewComponent implements OnInit {
     alert(errorBody.msg);
   }
 
-  currentIndex = 0; //Set this to 0 to enable Intro video;
-  currentItem: IMedia;
 
   nextVideo() {
-    console.log("Next video");
+    var lastVideoSrc = this.playlist[this.currentIndex].src;
     this.currentIndex++;
-
-    if (this.currentIndex === this.playlist.length) {
+    if (this.currentIndex >= this.playlist.length) {
       this.currentIndex = 0;
     }
-
     this.currentItem = this.playlist[this.currentIndex];
-    // this.playVideo()
 
-
-  }
-  playNextFromQueue(time) {
-    if (this.eventPlayQueue && this.eventPlayQueue.length > 0 && time >= this.eventPlayQueue[0].end) {
-      this.eventPlayQueue.shift();
-      this.playFromQueue();
+    if (lastVideoSrc == this.currentItem.src) {
+      this.playVideo();
     }
   }
-  playFromQueue() {
-    if (this.eventPlayQueue[0]) {
-      console.log("PLAYING QUEUE ", this.eventPlayQueue[0]);
-      this.goToEvent(false, this.eventPlayQueue[0]);
-    }
-  }
-  goToEvent(e, event) {
-    console.log(event.video._id);
+
+
+
+  goToEvent(e, idx) {
+
+    var lastVideoSrc = this.playlist[this.currentIndex].src;
+    var lastIndex = this.currentIndex;
+
+    this.currentIndex = idx;
+    var event: any = this.playList[idx];
+    console.log(event);
 
     if (e) {
       e.preventDefault();
@@ -226,24 +226,16 @@ export class PlaylistViewComponent implements OnInit {
     var data = this.playlist;
     var index = -1;
     var val = event.video._id;
-    var filteredObj = data.find(function (item, i) {
-      if (item.id === val) {
-        index = i;
-        console.log('I' + i);
-      }
-    });
 
-    this.currentItem = this.playlist[index];
-    console.log(this.api.getMediaById());
+
+    this.currentItem = this.playlist[idx];
+
     this.api.getDefaultMedia().currentTime = event.eventStart;
-    this.api.play();
-    this.cleartimer();
-    this.timer = setInterval(() => {
-      if (this.api.getDefaultMedia().currentTime >= parseInt(event.eventEnd)) {
-        this.api.pause();
-        this.cleartimer();
-      }
-    }, 1000);
+
+    if (lastIndex != idx && lastVideoSrc == this.currentItem.src)
+      this.playVideo();
+
+
 
 
 
@@ -252,6 +244,21 @@ export class PlaylistViewComponent implements OnInit {
   cleartimer() {
     if (this.timer)
       clearInterval(this.timer);
+  }
+
+  startEventTimer() {
+    this.cleartimer();
+    var event: any = this.playList[this.currentIndex];
+    this.timer = setInterval(() => {
+      if (this.api.getDefaultMedia().currentTime >= parseInt(event.eventEnd)) {
+        this.api.pause();
+        this.cleartimer();
+
+        setTimeout(() => {
+          this.nextVideo();
+        }, 1000);
+      }
+    }, 1000);
   }
 
   fancyTimeFormat(time) {
@@ -272,15 +279,7 @@ export class PlaylistViewComponent implements OnInit {
     return ret;
   }
 
-  getVideoTrackingDataItems(id: String) {
-    this.trackingDataService.getDataTrackingForVideo(id, this.userService.token).subscribe(
-      (response) => this.onGetVideoTrackingDataItemsSuccess(response),
-      (error) => this.onError(error)
-    );
-  }
-  onGetVideoTrackingDataItemsSuccess(response) {
 
-  }
 
   onPlayerReady(api: VgAPI) {
     this.api = api;
@@ -296,45 +295,33 @@ export class PlaylistViewComponent implements OnInit {
         // this.api.pause();
         this.nextVideo();
 
+        // this.api.play();
 
       }
     );
 
 
-    this.api.getDefaultMedia().subscriptions.timeUpdate.subscribe(
-      () => {
-        //console.log(this.api.getDefaultMedia().currentTime)
-        this.currentVideoTime = this.api.getDefaultMedia().currentTime;
-        this.playNextFromQueue(this.currentVideoTime);
-
-      }
-    );
 
     this.api.getDefaultMedia().subscriptions.loadedData.subscribe(
       () => {
-        console.log("Loaded data");
-
         // if (this.currentIndex == 1) {
         this.videoDuration = this.api.getDefaultMedia().duration;
         this.roundedDuration = parseInt(this.videoDuration);
         this.fancyVideoDuration = this.fancyTimeFormat(this.videoDuration);
-        console.log(this.videoDuration);
-        console.log(this.fancyVideoDuration);
-
-        this.getVideoTrackingDataItems(this.playId);
-
-
-        //}
-
         this.playVideo();
-
-
       }
     );
   }
+
   playVideo() {
+    console.log('Next video current ' + this.currentIndex);
+    var event: any = this.playList[this.currentIndex];
+    if (this.api.getDefaultMedia())
+      this.api.getDefaultMedia().currentTime = event.eventStart;
     this.api.play();
+    this.startEventTimer();
   }
+
   getEventIcon(eventName) {
     switch (eventName) {
       case 'Corner':
