@@ -10,16 +10,17 @@
       </ul>
     </div>
   </div>
-  <div class="video-box">
+  <div class="video-box" #Container>
 
     <vg-player *ngIf="video && playlist" (onPlayerReady)="onPlayerReady($event)" (mousemove)="onmouseenter()" (mouseover)="onmouseenter()"
       (mouseleave)="onmouseleave()">
       <vg-overlay-play></vg-overlay-play>
       <vg-buffering></vg-buffering>
 
-      <vg-scrub-bar *ngIf="currentIndex===1">
+      <vg-scrub-bar (mousemove)="onScrubBarMove($event,Container.getBoundingClientRect())" *ngIf="currentIndex===1">
         <vg-scrub-bar-current-time></vg-scrub-bar-current-time>
         <vg-scrub-bar-buffering-time></vg-scrub-bar-buffering-time>
+
         <vg-scrub-bar-cue-points class="customCuePoints" [vgCuePoints]="metadataTrack.cues" [vgFor]="sportanalysis-video"></vg-scrub-bar-cue-points>
       </vg-scrub-bar>
 
@@ -196,8 +197,8 @@
                   <!-- <p>Friday, 9 June 2017</p> -->
                 <!--  <div class="dots dropdown"><i class="dropbtn fa fa-ellipsis-h" aria-hidden="true"></i>
                     <div class="dropdown-content">
-                      <a (click)="createPlaylist(video._id,event.id)">Create Playlist</a>
-                      <a (click)="addToPlaylist(video._id,event.id)">Add Playlist</a>
+                      <a (click)="createPlaylist(video._id,event)">Create Playlist</a>
+                      <a (click)="addToPlaylist(video._id,event)">Add Playlist</a>
 
                     </div>
                   </div>-->

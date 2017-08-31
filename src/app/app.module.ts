@@ -49,6 +49,8 @@ import { BackofficeComponent } from './backoffice/backoffice.component';
 import { UsersComponent } from './backoffice/users/users.component';
 import { PlaylistsComponent } from './backoffice/playlist/playlists.component';
 
+import { PlaylistViewComponent } from './main/playlist-view/playlist-view.component';
+
 import { VideoOverviewComponent } from './backoffice/video-overview/video-overview.component';
 
 import { NouisliderModule } from 'ng2-nouislider';
@@ -86,6 +88,7 @@ const appRoutes: Routes = [
       { path: 'videos/view/:id', component: ViewComponent },
       { path: 'videos/settings/:id', component: VideoSettingsComponent },
       { path: 'playlist', component: PlaylistComponent },
+      { path: 'playlist/view/:id', component: PlaylistViewComponent },
       { path: 'help', component: HelpComponent },
       { path: 'profile/main', component: ProfileComponent },
       { path: 'clubs', component: ClubsComponent },
@@ -139,7 +142,8 @@ const appRoutes: Routes = [
     ClubComponent,
     ClubsComponent,
     SearchVideoTimelineTeamPipe,
-    ClassNamePipe
+    ClassNamePipe,
+    PlaylistViewComponent
   ],
   imports: [
     BrowserModule,

@@ -118,3 +118,36 @@
     </div>
   </div>
 </div>
+
+<modal #uploadSucessModal>
+  <modal-header>
+
+  </modal-header>
+  <modal-content>
+    <p>
+      <i class="fa fa-check" aria-hidden="true"></i>
+    </p>
+    <p>
+      {{successmsg}}
+    </p>
+  </modal-content>
+  <modal-footer>
+    <button class="btn btn-primary" (click)="uploadSucessModal.close()">Ok</button>
+  </modal-footer>
+</modal>
+<modal #uploadErrorModal class="error-modal">
+  <modal-header>
+
+  </modal-header>
+  <modal-content>
+    <p>
+      <i class="fa fa-close" aria-hidden="true"></i>
+    </p>
+    <p>
+      {{errormsg}}
+    </p>
+  </modal-content>
+  <modal-footer>
+    <button class="btn btn-primary" (click)="uploadErrorModal.close()">Ok</button>
+  </modal-footer>
+</modal>

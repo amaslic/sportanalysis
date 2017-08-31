@@ -69,6 +69,10 @@ export interface IMedia {
   styleUrls: ['./view.component.css']
 })
 export class ViewComponent implements OnInit {
+  eTeam: any;
+  eStrat: any;
+  eEnd: any;
+  eName: any;
   saveClass: any;
   updateMessage: string;
   saveMessage: string;
@@ -541,6 +545,7 @@ export class ViewComponent implements OnInit {
   }
 
   timelineClicked(event, container) {
+    console.log(container);
     let percentange = (event.layerX - 20) / container.width * 100;     //17seconds for offset fix
     let currentTime = this.roundedDuration / 100 * percentange;
 
@@ -574,15 +579,25 @@ export class ViewComponent implements OnInit {
   ngOnDestroy() {
     this.cleartimer();
   }
-  createPlaylist(vId, eId) {
+  createPlaylist(vId, event) {
     this.vId = vId;
-    this.eId = eId;
+    this.eId = event.id;
+    this.eStrat = event.start;
+    this.eEnd = event.end;
+    this.eName = event.name;
+    this.eTeam = event.team;
+    console.log(event);
     this.playlistName = '';
     this.createPlaylistModal.open();
   }
-  addToPlaylist(vId, eId) {
+  addToPlaylist(vId, event) {
+    console.log(event.id)
     this.vId = vId;
-    this.eId = eId;
+    this.eId = event.id;
+    this.eStrat = event.start;
+    this.eEnd = event.end;
+    this.eName = event.name;
+    this.eTeam = event.team;
     this.playlistService.getPlaylists(this.userService.token).subscribe(
       (response) => this.onGetPlaylistsSuccess(response),
       (error) => this.onError(error)
@@ -611,6 +626,10 @@ export class ViewComponent implements OnInit {
   updatePlaylist() {
     this.playlists['vid'] = this.vId;
     this.playlists['eId'] = this.eId;
+    this.playlists['eStrat'] = this.eStrat;
+    this.playlists['eEnd'] = this.eEnd;
+    this.playlists['eName'] = this.eName;
+    this.playlists['eTeam'] = this.eTeam;
     this.playlists['playlistId'] = this.playlistModel;
     this.playlists['user'] = this.userService.user._id;
     this.playlists['token'] = this.userService.token;
@@ -637,13 +656,14 @@ export class ViewComponent implements OnInit {
   addPlaylist() {
     this.playlists['vid'] = this.vId;
     this.playlists['eId'] = this.eId;
+    this.playlists['eStrat'] = this.eStrat;
+    this.playlists['eEnd'] = this.eEnd;
+    this.playlists['eName'] = this.eName;
+    this.playlists['eTeam'] = this.eTeam;
     this.playlists['playlistName'] = this.playlistName;
     this.playlists['user'] = this.userService.user._id;
     this.playlists['token'] = this.userService.token;
-    console.log(this.vId);
-    console.log(this.eId);
-    console.log(this.playlistName);
-    console.log(this.playlists);
+
 
     this.playlistService.createPlaylists(this.playlists).subscribe(
       (response) => this.onAddPlaylistSuccess(response),
@@ -666,5 +686,12 @@ export class ViewComponent implements OnInit {
     console.log(this.playlistOptions);
 
 
+  }
+  onScrubBarMove(e, Container) {
+
+    console.log(this.api.getDefaultMedia().duration);
+
+
+    console.log(e.clientX / Container.width * this.api.getDefaultMedia().duration)
   }
 }
