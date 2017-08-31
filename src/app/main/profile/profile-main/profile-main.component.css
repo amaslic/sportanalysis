@@ -213,6 +213,8 @@ p {
     padding: 0;
 }
 
+
+
 @media (max-width: 991px) {
     .message-content.col-md-8, .message-video.col-md-4{
         max-width: 100%;

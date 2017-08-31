@@ -449,6 +449,7 @@
   background: #767d9a;
   border: none;
   padding-right: 2px;
+  display: none;
 }
 
 .settings{
