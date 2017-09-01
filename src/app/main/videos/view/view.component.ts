@@ -502,7 +502,7 @@ export class ViewComponent implements OnInit {
   onmouseenter($event) {
     this.enableOverlay = true;
     setTimeout(() => {
-      this.enableOverlay = false;
+      this.enableOverlay = true;
     }, 1500);
 
   }
