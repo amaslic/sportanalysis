@@ -1,6 +1,7 @@
 import {
   Component,
-  OnInit
+  OnInit,
+  ViewChild
 } from '@angular/core';
 import {
   User
@@ -14,6 +15,10 @@ import {
   styleUrls: ['./users.component.css']
 })
 export class UsersComponent implements OnInit {
+  successmsg: any;
+  deactivateUserResponce: any;
+  activateUserResponce: any;
+  deleteUserResponce: any;
   videoList: User[];
   unApprovedUsers;
   loadingIndicator: boolean = true;
@@ -28,13 +33,18 @@ export class UsersComponent implements OnInit {
     { prop: 'phone' },
     { prop: 'admin' },
     { prop: 'confirmed' },
-    { prop: 'superadmin'}
+    { prop: 'superadmin' }
   ];
-  constructor(private userService: UserService) {}
+  @ViewChild('activetable') activetable;
+  @ViewChild('deactivetable') deactivetable;
+  @ViewChild('userSucessModal') userSucessModal;
+  @ViewChild('userErrorModal') userErrorModal
+  constructor(private userService: UserService) { }
 
   ngOnInit() {
     this.getUsers();
     this.getUnApprovedUsers();
+
   }
   getUsers() {
     this.userService.getUsers(this.userService.token).subscribe(
@@ -42,11 +52,11 @@ export class UsersComponent implements OnInit {
       (error) => this.onError(error)
     );
   }
-  getUnApprovedUsers(){
+  getUnApprovedUsers() {
     this.userService.getUnApprovedUsers(this.userService.token).subscribe(
-        (response) => this.onGetUnApprovedUsers(response),
-        (error) => this.onError(error)
-      );
+      (response) => this.onGetUnApprovedUsers(response),
+      (error) => this.onError(error)
+    );
   }
   onGetUsersSuccess(response) {
     this.videoList = JSON.parse(response._body);
@@ -60,25 +70,61 @@ export class UsersComponent implements OnInit {
   onError(error) {
     const errorBody = JSON.parse(error._body);
     console.error(errorBody);
-   
+
   }
-  deleteUser(userId){
-    this.userService.deleteUser(this.userService.token,userId).subscribe(
-       (response) => this.ngOnInit(),
+  onDeleteUserSuccess(response) {
+    this.deleteUserResponce = JSON.parse(response._body);
+
+    this.successmsg = this.deleteUserResponce.message;
+    this.userSucessModal.open()
+
+  }
+  deleteUser(userId) {
+
+    if (confirm("Are you sure to delete this user ?")) {
+      this.userService.deleteUser(this.userService.token, userId).subscribe(
+        (response) => this.onDeleteUserSuccess(response),
         (error) => this.onError(error)
       );
-  }
-  activateUser(userId){
-    this.userService.activateUser(this.userService.token,userId).subscribe(
-      (response) => this.ngOnInit(),
-       (error) => this.onError(error)
-     );
-  }
-  deactivateUser(userId){
-    this.userService.deactivateUser(this.userService.token,userId).subscribe(
-      (response) => this.ngOnInit(),
-       (error) => this.onError(error)
-     );
 
+    }
+
+
+  }
+
+  activateUser(userId) {
+    this.userService.activateUser(this.userService.token, userId).subscribe(
+      (response) => this.onActivateUserSuccess(response),
+      (error) => this.onError(error)
+    );
+  }
+  onActivateUserSuccess(response) {
+    this.activateUserResponce = JSON.parse(response._body);
+
+    this.successmsg = this.activateUserResponce.message;
+    this.userSucessModal.open()
+
+    console.log(this.activateUserResponce);
+    this.ngOnInit();
+    this.activetable.resize.emit();
+    this.deactivetable.resize.emit();
+  }
+  deactivateUser(userId) {
+    this.userService.deactivateUser(this.userService.token, userId).subscribe(
+      (response) => this.onDeactivateUserSuccess(response),
+      (error) => this.onError(error)
+    );
+
+  }
+  onDeactivateUserSuccess(response) {
+    this.deactivateUserResponce = JSON.parse(response._body);
+
+
+    console.log(this.deactivateUserResponce);
+    this.successmsg = this.deactivateUserResponce.message;
+    this.userSucessModal.open()
+    this.ngOnInit();
+    this.activetable.resize.emit();
+    this.deactivetable.resize.emit();
   }
 }
