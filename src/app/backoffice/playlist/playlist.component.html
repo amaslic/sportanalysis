@@ -9,7 +9,7 @@
     </ngx-datatable-column>
     <ngx-datatable-column name="Action">
       <ng-template let-row="row" ngx-datatable-cell-template>
-        <button (click)="assignUser(row._id)">Assign User</button>
+        <i class="fa fa-share-alt fa-lg text-success" aria-hidden="true" (click)="assignUser(row._id)"></i>
       </ng-template>
     </ngx-datatable-column>
   </ngx-datatable>
@@ -17,16 +17,14 @@
 
 <modal #updatePlaylistModal class="error-modal">
   <modal-header>
-
-
   </modal-header>
   <modal-content>
     <p>
-      Assign Users
+      Share Playlist
     </p>
 
     <div class="form-group">
-      <label class="col-md-4 control-label">Select Users</label>
+      <label class="col-md-4 control-label">Users</label>
       <ss-multiselect-dropdown class="col-md-5" [options]="userlistOptions" [texts]="userlistTexts" [settings]="userlistSettings"
         [(ngModel)]="userlistModel"></ss-multiselect-dropdown>
     </div>
@@ -39,7 +37,7 @@
   </modal-content>
   <modal-footer>
 
-    <button class=" btn btn-primary " [disabled]="!userlistModel || userlistModel?.length==0 " (click)="usersToPlaylist() ">Assign</button>
+    <button class=" btn btn-primary " [disabled]="!userlistModel || userlistModel?.length==0 " (click)="usersToPlaylist() ">Share</button>
     <button class="btn btn-primary " (click)="updatePlaylistModal.close() ">Cancel</button>
 
 

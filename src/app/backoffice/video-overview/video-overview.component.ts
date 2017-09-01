@@ -1,6 +1,7 @@
 import {
   Component,
-  OnInit
+  OnInit,
+  ViewChild
 } from '@angular/core';
 import {
   User
@@ -14,47 +15,50 @@ import {
 import {
   VideoService
 } from './../../services/video.service';
+import { IMultiSelectOption, IMultiSelectSettings, IMultiSelectTexts } from 'angular-2-dropdown-multiselect';
 @Component({
   selector: 'app-users',
   templateUrl: './video-overview.component.html',
   styleUrls: ['./video-overview.css']
 })
 export class VideoOverviewComponent implements OnInit {
+  successmsg: any;
+  videoId: any;
+  trackUserlist: any[];
 
+  userlistOptions: IMultiSelectOption[];
+  userlistModel: any[];
+  userlistSettings: IMultiSelectSettings = {
+    enableSearch: true,
+    checkedStyle: 'fontawesome',
+    containerClasses: 'no-button-arrow',
+    buttonClasses: 'btn btn-default btn-block',
+    fixedTitle: false,
+    maxHeight: '200px',
+    dynamicTitleMaxItems: 2,
+    closeOnClickOutside: true
+  };
+  userlistTexts: IMultiSelectTexts = {
+    checkAll: 'Select all',
+    uncheckAll: 'Unselect all',
+    checked: 'Video selected',
+    checkedPlural: 'Video selected',
+    searchPlaceholder: 'Find',
+    searchEmptyResult: 'Nothing found',
+    searchNoRenderText: 'Type in search box',
+    defaultTitle: ' Select Users  ',
+    allSelected: 'All Video ',
+  };
   videoList: User[];
   loadingIndicator: boolean = true;
   reorderable: boolean = true;
-
-  columns = [{
-    prop: 'title'
-  },
-  {
-    prop: 'type'
-  },
-  {
-    prop: 'original_filename'
-  },
-  {
-    prop: '_id'
-  },
-  {
-    prop: 'user.club',
-    name: 'Club'
-  },
-  {
-    prop: 'path',
-    name: 'File path'
-  },
-  {
-    name: 'Action'
-  }
-  ];
+  @ViewChild('assignVideoModal') assignVideoModal;
+  @ViewChild('videoSucessModal') videoSucessModal;
   constructor(private videoService: VideoService, private userService: UserService) { }
 
   ngOnInit() {
     this.getVideos();
   }
-
 
   getVideos() {
     this.videoService.getVideos(this.userService.token).subscribe(
@@ -70,8 +74,6 @@ export class VideoOverviewComponent implements OnInit {
         console.log(element);
         element['id'] = element._id;
         element['ofilename'] = element['original_filename'];
-
-
       });
 
     }
@@ -91,9 +93,43 @@ export class VideoOverviewComponent implements OnInit {
         (response) => { this.getVideos() },
         (error) => this.onError(error)
       );
-
     }
+  }
+  assignVideo(id) {
+
+    this.videoId = id;
+    this.userService.getUsers(this.userService.token).subscribe(
+      (response) => this.onGetUsersSuccess(response),
+      (error) => this.onError(error)
+    );
+    this.assignVideoModal.open();
 
 
+  }
+  onGetUsersSuccess(response) {
+    const userlist = JSON.parse(response._body);
+    this.trackUserlist = [];
+    userlist.forEach((usr, index) => {
+      this.trackUserlist.push({
+        'id': usr._id,
+        'name': usr.firstName
+      });
+    });
+    this.userlistOptions = this.trackUserlist;
+
+  }
+  usersToVideo() {
+    console.log(this.videoId);
+    console.log(this.userlistModel);
+    this.videoService.assignVideo(this.userService.token, this.videoId, this.userlistModel).subscribe(
+      (response) => this.usersToVideoSuccess(response),
+      (error) => this.onError(error)
+    );
+  }
+  usersToVideoSuccess(response) {
+    const responseBody = JSON.parse(response._body);
+    this.successmsg = responseBody.message;
+    this.assignVideoModal.close();
+    this.videoSucessModal.open();
   }
 }

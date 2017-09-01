@@ -15,6 +15,9 @@ import {
 import {
   PlaylistService
 } from './../../services/playlist.service';
+import {
+  LocalStorageService
+} from 'angular-2-local-storage';
 import { IMultiSelectOption, IMultiSelectSettings, IMultiSelectTexts } from 'angular-2-dropdown-multiselect';
 
 @Component({
@@ -46,7 +49,7 @@ export class PlaylistsComponent implements OnInit {
     checked: 'Playlist selected',
     checkedPlural: 'Playlist selected',
     searchPlaceholder: 'Find',
-    defaultTitle: '  Users  ',
+    defaultTitle: ' Select  Users  ',
     allSelected: 'All Playlist ',
   };
 
@@ -63,7 +66,7 @@ export class PlaylistsComponent implements OnInit {
 
   ];
   @ViewChild('updatePlaylistModal') updatePlaylistModal;
-  constructor(private userService: UserService, private playlistService: PlaylistService) { }
+  constructor(private localStorageService: LocalStorageService, private userService: UserService, private playlistService: PlaylistService) { }
 
   ngOnInit() {
     this.getPlaylist();
@@ -106,10 +109,14 @@ export class PlaylistsComponent implements OnInit {
   }
   fetchPlaylistSuccess(response) {
 
-    this.userlistModel = []
+    this.userlistModel = [];
+    var loggedInUserId = this.localStorageService.get('user')['_id'];
+
     const userSelect = JSON.parse(response._body);
     userSelect.playlists[0]['assignedUsers'].forEach((usr, index) => {
-      this.userlistModel.push(usr);
+
+      if (usr != loggedInUserId)
+        this.userlistModel.push(usr);
     });
 
     this.updatePlaylistModal.open();
