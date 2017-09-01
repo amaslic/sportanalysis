@@ -28,6 +28,11 @@
 .video-ss{
   margin: auto;
 }
+
+.list-view .list-inline>li{
+  max-width: 180px;
+  width: 100%;
+}
  
 .container.videos-list{
   max-width: 1680px;
@@ -149,6 +154,25 @@ h2.video-title{
   text-align: center;
   color: black;
   font-weight: 600;
+}
+
+.list-view h2.video-title{
+  text-align: left;
+  font-size: 14px;
+}
+
+.list-view li.views-date{
+  font-size: 12px;
+}
+
+.list-view li.views-date i{
+  padding-left: 10px;
+  padding-right: 10px;
+  font-size: 9px;
+}
+
+.list-view li.result{
+  padding-left: 15px;
 }
 
 a:hover{
