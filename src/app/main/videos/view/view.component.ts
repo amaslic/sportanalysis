@@ -69,6 +69,10 @@ export interface IMedia {
   styleUrls: ['./view.component.css']
 })
 export class ViewComponent implements OnInit {
+  isAdmin: boolean;
+  showEvent: boolean;
+  shareEvent: boolean;
+  eventId: any;
   eTeam: any;
   eStrat: any;
   eEnd: any;
@@ -174,22 +178,60 @@ export class ViewComponent implements OnInit {
     allSelected: 'All Event',
   };
 
+  trackUserlist: any[];
+
+  userlistOptions: IMultiSelectOption[];
+  userlistModel: any[];
+  userlistSettings: IMultiSelectSettings = {
+    enableSearch: true,
+    checkedStyle: 'fontawesome',
+    containerClasses: 'no-button-arrow',
+    buttonClasses: 'btn btn-default btn-block',
+    fixedTitle: false,
+    maxHeight: '200px',
+    dynamicTitleMaxItems: 2,
+    closeOnClickOutside: true
+  };
+  userlistTexts: IMultiSelectTexts = {
+    checkAll: 'Select all',
+    uncheckAll: 'Unselect all',
+    checked: 'Video selected',
+    checkedPlural: 'Video selected',
+    searchPlaceholder: 'Find',
+    searchEmptyResult: 'Nothing found',
+    searchNoRenderText: 'Type in search box',
+    defaultTitle: ' Select Users  ',
+    allSelected: 'All Video ',
+  };
+
 
   @ViewChild('createPlaylistModal') createPlaylistModal;
   @ViewChild('updatePlaylistModal') updatePlaylistModal;
+  @ViewChild('assignEventModal') assignEventModal;
 
   //@ViewChild('eventTimelineScrollbar') eventTimelineScrollbar;
 
   constructor(private route: ActivatedRoute, private playlistService: PlaylistService, private videoService: VideoService, private userService: UserService, private trackingDataService: TrackingDataService) { }
 
   ngOnInit() {
+    this.userService.isAdmin().subscribe(
+      (response) => this.onIsAdminClubsSuccess(response),
+      (error) => this.onError(error)
+    );
+    this.showEvent = true;
     this.sub = this.route.params.subscribe(params => {
       this.videoId = params['id'];
+      if (params['eid']) {
+        this.eventId = params['eid'];
+      }
       this.getVideo(this.videoId);
     });
+  }
+  onIsAdminClubsSuccess(response) {
+    const userAdmin = JSON.parse(response._body);
 
-
-
+    if (userAdmin.success)
+      this.isAdmin = true;
   }
   onChange() {
     //alert('hello');
@@ -197,6 +239,7 @@ export class ViewComponent implements OnInit {
     this.searchArray = this.teamModel.concat(this.eventModel);
 
   }
+
 
   getVideoTrackingDataItems(id: String) {
     this.trackingDataService.getDataTrackingForVideo(id, this.userService.token).subscribe(
@@ -326,20 +369,45 @@ export class ViewComponent implements OnInit {
       type: 'video/mp4'
     }
     ];
-    this.currentItem = this.playlist[this.currentIndex];
 
+    this.currentItem = this.playlist[this.currentIndex];
   }
 
   onError(error) {
     const errorBody = JSON.parse(error._body);
     console.error(errorBody);
-    alert(errorBody.message);
+    // alert(errorBody.message);
   }
 
-  currentIndex = 1; //Set this to 0 to enable Intro video;
+  currentIndex = 0; //Set this to 0 to enable Intro video;
   currentItem: IMedia;
 
+  shareEventlist(vid, eid) {
+    console.log(vid, eid)
 
+    this.userService.getUsers(this.userService.token).subscribe(
+      (response) => this.onGetUsersSuccess(response),
+      (error) => this.onError(error)
+    );
+    this.assignEventModal.open();
+
+  }
+  onGetUsersSuccess(response) {
+    const userlist = JSON.parse(response._body);
+    this.trackUserlist = [];
+    userlist.forEach((usr, index) => {
+      this.trackUserlist.push({
+        'id': usr._id,
+        'name': usr.firstName
+      });
+    });
+    this.userlistOptions = this.trackUserlist;
+
+
+  }
+  usersToEvent() {
+    alert("users");
+  }
   onClickPlaylistItem(item: IMedia, index: number) {
     this.currentIndex = index;
     this.currentItem = item;
@@ -395,6 +463,10 @@ export class ViewComponent implements OnInit {
 
         //}
         if (this.currentIndex <= 2) {
+          if (this.eventId) {
+            this.showEvent = false;
+            this.sharedEvent();
+          }
           this.playVideo();
         }
 
@@ -446,7 +518,17 @@ export class ViewComponent implements OnInit {
 
     return ret;
   }
-
+  sharedEvent() {
+    this.api.getDefaultMedia().currentTime = 10;
+    this.api.play();
+    this.cleartimer();
+    this.timer = setInterval(() => {
+      if (this.api.getDefaultMedia().currentTime >= 20) {
+        this.api.pause();
+        this.cleartimer();
+      }
+    }, 1000);
+  }
   goToEvent(e, event) {
 
     if (e) {

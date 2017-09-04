@@ -16,6 +16,8 @@ import {
   VideoService
 } from './../../services/video.service';
 import { IMultiSelectOption, IMultiSelectSettings, IMultiSelectTexts } from 'angular-2-dropdown-multiselect';
+import { GlobalVariables } from "app/models/global.model";
+import { PlatformLocation } from '@angular/common';
 @Component({
   selector: 'app-users',
   templateUrl: './video-overview.component.html',
@@ -54,7 +56,7 @@ export class VideoOverviewComponent implements OnInit {
   reorderable: boolean = true;
   @ViewChild('assignVideoModal') assignVideoModal;
   @ViewChild('videoSucessModal') videoSucessModal;
-  constructor(private videoService: VideoService, private userService: UserService) { }
+  constructor(platformLocation: PlatformLocation, private videoService: VideoService, private userService: UserService) { }
 
   ngOnInit() {
     this.getVideos();
@@ -103,6 +105,7 @@ export class VideoOverviewComponent implements OnInit {
       (error) => this.onError(error)
     );
     this.assignVideoModal.open();
+
 
 
   }
