@@ -6,7 +6,7 @@ import {
   LocalStorageService
 } from 'angular-2-local-storage';
 import {
-  Router,ActivatedRoute
+  Router, ActivatedRoute
 } from '@angular/router';
 
 @Component({
@@ -31,16 +31,18 @@ export class MainComponent implements OnInit {
 
   constructor(private localStorageService: LocalStorageService, r: Router, private route: ActivatedRoute) {
     this.router = r;
-     this.router.events.subscribe((val:any) => {
-      if(val.url==="/"){
-        this.router.navigateByUrl('/videos');
-      } 
-      document.getElementById("site-title").textContent="";
-      document.getElementById("site-logo").setAttribute( 'src', '/assets/images/menu-logo.png');
+    let user: any = this.localStorageService.get('user');
+    this.router.events.subscribe((val: any) => {
+      if (val.url === "/") {
+        this.router.navigateByUrl('/club/' + user.club);
+      }
+      document.getElementById("site-title").textContent = "";
+      document.getElementById("site-logo").setAttribute('src', '/assets/images/menu-logo.png');
     });
   }
 
   ngOnInit() {
+    
   }
 
   logout() {
@@ -49,7 +51,7 @@ export class MainComponent implements OnInit {
     this.router.navigateByUrl('/auth/login');
   }
 
-  getUserDisplayName(){
+  getUserDisplayName() {
     let user: any = this.localStorageService.get('user');
     return user.firstName + " " + user.lastName;
   }

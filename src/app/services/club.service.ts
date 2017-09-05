@@ -27,11 +27,11 @@ import {
 @Injectable()
 export class ClubService {
   private baseApiUrl = GlobalVariables.BASE_API_URL;
-  progress$: Observable < number > ;
-  private progressSubject: Subject < number > ;
+  progress$: Observable<number>;
+  private progressSubject: Subject<number>;
 
   constructor(private http: Http, private p_http: ProgressHttp) {
-    this.progressSubject = new Subject < number > ();
+    this.progressSubject = new Subject<number>();
     this.progress$ = this.progressSubject.asObservable();
   }
 
@@ -73,17 +73,25 @@ export class ClubService {
     return this.http.get(this.baseApiUrl + 'club/fetchAllActivated', options);
   }
 
-  getClubBySlug(slug){
-     return this.http.get(this.baseApiUrl + 'club/getBySlug?slug=' + slug );
+  getClubBySlug(slug) {
+    return this.http.get(this.baseApiUrl + 'club/getBySlug?slug=' + slug);
   }
-
-  deleteClub(clubId, token){
+  checkClubActive(token: String) {
     const headers = new Headers({
       'Authorization': token
     });
     const options = new RequestOptions({
       headers: headers
     });
-    return this.http.delete(this.baseApiUrl + 'club/delete?id='+clubId, options );
+    return this.http.get(this.baseApiUrl + 'club/checkClubActive', options);
+  }
+  deleteClub(clubId, token) {
+    const headers = new Headers({
+      'Authorization': token
+    });
+    const options = new RequestOptions({
+      headers: headers
+    });
+    return this.http.delete(this.baseApiUrl + 'club/delete?id=' + clubId, options);
   }
 }

@@ -15,6 +15,9 @@ import {
 import {
   PlaylistService
 } from './../../services/playlist.service';
+import {
+  ClubService
+} from './../../services/club.service';
 
 import { IMultiSelectOption, IMultiSelectSettings, IMultiSelectTexts } from 'angular-2-dropdown-multiselect';
 import { RouterLink, Router } from '@angular/router';
@@ -25,6 +28,8 @@ import { RouterLink, Router } from '@angular/router';
   styleUrls: ['./playlist.component.css']
 })
 export class PlaylistComponent implements OnInit {
+  errormsg: string;
+  clubActive: any;
   playList: Playlist[];
   trackPlaylist: any = [];
   loadingIndicator: boolean = true;
@@ -49,9 +54,11 @@ export class PlaylistComponent implements OnInit {
     defaultTitle: ' Select Playlist ',
     allSelected: 'All Playlist ',
   };
-  constructor(router: Router, private userService: UserService, private playlistService: PlaylistService) { }
+  @ViewChild('ErrorModal') ErrorModal;
+  constructor(private clubService: ClubService, router: Router, private userService: UserService, private playlistService: PlaylistService) { }
 
   ngOnInit() {
+    this.ClubStatus();
     this.getPlaylist();
   }
 
@@ -61,7 +68,20 @@ export class PlaylistComponent implements OnInit {
       (error) => this.onError(error)
     );
   }
-
+  ClubStatus() {
+    this.clubService.checkClubActive(this.userService.token).subscribe(
+      (response) => this.onClubStatusSuccess(response),
+      (error) => this.onError(error)
+    );
+  }
+  onClubStatusSuccess(response) {
+    const clubResp = JSON.parse(response._body);
+    this.clubActive = clubResp.activated;
+    if (!this.clubActive) {
+      this.errormsg = "Club is deactivated by Admin.";
+      this.ErrorModal.open();
+    }
+  }
   onGetPlaylistSuccess(response) {
     this.playList = JSON.parse(response._body);
     this.playList = this.playList['playlists'];

@@ -1,6 +1,7 @@
 import {
   Component,
-  OnInit
+  OnInit,
+  ViewChild
 } from '@angular/core';
 import {
   User
@@ -26,21 +27,25 @@ import {
   styleUrls: ['./club.component.css']
 })
 export class ClubComponent implements OnInit {
+  errormsg: string;
   private sub: any;
   private slug: String;
   private club;
   private baseImageUrl = GlobalVariables.BASE_IMAGE_URL;
+  @ViewChild('SucessModal') SucessModal;
+  @ViewChild('ErrorModal') ErrorModal;
   constructor(private clubService: ClubService, private userService: UserService, private route: ActivatedRoute) {
   }
 
   ngOnInit() {
-     this.sub = this.route.params.subscribe(params => {
+    this.sub = this.route.params.subscribe(params => {
       this.slug = params['slug'];
       this.getClub(this.slug);
     });
+
   }
 
-   getClub(slug) {
+  getClub(slug) {
     this.clubService.getClubBySlug(slug)
       .subscribe(
       (response) => this.onGetClubSuccess(response),
@@ -48,17 +53,28 @@ export class ClubComponent implements OnInit {
       );
   }
 
-  onGetClubSuccess(response){
+  onGetClubSuccess(response) {
     this.club = JSON.parse(response._body);
-    console.log("Got club", this.club);
-    document.getElementById("site-title").textContent=this.club.name;
-    document.getElementById("site-logo").setAttribute( 'src', this.baseImageUrl + this.club.logo);
+
+    if (this.club.name) {
+      document.getElementById("site-title").textContent = this.club.name;
+      document.getElementById("site-logo").setAttribute('src', this.baseImageUrl + this.club.logo);
+    }
+    if (this.club) {
+      if (this.club.activated == false) {
+        this.errormsg = "Club is deactivated by Admin.";
+      }
+      if (this.club.success == false) {
+        this.errormsg = this.club.message;
+      }
+      this.ErrorModal.open();
+    }
   }
 
   onError(error) {
     const errorBody = JSON.parse(error._body);
-    console.error(errorBody);
-    alert(errorBody.message);
+    this.errormsg = errorBody.message
+    this.ErrorModal.open();
   }
 
 }

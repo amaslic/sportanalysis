@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import {
   Video
 } from './../../models/video.model';
@@ -13,22 +13,45 @@ import {
 import {
   VideoService
 } from './../../services/video.service';
-
+import {
+  ClubService
+} from './../../services/club.service';
 @Component({
   selector: 'app-videos',
   templateUrl: './videos.component.html',
   styleUrls: ['./videos.component.css']
 })
+
 export class VideosComponent implements OnInit {
+  clubActive: any;
+  errormsg: string;
   grid: boolean;
   list: boolean;
   private baseVideoUrl = GlobalVariables.BASE_VIDEO_URL;
   videoList: Video[];
-  constructor(private videoService: VideoService, private userService: UserService) { }
+  @ViewChild('ErrorModal') ErrorModal;
+  constructor(private clubService: ClubService, private videoService: VideoService, private userService: UserService) { }
 
   ngOnInit() {
+    this.ClubStatus();
+
     this.getVideos();
     this.gridView();
+  }
+  ClubStatus() {
+    this.clubService.checkClubActive(this.userService.token).subscribe(
+      (response) => this.onClubStatusSuccess(response),
+      (error) => this.onError(error)
+    );
+  }
+  onClubStatusSuccess(response) {
+    console.log(response);
+    const clubResp = JSON.parse(response._body);
+    this.clubActive = clubResp.activated;
+    if (!this.clubActive) {
+      this.errormsg = "Club is deactivated by Admin.";
+      this.ErrorModal.open();
+    }
   }
   gridView() {
     this.grid = true;
@@ -47,7 +70,7 @@ export class VideosComponent implements OnInit {
 
   onGetVideosSuccess(response) {
     this.videoList = JSON.parse(response._body);
-    console.log(this.videoList);
+    //console.log(this.videoList);
   }
 
   onError(error) {
