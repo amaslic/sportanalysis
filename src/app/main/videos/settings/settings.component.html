@@ -65,18 +65,37 @@
               </span>-->
               </a>
             </div>
-          </div>
+          </div> 
           <div class="col-md-8">
-            <h3>Add new tracking data file</h3>
+            <!--<h3>Add new tracking data file</h3>-->
             <form #f="ngForm" (ngSubmit)="onSubmit(f)" novalidate [ngClass]="{'submited' : f._submitted}">
-              <div class="form-group">
+                <div class="form-group text-center">
+                    <button class="btn btn-default  btn-add-tracking" type="submit" [disabled]="!f.form.valid && f._submitted">Add data file</button>
+                  </div>
+
+              <!--<div class="form-group">
                 <input type="text" name="title" [(ngModel)]="title" class="form-control" placeholder="Title" required title>
+              </div>-->
+              <div class="form-group">
+                  <div class="col-md-6 data-app">
+                    <h3>
+                      Data application
+                    </h3>
+                  </div>
+                  <div class="dropdown sportscode col-md-6" dropdown [dropdownToggle]="false">
+                      <button class="btn dropdown-toggl" type="button" dropdown-open>Sportscode
+                      </button>
+                      <ul class="dropdown-menu">
+                        <li>Option 1</li>
+                        <li>Option 2</li>
+                      </ul>
+                    </div>
               </div>
               <div class="form-group" style="width:100%">
                 <div class="input-group">
                   <label class="input-group-btn">
               <span class="btn btn-primary tracking-data">
-                Tracking Data XML <input type="file" (change)="onSelectFile($event)" id="trackingData" style="display: none;" #fileInput>
+                Upload data file <input type="file" (change)="onSelectFile($event)" id="trackingData" style="display: none;" #fileInput>
                 </span>
             </label>
                   <input type="text" class="form-control" readonly (click)="fileInput.click()" [value]="selectedFile.name">
@@ -84,9 +103,7 @@
                     [value]="selectedFile.name">
                 </div>
               </div>
-              <div class="form-group text-center">
-                <button class="btn btn-default  btn-add-tracking" type="submit" [disabled]="!f.form.valid && f._submitted">Add Tracking data</button>
-              </div>
+              
             </form>
           </div>
         </div>
