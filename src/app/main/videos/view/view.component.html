@@ -344,3 +344,19 @@
 
   </modal-footer>
 </modal>
+<modal #SucessModal>
+  <modal-header>
+
+  </modal-header>
+  <modal-content>
+    <p>
+      <i class="fa fa-check" aria-hidden="true"></i>
+    </p>
+    <p>
+      {{successmsg}}
+    </p>
+  </modal-content>
+  <modal-footer>
+    <button class="btn btn-primary" (click)="SucessModal.close()">Ok</button>
+  </modal-footer>
+</modal>

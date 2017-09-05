@@ -69,6 +69,8 @@ export interface IMedia {
   styleUrls: ['./view.component.css']
 })
 export class ViewComponent implements OnInit {
+  successmsg: any;
+  eventsDetails: any;
   isAdmin: boolean;
   showEvent: boolean;
   shareEvent: boolean;
@@ -208,6 +210,7 @@ export class ViewComponent implements OnInit {
   @ViewChild('createPlaylistModal') createPlaylistModal;
   @ViewChild('updatePlaylistModal') updatePlaylistModal;
   @ViewChild('assignEventModal') assignEventModal;
+  @ViewChild('SucessModal') SucessModal;
 
   //@ViewChild('eventTimelineScrollbar') eventTimelineScrollbar;
 
@@ -223,6 +226,10 @@ export class ViewComponent implements OnInit {
       this.videoId = params['id'];
       if (params['eid']) {
         this.eventId = params['eid'];
+        this.trackingDataService.getEventDetails(this.videoId, params['eid'], this.userService.token).subscribe(
+          (response) => this.getEventDetailsSuccess(response, params['eid']),
+          (error) => this.onError(error)
+        )
       }
       this.getVideo(this.videoId);
     });
@@ -389,7 +396,21 @@ export class ViewComponent implements OnInit {
       (response) => this.onGetUsersSuccess(response),
       (error) => this.onError(error)
     );
+    this.trackingDataService.getEventDetails(vid, eid, this.userService.token).subscribe(
+      (response) => this.getEventDetailsSuccess(response, eid),
+      (error) => this.onError(error)
+    )
     this.assignEventModal.open();
+
+  }
+  getEventDetailsSuccess(response, eid) {
+
+    const eventsdata = JSON.parse(response._body);
+    console.log(eventsdata.eventData);
+    this.eventsDetails = eventsdata.eventData.filter(function (element, index) {
+      console.log(element.id)
+      return (element.id[0] === eid);
+    })[0];
 
   }
   onGetUsersSuccess(response) {
@@ -406,7 +427,18 @@ export class ViewComponent implements OnInit {
 
   }
   usersToEvent() {
-    alert("users");
+
+    this.trackingDataService.shareEvent(this.videoId, this.eventsDetails, this.userlistModel, this.userService.token).subscribe(
+      (response) => this.shareEventSuccess(response),
+      (error) => this.onError(error)
+    )
+    console.log(this.eventsDetails);
+  }
+  shareEventSuccess(response) {
+    const eventRes = JSON.parse(response._body);
+    this.successmsg = eventRes.message;
+    this.assignEventModal.close();
+    this.SucessModal.open();
   }
   onClickPlaylistItem(item: IMedia, index: number) {
     this.currentIndex = index;
@@ -519,11 +551,11 @@ export class ViewComponent implements OnInit {
     return ret;
   }
   sharedEvent() {
-    this.api.getDefaultMedia().currentTime = 10;
+    this.api.getDefaultMedia().currentTime = this.eventsDetails.start[0];
     this.api.play();
     this.cleartimer();
     this.timer = setInterval(() => {
-      if (this.api.getDefaultMedia().currentTime >= 20) {
+      if (this.api.getDefaultMedia().currentTime >= this.eventsDetails.end[0]) {
         this.api.pause();
         this.cleartimer();
       }
