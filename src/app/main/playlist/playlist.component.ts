@@ -15,6 +15,7 @@ import {
 import {
   PlaylistService
 } from './../../services/playlist.service';
+
 import { IMultiSelectOption, IMultiSelectSettings, IMultiSelectTexts } from 'angular-2-dropdown-multiselect';
 import { RouterLink, Router } from '@angular/router';
 

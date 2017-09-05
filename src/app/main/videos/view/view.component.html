@@ -75,7 +75,7 @@
       </div>
     </div>
   </div>
-  <div class="scroll-time" *ngIf="currentIndex===1">
+  <div class="scroll-time" *ngIf="currentIndex===1 && showEvent">
     <div class="timeline-left">
       <div class="video-select-box clock">
 
@@ -144,25 +144,25 @@
     <h3>{{ cuePointData?.title }}</h3>
   </div>
 </div>
-<div class="right-sidebar">
- 
-     <div class="events-list match-status col-xs-12">
-        <h2 class="title">Event list</h2>
-       <i class="fa fa-search show-filters" aria-hidden="true" (click)="showFilters = !showFilters"></i>
-      </div> 
-       <div class="match-info filters col-xs-12" *ngIf="showFilters">
-  
-     <!-- <span class="title-span">Filters</span>-->
-      <div class="form-group" class="first-dropdown">
-        <ss-multiselect-dropdown [options]="myOptions" [texts]="teamTexts" [settings]="teamSettings" [(ngModel)]="teamModel" (ngModelChange)="onChange($event)"></ss-multiselect-dropdown>
-      </div>
-      <div class="form-group" class="second-dropdown">
-        <ss-multiselect-dropdown [options]="myOptions1" [texts]="eventTexts" [settings]="eventSettings" [(ngModel)]="eventModel"
-          (ngModelChange)="onChange($event)"></ss-multiselect-dropdown>
-      </div>
-      <span class="settings"><a *ngIf="video" [routerLink]="['/videos/settings', video._id]">Settings</a></span>
+<div class="right-sidebar" *ngIf="showEvent">
 
-  
+  <div class="events-list match-status col-xs-12">
+    <h2 class="title">Event list</h2>
+    <i class="fa fa-search show-filters" aria-hidden="true" (click)="showFilters = !showFilters"></i>
+  </div>
+  <div class="match-info filters col-xs-12" *ngIf="showFilters">
+
+    <!-- <span class="title-span">Filters</span>-->
+    <div class="form-group" class="first-dropdown">
+      <ss-multiselect-dropdown [options]="myOptions" [texts]="teamTexts" [settings]="teamSettings" [(ngModel)]="teamModel" (ngModelChange)="onChange($event)"></ss-multiselect-dropdown>
+    </div>
+    <div class="form-group" class="second-dropdown">
+      <ss-multiselect-dropdown [options]="myOptions1" [texts]="eventTexts" [settings]="eventSettings" [(ngModel)]="eventModel"
+        (ngModelChange)="onChange($event)"></ss-multiselect-dropdown>
+    </div>
+    <span class="settings"><a *ngIf="video" [routerLink]="['/videos/settings', video._id]">Settings</a></span>
+
+
 
     <div class="match-club  search clearfix form-inline">
       <div class="form-group col-md-11">
@@ -178,7 +178,7 @@
 
   </div>
 
-  <div class="match-status playlist col-xs-12">
+  <div class="match-status playlist col-xs-12" *ngIf="showEvent">
     <div class="stats">
       <perfect-scrollbar>
         <ul>
@@ -186,7 +186,7 @@
 
             <li>
 
-                <md-checkbox class="more-events"></md-checkbox>
+              <md-checkbox class="more-events"></md-checkbox>
               <a style="display:block" class="playlist-info" href="#" (click)="goToEvent($event, event)" *ngIf="event.start !== 'NaN'">
                 <div class="message-img">
                   {{fancyTimeFormat(event.start)}}
@@ -195,29 +195,31 @@
                   <h4><img [src]="getEventIcon(event.name)" alt="Event Icon" width="38" height="38">{{event.name}} ({{event.team}})
                   </h4>
                   <!-- <p>Friday, 9 June 2017</p> -->
-                <!--  <div class="dots dropdown"><i class="dropbtn fa fa-ellipsis-h" aria-hidden="true"></i>
+                  <!--  <div class="dots dropdown"><i class="dropbtn fa fa-ellipsis-h" aria-hidden="true"></i>
                     <div class="dropdown-content">
                       <a (click)="createPlaylist(video._id,event)">Create Playlist</a>
                       <a (click)="addToPlaylist(video._id,event)">Add Playlist</a>
 
                     </div>
                   </div>-->
-                  
+
                   <div class="dots dropdown" dropdown [dropdownToggle]="false">
                     <button class="btn dropdown-toggle" type="button" dropdown-open><i class="dropbtn fa fa-ellipsis-h" aria-hidden="true"></i>
                     </button>
                     <ul class="dropdown-menu multi-level" role="menu" aria-labelledby="dropdownMenu">
-                 
-                        <li class="dropdown-submenu">
-                          <a tabindex="-1" href="#">Add to playlist</a>
-                          <ul class="dropdown-menu">
-                              <li (click)="createPlaylist(video._id,event.id)">Create Playlist</li>
-                              <li (click)="addToPlaylist(video._id,event.id)">Add to playlist</li>
-                       
-                          </ul>
-                        </li>
-                      </ul>
-                   <!-- <ul class="dropdown-menu">
+
+                      <li class="dropdown-submenu">
+
+                        <a id="event" *ngIf="isAdmin" tabindex="-2" (click)="shareEventlist(video._id,event.id)">Share Event</a>
+                        <a id="addtoplay" tabindex="-1" href="#">Add to playlist</a>
+                        <ul class="dropdown-menu">
+                          <li (click)="createPlaylist(video._id,event.id)">Create Playlist</li>
+                          <li (click)="addToPlaylist(video._id,event.id)">Add to playlist</li>
+
+                        </ul>
+                      </li>
+                    </ul>
+                    <!-- <ul class="dropdown-menu">
                       <li (click)="createPlaylist(video._id,event.id)">Create Playlist</li>
                       <li (click)="addToPlaylist(video._id,event.id)">Add to playlist</li>
                     </ul>-->
@@ -313,5 +315,48 @@
     <button class="btn btn-primary " (click)="updatePlaylistModal.close() ">Cancel</button>
 
 
+  </modal-footer>
+</modal>
+
+<modal #assignEventModal>
+  <modal-header>
+
+
+  </modal-header>
+  <modal-content>
+    <p>
+      Share Event
+    </p>
+    <div class="col-md-12">
+      <label class="col-md-3 control-label"> Users: </label>
+      <ss-multiselect-dropdown class="col-md-6" [options]="userlistOptions" [texts]="userlistTexts" [settings]="userlistSettings"
+        [(ngModel)]="userlistModel"></ss-multiselect-dropdown>
+    </div>
+    <div class="form-group pull-left" style="margin-top: 5%" *ngIf="updateMessage">
+      <span class="col-md-12">{{updateMessage}}</span>
+    </div>
+  </modal-content>
+  <modal-footer>
+
+    <button class=" btn btn-primary " [disabled]="!userlistModel || userlistModel?.length==0 " (click)="usersToEvent() ">Share</button>
+    <button class="btn btn-primary " (click)="assignEventModal.close() ">Cancel</button>
+
+
+  </modal-footer>
+</modal>
+<modal #SucessModal>
+  <modal-header>
+
+  </modal-header>
+  <modal-content>
+    <p>
+      <i class="fa fa-check" aria-hidden="true"></i>
+    </p>
+    <p>
+      {{successmsg}}
+    </p>
+  </modal-content>
+  <modal-footer>
+    <button class="btn btn-primary" (click)="SucessModal.close()">Ok</button>
   </modal-footer>
 </modal>
