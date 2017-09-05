@@ -78,11 +78,14 @@
 
 .sportscode.dropdown ul.dropdown-menu{
   top: 53px;
-  left: 46px;
+  left: 15px;
   border-radius: 0;
   border: 0;
   color: #337ab7;
   padding: 0;
+  max-width: 219px;
+  width: 100%;
+  text-align: center;
 }
 
 .sportscode.dropdown ul.dropdown-menu li{
