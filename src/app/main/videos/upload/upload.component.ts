@@ -45,6 +45,7 @@ export class UploadComponent implements OnInit {
   private router: Router;
   clubCtrl: FormControl;
   filteredClubs: any;
+  allClubList: any;
 
   protected dataService: CompleterData;
 
@@ -64,6 +65,7 @@ export class UploadComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.getAllClubs();
     this.getActivatedClubs();
     this.userService.isAdmin().subscribe(
       (response) => this.onIsAdminClubsSuccess(response),
@@ -86,6 +88,18 @@ export class UploadComponent implements OnInit {
       };
     }
   }
+
+  getAllClubs() {
+    this.clubService.getAllClubs(this.userService.token).subscribe(
+      (response) => this.onGetAllClubsSuccess(response),
+      (error) => this.onError(error)
+    );
+  }
+
+  onGetAllClubsSuccess(response) {
+    this.allClubList = JSON.parse(response._body);
+  }
+
   onIsAdminClubsSuccess(response) {
     const userAdmin = JSON.parse(response._body);
 
@@ -93,7 +107,7 @@ export class UploadComponent implements OnInit {
       this.isAdmin = true;
   }
   onSelectFile(e) {
-    console.log(e);
+    // console.log(e);
     const files = e.target.files;
     for (let i = 0; i < files.length; i++) {
       this.selectedFile = {
@@ -108,7 +122,7 @@ export class UploadComponent implements OnInit {
   onDrop(e) {
     e.preventDefault();
     e.stopPropagation();
-    console.log(e.dataTransfer.files);
+    // console.log(e.dataTransfer.files);
     const files = e.dataTransfer.files;
     for (let i = 0; i < files.length; i++) {
       this.selectedFile = {
@@ -129,14 +143,48 @@ export class UploadComponent implements OnInit {
   }
 
   onSubmit(f) {
-    console.log(f.v);
+    // console.log(f.v);
     if (!f.valid || !this.selectedFile.name) {
       return false;
     }
+
     this.uploading = true;
     f.value.selectedFile = this.selectedFile;
     f.value.token = this.userService.token;
     f.value.user = this.userService.user._id;
+
+    var clubName = f.value.clubName;
+
+    if(clubName != '' && clubName != null){
+        var userClub = this.allClubList.filter(function (element, index) {
+          return (element.name.toLowerCase() === clubName.toLowerCase());
+        })[0];
+      
+        if(typeof(userClub) == 'undefined'){
+          this.clubService.createClub({name: clubName})
+            .subscribe(
+            (response) => this.updateClubId(response,f),
+            (error) => this.onError(error)
+            );
+        }else{
+          f.value.clubName = userClub._id;
+          this.uploadVideo(f);
+        }
+    }else{
+        f.value.clubName = '';
+          this.uploadVideo(f);
+    }
+    
+  }
+
+  updateClubId(response,f){
+    response._body = JSON.parse(response._body);
+      f.value.clubName = response._body.club._id;
+      this.uploadVideo(f);
+  }
+
+  uploadVideo(f){
+    this.getAllClubs();
     this.videoService.upload(f.value).subscribe(
       (response) => this.onUploadSuccess(response),
       (error) => this.onError(error)
@@ -173,6 +221,6 @@ export class UploadComponent implements OnInit {
     this.activatedClubList.forEach(element => {
       this.clubData.push(element.name);
     });
-    console.log(this.activatedClubList);
+    // console.log(this.activatedClubList);
   }
 }

@@ -39,6 +39,8 @@ export class VideosComponent implements OnInit {
     this.list = true;
   }
   getVideos() {
+    // console.info("users: "+JSON.stringify(this.userService));
+    // console.log(this.userService.user.club);
     this.videoService.getVideos(this.userService.token).subscribe(
       (response) => this.onGetVideosSuccess(response),
       (error) => this.onError(error)

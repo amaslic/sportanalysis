@@ -187,9 +187,6 @@ export class ViewComponent implements OnInit {
       this.videoId = params['id'];
       this.getVideo(this.videoId);
     });
-
-
-
   }
   onChange() {
     //alert('hello');

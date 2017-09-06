@@ -47,8 +47,12 @@ export class ClubsAdministrationComponent implements OnInit {
 
   onGetRequestedClubsSuccess(response) {
     this.clubList = JSON.parse(response._body);
-    console.log(this.clubList);
+    // console.log(this.clubList);
     this.loadingIndicator = false;
+
+    if(this.selectedClub != null){
+      this.selectedClub = [];
+    }
   }
 
   onError(error) {
@@ -59,17 +63,17 @@ export class ClubsAdministrationComponent implements OnInit {
 
   selectedClub = [];
   onRowActivate(e) {
-    console.log(e);
+    // console.log(e);
   }
 
   onRowSelected(e) {
-    console.log(this.selectedClub);
+    // console.log(this.selectedClub);
     this.generateNiceLinkName();
   }
 
   generateNiceLinkName(){
-   this.selectedClub[0].NiceLinkName = this.slugify(this.selectedClub[0].ClubName);
-   console.log(this.selectedClub[0].NiceLinkName)
+   this.selectedClub[0].NiceLinkName = this.slugify(this.selectedClub[0].name);
+  //  console.log(this.selectedClub[0].NiceLinkName)
   }
 
   slugify(text){
@@ -84,31 +88,38 @@ export class ClubsAdministrationComponent implements OnInit {
   selectedFile;
   name;
   onSubmit(f) {
-    console.log(f.value);
+    // console.log(f.value);
  
     if (!f.valid) {
       return false;
     }
-    console.log(this.selectedFile);
-    let data = f.form.getRawValue();
-    data.token = this.userService.token;
-    data.user = this.userService.user._id;
-    data.logo = this.selectedFile;
-    console.log(data);
-    this.clubService.approveClub(data, this.userService.token).subscribe(
-      (response) => this.onApproveClubSuccess(response),
-      (error) => this.onError(error)
-    );
+
+    if(typeof(this.selectedFile) != 'undefined')
+    {
+      let data = f.form.getRawValue();
+      data.token = this.userService.token;
+      data.user = this.userService.user._id;
+      data.logo = this.selectedFile;
+      data.id = this.selectedClub[0]._id;
+      // console.log(data);
+      this.clubService.approveClub(data, this.userService.token).subscribe(
+        (response) => this.onApproveClubSuccess(response),
+        (error) => this.onError(error)
+      );
+    }else{
+      alert('Please select file.');
+    }
   }
 
   onApproveClubSuccess(response){
-    console.log(response);
+    // console.log(response);
+     this.getClubs();
      this.getActivatedClubs();
      alert("Club Approved");
   }
 
   onSelectFile(e) {
-    console.log(e);
+    // console.log(e);
     const files = e.target.files;
     for (let i = 0; i < files.length; i++) {
       this.selectedFile = {
@@ -129,7 +140,7 @@ export class ClubsAdministrationComponent implements OnInit {
 
   onGetActivatedClubsSuccess(response){
     this.activatedClubList = JSON.parse(response._body);
-    console.log(this.activatedClubList);
+    // console.log(this.activatedClubList);
   }
 
   deleteClub(clubId) {
@@ -140,4 +151,5 @@ export class ClubsAdministrationComponent implements OnInit {
       (error) => this.onError(error)
     );
   }
+
 }

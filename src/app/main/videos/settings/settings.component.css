@@ -61,3 +61,17 @@
   max-width: 320px;
   width: 100%;
 }
+
+:host >>> input.completer-input.autocompleteInput{
+    height: 34px;
+    padding: 30px;
+    width: 100%;
+    max-width: 320px;
+    background: #ececec;
+    border: 0;
+    box-shadow: none;
+}
+
+:host >>> ng2-completer#team1.ng-invalid,ng2-completer#team2.ng-invalid {
+    display: block;
+}

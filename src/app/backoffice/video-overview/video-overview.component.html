@@ -32,14 +32,14 @@
         {{value}}
       </ng-template>
     </ngx-datatable-column>
-    <ngx-datatable-column name="user">
+    <ngx-datatable-column name="club">
 
-      <ng-template let-column="user" ngx-datatable-header-template>
+      <ng-template let-column="club" ngx-datatable-header-template>
         Club
       </ng-template>
-      <ng-template let-value="value" ngx-datatable-cell-template>
-
-        {{value.club}}
+      <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
+        {{value}}
+        <!--{{value.club}}-->
       </ng-template>
     </ngx-datatable-column>
 

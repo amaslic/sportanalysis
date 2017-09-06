@@ -14,6 +14,9 @@ import {
 import {
   VideoService
 } from './../../services/video.service';
+import {
+  ClubService
+} from './../../services/club.service';
 @Component({
   selector: 'app-users',
   templateUrl: './video-overview.component.html',
@@ -24,6 +27,7 @@ export class VideoOverviewComponent implements OnInit {
   videoList: User[];
   loadingIndicator: boolean = true;
   reorderable: boolean = true;
+  allClubList: any;
 
   columns = [{
     prop: 'title'
@@ -49,9 +53,21 @@ export class VideoOverviewComponent implements OnInit {
     name: 'Action'
   }
   ];
-  constructor(private videoService: VideoService, private userService: UserService) { }
+  constructor(private videoService: VideoService, private userService: UserService, private clubService: ClubService) { }
 
   ngOnInit() {
+    this.getAllClubs();
+  }
+
+  getAllClubs() {
+    this.clubService.getAllClubs(this.userService.token).subscribe(
+      (response) => this.onGetAllClubsSuccess(response),
+      (error) => this.onError(error)
+    );
+  }
+
+  onGetAllClubsSuccess(response) {
+    this.allClubList = JSON.parse(response._body);
     this.getVideos();
   }
 
@@ -65,12 +81,24 @@ export class VideoOverviewComponent implements OnInit {
 
   onGetVideosSuccess(response) {
     this.videoList = JSON.parse(response._body);
+    console.log(this.videoList);
+
     if (this.videoList.length > 0) {
       this.videoList.forEach(element => {
-        console.log(element);
+        // console.log(element);
         element['id'] = element._id;
         element['ofilename'] = element['original_filename'];
-
+        
+        var videoClubName = element.club;
+        var videoClub = this.allClubList.filter(function (element1, index) {
+        return (element1._id === videoClubName);
+        })[0];
+      
+        if(typeof(videoClub) != 'undefined'){
+            element.club = videoClub.name;
+        }else{
+            element.club = '';
+        }
 
       });
 

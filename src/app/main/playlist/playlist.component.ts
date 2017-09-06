@@ -15,6 +15,9 @@ import {
 import {
   PlaylistService
 } from './../../services/playlist.service';
+import {
+  ClubService
+} from './../../services/club.service';
 import { IMultiSelectOption, IMultiSelectSettings, IMultiSelectTexts } from 'angular-2-dropdown-multiselect';
 import { RouterLink, Router } from '@angular/router';
 
@@ -29,6 +32,8 @@ export class PlaylistComponent implements OnInit {
   loadingIndicator: boolean = true;
   playlistOptions: IMultiSelectOption[];
   playlistModel: any[];
+  allClubList: any;
+
   playlistSettings: IMultiSelectSettings = {
     enableSearch: false,
     checkedStyle: 'fontawesome',
@@ -48,9 +53,21 @@ export class PlaylistComponent implements OnInit {
     defaultTitle: ' Select Playlist ',
     allSelected: 'All Playlist ',
   };
-  constructor(router: Router, private userService: UserService, private playlistService: PlaylistService) { }
+  constructor(router: Router, private userService: UserService, private playlistService: PlaylistService, private clubService: ClubService) { }
 
   ngOnInit() {
+    this.getAllClubs();
+  }
+
+  getAllClubs() {
+    this.clubService.getAllClubs(this.userService.token).subscribe(
+      (response) => this.onGetAllClubsSuccess(response),
+      (error) => this.onError(error)
+    );
+  }
+
+  onGetAllClubsSuccess(response) {
+    this.allClubList = JSON.parse(response._body);
     this.getPlaylist();
   }
 
@@ -64,10 +81,22 @@ export class PlaylistComponent implements OnInit {
   onGetPlaylistSuccess(response) {
     this.playList = JSON.parse(response._body);
     this.playList = this.playList['playlists'];
-    console.log(this.playList);
-    // this.playList.forEach(element => {
+    // console.log(this.playList);
+    
+    this.playList.forEach(element => {
+      
+      var videoClubName = element['user'].club;
+        var videoClub = this.allClubList.filter(function (element1, index) {
+        return (element1._id === videoClubName);
+        })[0];
+      
+        if(typeof(videoClub) != 'undefined'){
+            element['user'].club = videoClub.name;
+        }else{
+            element['user'].club = '';
+        }
+    });
 
-    // });
     this.playList.forEach((play, index) => {
       this.trackPlaylist.push({
         'id': play._id,
