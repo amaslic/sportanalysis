@@ -27,8 +27,8 @@
         </div>
         <div class="form-group">
           <input type="text" name="phone" [(ngModel)]="user.phone" #phone="ngModel" class="form-control" placeholder="Phone" pattern="[0-9]*"
-            minlength="10" maxlength="10" required>
-          <span class="help-block" [hidden]="!phone.hasError('minlength')">Phone number should be 10 digit</span>
+            maxlength="15" required>
+          <span class="help-block" [hidden]="!phone.hasError('maxlength')">Phone number should be maximum 15 digits</span>
           <span class="help-block" [hidden]="!phone.hasError('pattern')">Phone number should be only digits</span>
         </div>
         <!-- <div class="form-group">
