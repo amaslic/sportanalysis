@@ -409,9 +409,9 @@ export class ViewComponent implements OnInit {
   getEventDetailsSuccess(response, eid) {
 
     const eventsdata = JSON.parse(response._body);
-    console.log(eventsdata.eventData);
+
     this.eventsDetails = eventsdata.eventData.filter(function (element, index) {
-      console.log(element.id)
+
       return (element.id[0] === eid);
     })[0];
 
@@ -435,7 +435,7 @@ export class ViewComponent implements OnInit {
       (response) => this.shareEventSuccess(response),
       (error) => this.onError(error)
     )
-    console.log(this.eventsDetails);
+
   }
   shareEventSuccess(response) {
     const eventRes = JSON.parse(response._body);
