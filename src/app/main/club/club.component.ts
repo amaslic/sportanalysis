@@ -67,7 +67,7 @@ export class ClubComponent implements OnInit {
       if (this.club.success == false) {
         this.errormsg = this.club.message;
       }
-      this.ErrorModal.open();
+
     }
   }
 

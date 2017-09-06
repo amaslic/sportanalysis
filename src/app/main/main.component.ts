@@ -8,17 +8,27 @@ import {
 import {
   Router, ActivatedRoute
 } from '@angular/router';
-
+import {
+  ClubService
+} from './../services/club.service';
+import {
+  UserService
+} from './../services/user.service';
+import {
+  GlobalVariables
+} from './../models/global.model';
 @Component({
   selector: 'app-main',
   templateUrl: './main.component.html',
   styleUrls: ['./main.component.css']
 })
 export class MainComponent implements OnInit {
+  club: any;
 
   private _opened = true;
   private router: Router;
   private sub: any;
+  private baseImageUrl = GlobalVariables.BASE_IMAGE_URL;
   private _toggleSidebar() {
     this._opened = !this._opened;
   }
@@ -29,22 +39,48 @@ export class MainComponent implements OnInit {
     this.isIn = bool === false ? true : false;
   }
 
-  constructor(private localStorageService: LocalStorageService, r: Router, private route: ActivatedRoute) {
+  constructor(private localStorageService: LocalStorageService, r: Router, private route: ActivatedRoute, private clubService: ClubService, private userService: UserService) {
     this.router = r;
     let user: any = this.localStorageService.get('user');
     this.router.events.subscribe((val: any) => {
       if (val.url === "/") {
         this.router.navigateByUrl('/club/' + user.club);
       }
-      document.getElementById("site-title").textContent = "";
-      document.getElementById("site-logo").setAttribute('src', '/assets/images/menu-logo.png');
+      // try {
+      //   document.getElementById("site-title").textContent = "";
+      //   document.getElementById("site-logo").setAttribute('src', '/assets/images/menu-logo.png');
+      // } catch (e) {
+
+      // }
+
     });
   }
 
   ngOnInit() {
-    
+    this.clubInfo();
   }
+  clubInfo() {
+    this.clubService.checkClubActive(this.userService.token).subscribe(
+      (response) => this.onclubInfoSuccess(response),
+      (error) => this.onError(error)
+    );
+  }
+  onclubInfoSuccess(response) {
+    console.log(response);
+    this.club = JSON.parse(response._body);
 
+    if (this.club.name) {
+      document.getElementById("site-title").textContent = this.club.name;
+      document.getElementById("site-logo").setAttribute('src', this.baseImageUrl + this.club.logo);
+    }
+    else {
+      document.getElementById("site-title").textContent = "";
+      document.getElementById("site-logo").setAttribute('src', '/assets/images/menu-logo.png');
+    }
+  }
+  onError(error) {
+
+  }
   logout() {
     this.localStorageService.remove('token');
     this.localStorageService.remove('user');
