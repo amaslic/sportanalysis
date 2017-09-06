@@ -929,8 +929,26 @@ md-checkbox.mat-checkbox-checked.more-events /deep/ .mat-checkbox-background {
   display: block;
 }
 
-.dropdown-menu ul li:first-child:hover{
+.dropdown-menu ul li:first-child:hover, .dots.dropdown ul li:first-child:hover{
   background: #009cff;
+}
+
+.dots.dropdown ul li:hover > a{
+  color: white;
+}
+
+.dots.dropdown ul li a:hover{
+  background: transparent;
+  color: white;
+}
+
+.modal-footer{
+  padding-top: 30px;
+}
+
+.create-playlist-btn{
+  text-align: center;
+  padding-top: 10px;
 }
 
 /*

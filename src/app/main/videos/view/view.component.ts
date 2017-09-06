@@ -234,12 +234,14 @@ export class ViewComponent implements OnInit {
       }
       this.getVideo(this.videoId);
     });
+
   }
   onIsAdminClubsSuccess(response) {
     const userAdmin = JSON.parse(response._body);
 
     if (userAdmin.success)
       this.isAdmin = true;
+
   }
   onChange() {
     //alert('hello');

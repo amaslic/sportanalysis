@@ -24,7 +24,7 @@
       <div class="col-sm-3" style="margin-top:15px">
         <ngx-datatable class="material" [scrollbarH]="true" [rows]="clubList" [columnMode]="'flex'" [loadingIndicator]="loadingIndicator"
           [selected]="selectedClub" [selectionType]="'single'" (activate)="onRowActivate($event)" (select)='onRowSelected($event)'>
-          <ngx-datatable-column prop="ClubName" canAutoResize="true" [flexGrow]="1">
+          <ngx-datatable-column prop="name" canAutoResize="true" [flexGrow]="1">
             <ng-template let-value="value" ngx-datatable-cell-template>
               {{value}}
             </ng-template>
@@ -36,7 +36,7 @@
           <div class="form-group">
             <label class="control-label col-sm-2" for="name">Club Name:</label>
             <div class="col-sm-10">
-              <input type="text" class="form-control" id="name" name="name" [(ngModel)]="selectedClub[0].ClubName" placeholder="Enter Title"  (change)="generateNiceLinkName()" (keypress)="generateNiceLinkName()">
+              <input type="text" class="form-control" id="name" name="name" [(ngModel)]="selectedClub[0].name" placeholder="Enter Title"  (change)="generateNiceLinkName()" (keypress)="generateNiceLinkName()">
             </div>
           </div>
           <div class="form-group">

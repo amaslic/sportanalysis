@@ -61,3 +61,58 @@
   max-width: 320px;
   width: 100%;
 }
+
+:host >>> input.completer-input.autocompleteInput{
+    height: 34px;
+    padding: 30px;
+    width: 100%;
+    max-width: 320px;
+    background: #ececec;
+    border: 0;
+    box-shadow: none;
+}
+
+:host >>> ng2-completer#team1.ng-invalid,ng2-completer#team2.ng-invalid {
+    display: block;
+}
+
+.sportscode.dropdown{
+  padding-bottom: 20px;
+}
+.sportscode.dropdown button{
+  background: #337ab7;
+  color: white;
+  border: 0;
+  border-radius: 0;
+  padding: 15px 20px 15px 20px;
+  margin-top: 10px;
+  max-width: 280px;
+  width: 100%;
+}
+
+.sportscode.dropdown ul.dropdown-menu{
+  top: 53px;
+  left: 15px;
+  border-radius: 0;
+  border: 0;
+  color: #337ab7;
+  padding: 0;
+  max-width: 219px;
+  width: 100%;
+  text-align: center;
+}
+
+.sportscode.dropdown ul.dropdown-menu li{
+  cursor: pointer;
+  padding: 10px;
+}
+
+.sportscode.dropdown ul.dropdown-menu li:hover{
+  color: white;
+  background: #337ab7;
+}
+
+.col-md-6.data-app{
+  padding: 0;
+}
+

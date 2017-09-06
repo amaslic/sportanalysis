@@ -34,8 +34,9 @@ export class RegisterComponent implements OnInit {
   private router: Router;
   clubCtrl: FormControl;
   filteredClubs: any;
-  clubData = ['test'];
+  clubData = [];
   activatedClubList: any;
+  allClubList: any;
 
 
   @ViewChild('regSucessModal') regSucessModal;
@@ -48,6 +49,7 @@ export class RegisterComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.getAllClubs();
     this.getActivatedClubs();
     this.filteredClubs = this.clubCtrl.valueChanges
       .startWith(null)
@@ -64,19 +66,48 @@ export class RegisterComponent implements OnInit {
     if (!f.valid) {
       return false;
     }
-    console.log(this.user);
-    this.userService.createNewUser(this.user)
-      .subscribe(
-      (response) => this.onSignupSuccess(response),
-      (error) => this.onError(error)
-      );
+
+    var clubname = this.user.club;
+
+    var userclub = this.allClubList.filter(function (element, index) {
+      return (element.name.toLowerCase() === clubname.toLowerCase());
+    })[0];
+
+    if(typeof(userclub) == 'undefined'){
+      this.clubService.createClub({name: clubname})
+        .subscribe(
+        (response) => this.updateClubId(response),
+        (error) => this.onError(error)
+        );
+    }else{
+      this.user.club = userclub._id;
+      this.createNewUser(this.user);
+    }
+    
   }
+
+  updateClubId(response){
+    response._body = JSON.parse(response._body);
+      this.user.club = response._body.club._id;
+      this.createNewUser(this.user);
+      this.allClubList.push(response._body.club);
+      
+  }
+
+  createNewUser(user){
+       this.userService.createNewUser(user)
+          .subscribe(
+          (response) => this.onSignupSuccess(response),
+          (error) => this.onErrorSignup(error)
+          );
+  }
+
   regSuccessPopupClose() {
     this.router.navigateByUrl('/auth/login');
   }
   onSignupSuccess(response) {
+
     const responseBody = JSON.parse(response._body);
-    console.log(responseBody);
     // alert(responseBody.msg);
     this.successmsg = responseBody.message;
     this.regSucessModal.open();
@@ -87,10 +118,27 @@ export class RegisterComponent implements OnInit {
 
   onError(error) {
     const errorBody = JSON.parse(error._body);
-    console.error(errorBody);
+    // console.error(errorBody);
     this.errormsg = errorBody.message;
     this.regErrorModal.open();
 
+    // alert(errorBody.msg);
+  }
+
+  onErrorSignup(error) {
+    const errorBody = JSON.parse(error._body);
+    // console.error(errorBody);
+    this.errormsg = errorBody.message;
+    
+
+    var clubId = this.user.club;
+    var userclub = this.allClubList.filter(function (element, index) {
+        return (element._id === clubId);
+        })[0];
+        
+    if(typeof(userclub) != 'undefined')
+        this.user.club = userclub.name;
+    this.regErrorModal.open();
     // alert(errorBody.msg);
   }
 
@@ -108,5 +156,17 @@ export class RegisterComponent implements OnInit {
     });
 
   }
+
+  getAllClubs() {
+    this.clubService.getAllClubs(this.userService.token).subscribe(
+      (response) => this.onGetAllClubsSuccess(response),
+      (error) => this.onError(error)
+    );
+  }
+
+  onGetAllClubsSuccess(response) {
+    this.allClubList = JSON.parse(response._body);
+  }
+
 }
 

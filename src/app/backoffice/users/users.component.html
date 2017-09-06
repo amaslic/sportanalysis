@@ -6,7 +6,7 @@
     <md-tab-group>
         <md-tab label="Active users">
             <h3>Active users</h3>
-            <ngx-datatable #activetable class="material" [columnMode]="'standard'" [rows]="videoList" (onRowsUpdate)='updateRows()'>
+            <ngx-datatable #activetable class="material" [columnMode]="'standard'" [rows]="usersList" (onRowsUpdate)='updateRows()'>
                 <ngx-datatable-column [flexGrow]="3" name="Email" prop="email"> </ngx-datatable-column>
                 <ngx-datatable-column name="First Name" prop="firstName"> </ngx-datatable-column>
                 <ngx-datatable-column name="Last Name" prop="lastName"> </ngx-datatable-column>

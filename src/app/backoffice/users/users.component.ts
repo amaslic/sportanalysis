@@ -9,6 +9,9 @@ import {
 import {
   UserService
 } from './../../services/user.service';
+import {
+  ClubService
+} from './../../services/club.service';
 @Component({
   selector: 'app-users',
   templateUrl: './users.component.html',
@@ -19,10 +22,11 @@ export class UsersComponent implements OnInit {
   deactivateUserResponce: any;
   activateUserResponce: any;
   deleteUserResponce: any;
-  videoList: User[];
+  usersList: User[];
   unApprovedUsers;
   loadingIndicator: boolean = true;
   reorderable: boolean = true;
+  AllClubList: any;
 
   columns = [
     { prop: 'email' },
@@ -39,13 +43,21 @@ export class UsersComponent implements OnInit {
   @ViewChild('deactivetable') deactivetable;
   @ViewChild('userSucessModal') userSucessModal;
   @ViewChild('userErrorModal') userErrorModal
-  constructor(private userService: UserService) { }
+  constructor(private userService: UserService, private clubService: ClubService) { }
 
   ngOnInit() {
-    this.getUsers();
-    this.getUnApprovedUsers();
-
+    this.clubService.getAllClubs(this.userService.token).subscribe(
+      (response) => this.OnSuccessOfGetAllClubs(response),
+      (error) => this.onError(error)
+      );
   }
+
+  OnSuccessOfGetAllClubs(response){
+        this.AllClubList = JSON.parse(response._body);
+        this.getUsers();
+        this.getUnApprovedUsers();
+      }
+
   getUsers() {
     this.userService.getUsers(this.userService.token).subscribe(
       (response) => this.onGetUsersSuccess(response),
@@ -59,12 +71,30 @@ export class UsersComponent implements OnInit {
     );
   }
   onGetUsersSuccess(response) {
-    this.videoList = JSON.parse(response._body);
-    console.log(this.videoList);
+    this.usersList = JSON.parse(response._body);
+
+    this.usersList.forEach(element => {
+        var userclub = this.AllClubList.filter(function (element1, index) {
+        return (element1._id === element.club);
+        })[0];
+
+        if(typeof(userclub) != 'undefined')
+            element.club = userclub.name;
+    });
     this.loadingIndicator = false;
   }
   onGetUnApprovedUsers(response) {
     this.unApprovedUsers = JSON.parse(response._body);
+
+    this.unApprovedUsers.forEach(element => {
+        var userclub = this.AllClubList.filter(function (element1, index) {
+        return (element1._id === element.club);
+        })[0];
+
+        if(typeof(userclub) != 'undefined')
+            element.club = userclub.name;
+    });
+
     this.loadingIndicator = false;
   }
   onError(error) {

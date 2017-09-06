@@ -15,9 +15,14 @@ import {
 import {
   VideoService
 } from './../../services/video.service';
+import {
+  ClubService
+} from './../../services/club.service';
+
 import { IMultiSelectOption, IMultiSelectSettings, IMultiSelectTexts } from 'angular-2-dropdown-multiselect';
 import { GlobalVariables } from "app/models/global.model";
 import { PlatformLocation } from '@angular/common';
+
 @Component({
   selector: 'app-users',
   templateUrl: './video-overview.component.html',
@@ -54,11 +59,50 @@ export class VideoOverviewComponent implements OnInit {
   videoList: User[];
   loadingIndicator: boolean = true;
   reorderable: boolean = true;
+  allClubList: any;
+
+  columns = [{
+    prop: 'title'
+  },
+  {
+    prop: 'type'
+  },
+  {
+    prop: 'original_filename'
+  },
+  {
+    prop: '_id'
+  },
+  {
+    prop: 'user.club',
+    name: 'Club'
+  },
+  {
+    prop: 'path',
+    name: 'File path'
+  },
+  {
+    name: 'Action'
+  }
+  ];
+
   @ViewChild('assignVideoModal') assignVideoModal;
   @ViewChild('videoSucessModal') videoSucessModal;
-  constructor(platformLocation: PlatformLocation, private videoService: VideoService, private userService: UserService) { }
+  constructor(platformLocation: PlatformLocation, private videoService: VideoService, private userService: UserService, private clubService: ClubService) { }
 
   ngOnInit() {
+    this.getAllClubs();
+  }
+
+  getAllClubs() {
+    this.clubService.getAllClubs(this.userService.token).subscribe(
+      (response) => this.onGetAllClubsSuccess(response),
+      (error) => this.onError(error)
+    );
+  }
+
+  onGetAllClubsSuccess(response) {
+    this.allClubList = JSON.parse(response._body);
     this.getVideos();
   }
 
@@ -71,11 +115,25 @@ export class VideoOverviewComponent implements OnInit {
 
   onGetVideosSuccess(response) {
     this.videoList = JSON.parse(response._body);
+    console.log(this.videoList);
+
     if (this.videoList.length > 0) {
       this.videoList.forEach(element => {
-        console.log(element);
+        // console.log(element);
         element['id'] = element._id;
         element['ofilename'] = element['original_filename'];
+
+        var videoClubName = element.club;
+        var videoClub = this.allClubList.filter(function (element1, index) {
+        return (element1._id === videoClubName);
+        })[0];
+      
+        if(typeof(videoClub) != 'undefined'){
+            element.club = videoClub.name;
+        }else{
+            element.club = '';
+        }
+
       });
 
     }

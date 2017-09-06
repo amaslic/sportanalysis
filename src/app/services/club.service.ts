@@ -42,7 +42,7 @@ export class ClubService {
     const options = new RequestOptions({
       headers: headers
     });
-    return this.http.get(this.baseApiUrl + 'club/fetchAll', options);
+    return this.http.get(this.baseApiUrl + 'club/fetchAllUnActivated', options);
   }
 
   approveClub(data: any, token: String) {
@@ -57,6 +57,7 @@ export class ClubService {
     form.append('name', data.name);
     form.append('slug', data.slug);
     form.append('logoFile', data.logo._file);
+    form.append('id', data.id);
     return this.p_http.withUploadProgressListener(progress => {
       console.log(`Uploading ${progress.percentage}%`);
       this.progressSubject.next(progress.percentage);
@@ -94,4 +95,19 @@ export class ClubService {
     });
     return this.http.delete(this.baseApiUrl + 'club/delete?id=' + clubId, options);
   }
+
+  createClub(club) {
+        return this.http.post(this.baseApiUrl + 'club/create', club);
+    }
+
+    getAllClubs(token: String) {
+    const headers = new Headers({
+      'Authorization': token
+    });
+    const options = new RequestOptions({
+      headers: headers
+    });
+    return this.http.get(this.baseApiUrl + 'club/fetchAll', options);
+  }
+
 }

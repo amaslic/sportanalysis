@@ -46,12 +46,11 @@ export class MainComponent implements OnInit {
       if (val.url === "/") {
         this.router.navigateByUrl('/club/' + user.club);
       }
-      // try {
-      //   document.getElementById("site-title").textContent = "";
-      //   document.getElementById("site-logo").setAttribute('src', '/assets/images/menu-logo.png');
-      // } catch (e) {
+      try {
+        document.getElementById("site-title").textContent = "";
+      } catch (e) {
 
-      // }
+      }
 
     });
   }
@@ -69,7 +68,7 @@ export class MainComponent implements OnInit {
     console.log(response);
     this.club = JSON.parse(response._body);
 
-    if (this.club.name) {
+    if (this.club && this.club.name) {
       document.getElementById("site-title").textContent = this.club.name;
       document.getElementById("site-logo").setAttribute('src', this.baseImageUrl + this.club.logo);
     }

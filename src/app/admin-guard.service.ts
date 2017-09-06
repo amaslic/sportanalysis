@@ -21,13 +21,13 @@ export class AdminGuard implements CanActivate {
   canActivate(route: ActivatedRouteSnapshot,
     state: RouterStateSnapshot): Observable < boolean > | Promise < boolean > | boolean {
      return this.userService.isAdmin().map(e => {
-       console.log(e);
+      //  console.log(e);
             if (e) {
-              console.log(e);
+              // console.log(e);
                 return true;
             }
         }).catch(() => {
-            console.log("Not admin");
+            // console.log("Not admin");
             this.router.navigate(['/home']);
             return Observable.of(false);
         });

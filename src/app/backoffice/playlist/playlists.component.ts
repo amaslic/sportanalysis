@@ -16,6 +16,9 @@ import {
   PlaylistService
 } from './../../services/playlist.service';
 import {
+  ClubService
+} from './../../services/club.service';
+import {
   LocalStorageService
 } from 'angular-2-local-storage';
 import { IMultiSelectOption, IMultiSelectSettings, IMultiSelectTexts } from 'angular-2-dropdown-multiselect';
@@ -34,6 +37,8 @@ export class PlaylistsComponent implements OnInit {
   reorderable: boolean = true;
   userlistOptions: IMultiSelectOption[];
   userlistModel: any[];
+  allClubList: any;
+
   userlistSettings: IMultiSelectSettings = {
     enableSearch: false,
     checkedStyle: 'fontawesome',
@@ -68,9 +73,21 @@ export class PlaylistsComponent implements OnInit {
   ];
   @ViewChild('updatePlaylistModal') updatePlaylistModal;
   @ViewChild('SucessModal') SucessModal;
-  constructor(private localStorageService: LocalStorageService, private userService: UserService, private playlistService: PlaylistService) { }
+  constructor(private localStorageService: LocalStorageService, private userService: UserService, private playlistService: PlaylistService, private clubService: ClubService) { }
 
   ngOnInit() {
+    this.getAllClubs();
+  }
+
+  getAllClubs() {
+    this.clubService.getAllClubs(this.userService.token).subscribe(
+      (response) => this.onGetAllClubsSuccess(response),
+      (error) => this.onError(error)
+    );
+  }
+
+  onGetAllClubsSuccess(response) {
+    this.allClubList = JSON.parse(response._body);
     this.getPlaylist();
   }
 
@@ -84,10 +101,21 @@ export class PlaylistsComponent implements OnInit {
   onGetPlaylistSuccess(response) {
     this.playList = JSON.parse(response._body);
     this.playList = this.playList['playlists'];
-    console.log(this.playList);
-    // this.playList.forEach(element => {
+    // console.log(this.playList);
 
-    // });
+    this.playList.forEach(element => {
+      
+      var videoClubName = element['user'].club;
+        var videoClub = this.allClubList.filter(function (element1, index) {
+        return (element1._id === videoClubName);
+        })[0];
+      
+        if(typeof(videoClub) != 'undefined'){
+            element['user'].club = videoClub.name;
+        }else{
+            element['user'].club = '';
+        }
+    });
     this.loadingIndicator = false;
   }
 
