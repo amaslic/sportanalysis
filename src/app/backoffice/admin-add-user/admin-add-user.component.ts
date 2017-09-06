@@ -87,6 +87,7 @@ export class AdminAddUserComponent implements OnInit {
     response._body = JSON.parse(response._body);
       this.user.club = response._body.club._id;
       this.createNewUser(this.user);
+      this.allClubList.push(response._body.club);
   }
 
   createNewUser(user){

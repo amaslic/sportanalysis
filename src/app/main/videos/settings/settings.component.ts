@@ -233,12 +233,14 @@ export class VideoSettingsComponent implements OnInit {
     response._body = JSON.parse(response._body);
       f.value.team1 = response._body.club._id;
       f.value.team2 = response._body.club._id;
+      this.allClubList.push(response._body.club);
       this.updateVideo(f);
   }
 
   updateBothClubId(response,f){
       response._body = JSON.parse(response._body);
       f.value.team1 = response._body.club._id;
+      this.allClubList.push(response._body.club);
 
       if(f.value.team2 != '' && f.value.team2 != null){
       this.clubService.createClub({name: f.value.team2})
@@ -256,12 +258,14 @@ export class VideoSettingsComponent implements OnInit {
   updateTeamAClubId(response,f){
     response._body = JSON.parse(response._body);
       f.value.team1 = response._body.club._id;
+      this.allClubList.push(response._body.club);
       this.updateVideo(f);
   }
 
   updateTeamBClubId(response,f){
     response._body = JSON.parse(response._body);
       f.value.team2 = response._body.club._id;
+      this.allClubList.push(response._body.club);
       this.updateVideo(f);
   }
 

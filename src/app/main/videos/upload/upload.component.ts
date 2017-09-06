@@ -180,6 +180,7 @@ export class UploadComponent implements OnInit {
   updateClubId(response,f){
     response._body = JSON.parse(response._body);
       f.value.clubName = response._body.club._id;
+      this.allClubList.push(response._body.club);
       this.uploadVideo(f);
   }
 

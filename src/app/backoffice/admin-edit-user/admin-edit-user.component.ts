@@ -95,6 +95,7 @@ export class AdminEditUserComponent implements OnInit {
     response._body = JSON.parse(response._body);
       this.user.club = response._body.club._id;
       this.updateProfile(this.user);
+      this.AllClubList.push(response._body.club);
   }
 
   updateProfile(user){
