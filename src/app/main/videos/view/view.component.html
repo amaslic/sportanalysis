@@ -213,8 +213,8 @@
                         <a id="event" *ngIf="isAdmin" tabindex="-2" (click)="shareEventlist(video._id,event.id)">Share Event</a>
                         <a id="addtoplay" tabindex="-1" href="#">Add to playlist</a>
                         <ul class="dropdown-menu">
-                          <li (click)="createPlaylist(video._id,event.id)">Create Playlist</li>
-                          <li (click)="addToPlaylist(video._id,event.id)">Add to playlist</li>
+                          <li (click)="createPlaylist(video._id,event)">Create Playlist</li>
+                          <li (click)="addToPlaylist(video._id,event)">Add to playlist</li>
 
                         </ul>
                       </li>
