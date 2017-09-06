@@ -190,7 +190,7 @@ export class ViewComponent implements OnInit {
     containerClasses: 'no-button-arrow',
     buttonClasses: 'btn btn-default btn-block',
     fixedTitle: false,
-    maxHeight: '200px',
+    maxHeight: '400px',
     dynamicTitleMaxItems: 2,
     closeOnClickOutside: true
   };
