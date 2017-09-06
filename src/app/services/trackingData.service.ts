@@ -31,6 +31,7 @@ import {
 @Injectable()
 export class TrackingDataService {
   private baseApiUrl = GlobalVariables.BASE_API_URL;
+  private baseUrl = GlobalVariables.BASE_URL;
   private baseTrackingDataUrl = GlobalVariables.BASE_TRACKINGDATA_URL;
   progress$: Observable<number>;
   private progressSubject: Subject<number>;
@@ -59,7 +60,27 @@ export class TrackingDataService {
       this.progressSubject.next(progress.percentage);
     }).post(this.baseApiUrl + 'trackingData/upload', form, options);
   }
+  getEventDetails(videoId: any, eventId: any, token: String) {
+    const headers = new Headers({
+      'Authorization': token
+    });
+    const body = { token: token, videoId: videoId, eventId: eventId, };
+    const options = new RequestOptions({
+      headers: headers
+    });
+    return this.http.post(this.baseApiUrl + 'eventData/getEventDetails', body, options);
+  }
+  shareEvent(videoId: any, event: any, user: any = [], token: String) {
+    const headers = new Headers({
+      'Authorization': token
+    });
 
+    const body = { token: token, videoId: videoId, event: event, users: user, url: this.baseUrl + 'videos/view/' + videoId + '/' + event.id[0] };
+    const options = new RequestOptions({
+      headers: headers
+    });
+    return this.http.post(this.baseApiUrl + 'eventData/shareEvent', body, options);
+  }
   getDataTrackingForVideo(videoId: any, token: String) {
     const headers = new Headers({
       'Authorization': token

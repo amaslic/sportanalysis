@@ -18,6 +18,9 @@ import {
 import {
   ClubService
 } from './../../services/club.service';
+import {
+  LocalStorageService
+} from 'angular-2-local-storage';
 import { IMultiSelectOption, IMultiSelectSettings, IMultiSelectTexts } from 'angular-2-dropdown-multiselect';
 
 @Component({
@@ -26,6 +29,7 @@ import { IMultiSelectOption, IMultiSelectSettings, IMultiSelectTexts } from 'ang
   styleUrls: ['./playlist.component.css']
 })
 export class PlaylistsComponent implements OnInit {
+  successmsg: any;
   playListId: any;
   playList: Playlist[];
   trackUserlist: any = [];
@@ -51,7 +55,7 @@ export class PlaylistsComponent implements OnInit {
     checked: 'Playlist selected',
     checkedPlural: 'Playlist selected',
     searchPlaceholder: 'Find',
-    defaultTitle: '  Users  ',
+    defaultTitle: ' Select  Users  ',
     allSelected: 'All Playlist ',
   };
 
@@ -68,7 +72,8 @@ export class PlaylistsComponent implements OnInit {
 
   ];
   @ViewChild('updatePlaylistModal') updatePlaylistModal;
-  constructor(private userService: UserService, private playlistService: PlaylistService, private clubService: ClubService) { }
+  @ViewChild('SucessModal') SucessModal;
+  constructor(private localStorageService: LocalStorageService, private userService: UserService, private playlistService: PlaylistService, private clubService: ClubService) { }
 
   ngOnInit() {
     this.getAllClubs();
@@ -134,10 +139,14 @@ export class PlaylistsComponent implements OnInit {
   }
   fetchPlaylistSuccess(response) {
 
-    this.userlistModel = []
+    this.userlistModel = [];
+    var loggedInUserId = this.localStorageService.get('user')['_id'];
+
     const userSelect = JSON.parse(response._body);
     userSelect.playlists[0]['assignedUsers'].forEach((usr, index) => {
-      this.userlistModel.push(usr);
+
+      if (usr != loggedInUserId)
+        this.userlistModel.push(usr);
     });
 
     this.updatePlaylistModal.open();
@@ -151,7 +160,9 @@ export class PlaylistsComponent implements OnInit {
     );
   }
   usersToPlaylistSuccess(response) {
-    alert("User Assigned to Playlist Success.");
+    const playresp = JSON.parse(response._body)
+    this.successmsg = playresp.message;
+    this.SucessModal.open();
     this.updatePlaylistModal.close();
   }
   onGetUsersSuccess(response) {

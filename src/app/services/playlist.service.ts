@@ -18,6 +18,7 @@ import { Subject } from 'rxjs/Subject';
 @Injectable()
 export class PlaylistService {
     private baseApiUrl = GlobalVariables.BASE_API_URL;
+    private baseUrl = GlobalVariables.BASE_URL;
     progress$: Observable<number>;
     private progressSubject: Subject<number>;
 
@@ -29,9 +30,8 @@ export class PlaylistService {
     }
     assignPlaylist(token: String, id: any, user: any = []) {
         const headers = new Headers({ 'Authorization': token });
-        const body = { token: token, id: id, users: user };
+        const body = { token: token, id: id, users: user, url: this.baseUrl + 'playlist/view/' + id };
         const options = new RequestOptions({ headers: headers });
-
 
         return this.http.post(this.baseApiUrl + 'playlist/assignUsers', body, options);
     }
