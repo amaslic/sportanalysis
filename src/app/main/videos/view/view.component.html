@@ -207,17 +207,21 @@
                     <button class="btn dropdown-toggle" type="button" dropdown-open><i class="dropbtn fa fa-ellipsis-h" aria-hidden="true"></i>
                     </button>
                     <ul class="dropdown-menu multi-level" role="menu" aria-labelledby="dropdownMenu">
+                      <!--<li (click)="createPlaylist(video._id,event)">Create Playlist</li>-->
+                      <li id="addtoplay" (click)="createPlaylist(video._id,event)">Add to playlist</li>
+                      <li id="event" *ngIf="isAdmin"  (click)="shareEventlist(video._id,event.id)">Share Event</li>
+                      <!--<li class="dropdown-submenu">
 
-                      <li class="dropdown-submenu">
-
-                        <a id="event" *ngIf="isAdmin" tabindex="-2" (click)="shareEventlist(video._id,event.id)">Share Event</a>
+                        <a id="event" *ngIf="isAdmin"  (click)="shareEventlist(video._id,event.id)">Share Event</a>
+                        <a id="addtoplay"  (click)="addToPlaylist(video._id,event)">Add to playlist</a>
+                        <a (click)="createPlaylist(video._id,event)">Create Playlist</a>
                         <a id="addtoplay" tabindex="-1" href="#">Add to playlist</a>
                         <ul class="dropdown-menu">
                           <li (click)="createPlaylist(video._id,event)">Create Playlist</li>
                           <li (click)="addToPlaylist(video._id,event)">Add to playlist</li>
 
                         </ul>
-                      </li>
+                      </li>-->
                     </ul>
                     <!-- <ul class="dropdown-menu">
                       <li (click)="createPlaylist(video._id,event.id)">Create Playlist</li>
@@ -279,7 +283,7 @@
         </div>
       </div>
       <div class="modal-footer">
-        <button class="btn btn-primary" [disabled]="!documentEditForm.form.valid">Add</button>
+        <button class="btn btn-primary" [disabled]="!documentEditForm.form.valid">Create playlist</button>
         <button class="btn btn-primary" (click)="createPlaylistModal.close()">Cancel</button>
       </div>
 
