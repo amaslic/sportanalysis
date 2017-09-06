@@ -190,7 +190,7 @@ export class ViewComponent implements OnInit {
     containerClasses: 'no-button-arrow',
     buttonClasses: 'btn btn-default btn-block',
     fixedTitle: false,
-    maxHeight: '200px',
+    maxHeight: '400px',
     dynamicTitleMaxItems: 2,
     closeOnClickOutside: true
   };
@@ -217,6 +217,7 @@ export class ViewComponent implements OnInit {
   constructor(private route: ActivatedRoute, private playlistService: PlaylistService, private videoService: VideoService, private userService: UserService, private trackingDataService: TrackingDataService) { }
 
   ngOnInit() {
+
     this.userService.isAdmin().subscribe(
       (response) => this.onIsAdminClubsSuccess(response),
       (error) => this.onError(error)

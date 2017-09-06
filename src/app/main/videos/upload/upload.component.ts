@@ -42,7 +42,7 @@ export class UploadComponent implements OnInit {
   selectedFile: any = {};
   type = 'Match';
   progress = 0;
-  private router: Router;
+  // private router: Router;
   clubCtrl: FormControl;
   filteredClubs: any;
   allClubList: any;
@@ -52,9 +52,9 @@ export class UploadComponent implements OnInit {
   @ViewChild('uploadSucessModal') uploadSucessModal;
   @ViewChild('uploadErrorModal') uploadErrorModal;
 
-  constructor(private completerService: CompleterService, private clubService: ClubService, private videoService: VideoService, private userService: UserService, r: Router) {
+  constructor(private completerService: CompleterService, private clubService: ClubService, private videoService: VideoService, private userService: UserService, private r: Router) {
     videoService.progress$.subscribe((newValue: number) => { this.progress = newValue; });
-    this.router = r;
+    //  this.router = r;
 
     this.clubCtrl = new FormControl();
 
@@ -102,9 +102,12 @@ export class UploadComponent implements OnInit {
 
   onIsAdminClubsSuccess(response) {
     const userAdmin = JSON.parse(response._body);
-
-    if (userAdmin.success)
+    console.log(userAdmin);
+    if (userAdmin.success) {
       this.isAdmin = true;
+
+    }
+
   }
   onSelectFile(e) {
     // console.log(e);
@@ -201,6 +204,7 @@ export class UploadComponent implements OnInit {
   }
 
   onError(error) {
+    console.log(error);
     const errorBody = JSON.parse(error._body);
     this.uploading = false;
     this.errormsg = errorBody.message;
