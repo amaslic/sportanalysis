@@ -90,9 +90,9 @@ export class AdminAddUserComponent implements OnInit {
 
   updateClubId(response) {
     response._body = JSON.parse(response._body);
+    this.allClubList.push(response._body.club);
     this.user.club = response._body.club._id;
     this.createNewUser(this.user);
-    this.allClubList.push(response._body.club);
   }
 
   createNewUser(user) {
@@ -108,7 +108,7 @@ export class AdminAddUserComponent implements OnInit {
   }
   onSignupSuccess(response) {
     const responseBody = JSON.parse(response._body);
-    console.log(responseBody);
+    // console.log(responseBody);
     // alert(responseBody.msg);
     this.successmsg = responseBody.message;
     this.regSucessModal.open();
@@ -119,7 +119,7 @@ export class AdminAddUserComponent implements OnInit {
 
   onErrorOfCreateUser(error) {
     const errorBody = JSON.parse(error._body);
-    console.error(errorBody);
+    // console.error(errorBody);
     this.errormsg = errorBody.message;
     this.regErrorModal.open();
 
@@ -136,7 +136,7 @@ export class AdminAddUserComponent implements OnInit {
 
   onError(error) {
     const errorBody = JSON.parse(error._body);
-    console.error(errorBody);
+    // console.error(errorBody);
     this.errormsg = errorBody.message;
     this.regErrorModal.open();
 

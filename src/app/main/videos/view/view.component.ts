@@ -319,7 +319,7 @@ export class ViewComponent implements OnInit {
               // console.info('Event', this.trackEvent);
               this.myOptions = this.trackTeam;
               this.myOptions1 = this.trackEvent;
-              console.info('Team', this.trackTeam);
+              // console.info('Team', this.trackTeam);
 
 
               let greenLineHeight = this.videoEvents.length * 30 + 60;
@@ -398,7 +398,7 @@ export class ViewComponent implements OnInit {
   currentItem: IMedia;
 
   shareEventlist(vid, eid) {
-    console.log(vid, eid)
+    // console.log(vid, eid)
 
     this.userService.getUsers(this.userService.token).subscribe(
       (response) => this.onGetUsersSuccess(response),
@@ -414,9 +414,8 @@ export class ViewComponent implements OnInit {
   getEventDetailsSuccess(response, eid) {
 
     const eventsdata = JSON.parse(response._body);
-
+    // console.log(eventsdata.eventData);
     this.eventsDetails = eventsdata.eventData.filter(function (element, index) {
-
       return (element.id[0] === eid);
     })[0];
 
@@ -461,8 +460,9 @@ export class ViewComponent implements OnInit {
     this.api.getDefaultMedia().subscriptions.ended.subscribe(
       () => {
         // Set the video to the beginning
+
         this.multiPlaylist = [];
-        console.log("Ended");
+        //console.log("Ended");
         //this.api.getDefaultMedia().currentTime = 0;
         // this.api.pause();
         this.nextVideo();
@@ -490,14 +490,14 @@ export class ViewComponent implements OnInit {
 
     this.api.getDefaultMedia().subscriptions.loadedData.subscribe(
       () => {
-        console.log("Loaded data");
+        // console.log("Loaded data");
 
         // if (this.currentIndex == 1) {
         this.videoDuration = this.api.getDefaultMedia().duration;
         this.roundedDuration = parseInt(this.videoDuration);
         this.fancyVideoDuration = this.fancyTimeFormat(this.videoDuration);
-        console.log(this.videoDuration);
-        console.log(this.fancyVideoDuration);
+        // console.log(this.videoDuration);
+        // console.log(this.fancyVideoDuration);
 
         this.getVideoTrackingDataItems(this.videoId);
 
@@ -516,7 +516,7 @@ export class ViewComponent implements OnInit {
   }
 
   nextVideo() {
-    console.log("Next video");
+    // console.log("Next video");
     //COMMENT THIS OUT TO ENABLE INTRO AND OUTRO
     this.currentIndex = 1;
     this.currentItem = this.playlist[this.currentIndex];
@@ -649,13 +649,13 @@ export class ViewComponent implements OnInit {
 
   fillQueue(group) {
     this.eventPlayQueue = JSON.parse(JSON.stringify(group.values));
-    console.log("Fill Queue", group);
+    // console.log("Fill Queue", group);
     this.playFromQueue();
   }
 
   playFromQueue() {
     if (this.eventPlayQueue[0]) {
-      console.log("PLAYING QUEUE ", this.eventPlayQueue[0]);
+      // console.log("PLAYING QUEUE ", this.eventPlayQueue[0]);
       this.goToEvent(false, this.eventPlayQueue[0]);
     }
   }
@@ -668,7 +668,7 @@ export class ViewComponent implements OnInit {
   }
 
   timelineClicked(event, container) {
-    console.log(container);
+    // console.log(container);
     let percentange = (event.layerX - 20) / container.width * 100;     //17seconds for offset fix
     let currentTime = this.roundedDuration / 100 * percentange;
 
@@ -710,9 +710,11 @@ export class ViewComponent implements OnInit {
     this.eEnd = event.end;
     this.eName = event.name;
     this.eTeam = event.team;
+    // console.log(event);
     this.playlistName = '';
     this.createPlaylistModal.open();
   }
+
   addToPlaylist(vId, event, multiplay: Boolean) {
     this.multiplay = multiplay;
     this.vId = vId;
@@ -769,7 +771,7 @@ export class ViewComponent implements OnInit {
   }
   onGetUpdatePlaylistSuccess(response) {
     const updateMsg = JSON.parse(response._body);
-    console.log(updateMsg.message);
+    // console.log(updateMsg.message);
     this.updateMessage = updateMsg.message;
     setTimeout(() => {
       this.updatePlaylistModal.close()
@@ -816,9 +818,6 @@ export class ViewComponent implements OnInit {
   }
   onChangeEvent(e) {
 
-    //console.log(this.playlistOptions);
-
-
   }
   onScrubBarMove(e, Container) {
 
@@ -827,15 +826,11 @@ export class ViewComponent implements OnInit {
   }
 
   selectEvent(e, event) {
-    //console.log(e.checked);
     if (e.checked) {
       this.multiPlaylist.push(event);
     } else {
       this.multiPlaylist = this.multiPlaylist.filter(item => item !== event);
     }
-
-    // console.log(this.multiPlaylist)
-
   }
   deselectAll() {
     this.multiPlaylist = [];

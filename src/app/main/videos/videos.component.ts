@@ -46,10 +46,12 @@ export class VideosComponent implements OnInit {
   }
   onClubStatusSuccess(response) {
     const clubResp = JSON.parse(response._body);
-    this.clubActive = clubResp.activated;
-    if (!this.clubActive) {
-      this.errormsg = "Club is deactivated by Admin.";
-      this.ErrorModal.open();
+    if (clubResp) {
+      this.clubActive = clubResp.activated;
+      if (!this.clubActive) {
+        this.errormsg = "Club is deactivated by Admin.";
+        this.ErrorModal.open();
+      }
     }
   }
   gridView() {
@@ -71,7 +73,7 @@ export class VideosComponent implements OnInit {
 
   onGetVideosSuccess(response) {
     this.videoList = JSON.parse(response._body);
-    //console.log(this.videoList);
+    // console.log(this.videoList);
   }
 
   onError(error) {

@@ -91,10 +91,12 @@ export class PlaylistComponent implements OnInit {
   }
   onClubStatusSuccess(response) {
     const clubResp = JSON.parse(response._body);
-    this.clubActive = clubResp.activated;
-    if (!this.clubActive) {
-      this.errormsg = "Club is deactivated by Admin.";
-      this.ErrorModal.open();
+    if(clubResp){
+      this.clubActive = clubResp.activated;
+      if (!this.clubActive) {
+        this.errormsg = "Club is deactivated by Admin.";
+        this.ErrorModal.open();
+      }
     }
   }
   onGetPlaylistSuccess(response) {

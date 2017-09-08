@@ -115,7 +115,7 @@ export class VideoOverviewComponent implements OnInit {
 
   onGetVideosSuccess(response) {
     this.videoList = JSON.parse(response._body);
-    console.log(this.videoList);
+    // console.log(this.videoList);
 
     if (this.videoList.length > 0) {
       this.videoList.forEach(element => {
@@ -138,7 +138,7 @@ export class VideoOverviewComponent implements OnInit {
 
     }
 
-    console.log(this.videoList);
+    // console.log(this.videoList);
     this.loadingIndicator = false;
   }
 
@@ -180,8 +180,8 @@ export class VideoOverviewComponent implements OnInit {
 
   }
   usersToVideo() {
-    console.log(this.videoId);
-    console.log(this.userlistModel);
+    // console.log(this.videoId);
+    // console.log(this.userlistModel);
     this.videoService.assignVideo(this.userService.token, this.videoId, this.userlistModel).subscribe(
       (response) => this.usersToVideoSuccess(response),
       (error) => this.onError(error)

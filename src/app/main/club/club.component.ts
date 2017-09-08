@@ -88,16 +88,16 @@ export class ClubComponent implements OnInit {
   onGetClubSuccess(response) {
     this.club = JSON.parse(response._body);
 
-    if (this.club.name) {
+    if (this.club && this.club.name) {
       document.getElementById("site-title").textContent = this.club.name;
       document.getElementById("site-logo").setAttribute('src', this.baseImageUrl + this.club.logo);
     }
     if (this.club) {
       this.clubActive = this.club.activated;
-      if (this.club.activated == false) {
+      if (!this.club.activated) {
         this.errormsg = "Club is deactivated by Admin.";
       }
-      if (this.club.success == false) {
+      if (!this.club.success) {
         this.errormsg = this.club.message;
       }
 

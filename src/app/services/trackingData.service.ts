@@ -42,7 +42,7 @@ export class TrackingDataService {
   }
 
   addTrackingData(data: any, token: String) {
-    console.log(data);
+    // console.log(data);
     const headers = new Headers({
       'Authorization': token
     });
@@ -56,7 +56,7 @@ export class TrackingDataService {
     form.append('video', data.video);
     form.append('default', data.default);
     return this.p_http.withUploadProgressListener(progress => {
-      console.log(`Uploading ${progress.percentage}%`);
+      // console.log(`Uploading ${progress.percentage}%`);
       this.progressSubject.next(progress.percentage);
     }).post(this.baseApiUrl + 'trackingData/upload', form, options);
   }
@@ -92,7 +92,7 @@ export class TrackingDataService {
   }
 
   getXmlFile(trackingData: any) {
-    console.log(trackingData);
+    // console.log(trackingData);
     return this.http.get(this.baseTrackingDataUrl + trackingData.path);
   }
 

@@ -121,7 +121,7 @@ export class PlaylistsComponent implements OnInit {
 
   onError(error) {
     const errorBody = JSON.parse(error._body);
-    console.error(errorBody);
+    // console.error(errorBody);
     alert(errorBody.msg);
   }
   assignUser(id) {
@@ -152,8 +152,8 @@ export class PlaylistsComponent implements OnInit {
     this.updatePlaylistModal.open();
   }
   usersToPlaylist() {
-    console.log(this.playListId);
-    console.log(this.userlistModel);
+    // console.log(this.playListId);
+    // console.log(this.userlistModel);
     this.playlistService.assignPlaylist(this.userService.token, this.playListId, this.userlistModel).subscribe(
       (response) => this.usersToPlaylistSuccess(response),
       (error) => this.onError(error)

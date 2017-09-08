@@ -92,10 +92,9 @@ export class RegisterComponent implements OnInit {
 
   updateClubId(response) {
     response._body = JSON.parse(response._body);
+    this.allClubList.push(response._body.club);
     this.user.club = response._body.club._id;
     this.createNewUser(this.user);
-    this.allClubList.push(response._body.club);
-
   }
 
   createNewUser(user) {
@@ -133,8 +132,6 @@ export class RegisterComponent implements OnInit {
     const errorBody = JSON.parse(error._body);
     // console.error(errorBody);
     this.errormsg = errorBody.message;
-
-
     var clubId = this.user.club;
     var userclub = this.allClubList.filter(function (element, index) {
       return (element._id === clubId);
