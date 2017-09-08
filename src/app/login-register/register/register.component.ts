@@ -37,6 +37,10 @@ export class RegisterComponent implements OnInit {
   clubData = [];
   activatedClubList: any;
   allClubList: any;
+  public roles = [
+    { value: 'true', display: 'Coach' },
+    { value: 'false', display: 'Player' }
+  ];
 
 
   @ViewChild('regSucessModal') regSucessModal;
@@ -73,33 +77,33 @@ export class RegisterComponent implements OnInit {
       return (element.name.toLowerCase() === clubname.toLowerCase());
     })[0];
 
-    if(typeof(userclub) == 'undefined'){
-      this.clubService.createClub({name: clubname})
+    if (typeof (userclub) == 'undefined') {
+      this.clubService.createClub({ name: clubname })
         .subscribe(
         (response) => this.updateClubId(response),
         (error) => this.onError(error)
         );
-    }else{
+    } else {
       this.user.club = userclub._id;
       this.createNewUser(this.user);
     }
-    
+
   }
 
-  updateClubId(response){
+  updateClubId(response) {
     response._body = JSON.parse(response._body);
-      this.user.club = response._body.club._id;
-      this.createNewUser(this.user);
-      this.allClubList.push(response._body.club);
-      
+    this.user.club = response._body.club._id;
+    this.createNewUser(this.user);
+    this.allClubList.push(response._body.club);
+
   }
 
-  createNewUser(user){
-       this.userService.createNewUser(user)
-          .subscribe(
-          (response) => this.onSignupSuccess(response),
-          (error) => this.onErrorSignup(error)
-          );
+  createNewUser(user) {
+    this.userService.createNewUser(user)
+      .subscribe(
+      (response) => this.onSignupSuccess(response),
+      (error) => this.onErrorSignup(error)
+      );
   }
 
   regSuccessPopupClose() {
@@ -129,15 +133,15 @@ export class RegisterComponent implements OnInit {
     const errorBody = JSON.parse(error._body);
     // console.error(errorBody);
     this.errormsg = errorBody.message;
-    
+
 
     var clubId = this.user.club;
     var userclub = this.allClubList.filter(function (element, index) {
-        return (element._id === clubId);
-        })[0];
-        
-    if(typeof(userclub) != 'undefined')
-        this.user.club = userclub.name;
+      return (element._id === clubId);
+    })[0];
+
+    if (typeof (userclub) != 'undefined')
+      this.user.club = userclub.name;
     this.regErrorModal.open();
     // alert(errorBody.msg);
   }

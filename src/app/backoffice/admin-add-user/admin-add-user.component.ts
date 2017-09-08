@@ -37,7 +37,10 @@ export class AdminAddUserComponent implements OnInit {
   clubData = ['test'];
   activatedClubList: any;
   allClubList: any;
-
+  public roles = [
+    { value: 'true', display: 'Coach' },
+    { value: 'false', display: 'Player' }
+  ];
 
   @ViewChild('regSucessModal') regSucessModal;
   @ViewChild('regErrorModal') regErrorModal;
@@ -66,31 +69,31 @@ export class AdminAddUserComponent implements OnInit {
     if (!f.valid) {
       return false;
     }
-      var clubname = this.user.club;
-      var userclub = this.allClubList.filter(function (element, index) {
-        return (element.name.toLowerCase() === clubname.toLowerCase());
-      })[0];
-  
-      if(typeof(userclub) == 'undefined'){
-        this.clubService.createClub({name: clubname})
-          .subscribe(
-          (response) => this.updateClubId(response),
-          (error) => this.onError(error)
-          );
-      }else{
-        this.user.club = userclub._id;
-        this.createNewUser(this.user);
-      }
-  }
+    var clubname = this.user.club;
+    var userclub = this.allClubList.filter(function (element, index) {
+      return (element.name.toLowerCase() === clubname.toLowerCase());
+    })[0];
 
-  updateClubId(response){
-    response._body = JSON.parse(response._body);
-      this.user.club = response._body.club._id;
+    if (typeof (userclub) == 'undefined') {
+      this.clubService.createClub({ name: clubname })
+        .subscribe(
+        (response) => this.updateClubId(response),
+        (error) => this.onError(error)
+        );
+    } else {
+      this.user.club = userclub._id;
       this.createNewUser(this.user);
-      this.allClubList.push(response._body.club);
+    }
   }
 
-  createNewUser(user){
+  updateClubId(response) {
+    response._body = JSON.parse(response._body);
+    this.user.club = response._body.club._id;
+    this.createNewUser(this.user);
+    this.allClubList.push(response._body.club);
+  }
+
+  createNewUser(user) {
     this.userService.createNewUser(this.user)
       .subscribe(
       (response) => this.onSignupSuccess(response),
@@ -117,14 +120,14 @@ export class AdminAddUserComponent implements OnInit {
     console.error(errorBody);
     this.errormsg = errorBody.message;
     this.regErrorModal.open();
-    
+
     var clubId = this.user.club;
     var userclub = this.allClubList.filter(function (element, index) {
-        return (element._id === clubId);
-        })[0];
+      return (element._id === clubId);
+    })[0];
 
-        if(typeof(userclub) != 'undefined')
-            this.user.club = userclub.name;
+    if (typeof (userclub) != 'undefined')
+      this.user.club = userclub.name;
 
     // alert(errorBody.msg);
   }

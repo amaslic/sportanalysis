@@ -1,5 +1,5 @@
 .form-group {
-    margin-bottom: 30px;
+    margin-bottom: 10px;
 }
 .add-user-button{
 margin-right: 75%;
@@ -8,6 +8,10 @@ margin-right: 75%;
 {
     background-color: white;
     padding: 20px 0px;
+}
+select{
+    height: auto !important;
+    
 }
 :host >>> .autocompleteInput {border: none !important;outline: none;padding: 5px 0px 0px 8px;}
 :host >>> .autocompleteControl{

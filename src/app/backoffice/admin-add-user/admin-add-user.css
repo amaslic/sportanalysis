@@ -9,6 +9,9 @@ margin-right: 75%;
     background-color: white;
     padding: 20px 0px;
 }
+select.form-control{
+  height: auto !important;
+}
 :host >>> .autocompleteInput {border: none !important;outline: none;padding: 5px 0px 0px 8px;}
 :host >>> .autocompleteControl{
         border: 1px solid #767d9a;

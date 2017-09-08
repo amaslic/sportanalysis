@@ -47,6 +47,13 @@
           </md-autocomplete>
         </div> -->
         <div class="form-group">
+          <select name="role" #role class="form-control role-select" [(ngModel)]="user.coach" required>
+                    <option *ngFor="let role of roles" [value]="role.value">  
+                    {{role.display}}
+                    </option>
+                    </select>
+        </div>
+        <div class="form-group">
 
           <ng2-completer #club="ngModel" [(ngModel)]="user.club" name="club" [inputClass]="['autocompleteInput']" class="autocompleteControl"
             placeholder="Club" [datasource]="clubData" [minSearchLength]="3" required></ng2-completer>
