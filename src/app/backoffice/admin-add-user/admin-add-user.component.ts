@@ -45,6 +45,7 @@ export class AdminAddUserComponent implements OnInit {
   @ViewChild('regSucessModal') regSucessModal;
   @ViewChild('regErrorModal') regErrorModal;
   constructor(private completerService: CompleterService, private clubService: ClubService, private userService: UserService, r: Router) {
+
     this.router = r;
     this.clubCtrl = new FormControl();
 
@@ -52,6 +53,7 @@ export class AdminAddUserComponent implements OnInit {
   }
 
   ngOnInit() {
+    //this.user.coach = false;
     this.getAllClubs();
     this.getActivatedClubs();
     this.filteredClubs = this.clubCtrl.valueChanges
