@@ -105,7 +105,7 @@ export class UploadComponent implements OnInit {
 
   onIsAdminClubsSuccess(response) {
     const userAdmin = JSON.parse(response._body);
-    console.log(userAdmin);
+    // console.log(userAdmin);
     if (userAdmin.success) {
       this.isAdmin = true;
 
@@ -290,6 +290,33 @@ export class UploadComponent implements OnInit {
 
   uploadVideo(f){
     this.getAllClubs();
+
+    if(typeof(f.value.season) == 'undefined')
+        f.value.season = '';
+
+      if(typeof(f.value.competition) == 'undefined')
+        f.value.competition = '';
+      
+      if(typeof(f.value.description) == 'undefined')
+        f.value.description = '';
+      
+      if(typeof(f.value.tacticsTeam1) == 'undefined')
+        f.value.tacticsTeam1 = '';
+      
+      if(typeof(f.value.tacticsTeam2) == 'undefined')
+        f.value.tacticsTeam2 = '';
+
+      if(typeof(f.value.scoreTeam1) == 'undefined')
+        f.value.scoreTeam1 = '';
+
+      if(typeof(f.value.scoreTeam2) == 'undefined')
+        f.value.scoreTeam2 = '';
+      
+      if(typeof(f.value.team1) == 'undefined')
+        f.value.team1 = '';
+
+      if(typeof(f.value.team2) == 'undefined')
+        f.value.team2 = '';
 
     this.videoService.upload(f.value).subscribe(
       (response) => this.onUploadSuccess(response),

@@ -35,12 +35,27 @@ export class VideoSettingsComponent implements OnInit {
   clubData = [];
   activatedClubList: any;
   allClubList: any;
+  isAdmin: boolean;
+  notExistedClub = [];
 
   constructor(private route: ActivatedRoute, private trackingDataService: TrackingDataService, private userService: UserService,  private videoService: VideoService, private clubService: ClubService) {}
 
   ngOnInit() {
     this.getAllClubs();
     this.getActivatedClubs();
+    this.userService.isAdmin().subscribe(
+      (response) => this.onIsAdminClubsSuccess(response),
+      (error) => this.onError(error)
+    );
+  }
+
+  onIsAdminClubsSuccess(response) {
+    const userAdmin = JSON.parse(response._body);
+    if (userAdmin.success) {
+      this.isAdmin = true;
+
+    }
+
   }
 
   getAllClubs() {
@@ -72,6 +87,16 @@ export class VideoSettingsComponent implements OnInit {
     this.video = JSON.parse(response._body);
     //  console.log(this.video);
 
+    var clubName = this.video.club;
+    var ClubData1 = this.allClubList.filter(function (element, index) {
+      return (element._id === clubName);
+    })[0];
+
+    var clubName2 = this.video.club2;
+    var ClubData2 = this.allClubList.filter(function (element, index) {
+      return (element._id === clubName2);
+    })[0];
+
     var teamA = this.video.team1;
     var teamAClub = this.allClubList.filter(function (element, index) {
     return (element._id === teamA);
@@ -83,11 +108,18 @@ export class VideoSettingsComponent implements OnInit {
       return (element._id === teamB);
     })[0];
 
+    if(typeof(ClubData1) != 'undefined')
+      this.video.clubName = ClubData1.name;
+
+    if(typeof(ClubData2) != 'undefined')
+      this.video.clubName2 = ClubData2.name;
+
     if(typeof(teamAClub) != 'undefined')
       this.video.team1 = teamAClub.name;
 
     if(typeof(teamBClub) != 'undefined')
       this.video.team2 = teamBClub.name;
+
   }
 
 
@@ -146,130 +178,166 @@ export class VideoSettingsComponent implements OnInit {
       return false;
     }
     
-    var teamA = f.value.team1;
-    
-    if(teamA != '' && teamA != null){
-      var teamAClub = this.allClubList.filter(function (element, index) {
-        return (element.name.toLowerCase() === teamA.toLowerCase());
-      })[0];
+    var clubName = f.value.clubName;
+    if(clubName != '' && clubName != null){
+        var ClubData1 = this.allClubList.filter(function (element, index) {
+          return (element.name.toLowerCase() === clubName.toLowerCase());
+        })[0];
     }
 
-    var teamB = f.value.team2;
-
-    if(teamB != '' && teamB != null){
-      var teamBClub = this.allClubList.filter(function (element, index) {
-        return (element.name.toLowerCase() === teamB.toLowerCase());
-      })[0];
+    var clubName2 = f.value.clubName2;
+    if(clubName2 != '' && clubName2 != null){
+        var ClubData2 = this.allClubList.filter(function (element, index) {
+          return (element.name.toLowerCase() === clubName2.toLowerCase());
+        })[0];
     }
 
-    if(typeof(teamAClub) == 'undefined' && typeof(teamBClub) == 'undefined'){
-      if(teamA != teamB){
-        if(teamA != '' && teamA != null){
-          this.clubService.createClub({name: teamA})
-          .subscribe(
-          (response) => this.updateBothClubId(response,f),
-          (error) => this.onError(error)
-          );
-        }else if(teamB != '' && teamB != null){
-          f.value.team1 = '';
-          this.clubService.createClub({name: teamB})
-          .subscribe(
-          (response) => this.updateTeamBClubId(response,f),
-          (error) => this.onError(error)
-          );
-        }else{
-            f.value.team1 = '';
-            f.value.team2 = '';
-            this.updateVideo(f);
-        }
-      }
-      else{
-        if(teamA != '' && teamA != null){
-            this.clubService.createClub({name: teamA})
-            .subscribe(
-            (response) => this.updateBothTeamsClubId(response,f),
-            (error) => this.onError(error)
-            );
-         }else{
-            f.value.team1 = '';
-            f.value.team2 = '';
-            this.updateVideo(f);
-        }
-      }
-    }else if (typeof(teamAClub) == 'undefined'){
-      f.value.team2 = teamBClub._id;
-      if(teamA != '' && teamA != null){
-        this.clubService.createClub({name: teamA})
-        .subscribe(
-        (response) => this.updateTeamAClubId(response,f),
-        (error) => this.onError(error)
-        );
+    var teamName1 = f.value.team1;
+    if(teamName1 != '' && teamName1 != null){
+        var TeamData1 = this.allClubList.filter(function (element, index) {
+          return (element.name.toLowerCase() === teamName1.toLowerCase());
+        })[0];
+    }
+
+    var teamName2 = f.value.team2;
+    if(teamName2 != '' && teamName2 != null){
+        var TeamData2 = this.allClubList.filter(function (element, index) {
+          return (element.name.toLowerCase() === teamName2.toLowerCase());
+        })[0];
+    }
+
+    this.notExistedClub = [];
+      if(typeof(ClubData1) == 'undefined' && clubName && clubName != '' && clubName != null){
+          this.notExistedClub.push({name: clubName});
       }else{
-         f.value.team1 = '';
+          f.value.clubName = ClubData1._id;
+      }
+
+      if(typeof(ClubData2) == 'undefined' && clubName2 && clubName2 != '' && clubName2 != null){
+
+        var existclub = this.notExistedClub.filter(function (element, index) {
+          return (element.name.toLowerCase() === clubName2.toLowerCase());
+        });
+
+        if(typeof(existclub) == 'undefined' || existclub.length == 0)
+          this.notExistedClub.push({name: clubName2});
+      }else{
+          f.value.clubName2 = ClubData2._id;
+      }
+
+      if(typeof(TeamData1) == 'undefined' && teamName1 && teamName1 != '' && teamName1 != null){
+        var existclub = this.notExistedClub.filter(function (element, index) {
+          return (element.name.toLowerCase() === teamName1.toLowerCase());
+        });
+
+        if(typeof(existclub) == 'undefined' || existclub.length == 0)
+          this.notExistedClub.push({name: teamName1});
+      }else{
+          if(teamName1 && teamName1 != '' && teamName1 != null)
+            f.value.team1 = TeamData1._id;
+          else
+            f.value.team1 = '';
+      }
+
+      if(typeof(TeamData2) == 'undefined' && teamName2 && teamName2 != '' && teamName2 != null){
+         var existclub = this.notExistedClub.filter(function (element, index) {
+          return (element.name.toLowerCase() === teamName2.toLowerCase());
+        });
+
+        if(typeof(existclub) == 'undefined' || existclub.length == 0)
+          this.notExistedClub.push({name: teamName2});
+      }else{
+          if(teamName2 && teamName2 != '' && teamName2 != null)
+            f.value.team2 = TeamData2._id;
+          else
+            f.value.team2 = '';
+      }
+
+      if(this.notExistedClub.length > 0){
+        var count = 0;
+          this.notExistedClub.forEach(element => {
+              this.clubService.createClub({name: element.name})
+              .subscribe(
+              (response1:any) => {
+                  count++;
+                  
+                  var response = JSON.parse(response1._body);
+                  element.clubId = response.club._id;
+                  this.allClubList.push(response.club);
+                  
+                  if(this.notExistedClub.length == count){
+
+                      if(typeof(ClubData1) == 'undefined' && clubName && clubName != '' && clubName != null){
+                          var existclub = this.notExistedClub.filter(function (element, index) {
+                            return (element.name.toLowerCase() === clubName.toLowerCase());
+                          })[0];
+                          f.value.clubName = existclub.clubId;
+                      }
+
+                      if(typeof(ClubData2) == 'undefined' && clubName2 && clubName2 != '' && clubName2 != null){
+                            var existclub = this.notExistedClub.filter(function (element, index) {
+                             return (element.name.toLowerCase() === clubName2.toLowerCase());
+                           })[0];
+                           f.value.clubName2 = existclub.clubId;
+                      }
+                    
+                      if(typeof(TeamData1) == 'undefined' && teamName1 && teamName1 != '' && teamName1 != null){
+                            var existclub = this.notExistedClub.filter(function (element, index) {
+                              return (element.name.toLowerCase() === teamName1.toLowerCase());
+                            })[0];
+                            f.value.team1 = existclub.clubId;
+                      }
+                    
+                      if(typeof(TeamData2) == 'undefined' && teamName2 && teamName2 != '' && teamName2 != null){
+                            var existclub = this.notExistedClub.filter(function (element, index) {
+                              return (element.name.toLowerCase() === teamName2.toLowerCase());
+                            })[0];
+                            f.value.team2 = existclub.clubId;
+                      }
+                      this.updateVideo(f);
+                  }
+              },
+              (error) => this.onError(error)
+              );
+              
+          });
+      }else{
         this.updateVideo(f);
       }
-    }else if(typeof(teamBClub) == 'undefined'){
-      f.value.team1 = teamAClub._id;
-      if(teamB != '' && teamB != null){
-        this.clubService.createClub({name: teamB})
-        .subscribe(
-        (response) => this.updateTeamBClubId(response,f),
-        (error) => this.onError(error)
-        );
-      }else{
-         f.value.team2 = '';
-        this.updateVideo(f);
-      }
-    }
-    else{
-      f.value.team1 = teamAClub._id;
-      f.value.team2 = teamBClub._id;
-      this.updateVideo(f);
-    }
     
-  }
-
-  updateBothTeamsClubId(response,f){
-    response._body = JSON.parse(response._body);
-      f.value.team1 = response._body.club._id;
-      f.value.team2 = response._body.club._id;
-      this.allClubList.push(response._body.club);
-      this.updateVideo(f);
-  }
-
-  updateBothClubId(response,f){
-      response._body = JSON.parse(response._body);
-      this.allClubList.push(response._body.club);
-      f.value.team1 = response._body.club._id;
-
-      if(f.value.team2 != '' && f.value.team2 != null){
-      this.clubService.createClub({name: f.value.team2})
-        .subscribe(
-        (response) => this.updateTeamBClubId(response,f),
-        (error) => this.onError(error)
-        );
-      }else{
-         f.value.team2 = '';
-          this.updateVideo(f);
-      }
-  }
-
-
-  updateTeamAClubId(response,f){
-    response._body = JSON.parse(response._body);
-      f.value.team1 = response._body.club._id;
-      this.allClubList.push(response._body.club);
-      this.updateVideo(f);
-  }
-
-  updateTeamBClubId(response,f){
-    response._body = JSON.parse(response._body);
-      f.value.team2 = response._body.club._id;
-      this.allClubList.push(response._body.club);
-      this.updateVideo(f);
   }
 
   updateVideo(f){
+
+      if(typeof(f.value.season) == 'undefined')
+        f.value.season = '';
+
+      if(typeof(f.value.competition) == 'undefined')
+        f.value.competition = '';
+      
+      if(typeof(f.value.description) == 'undefined')
+        f.value.description = '';
+      
+      if(typeof(f.value.tacticsTeam1) == 'undefined')
+        f.value.tacticsTeam1 = '';
+      
+      if(typeof(f.value.tacticsTeam2) == 'undefined')
+        f.value.tacticsTeam2 = '';
+
+      if(typeof(f.value.scoreTeam1) == 'undefined')
+        f.value.scoreTeam1 = '';
+
+      if(typeof(f.value.scoreTeam2) == 'undefined')
+        f.value.scoreTeam2 = '';
+      
+      if(typeof(f.value.team1) == 'undefined')
+        f.value.team1 = '';
+
+      if(typeof(f.value.team2) == 'undefined')
+        f.value.team2 = '';
+
+      f.value.club = f.value.clubName;
+      f.value.club2 = f.value.clubName2;
       this.getAllClubs();
 
        this.videoService.updateVideo(this.videoId, f.value, this.userService.token)

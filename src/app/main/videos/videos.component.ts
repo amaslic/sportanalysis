@@ -45,12 +45,14 @@ export class VideosComponent implements OnInit {
     );
   }
   onClubStatusSuccess(response) {
-    console.log(response);
+    // console.log(response);
     const clubResp = JSON.parse(response._body);
-    this.clubActive = clubResp.activated;
-    if (!this.clubActive) {
-      this.errormsg = "Club is deactivated by Admin.";
-      this.ErrorModal.open();
+    if(clubResp){
+      this.clubActive = clubResp.activated;
+      if (!this.clubActive) {
+        this.errormsg = "Club is deactivated by Admin.";
+        this.ErrorModal.open();
+      }
     }
   }
   gridView() {
