@@ -43,11 +43,9 @@ export class PlaylistService {
     }
     createPlaylists(plist: Playlist) {
         console.log('plist' + plist);
-
         return this.http.post(this.baseApiUrl + 'playlist/create', plist);
     }
     updatePlaylists(plist: Playlist) {
-        console.log('plist' + plist);
         return this.http.post(this.baseApiUrl + 'playlist/updatePlaylist', plist);
     }
     fetchPlaylistData(token: String, id) {
@@ -55,5 +53,13 @@ export class PlaylistService {
         const options = new RequestOptions({ headers: headers, params: { id: id } });
 
         return this.http.get(this.baseApiUrl + 'playlist/fetchPlaylistData', options);
+    }
+    createPlaylistsEvents(playlist: any = [], plist: Playlist) {
+        const body = { plist: plist, events: playlist };
+        return this.http.post(this.baseApiUrl + 'playlist/create', body);
+    }
+    updatePlaylistsEvents(playlist: any = [], plist: Playlist) {
+        const body = { plist: plist, events: playlist };
+        return this.http.post(this.baseApiUrl + 'playlist/updatePlaylist', body);
     }
 }

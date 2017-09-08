@@ -23,6 +23,7 @@ import {
   styleUrls: ['./main.component.css']
 })
 export class MainComponent implements OnInit {
+  clubid: any;
   club: any;
 
   private _opened = true;
@@ -69,6 +70,7 @@ export class MainComponent implements OnInit {
     this.club = JSON.parse(response._body);
 
     if (this.club && this.club.name) {
+      this.clubid = this.club._id;
       document.getElementById("site-title").textContent = this.club.name;
       document.getElementById("site-logo").setAttribute('src', this.baseImageUrl + this.club.logo);
     }
