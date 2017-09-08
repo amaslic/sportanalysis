@@ -391,7 +391,7 @@ export class ViewComponent implements OnInit {
     // alert(errorBody.message);
   }
 
-  currentIndex = 0; //Set this to 0 to enable Intro video;
+  currentIndex = 1; //Set this to 0 to enable Intro video;
   currentItem: IMedia;
 
   shareEventlist(vid, eid) {
@@ -784,7 +784,8 @@ export class ViewComponent implements OnInit {
     this.playlists['playlistName'] = this.playlistName;
     this.playlists['user'] = this.userService.user._id;
     this.playlists['token'] = this.userService.token;
-
+    console.log(this.multiplay);
+    console.log('playlist', this.multiPlaylist);
     if (this.multiPlaylist.length > 0 && this.multiplay) {
       this.playlistService.createPlaylistsEvents(this.multiPlaylist, this.playlists).subscribe(
         (response) => this.onAddPlaylistSuccess(response),

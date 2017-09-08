@@ -90,7 +90,7 @@ export class PlaylistViewComponent implements OnInit {
     allSelected: 'All Playlist ',
   };
 
-  currentIndex = 0; //Set this to 0 to enable Intro video;
+  currentIndex = 1; //Set this to 0 to enable Intro video;
   currentItem: IMedia;
   constructor(private route: ActivatedRoute, private playlistService: PlaylistService, private videoService: VideoService, private userService: UserService, private trackingDataService: TrackingDataService) { }
 
@@ -197,7 +197,7 @@ export class PlaylistViewComponent implements OnInit {
     var lastVideoSrc = this.playlist[this.currentIndex].src;
     this.currentIndex++;
     if (this.currentIndex >= this.playlist.length) {
-      this.currentIndex = 0;
+      this.currentIndex = 1;
     }
     this.currentItem = this.playlist[this.currentIndex];
 
