@@ -48,7 +48,7 @@ export class LoginComponent implements OnInit {
     this.userService.setUser(responseBody.user);
     this.userService.setToken(responseBody.token);
     this.userService.saveUserToStorage();
-    this.router.navigateByUrl('/videos');
+    this.router.navigateByUrl('/club/' + responseBody.user.club);
   }
 
   onError(error) {

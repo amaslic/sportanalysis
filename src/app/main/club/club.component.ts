@@ -1,6 +1,7 @@
 import {
   Component,
-  OnInit
+  OnInit,
+  ViewChild
 } from '@angular/core';
 import {
   User
@@ -20,27 +21,63 @@ import {
 import {
   GlobalVariables
 } from './../../models/global.model';
+import {
+  Video
+} from './../../models/video.model';
+import {
+  VideoService
+} from './../../services/video.service';
 @Component({
   selector: 'app-club',
   templateUrl: './club.component.html',
   styleUrls: ['./club.component.css']
 })
 export class ClubComponent implements OnInit {
+  errormsg: string;
   private sub: any;
   private slug: String;
   private club;
   private baseImageUrl = GlobalVariables.BASE_IMAGE_URL;
-  constructor(private clubService: ClubService, private userService: UserService, private route: ActivatedRoute) {
+  private clubActive: boolean;
+  grid: boolean;
+  list: boolean;
+  videoList: Video[];
+  @ViewChild('SucessModal') SucessModal;
+  @ViewChild('ErrorModal') ErrorModal;
+  constructor(private clubService: ClubService, private userService: UserService, private route: ActivatedRoute, private videoService: VideoService) {
   }
 
   ngOnInit() {
-     this.sub = this.route.params.subscribe(params => {
+    this.sub = this.route.params.subscribe(params => {
       this.slug = params['slug'];
       this.getClub(this.slug);
+      this.getVideos();
+      this.getVideos();
+      this.gridView();
     });
-  }
 
-   getClub(slug) {
+  }
+  getVideos() {
+    // console.info("users: "+JSON.stringify(this.userService));
+    // console.log(this.userService.user.club);
+    this.videoService.getVideosClub(this.slug, this.userService.token).subscribe(
+      (response) => this.onGetVideosSuccess(response),
+      (error) => this.onError(error)
+    );
+  }
+  gridView() {
+    this.grid = true;
+    this.list = false;
+  }
+  listView() {
+    this.grid = false;
+    this.list = true;
+  }
+  onGetVideosSuccess(response) {
+    this.videoList = JSON.parse(response._body);
+    //console.log(this.videoList);
+  }
+  getClub(slug) {
     this.clubService.getClubBySlug(slug)
       .subscribe(
       (response) => this.onGetClubSuccess(response),
@@ -48,17 +85,31 @@ export class ClubComponent implements OnInit {
       );
   }
 
-  onGetClubSuccess(response){
+  onGetClubSuccess(response) {
     this.club = JSON.parse(response._body);
-    console.log("Got club", this.club);
-    document.getElementById("site-title").textContent=this.club.name;
-    document.getElementById("site-logo").setAttribute( 'src', this.baseImageUrl + this.club.logo);
+
+    if (this.club.name) {
+      document.getElementById("site-title").textContent = this.club.name;
+      document.getElementById("site-logo").setAttribute('src', this.baseImageUrl + this.club.logo);
+    }
+    if (this.club) {
+      this.clubActive = this.club.activated;
+      if (this.club.activated == false) {
+        this.errormsg = "Club is deactivated by Admin.";
+      }
+      if (this.club.success == false) {
+        this.errormsg = this.club.message;
+      }
+
+    }
+
+
   }
 
   onError(error) {
     const errorBody = JSON.parse(error._body);
-    console.error(errorBody);
-    alert(errorBody.message);
+    this.errormsg = errorBody.message
+    this.ErrorModal.open();
   }
 
 }

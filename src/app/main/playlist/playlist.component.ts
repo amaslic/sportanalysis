@@ -28,6 +28,8 @@ import { RouterLink, Router } from '@angular/router';
   styleUrls: ['./playlist.component.css']
 })
 export class PlaylistComponent implements OnInit {
+  errormsg: string;
+  clubActive: any;
   playList: Playlist[];
   trackPlaylist: any = [];
   loadingIndicator: boolean = true;
@@ -54,9 +56,11 @@ export class PlaylistComponent implements OnInit {
     defaultTitle: ' Select Playlist ',
     allSelected: 'All Playlist ',
   };
+  @ViewChild('ErrorModal') ErrorModal;
   constructor(router: Router, private userService: UserService, private playlistService: PlaylistService, private clubService: ClubService) { }
 
   ngOnInit() {
+    this.ClubStatus();
     this.getAllClubs();
   }
 
@@ -70,6 +74,7 @@ export class PlaylistComponent implements OnInit {
   onGetAllClubsSuccess(response) {
     this.allClubList = JSON.parse(response._body);
     this.getPlaylist();
+
   }
 
   getPlaylist() {
@@ -78,24 +83,37 @@ export class PlaylistComponent implements OnInit {
       (error) => this.onError(error)
     );
   }
-
+  ClubStatus() {
+    this.clubService.checkClubActive(this.userService.token).subscribe(
+      (response) => this.onClubStatusSuccess(response),
+      (error) => this.onError(error)
+    );
+  }
+  onClubStatusSuccess(response) {
+    const clubResp = JSON.parse(response._body);
+    this.clubActive = clubResp.activated;
+    if (!this.clubActive) {
+      this.errormsg = "Club is deactivated by Admin.";
+      this.ErrorModal.open();
+    }
+  }
   onGetPlaylistSuccess(response) {
     this.playList = JSON.parse(response._body);
     this.playList = this.playList['playlists'];
     // console.log(this.playList);
-    
+
     this.playList.forEach(element => {
-      
+
       var videoClubName = element['user'].club;
-        var videoClub = this.allClubList.filter(function (element1, index) {
+      var videoClub = this.allClubList.filter(function (element1, index) {
         return (element1._id === videoClubName);
-        })[0];
-      
-        if(typeof(videoClub) != 'undefined'){
-            element['user'].club = videoClub.name;
-        }else{
-            element['user'].club = '';
-        }
+      })[0];
+
+      if (typeof (videoClub) != 'undefined') {
+        element['user'].club = videoClub.name;
+      } else {
+        element['user'].club = '';
+      }
     });
 
     this.playList.forEach((play, index) => {

@@ -1,4 +1,4 @@
-<div class="container" style="margin-top:10px;">
+<div class="container" style="margin-top:10px;" *ngIf="clubActive">
   <h3>Playlist</h3>
   <ngx-datatable class="material" [columnMode]="'force'" [rows]="playList">
     <ngx-datatable-column name="Name">
@@ -18,3 +18,19 @@
     </ngx-datatable-column>
   </ngx-datatable>
 </div>
+<modal #ErrorModal class="error-modal">
+  <modal-header>
+
+  </modal-header>
+  <modal-content>
+    <p>
+      <i class="fa fa-close" aria-hidden="true"></i>
+    </p>
+    <p>
+      {{errormsg}}
+    </p>
+  </modal-content>
+  <modal-footer>
+    <button class="btn btn-primary" [routerLink]="['/home']" (click)="ErrorModal.close()">Ok</button>
+  </modal-footer>
+</modal>

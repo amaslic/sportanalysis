@@ -86,20 +86,20 @@ export class UserService {
   getUsers(token: String) {
     const headers = new Headers({ 'Authorization': token });
     var loggedInUserId = this.localStorageService.get('user')['_id'];
-    const options = new RequestOptions({ headers: headers,params: { loggedInUserId: loggedInUserId }});
+    const options = new RequestOptions({ headers: headers, params: { loggedInUserId: loggedInUserId } });
     return this.http.get(this.baseApiUrl + 'user/fetchAll', options);
   }
 
   getUnApprovedUsers(token: String) {
     const headers = new Headers({ 'Authorization': token });
     var loggedInUserId = this.localStorageService.get('user')['_id'];
-    const options = new RequestOptions({ headers: headers,params: { loggedInUserId: loggedInUserId }});
+    const options = new RequestOptions({ headers: headers, params: { loggedInUserId: loggedInUserId } });
     return this.http.get(this.baseApiUrl + 'user/fetchUnApprovedUsers', options);
   }
 
-  deleteUser(token: String,userId) {
+  deleteUser(token: String, userId) {
     const headers = new Headers({ 'Authorization': token });
-    const options = new RequestOptions({ headers: headers, params: { id: userId }});
+    const options = new RequestOptions({ headers: headers, params: { id: userId } });
     return this.http.get(this.baseApiUrl + 'user/deleteSelectedUser', options);
   }
 
@@ -108,19 +108,19 @@ export class UserService {
     const options = new RequestOptions({ headers: headers });
     return this.http.get(this.baseApiUrl + 'user/fetchUser', options);
   }
-  getUserForEdit(token: String,userId) {
+  getUserForEdit(token: String, userId) {
     const headers = new Headers({ 'Authorization': token });
-    const options = new RequestOptions({ headers: headers,params: { id: userId } });
+    const options = new RequestOptions({ headers: headers, params: { id: userId } });
     return this.http.get(this.baseApiUrl + 'user/getEditUser', options);
   }
-  activateUser(token: String,userId) {
+  activateUser(token: String, userId) {
     const headers = new Headers({ 'Authorization': token });
-    const options = new RequestOptions({ headers: headers,params: { id: userId } });
+    const options = new RequestOptions({ headers: headers, params: { id: userId } });
     return this.http.get(this.baseApiUrl + 'user/activateUser', options);
   }
-  deactivateUser(token: String,userId) {
+  deactivateUser(token: String, userId) {
     const headers = new Headers({ 'Authorization': token });
-    const options = new RequestOptions({ headers: headers,params: { id: userId } });
+    const options = new RequestOptions({ headers: headers, params: { id: userId } });
     return this.http.get(this.baseApiUrl + 'user/deactivateUser', options);
   }
 }

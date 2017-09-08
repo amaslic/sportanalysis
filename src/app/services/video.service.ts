@@ -65,7 +65,6 @@ export class VideoService {
   getVideoById(id: any, token: String) {
     const headers = new Headers({ 'Authorization': token });
     const options = new RequestOptions({ headers: headers });
-    // console.log('url' + this.baseApiUrl + 'video/getById?id=' + id);
     return this.http.get(this.baseApiUrl + 'video/getById?id=' + id, options);
   }
 
@@ -88,5 +87,10 @@ export class VideoService {
 
 
     return this.http.post(this.baseApiUrl + 'video/assignUsers', body, options);
+  }
+  getVideosClub(id: any, token: String) {
+    const headers = new Headers({ 'Authorization': token });
+    const options = new RequestOptions({ headers: headers });
+    return this.http.get(this.baseApiUrl + 'video/getVideosClub?club=' + id, options);
   }
 }

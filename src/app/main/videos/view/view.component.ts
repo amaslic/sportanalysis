@@ -69,6 +69,7 @@ export interface IMedia {
   styleUrls: ['./view.component.css']
 })
 export class ViewComponent implements OnInit {
+  multiplay: Boolean;
   successmsg: any;
   eventsDetails: any;
   isAdmin: boolean;
@@ -190,7 +191,7 @@ export class ViewComponent implements OnInit {
     containerClasses: 'no-button-arrow',
     buttonClasses: 'btn btn-default btn-block',
     fixedTitle: false,
-    maxHeight: '200px',
+    maxHeight: '400px',
     dynamicTitleMaxItems: 2,
     closeOnClickOutside: true
   };
@@ -205,6 +206,7 @@ export class ViewComponent implements OnInit {
     defaultTitle: ' Select Users  ',
     allSelected: 'All Video ',
   };
+  multiPlaylist: any = [];
 
 
   @ViewChild('createPlaylistModal') createPlaylistModal;
@@ -217,6 +219,7 @@ export class ViewComponent implements OnInit {
   constructor(private route: ActivatedRoute, private playlistService: PlaylistService, private videoService: VideoService, private userService: UserService, private trackingDataService: TrackingDataService) { }
 
   ngOnInit() {
+
     this.userService.isAdmin().subscribe(
       (response) => this.onIsAdminClubsSuccess(response),
       (error) => this.onError(error)
@@ -410,7 +413,6 @@ export class ViewComponent implements OnInit {
     const eventsdata = JSON.parse(response._body);
     // console.log(eventsdata.eventData);
     this.eventsDetails = eventsdata.eventData.filter(function (element, index) {
-      // console.log(element.id)
       return (element.id[0] === eid);
     })[0];
 
@@ -434,7 +436,7 @@ export class ViewComponent implements OnInit {
       (response) => this.shareEventSuccess(response),
       (error) => this.onError(error)
     )
-    // console.log(this.eventsDetails);
+
   }
   shareEventSuccess(response) {
     const eventRes = JSON.parse(response._body);
@@ -455,7 +457,9 @@ export class ViewComponent implements OnInit {
     this.api.getDefaultMedia().subscriptions.ended.subscribe(
       () => {
         // Set the video to the beginning
-        // console.log("Ended");
+
+        this.multiPlaylist = [];
+        //console.log("Ended");
         //this.api.getDefaultMedia().currentTime = 0;
         // this.api.pause();
         this.nextVideo();
@@ -695,7 +699,8 @@ export class ViewComponent implements OnInit {
   ngOnDestroy() {
     this.cleartimer();
   }
-  createPlaylist(vId, event) {
+  createPlaylist(vId, event, multiplay: Boolean) {
+    this.multiplay = multiplay;
     this.vId = vId;
     this.eId = event.id;
     this.eStrat = event.start;
@@ -706,8 +711,9 @@ export class ViewComponent implements OnInit {
     this.playlistName = '';
     this.createPlaylistModal.open();
   }
-  addToPlaylist(vId, event) {
-    // console.log(event.id)
+  
+  addToPlaylist(vId, event, multiplay: Boolean) {
+    this.multiplay = multiplay;
     this.vId = vId;
     this.eId = event.id;
     this.eStrat = event.start;
@@ -718,10 +724,6 @@ export class ViewComponent implements OnInit {
       (response) => this.onGetPlaylistsSuccess(response),
       (error) => this.onError(error)
     );
-
-
-
-
   }
   onGetPlaylistsSuccess(response) {
     this.playlistOptions = [];
@@ -749,15 +751,19 @@ export class ViewComponent implements OnInit {
     this.playlists['playlistId'] = this.playlistModel;
     this.playlists['user'] = this.userService.user._id;
     this.playlists['token'] = this.userService.token;
-    // console.log(this.vId);
-    // console.log(this.eId);
-    // console.log(this.playlistName);
-    // console.log(this.playlists);
 
-    this.playlistService.updatePlaylists(this.playlists).subscribe(
-      (response) => this.onGetUpdatePlaylistSuccess(response),
-      (error) => this.onError(error)
-    );
+    if (this.multiPlaylist.length > 0 && this.multiplay) {
+      this.playlistService.updatePlaylistsEvents(this.multiPlaylist, this.playlists).subscribe(
+        (response) => this.onGetUpdatePlaylistSuccess(response),
+        (error) => this.onError(error)
+      );
+    } else {
+      this.playlistService.updatePlaylists(this.playlists).subscribe(
+        (response) => this.onGetUpdatePlaylistSuccess(response),
+        (error) => this.onError(error)
+      );
+    }
+
 
   }
   onGetUpdatePlaylistSuccess(response) {
@@ -770,6 +776,7 @@ export class ViewComponent implements OnInit {
     }, 1500);
   }
   addPlaylist() {
+
     this.playlists['vid'] = this.vId;
     this.playlists['eId'] = this.eId;
     this.playlists['eStrat'] = this.eStrat;
@@ -780,11 +787,20 @@ export class ViewComponent implements OnInit {
     this.playlists['user'] = this.userService.user._id;
     this.playlists['token'] = this.userService.token;
 
+    if (this.multiPlaylist.length > 0 && this.multiplay) {
+      this.playlistService.createPlaylistsEvents(this.multiPlaylist, this.playlists).subscribe(
+        (response) => this.onAddPlaylistSuccess(response),
+        (error) => this.onError(error)
+      );
+    } else {
+      this.playlistService.createPlaylists(this.playlists).subscribe(
+        (response) => this.onAddPlaylistSuccess(response),
+        (error) => this.onError(error)
+      );
+    }
 
-    this.playlistService.createPlaylists(this.playlists).subscribe(
-      (response) => this.onAddPlaylistSuccess(response),
-      (error) => this.onError(error)
-    );
+
+
   }
 
   onAddPlaylistSuccess(response) {
@@ -806,8 +822,18 @@ export class ViewComponent implements OnInit {
   onScrubBarMove(e, Container) {
 
     // console.log(this.api.getDefaultMedia().duration);
-
-
     // console.log(e.clientX / Container.width * this.api.getDefaultMedia().duration)
+  }
+
+  selectEvent(e, event) {
+    // console.log(e.checked);
+    if (e.checked) {
+      this.multiPlaylist.push(event);
+    } else {
+      this.multiPlaylist = this.multiPlaylist.filter(item => item !== event);
+    }
+
+    //console.log(this.multiPlaylist)
+
   }
 }

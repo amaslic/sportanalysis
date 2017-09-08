@@ -250,7 +250,7 @@ export class PlaylistViewComponent implements OnInit {
     this.cleartimer();
     var event: any = this.playList[this.currentIndex];
     this.timer = setInterval(() => {
-      if (this.api.getDefaultMedia().currentTime >= parseInt(event.eventEnd)) {
+      if (this.api.getDefaultMedia() && this.api.getDefaultMedia().currentTime >= parseInt(event.eventEnd)) {
         this.api.pause();
         this.cleartimer();
 

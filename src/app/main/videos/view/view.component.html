@@ -77,6 +77,7 @@
   </div>
   <div class="scroll-time" *ngIf="currentIndex===1 && showEvent">
     <div class="timeline-left">
+
       <div class="video-select-box clock">
 
         <div class="clock-time">
@@ -141,11 +142,12 @@
     </div>
   </div>
   <div *ngIf="cuePointData?.title" class="info-layer">
-    <h3>{{ cuePointData?.title }}</h3>
+    <!-- <h3>{{ cuePointData?.title }}</h3> -->
   </div>
 </div>
 <div class="right-sidebar" *ngIf="showEvent">
-
+  <button *ngIf="multiPlaylist?.length > 0" (click)="createPlaylist(video._id,multiPlaylist,true)">Create Playlist</button>
+  <button *ngIf="multiPlaylist?.length > 0" (click)="addToPlaylist(video._id,multiPlaylist,true)">Add to Playlist</button>
   <div class="events-list match-status col-xs-12">
     <h2 class="title">Event list</h2>
     <i class="fa fa-search show-filters" aria-hidden="true" (click)="showFilters = !showFilters"></i>
@@ -186,7 +188,7 @@
 
             <li>
 
-              <md-checkbox class="more-events"></md-checkbox>
+              <md-checkbox class="more-events" (change)="selectEvent($event,event)"></md-checkbox>
               <a style="display:block" class="playlist-info" href="#" (click)="goToEvent($event, event)" *ngIf="event.start !== 'NaN'">
                 <div class="message-img">
                   {{fancyTimeFormat(event.start)}}
@@ -207,9 +209,9 @@
                     <button class="btn dropdown-toggle" type="button" dropdown-open><i class="dropbtn fa fa-ellipsis-h" aria-hidden="true"></i>
                     </button>
                     <ul class="dropdown-menu multi-level" role="menu" aria-labelledby="dropdownMenu">
-                      <!--<li (click)="createPlaylist(video._id,event)">Create Playlist</li>-->
-                      <li id="addtoplay" (click)="createPlaylist(video._id,event)">Add to playlist</li>
-                      <li id="event" *ngIf="isAdmin"  (click)="shareEventlist(video._id,event.id)">Share Event</li>
+                      <li (click)="createPlaylist(video._id,event,false)">Create Playlist</li>
+                      <li id="addtoplay" (click)="addToPlaylist(video._id,event,false)">Add to playlist</li>
+                      <li id="event" *ngIf="isAdmin" (click)="shareEventlist(video._id,event.id)">Share Event</li>
                       <!--<li class="dropdown-submenu">
 
                         <a id="event" *ngIf="isAdmin"  (click)="shareEventlist(video._id,event.id)">Share Event</a>
