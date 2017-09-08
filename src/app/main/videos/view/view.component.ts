@@ -275,6 +275,9 @@ export class ViewComponent implements OnInit {
               this.trackingJsonData = response.recording.annotations.annotation;
 
               this.trackingJsonData.forEach((event, index) => {
+
+                // event.checked = true;
+
                 if (event.start !== "NaN") {
                   if (this.trackEventCheck.indexOf(event.name) == -1) {
                     this.trackEventCheck.push(event.name);
@@ -312,7 +315,7 @@ export class ViewComponent implements OnInit {
                   );
                 }
               });
-              console.log("TRACK", this.track);
+              // console.log("TRACK", this.track);
               // console.info('Event', this.trackEvent);
               this.myOptions = this.trackTeam;
               this.myOptions1 = this.trackEvent;
@@ -772,6 +775,7 @@ export class ViewComponent implements OnInit {
       this.updatePlaylistModal.close()
       this.updateMessage = '';
     }, 1500);
+    this.deselectAll();
   }
   addPlaylist() {
 
@@ -797,9 +801,6 @@ export class ViewComponent implements OnInit {
         (error) => this.onError(error)
       );
     }
-
-
-
   }
 
   onAddPlaylistSuccess(response) {
@@ -811,10 +812,11 @@ export class ViewComponent implements OnInit {
       this.createPlaylistModal.close()
       this.saveMessage = '';
     }, 1500);
+    this.deselectAll();
   }
   onChangeEvent(e) {
 
-    console.log(this.playlistOptions);
+    //console.log(this.playlistOptions);
 
 
   }
@@ -825,14 +827,20 @@ export class ViewComponent implements OnInit {
   }
 
   selectEvent(e, event) {
-    console.log(e.checked);
+    //console.log(e.checked);
     if (e.checked) {
       this.multiPlaylist.push(event);
     } else {
       this.multiPlaylist = this.multiPlaylist.filter(item => item !== event);
     }
 
-    console.log(this.multiPlaylist)
+    // console.log(this.multiPlaylist)
 
+  }
+  deselectAll() {
+    this.multiPlaylist = [];
+    this.trackingJsonData.forEach((event, index) => {
+      event.checked = false;
+    });
   }
 }
