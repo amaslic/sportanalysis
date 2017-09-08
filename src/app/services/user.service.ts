@@ -23,7 +23,7 @@ export class UserService {
   public token: String;
 
   constructor(private http: Http, private localStorageService: LocalStorageService) {
-    console.log('User service initialised...');
+    // console.log('User service initialised...');
     this.user = <User>this.loadUserFromStorage();
     this.token = <string>this.loadTokenFromStorage();
   }

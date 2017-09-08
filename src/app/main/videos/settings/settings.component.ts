@@ -239,8 +239,8 @@ export class VideoSettingsComponent implements OnInit {
 
   updateBothClubId(response,f){
       response._body = JSON.parse(response._body);
-      f.value.team1 = response._body.club._id;
       this.allClubList.push(response._body.club);
+      f.value.team1 = response._body.club._id;
 
       if(f.value.team2 != '' && f.value.team2 != null){
       this.clubService.createClub({name: f.value.team2})

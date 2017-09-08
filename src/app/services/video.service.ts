@@ -27,7 +27,7 @@ export class VideoService {
   }
 
   upload(data: any) {
-    console.log(data);
+    // console.log(data);
     const form: any = new FormData();
     form.append('user', data.user);
     form.append('title', data.title);
@@ -35,11 +35,23 @@ export class VideoService {
     form.append('date', data.date);
     form.append('type', data.type);
     form.append('club', data.clubName);
+
+    form.append('club2', data.clubName2);
+    form.append('competition', data.competition);
+    form.append('description', data.description);
+    form.append('scoreTeam1', data.scoreTeam1);
+    form.append('scoreTeam2', data.scoreTeam2);
+    form.append('season', data.season);
+    form.append('tacticsTeam1', data.tacticsTeam1);
+    form.append('tacticsTeam2', data.tacticsTeam2);
+    form.append('team1', data.team1);
+    form.append('team2', data.team2);
+
     const headers = new Headers({ 'Authorization': data.token });
     const options = new RequestOptions({ headers: headers });
 
     return this.p_http.withUploadProgressListener(progress => {
-      console.log(`Uploading ${progress.percentage}%`);
+      // console.log(`Uploading ${progress.percentage}%`);
       this.progressSubject.next(progress.percentage);
     }).post(this.baseApiUrl + 'video/upload', form, options)
   }
@@ -53,7 +65,7 @@ export class VideoService {
   getVideoById(id: any, token: String) {
     const headers = new Headers({ 'Authorization': token });
     const options = new RequestOptions({ headers: headers });
-    console.log('url' + this.baseApiUrl + 'video/getById?id=' + id);
+    // console.log('url' + this.baseApiUrl + 'video/getById?id=' + id);
     return this.http.get(this.baseApiUrl + 'video/getById?id=' + id, options);
   }
 

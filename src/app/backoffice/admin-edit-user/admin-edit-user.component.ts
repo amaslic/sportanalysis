@@ -72,7 +72,7 @@ export class AdminEditUserComponent implements OnInit {
       if (!f.valid) {
           return false;
       }
-      console.log(this.user);
+    //   console.log(this.user);
 
       var clubname = this.user.club;
       var userclub = this.AllClubList.filter(function (element, index) {
@@ -93,9 +93,9 @@ export class AdminEditUserComponent implements OnInit {
 
   updateClubId(response){
     response._body = JSON.parse(response._body);
-      this.user.club = response._body.club._id;
-      this.updateProfile(this.user);
-      this.AllClubList.push(response._body.club);
+    this.AllClubList.push(response._body.club);
+    this.user.club = response._body.club._id;
+    this.updateProfile(this.user);
   }
 
   updateProfile(user){
@@ -118,14 +118,14 @@ export class AdminEditUserComponent implements OnInit {
 
   onError(error) {
       const errorBody = JSON.parse(error._body);
-      console.error(errorBody);
+    //   console.error(errorBody);
       this.errormsg = errorBody.message;
       this.editUserErrorModal.open();
   }
 
   onErrorEditProfile(error) {
     const errorBody = JSON.parse(error._body);
-      console.error(errorBody);
+    //   console.error(errorBody);
       this.errormsg = errorBody.message;
       this.editUserErrorModal.open();
     

@@ -207,12 +207,12 @@ form.upload-inputs{
         margin-top: 26px;
 }
 :host >>> .completer-input {border: none !important;outline: none;}
-:host >>> #selectClub{
+:host >>> #selectClub, #selectClub2, #selectTeam1, #selectTeam2{
         border: 1px solid #767d9a !important;
         display: block;
         width: 100%;
         height: 34px;
-        padding: 6px 12px;
+        padding: 6px 11px;
         font-size: 14px;
         line-height: 1.42857143;
         color: #555;
@@ -240,6 +240,11 @@ form.upload-inputs{
 :host >>> .completer-input:-moz-placeholder { /* Firefox 18- */
   color :#b6bac9;
   font-weight:bold;
+}
+#video-metadata.form-inline .control-label{
+    color: #555555;
+    display: block;
+    margin-top: 5px;
 }
 
 @media (max-width: 1339px) {
@@ -316,4 +321,16 @@ form.upload-inputs{
     #video-metadata .form-group{
         width: 100%;
     }
+}
+
+.margin-bottom-10{
+    margin-bottom: 10px;
+}
+
+.form-group {
+    margin-right: 10px !important;
+}
+
+md-radio-button {
+    padding-right: 10px;
 }

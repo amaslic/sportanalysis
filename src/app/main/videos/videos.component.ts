@@ -49,7 +49,7 @@ export class VideosComponent implements OnInit {
 
   onGetVideosSuccess(response) {
     this.videoList = JSON.parse(response._body);
-    console.log(this.videoList);
+    // console.log(this.videoList);
   }
 
   onError(error) {

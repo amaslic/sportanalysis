@@ -42,12 +42,12 @@ export class PlaylistService {
         return this.http.get(this.baseApiUrl + 'playlist/fetchAll', options);
     }
     createPlaylists(plist: Playlist) {
-        console.log('plist' + plist);
+        // console.log('plist' + plist);
 
         return this.http.post(this.baseApiUrl + 'playlist/create', plist);
     }
     updatePlaylists(plist: Playlist) {
-        console.log('plist' + plist);
+        // console.log('plist' + plist);
         return this.http.post(this.baseApiUrl + 'playlist/updatePlaylist', plist);
     }
     fetchPlaylistData(token: String, id) {

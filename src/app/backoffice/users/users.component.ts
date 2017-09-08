@@ -134,7 +134,7 @@ export class UsersComponent implements OnInit {
     this.successmsg = this.activateUserResponce.message;
     this.userSucessModal.open()
 
-    console.log(this.activateUserResponce);
+    // console.log(this.activateUserResponce);
     this.ngOnInit();
     this.activetable.resize.emit();
     this.deactivetable.resize.emit();
@@ -150,7 +150,7 @@ export class UsersComponent implements OnInit {
     this.deactivateUserResponce = JSON.parse(response._body);
 
 
-    console.log(this.deactivateUserResponce);
+    // console.log(this.deactivateUserResponce);
     this.successmsg = this.deactivateUserResponce.message;
     this.userSucessModal.open()
     this.ngOnInit();

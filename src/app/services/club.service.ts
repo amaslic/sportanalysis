@@ -46,7 +46,7 @@ export class ClubService {
   }
 
   approveClub(data: any, token: String) {
-    console.log(data);
+    // console.log(data);
     const headers = new Headers({
       'Authorization': token
     });
@@ -59,7 +59,7 @@ export class ClubService {
     form.append('logoFile', data.logo._file);
     form.append('id', data.id);
     return this.p_http.withUploadProgressListener(progress => {
-      console.log(`Uploading ${progress.percentage}%`);
+      // console.log(`Uploading ${progress.percentage}%`);
       this.progressSubject.next(progress.percentage);
     }).post(this.baseApiUrl + 'club/activate', form, options);
   }
@@ -100,6 +100,55 @@ export class ClubService {
       headers: headers
     });
     return this.http.get(this.baseApiUrl + 'club/fetchAll', options);
+  }
+
+  addAndApproveClub(data: any, token: String) {
+    // console.log(data);
+    const headers = new Headers({
+      'Authorization': token
+    });
+    const options = new RequestOptions({
+      headers: headers
+    });
+    const form: any = new FormData();
+    form.append('name', data.newClubName);
+    form.append('slug', data.newClubSlug);
+    form.append('logoFile', data.logo._file);
+    return this.p_http.withUploadProgressListener(progress => {
+      // console.log(`Uploading ${progress.percentage}%`);
+      this.progressSubject.next(progress.percentage);
+    }).post(this.baseApiUrl + 'club/addandapprove', form, options);
+  }
+
+  editClub(data: any, token: String) {
+    // console.log(data);
+    const headers = new Headers({
+      'Authorization': token
+    });
+    const options = new RequestOptions({
+      headers: headers
+    });
+    const form: any = new FormData();
+    form.append('name', data.editClubName);
+    form.append('slug', data.editClubSlug);
+    if(data.updatelogo)
+        form.append('logoFile', data.logo._file);
+    form.append('id', data.id);
+    form.append('updateLogo', data.updatelogo);
+    return this.p_http.withUploadProgressListener(progress => {
+      // console.log(`Uploading ${progress.percentage}%`);
+      this.progressSubject.next(progress.percentage);
+    }).post(this.baseApiUrl + 'club/activate', form, options);
+  }
+
+  updateClubwithoutLogo(token: String,club) {
+    const headers = new Headers({
+      'Authorization': token
+    });
+    const options = new RequestOptions({
+      headers: headers
+    });
+    return this.http.post(this.baseApiUrl + 'club/updateClubwithoutLogo',club, options);
   }
 
 }

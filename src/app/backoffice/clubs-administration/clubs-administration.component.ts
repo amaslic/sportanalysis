@@ -14,6 +14,7 @@ import {
 import {
   GlobalVariables
 } from './../../models/global.model';
+import { ViewChild } from '@angular/core';
 @Component({
   selector: 'app-clubs-administration',
   templateUrl: './clubs-administration.component.html',
@@ -26,12 +27,19 @@ export class ClubsAdministrationComponent implements OnInit {
   loadingIndicator: boolean = true;
   reorderable: boolean = true;
   activatedClubList: Club[] = [];
+  newClub: any = [];
+  editClub: any = [];
+  showEditForm: boolean = false;
+  selectedIndex:number=0;
 
   // columns = [
   //   { prop: 'ClubName' }
   // ];
 
-  constructor(private clubService: ClubService, private userService: UserService) {}
+  @ViewChild('form') form;
+  constructor(private clubService: ClubService, private userService: UserService) {
+    //this.selectedIndex = "1";
+  }
 
   ngOnInit() {
     this.getClubs();
@@ -57,7 +65,7 @@ export class ClubsAdministrationComponent implements OnInit {
 
   onError(error) {
     const errorBody = JSON.parse(error._body);
-    console.error(errorBody);
+    // console.error(errorBody);
     alert(errorBody.msg);
   }
 
@@ -74,6 +82,11 @@ export class ClubsAdministrationComponent implements OnInit {
   generateNiceLinkName(){
    this.selectedClub[0].NiceLinkName = this.slugify(this.selectedClub[0].name);
   //  console.log(this.selectedClub[0].NiceLinkName)
+  }
+
+  generateNewClubNiceLinkName(){
+    if(this.newClub.name)
+      this.newClub.NiceLinkName = this.slugify(this.newClub.name);
   }
 
   slugify(text){
@@ -111,6 +124,65 @@ export class ClubsAdministrationComponent implements OnInit {
     }
   }
 
+  onSubmitNewClub(f) {
+    // console.log(f.value);
+ 
+    if (!f.valid) {
+      return false;
+    }
+
+    if(typeof(this.newClub.selectedFile) != 'undefined')
+    {
+      let data = f.form.getRawValue();
+      data.token = this.userService.token;
+      data.user = this.userService.user._id;
+      data.logo = this.newClub.selectedFile;
+      //data.id = this.selectedClub[0]._id;
+       //console.log(data);
+      this.clubService.addAndApproveClub(data, this.userService.token).subscribe(
+        (response) => this.onAddAndApproveClubSuccess(response),
+        (error) => this.onError(error)
+      );
+    }else{
+      alert('Please select file.');
+    }
+  }
+
+  onSubmitEditClub(f) {
+    // console.log(f.value);
+ 
+    if (!f.valid) {
+      return false;
+    }
+    
+    if(this.editClub.updateLogo){
+        if(typeof(this.editClub.selectedFile) != 'undefined')
+        {
+          let data = f.form.getRawValue();
+          data.token = this.userService.token;
+          data.user = this.userService.user._id;
+          data.logo = this.editClub.selectedFile;
+          data.id = this.editClub.Id;
+          data.updatelogo = this.editClub.updateLogo;
+           console.log(data);
+           console.log(data.id);
+          this.clubService.editClub(data, this.userService.token).subscribe(
+            (response) => this.oneditClubSuccess(response),
+            (error) => this.onError(error)
+          );
+        }else{
+          alert('Please select file.');
+        }
+    }else{
+      console.log(this.editClub);
+
+         this.clubService.updateClubwithoutLogo(this.userService.token,{id: this.editClub.Id,name: this.editClub.name, slug: this.editClub.NiceLinkName, location: null}).subscribe(
+            (response) => this.oneditClubSuccess(response),
+            (error) => this.onError(error)
+          );
+    }
+  }
+
   onApproveClubSuccess(response){
     // console.log(response);
      this.getClubs();
@@ -118,11 +190,47 @@ export class ClubsAdministrationComponent implements OnInit {
      alert("Club Approved");
   }
 
+  oneditClubSuccess(response){
+    this.showEditForm = false;
+     //this.getClubs();
+     this.getActivatedClubs();
+     alert("Club Updated Successfully");
+  }
+
+  selectedIndexChange(val :number ){
+    console.log(val);
+    this.selectedIndex=val;
+  }
+
+  onAddAndApproveClubSuccess(response){
+    // console.log(response);
+    this.form.nativeElement.reset();
+    // console.log(this.newClub);
+     //this.getClubs();
+     this.getActivatedClubs();
+     alert("Club Approved");
+     this.newClub = [];
+    //  this.selectedIndexChange(1);
+     
+  }
+
   onSelectFile(e) {
     // console.log(e);
     const files = e.target.files;
     for (let i = 0; i < files.length; i++) {
       this.selectedFile = {
+        name: files[i].name,
+        size: files[i].size,
+        _file: files[i]
+      };
+    }
+    e.target.files = null;
+  }
+
+  onSelectNewLogoFile(e){
+    const files = e.target.files;
+    for (let i = 0; i < files.length; i++) {
+      this.newClub.selectedFile = {
         name: files[i].name,
         size: files[i].size,
         _file: files[i]
@@ -150,6 +258,41 @@ export class ClubsAdministrationComponent implements OnInit {
       },
       (error) => this.onError(error)
     );
+  }
+
+  editClubDetails(club){
+    
+    this.showEditForm = true;
+    this.editClub.Id = club._id;
+    this.editClub.name = club.name;
+    this.editClub.NiceLinkName = club.slug;
+    this.editClub.logo = club.logo;
+    this.editClub.updateLogo = false;
+  }
+
+  updateLogo(club){
+    this.editClub.updateLogo = true;
+  }
+
+  cancelUpdateLogo(club){
+    this.editClub.updateLogo = false;
+  }
+
+  cancelUpdate(club){
+    this.showEditForm = false;
+    this.editClub = [];
+  }
+
+  onSelectEditLogoFile(e) {
+    const files = e.target.files;
+    for (let i = 0; i < files.length; i++) {
+      this.editClub.selectedFile = {
+        name: files[i].name,
+        size: files[i].size,
+        _file: files[i]
+      };
+    }
+    e.target.files = null;
   }
 
 }
