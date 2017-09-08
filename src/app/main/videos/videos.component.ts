@@ -45,7 +45,6 @@ export class VideosComponent implements OnInit {
     );
   }
   onClubStatusSuccess(response) {
-    console.log(response);
     const clubResp = JSON.parse(response._body);
     this.clubActive = clubResp.activated;
     if (!this.clubActive) {
@@ -77,8 +76,8 @@ export class VideosComponent implements OnInit {
 
   onError(error) {
     const errorBody = JSON.parse(error._body);
-    console.error(errorBody);
-    alert(errorBody.msg);
+    // console.error(errorBody);
+    alert(errorBody.message);
   }
 
 }
