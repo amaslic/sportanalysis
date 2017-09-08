@@ -21,6 +21,12 @@ import {
 import {
   GlobalVariables
 } from './../../models/global.model';
+import {
+  Video
+} from './../../models/video.model';
+import {
+  VideoService
+} from './../../services/video.service';
 @Component({
   selector: 'app-club',
   templateUrl: './club.component.html',
@@ -32,19 +38,45 @@ export class ClubComponent implements OnInit {
   private slug: String;
   private club;
   private baseImageUrl = GlobalVariables.BASE_IMAGE_URL;
+  private clubActive: boolean;
+  grid: boolean;
+  list: boolean;
+  videoList: Video[];
   @ViewChild('SucessModal') SucessModal;
   @ViewChild('ErrorModal') ErrorModal;
-  constructor(private clubService: ClubService, private userService: UserService, private route: ActivatedRoute) {
+  constructor(private clubService: ClubService, private userService: UserService, private route: ActivatedRoute, private videoService: VideoService) {
   }
 
   ngOnInit() {
     this.sub = this.route.params.subscribe(params => {
       this.slug = params['slug'];
       this.getClub(this.slug);
+      this.getVideos();
+      this.getVideos();
+      this.gridView();
     });
 
   }
-
+  getVideos() {
+    // console.info("users: "+JSON.stringify(this.userService));
+    // console.log(this.userService.user.club);
+    this.videoService.getVideosClub(this.slug, this.userService.token).subscribe(
+      (response) => this.onGetVideosSuccess(response),
+      (error) => this.onError(error)
+    );
+  }
+  gridView() {
+    this.grid = true;
+    this.list = false;
+  }
+  listView() {
+    this.grid = false;
+    this.list = true;
+  }
+  onGetVideosSuccess(response) {
+    this.videoList = JSON.parse(response._body);
+    //console.log(this.videoList);
+  }
   getClub(slug) {
     this.clubService.getClubBySlug(slug)
       .subscribe(
@@ -61,6 +93,7 @@ export class ClubComponent implements OnInit {
       document.getElementById("site-logo").setAttribute('src', this.baseImageUrl + this.club.logo);
     }
     if (this.club) {
+      this.clubActive = this.club.activated;
       if (this.club.activated == false) {
         this.errormsg = "Club is deactivated by Admin.";
       }
@@ -69,6 +102,8 @@ export class ClubComponent implements OnInit {
       }
 
     }
+
+
   }
 
   onError(error) {
