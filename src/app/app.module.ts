@@ -30,6 +30,7 @@ import { VideoService } from './services/video.service';
 import { TrackingDataService } from './services/trackingData.service';
 import { ClubService } from './services/club.service';
 import { PlaylistService } from './services/playlist.service';
+import { TeamService } from './services/team.service';
 
 import { MainComponent } from './main/main.component';
 import { AdminGuard } from './admin-guard.service';
@@ -49,6 +50,7 @@ import { BackofficeComponent } from './backoffice/backoffice.component';
 import { UsersComponent } from './backoffice/users/users.component';
 import { AdminAddUserComponent } from './backoffice/admin-add-user/admin-add-user.component';
 import { AdminEditUserComponent } from './backoffice/admin-edit-user/admin-edit-user.component';
+import { TeamsComponent } from './backoffice/teams/teams.component';
 
 import { PlaylistsComponent } from './backoffice/playlist/playlists.component';
 
@@ -108,6 +110,7 @@ const appRoutes: Routes = [
       { path: 'video-overview', component: VideoOverviewComponent },
       { path: 'add-user', component: AdminAddUserComponent },
       { path: 'edit-user/:id', component: AdminEditUserComponent },
+      { path: 'teams', component: TeamsComponent },
       { path: '*', component: UsersComponent }
     ]
   },
@@ -134,6 +137,7 @@ const appRoutes: Routes = [
     FooterComponent,
     BackofficeComponent,
     UsersComponent,
+    TeamsComponent,
     OrderByPipe,
     ProfileComponent,
     ProfileMainComponent,
@@ -178,7 +182,7 @@ const appRoutes: Routes = [
     MultiselectDropdownModule,
     Ng2CompleterModule
   ],
-  providers: [UserService, VideoService, TrackingDataService, AuthGuard, AdminGuard, ClubService, PlaylistService],
+  providers: [UserService, VideoService, TrackingDataService, AuthGuard, AdminGuard, ClubService, PlaylistService,TeamService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
