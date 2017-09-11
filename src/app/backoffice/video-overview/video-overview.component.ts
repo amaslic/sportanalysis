@@ -125,13 +125,13 @@ export class VideoOverviewComponent implements OnInit {
 
         var videoClubName = element.club;
         var videoClub = this.allClubList.filter(function (element1, index) {
-        return (element1._id === videoClubName);
+          return (element1._id === videoClubName);
         })[0];
-      
-        if(typeof(videoClub) != 'undefined'){
-            element.club = videoClub.name;
-        }else{
-            element.club = '';
+
+        if (typeof (videoClub) != 'undefined') {
+          element.club = videoClub.name;
+        } else {
+          element.club = '';
         }
 
       });
@@ -173,7 +173,7 @@ export class VideoOverviewComponent implements OnInit {
     userlist.forEach((usr, index) => {
       this.trackUserlist.push({
         'id': usr._id,
-        'name': usr.firstName
+        'name': usr.firstName + ' ' + usr.lastName
       });
     });
     this.userlistOptions = this.trackUserlist;
