@@ -45,9 +45,8 @@ export class VideosComponent implements OnInit {
     );
   }
   onClubStatusSuccess(response) {
-    // console.log(response);
     const clubResp = JSON.parse(response._body);
-    if(clubResp){
+    if (clubResp) {
       this.clubActive = clubResp.activated;
       if (!this.clubActive) {
         this.errormsg = "Club is deactivated by Admin.";
@@ -79,8 +78,8 @@ export class VideosComponent implements OnInit {
 
   onError(error) {
     const errorBody = JSON.parse(error._body);
-    console.error(errorBody);
-    alert(errorBody.msg);
+    // console.error(errorBody);
+    alert(errorBody.message);
   }
 
 }

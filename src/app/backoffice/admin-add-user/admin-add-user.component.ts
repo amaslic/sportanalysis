@@ -37,11 +37,15 @@ export class AdminAddUserComponent implements OnInit {
   clubData = ['test'];
   activatedClubList: any;
   allClubList: any;
-
+  public roles = [
+    { value: 'true', display: 'Coach' },
+    { value: 'false', display: 'Player' }
+  ];
 
   @ViewChild('regSucessModal') regSucessModal;
   @ViewChild('regErrorModal') regErrorModal;
   constructor(private completerService: CompleterService, private clubService: ClubService, private userService: UserService, r: Router) {
+
     this.router = r;
     this.clubCtrl = new FormControl();
 
@@ -49,6 +53,7 @@ export class AdminAddUserComponent implements OnInit {
   }
 
   ngOnInit() {
+    //this.user.coach = false;
     this.getAllClubs();
     this.getActivatedClubs();
     this.filteredClubs = this.clubCtrl.valueChanges
@@ -66,31 +71,31 @@ export class AdminAddUserComponent implements OnInit {
     if (!f.valid) {
       return false;
     }
-      var clubname = this.user.club;
-      var userclub = this.allClubList.filter(function (element, index) {
-        return (element.name.toLowerCase() === clubname.toLowerCase());
-      })[0];
-  
-      if(typeof(userclub) == 'undefined'){
-        this.clubService.createClub({name: clubname})
-          .subscribe(
-          (response) => this.updateClubId(response),
-          (error) => this.onError(error)
-          );
-      }else{
-        this.user.club = userclub._id;
-        this.createNewUser(this.user);
-      }
+    var clubname = this.user.club;
+    var userclub = this.allClubList.filter(function (element, index) {
+      return (element.name.toLowerCase() === clubname.toLowerCase());
+    })[0];
+
+    if (typeof (userclub) == 'undefined') {
+      this.clubService.createClub({ name: clubname })
+        .subscribe(
+        (response) => this.updateClubId(response),
+        (error) => this.onError(error)
+        );
+    } else {
+      this.user.club = userclub._id;
+      this.createNewUser(this.user);
+    }
   }
 
-  updateClubId(response){
+  updateClubId(response) {
     response._body = JSON.parse(response._body);
     this.allClubList.push(response._body.club);
     this.user.club = response._body.club._id;
     this.createNewUser(this.user);
   }
 
-  createNewUser(user){
+  createNewUser(user) {
     this.userService.createNewUser(this.user)
       .subscribe(
       (response) => this.onSignupSuccess(response),
@@ -117,14 +122,14 @@ export class AdminAddUserComponent implements OnInit {
     // console.error(errorBody);
     this.errormsg = errorBody.message;
     this.regErrorModal.open();
-    
+
     var clubId = this.user.club;
     var userclub = this.allClubList.filter(function (element, index) {
-        return (element._id === clubId);
-        })[0];
+      return (element._id === clubId);
+    })[0];
 
-        if(typeof(userclub) != 'undefined')
-            this.user.club = userclub.name;
+    if (typeof (userclub) != 'undefined')
+      this.user.club = userclub.name;
 
     // alert(errorBody.msg);
   }

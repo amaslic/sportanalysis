@@ -275,6 +275,9 @@ export class ViewComponent implements OnInit {
               this.trackingJsonData = response.recording.annotations.annotation;
 
               this.trackingJsonData.forEach((event, index) => {
+
+                // event.checked = true;
+
                 if (event.start !== "NaN") {
                   if (this.trackEventCheck.indexOf(event.name) == -1) {
                     this.trackEventCheck.push(event.name);
@@ -391,7 +394,7 @@ export class ViewComponent implements OnInit {
     // alert(errorBody.message);
   }
 
-  currentIndex = 0; //Set this to 0 to enable Intro video;
+  currentIndex = 1; //Set this to 0 to enable Intro video;
   currentItem: IMedia;
 
   shareEventlist(vid, eid) {
@@ -711,7 +714,7 @@ export class ViewComponent implements OnInit {
     this.playlistName = '';
     this.createPlaylistModal.open();
   }
-  
+
   addToPlaylist(vId, event, multiplay: Boolean) {
     this.multiplay = multiplay;
     this.vId = vId;
@@ -774,6 +777,7 @@ export class ViewComponent implements OnInit {
       this.updatePlaylistModal.close()
       this.updateMessage = '';
     }, 1500);
+    this.deselectAll();
   }
   addPlaylist() {
 
@@ -786,7 +790,8 @@ export class ViewComponent implements OnInit {
     this.playlists['playlistName'] = this.playlistName;
     this.playlists['user'] = this.userService.user._id;
     this.playlists['token'] = this.userService.token;
-
+    console.log(this.multiplay);
+    console.log('playlist', this.multiPlaylist);
     if (this.multiPlaylist.length > 0 && this.multiplay) {
       this.playlistService.createPlaylistsEvents(this.multiPlaylist, this.playlists).subscribe(
         (response) => this.onAddPlaylistSuccess(response),
@@ -798,9 +803,6 @@ export class ViewComponent implements OnInit {
         (error) => this.onError(error)
       );
     }
-
-
-
   }
 
   onAddPlaylistSuccess(response) {
@@ -812,11 +814,9 @@ export class ViewComponent implements OnInit {
       this.createPlaylistModal.close()
       this.saveMessage = '';
     }, 1500);
+    this.deselectAll();
   }
   onChangeEvent(e) {
-
-    // console.log(this.playlistOptions);
-
 
   }
   onScrubBarMove(e, Container) {
@@ -826,14 +826,16 @@ export class ViewComponent implements OnInit {
   }
 
   selectEvent(e, event) {
-    // console.log(e.checked);
     if (e.checked) {
       this.multiPlaylist.push(event);
     } else {
       this.multiPlaylist = this.multiPlaylist.filter(item => item !== event);
     }
-
-    //console.log(this.multiPlaylist)
-
+  }
+  deselectAll() {
+    this.multiPlaylist = [];
+    this.trackingJsonData.forEach((event, index) => {
+      event.checked = false;
+    });
   }
 }

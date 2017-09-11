@@ -38,6 +38,7 @@ export class ClubComponent implements OnInit {
   private slug: String;
   private club;
   private baseImageUrl = GlobalVariables.BASE_IMAGE_URL;
+  private baseVideoUrl = GlobalVariables.BASE_VIDEO_URL;
   private clubActive: boolean;
   grid: boolean;
   list: boolean;

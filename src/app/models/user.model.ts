@@ -9,6 +9,7 @@ export class User {
   public phone: string;
   private password: string;
   private confirmed: boolean;
+  public coach: boolean;
 
-  constructor() {}
+  constructor() { }
 }

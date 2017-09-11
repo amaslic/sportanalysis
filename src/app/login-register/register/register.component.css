@@ -95,6 +95,12 @@ form .form-group .form-control::-ms-input-placeholder { /* Microsoft Edge */
 .mat-checkbox-checked /deep/ .mat-checkbox-background {
   background-color: #1db954;
 }
+.role-select{
+  padding: 10px !important;
+}
+select.form-control{
+  height: auto !important;
+}
 :host >>> .autocompleteInput {border: none !important;outline: none;padding: 5px 0px 0px 8px;}
 :host >>> .autocompleteControl{
         border: 1px solid #767d9a;

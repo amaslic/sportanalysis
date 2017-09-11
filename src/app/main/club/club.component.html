@@ -2,7 +2,7 @@
   <!--<p  class="upload-search">
     <a [routerLink]="['/videos/upload']">Upload Video</a>
   </p>-->
-  <p class="upload-search">
+  <p class="upload-search" *ngIf="videoList">
     <span class=viewbtns>
           <i (click)="gridView()" [ngClass]="{'active':grid}" class="fa fa-table" aria-hidden="true"></i>
           <i (click)="listView()" [ngClass]="{'active':list}" class="fa fa-list" aria-hidden="true"></i>
@@ -11,7 +11,7 @@
 
   </p>
 
-  <h3 class="recent">{{club.name}} Videos</h3>
+  <h3 class="recent" *ngIf="videoList">{{club.name}} Videos</h3>
   <perfect-scrollbar *ngIf="grid">
     <div class="all-videos col-md-12" *ngIf="videoList">
       <!--<ul class="list-unstyled video-list-thumbs row" *ngIf="videoList">

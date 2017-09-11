@@ -25,7 +25,7 @@ import {
 export class MainComponent implements OnInit {
   clubid: any;
   club: any;
-
+  admin: Boolean;
   private _opened = true;
   private router: Router;
   private sub: any;
@@ -43,6 +43,7 @@ export class MainComponent implements OnInit {
   constructor(private localStorageService: LocalStorageService, r: Router, private route: ActivatedRoute, private clubService: ClubService, private userService: UserService) {
     this.router = r;
     let user: any = this.localStorageService.get('user');
+    this.admin = user['admin'];
     this.router.events.subscribe((val: any) => {
       if (val.url === "/") {
         this.router.navigateByUrl('/club/' + user.club);
@@ -66,9 +67,7 @@ export class MainComponent implements OnInit {
     );
   }
   onclubInfoSuccess(response) {
-    console.log(response);
     this.club = JSON.parse(response._body);
-
     if (this.club && this.club.name) {
       this.clubid = this.club._id;
       document.getElementById("site-title").textContent = this.club.name;
