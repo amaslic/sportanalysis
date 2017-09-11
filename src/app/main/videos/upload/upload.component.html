@@ -36,7 +36,7 @@
             <input type="file" (change)="onSelectFile($event)" name="attachments" [(ngModel)]="attachments" id="attachments" style="display:none">
           </label>
       </div>
-      <form class="form-inline upload-inputs col-xs-12  col-sm-8 text-center" id="video-metadata" #f="ngForm" (ngSubmit)="onSubmit(f)"
+      <form #form class="form-inline upload-inputs col-xs-12  col-sm-8 text-center" id="video-metadata" #f="ngForm" (ngSubmit)="onSubmit(f)"
         novalidate [ngClass]="{'submited' : f._submitted}">
         <div class="row margin-bottom-10">
           <div class="form-group">
@@ -195,7 +195,7 @@
     </p>
   </modal-content>
   <modal-footer>
-    <button class="btn btn-primary" (click)="uploadSucessModal.close()">Ok</button>
+    <button class="btn btn-primary" (click)="OnClickOfSuccessVideoUpload()">Ok</button>
   </modal-footer>
 </modal>
 <modal #uploadErrorModal class="error-modal">
