@@ -23,6 +23,7 @@ import {
   styleUrls: ['./main.component.css']
 })
 export class MainComponent implements OnInit {
+  coach: Boolean;
   clubid: any;
   club: any;
   admin: Boolean;
@@ -44,6 +45,7 @@ export class MainComponent implements OnInit {
     this.router = r;
     let user: any = this.localStorageService.get('user');
     this.admin = user['admin'];
+    this.coach = user['coach'];
     this.router.events.subscribe((val: any) => {
       if (val.url === "/") {
         this.router.navigateByUrl('/club/' + user.club);
