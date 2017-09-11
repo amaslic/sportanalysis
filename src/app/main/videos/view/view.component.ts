@@ -4,6 +4,7 @@ import {
   ViewChild
 } from '@angular/core';
 import {
+  Router,
   ActivatedRoute
 } from '@angular/router';
 import {
@@ -69,6 +70,7 @@ export interface IMedia {
   styleUrls: ['./view.component.css']
 })
 export class ViewComponent implements OnInit {
+  create: boolean;
   multiplay: Boolean;
   successmsg: any;
   eventsDetails: any;
@@ -216,7 +218,7 @@ export class ViewComponent implements OnInit {
 
   //@ViewChild('eventTimelineScrollbar') eventTimelineScrollbar;
 
-  constructor(private route: ActivatedRoute, private playlistService: PlaylistService, private videoService: VideoService, private userService: UserService, private trackingDataService: TrackingDataService) { }
+  constructor(private r: Router, private route: ActivatedRoute, private playlistService: PlaylistService, private videoService: VideoService, private userService: UserService, private trackingDataService: TrackingDataService) { }
 
   ngOnInit() {
 
@@ -366,26 +368,34 @@ export class ViewComponent implements OnInit {
   }
   playlist: Array<IMedia>;
   onGetVideoSuccess(response) {
-    this.video = JSON.parse(response._body);
-    this.videoLoaded = true;
-    this.playlist = [{
-      title: 'Intro Video',
-      src: 'assets/videos/intro.mp4',
-      type: 'video/mp4'
-    },
-    {
-      title: this.video.title,
-      src: this.baseVideoUrl + this.video.path,
-      type: this.video.mimetype
-    },
-    {
-      title: 'Outro Video',
-      src: 'assets/videos/outro.mp4',
-      type: 'video/mp4'
-    }
-    ];
 
-    this.currentItem = this.playlist[this.currentIndex];
+    this.video = JSON.parse(response._body);
+
+    if (this.video && this.video.path) {
+      this.videoLoaded = true;
+      this.playlist = [{
+        title: 'Intro Video',
+        src: 'assets/videos/intro.mp4',
+        type: 'video/mp4'
+      },
+      {
+        title: this.video.title,
+        src: this.baseVideoUrl + this.video.path,
+        type: this.video.mimetype
+      },
+      {
+        title: 'Outro Video',
+        src: 'assets/videos/outro.mp4',
+        type: 'video/mp4'
+      }
+      ];
+
+      this.currentItem = this.playlist[this.currentIndex];
+    }
+    else {
+      this.r.navigateByUrl('/videos');
+    }
+
   }
 
   onError(error) {
@@ -703,6 +713,7 @@ export class ViewComponent implements OnInit {
     this.cleartimer();
   }
   createPlaylist(vId, event, multiplay: Boolean) {
+    this.create = true;
     this.multiplay = multiplay;
     this.vId = vId;
     this.eId = event.id;
@@ -716,6 +727,7 @@ export class ViewComponent implements OnInit {
   }
 
   addToPlaylist(vId, event, multiplay: Boolean) {
+    this.create = false;
     this.multiplay = multiplay;
     this.vId = vId;
     this.eId = event.id;
@@ -741,7 +753,7 @@ export class ViewComponent implements OnInit {
 
     });
     this.playlistOptions = this.trackPlaylist;
-    this.updatePlaylistModal.open();
+    this.createPlaylistModal.open();
 
   }
   updatePlaylist() {
@@ -774,7 +786,7 @@ export class ViewComponent implements OnInit {
     // console.log(updateMsg.message);
     this.updateMessage = updateMsg.message;
     setTimeout(() => {
-      this.updatePlaylistModal.close()
+      this.createPlaylistModal.close()
       this.updateMessage = '';
     }, 1500);
     this.deselectAll();

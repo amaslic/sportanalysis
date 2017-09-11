@@ -262,12 +262,9 @@
 </div>
 
 <modal #createPlaylistModal class="error-modal">
-
   <modal-header>
-
   </modal-header>
-
-  <modal-content>
+  <modal-content *ngIf="create">
     <p>
       Create Playlist
     </p>
@@ -288,46 +285,50 @@
         <button class="btn btn-primary" [disabled]="!documentEditForm.form.valid">Create playlist</button>
         <button class="btn btn-primary" (click)="createPlaylistModal.close()">Cancel</button>
       </div>
-
     </form>
   </modal-content>
-
-</modal>
-<modal #updatePlaylistModal class="error-modal">
-  <modal-header>
-
-
-  </modal-header>
-  <modal-content>
+  <modal-content *ngIf="!create">
     <p>
       Add To Playlist
     </p>
-
     <div class="form-group">
       <label class="col-md-4 control-label">Select Playlist</label>
       <ss-multiselect-dropdown class="col-md-5" [options]="playlistOptions" [texts]="playlistTexts" [settings]="playlistSettings"
         [(ngModel)]="playlistModel" (ngModelChange)="onChangeEvent($event)"></ss-multiselect-dropdown>
     </div>
-
-
-
     <div class="form-group pull-left" style="margin-top: 5%" *ngIf="updateMessage">
       <span class="col-md-12">{{updateMessage}}</span>
     </div>
   </modal-content>
-  <modal-footer>
+  <modal-footer *ngIf="!create">
+    <button class=" btn btn-primary " [disabled]="!playlistModel || playlistModel?.length==0 " (click)="updatePlaylist() ">Add</button>
+    <button class="btn btn-primary " (click)="createPlaylistModal.close() ">Cancel</button>
+  </modal-footer>
 
+</modal>
+<!-- <modal #updatePlaylistModal>
+  <modal-header>
+  </modal-header>
+  <modal-content *ngIf="!create">
+    <p>
+      Add To Playlist
+    </p>
+    <div class="form-group">
+      <label class="col-md-4 control-label">Select Playlist</label>
+      <ss-multiselect-dropdown class="col-md-5" [options]="playlistOptions" [texts]="playlistTexts" [settings]="playlistSettings"
+        [(ngModel)]="playlistModel" (ngModelChange)="onChangeEvent($event)"></ss-multiselect-dropdown>
+    </div>
+    <div class="form-group pull-left" style="margin-top: 5%" *ngIf="updateMessage">
+      <span class="col-md-12">{{updateMessage}}</span>
+    </div>
+  </modal-content>
+  <modal-footer *ngIf="!create">
     <button class=" btn btn-primary " [disabled]="!playlistModel || playlistModel?.length==0 " (click)="updatePlaylist() ">Add</button>
     <button class="btn btn-primary " (click)="updatePlaylistModal.close() ">Cancel</button>
-
-
   </modal-footer>
-</modal>
-
+</modal> -->
 <modal #assignEventModal>
   <modal-header>
-
-
   </modal-header>
   <modal-content>
     <p>
@@ -343,11 +344,8 @@
     </div>
   </modal-content>
   <modal-footer>
-
     <button class=" btn btn-primary " [disabled]="!userlistModel || userlistModel?.length==0 " (click)="usersToEvent() ">Share</button>
     <button class="btn btn-primary " (click)="assignEventModal.close() ">Cancel</button>
-
-
   </modal-footer>
 </modal>
 <modal #SucessModal>
@@ -356,7 +354,7 @@
   </modal-header>
   <modal-content>
     <p>
-      <i class="fa fa-check" aria-hidden="true"></i>
+      <i class="fa fa-info" aria-hidden="true"></i>
     </p>
     <p>
       {{successmsg}}
