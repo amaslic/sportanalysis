@@ -159,4 +159,14 @@ export class ClubService {
     return this.http.post(this.baseApiUrl + 'club/updateClubwithoutLogo',club, options);
   }
 
+  deactiveClub(club, token) {
+    const headers = new Headers({
+      'Authorization': token
+    });
+    const options = new RequestOptions({
+      headers: headers
+    });
+    return this.http.post(this.baseApiUrl + 'club/deactive', club , options);
+  }
+
 }
