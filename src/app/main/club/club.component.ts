@@ -33,6 +33,7 @@ import {
   styleUrls: ['./club.component.css']
 })
 export class ClubComponent implements OnInit {
+  videoSucess: any;
   errormsg: string;
   private sub: any;
   private slug: String;
@@ -75,8 +76,16 @@ export class ClubComponent implements OnInit {
     this.list = true;
   }
   onGetVideosSuccess(response) {
-    this.videoList = JSON.parse(response._body);
-    //console.log(this.videoList);
+    this.videoSucess = JSON.parse(response._body);
+    console.log(this.videoSucess);
+    if (this.videoSucess.message) {
+      this.errormsg = this.videoSucess.message;
+      this.ErrorModal.open();
+    } else {
+      this.videoList = this.videoSucess;
+    }
+
+
   }
   getClub(slug) {
     this.clubService.getClubBySlug(slug)
@@ -97,6 +106,7 @@ export class ClubComponent implements OnInit {
       this.clubActive = this.club.activated;
       if (!this.club.activated) {
         this.errormsg = "Club is deactivated by Admin.";
+        this.ErrorModal.open();
       }
       if (!this.club.success) {
         this.errormsg = this.club.message;
