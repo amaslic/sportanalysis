@@ -164,8 +164,6 @@ export class ClubsAdministrationComponent implements OnInit {
           data.logo = this.editClub.selectedFile;
           data.id = this.editClub.Id;
           data.updatelogo = this.editClub.updateLogo;
-           console.log(data);
-           console.log(data.id);
           this.clubService.editClub(data, this.userService.token).subscribe(
             (response) => this.oneditClubSuccess(response),
             (error) => this.onError(error)
@@ -174,8 +172,6 @@ export class ClubsAdministrationComponent implements OnInit {
           alert('Please select file.');
         }
     }else{
-      console.log(this.editClub);
-
          this.clubService.updateClubwithoutLogo(this.userService.token,{id: this.editClub.Id,name: this.editClub.name, slug: this.editClub.NiceLinkName, location: null}).subscribe(
             (response) => this.oneditClubSuccess(response),
             (error) => this.onError(error)
@@ -198,7 +194,7 @@ export class ClubsAdministrationComponent implements OnInit {
   }
 
   selectedIndexChange(val :number ){
-    console.log(val);
+    // console.log(val);
     this.selectedIndex=val;
   }
 
@@ -293,6 +289,17 @@ export class ClubsAdministrationComponent implements OnInit {
       };
     }
     e.target.files = null;
+  }
+
+  deactivateClubDetails(club){
+
+    this.clubService.deactiveClub({id: club._id, logo: club.logo }, this.userService.token).subscribe(
+      (response) => {
+        this. getActivatedClubs();
+        this.clubList.push(club);
+      },
+      (error) => this.onError(error)
+    );
   }
 
 }

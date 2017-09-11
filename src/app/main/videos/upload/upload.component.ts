@@ -44,7 +44,7 @@ export class UploadComponent implements OnInit {
   selectedFile: any = {};
   type = 'Match';
   progress = 0;
-  // private router: Router;
+  private router: Router;
   clubCtrl: FormControl;
   filteredClubs: any;
   allClubList: any;
@@ -54,10 +54,11 @@ export class UploadComponent implements OnInit {
 
   @ViewChild('uploadSucessModal') uploadSucessModal;
   @ViewChild('uploadErrorModal') uploadErrorModal;
+  @ViewChild('form') form;
 
   constructor(private completerService: CompleterService, private clubService: ClubService, private videoService: VideoService, private userService: UserService, private r: Router) {
     videoService.progress$.subscribe((newValue: number) => { this.progress = newValue; });
-    //  this.router = r;
+    this.router = r;
 
     this.clubCtrl = new FormControl();
 
@@ -154,7 +155,7 @@ export class UploadComponent implements OnInit {
       return false;
     }
 
-    //this.uploading = true;
+    this.uploading = true;
     f.value.selectedFile = this.selectedFile;
     f.value.token = this.userService.token;
     f.value.user = this.userService.user._id;
@@ -325,11 +326,15 @@ export class UploadComponent implements OnInit {
   }
 
   onUploadSuccess(response) {
+    this.selectedFile = {};
     this.uploading = false;
+    this.form.nativeElement.reset();
+    this.type = 'Match';
     const res = JSON.parse(response._body);
     this.successmsg = res.message;
     this.uploadSucessModal.open();
-    // this.router.navigateByUrl('/videos');
+    //this.type = 'Match';
+    this.router.navigateByUrl('/videos');
   }
 
   onError(error) {
@@ -355,5 +360,11 @@ export class UploadComponent implements OnInit {
       this.clubData.push(element.name);
     });
     // console.log(this.activatedClubList);
+  }
+
+  OnClickOfSuccessVideoUpload(){
+    console.log('success function');
+    this.router.navigateByUrl('/videos');
+    this.uploadSucessModal.close();
   }
 }

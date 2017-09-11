@@ -208,7 +208,7 @@ form.upload-inputs{
 }
 :host >>> .completer-input {border: none !important;outline: none;}
 :host >>> #selectClub, #selectClub2, #selectTeam1, #selectTeam2{
-        border: 1px solid #767d9a !important;
+        border: 1px solid #767d9a;
         display: block;
         width: 100%;
         height: 34px;
@@ -333,4 +333,12 @@ form.upload-inputs{
 
 md-radio-button {
     padding-right: 10px;
+}
+
+input.ng-invalid {
+    border-left: 3px solid #a94442 !important;
+}
+
+:host >>> ng2-completer.ng-invalid {
+    border-left: 3px solid #a94442 !important;
 }
