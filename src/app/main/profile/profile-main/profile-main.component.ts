@@ -90,6 +90,7 @@ export class ProfileMainComponent implements OnInit {
     }
     this.userService.changePassword(this.cpass)
       .subscribe(
+      (response) => this.onupdateProfileSuccess(response),
       (error) => this.onError(error)
       );
   }
