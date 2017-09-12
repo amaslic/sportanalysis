@@ -142,9 +142,11 @@
           <div class="col-md-8">
             <!--<h3>Add new tracking data file</h3>-->
             <form #form #f="ngForm" (ngSubmit)="onSubmit(f)" novalidate [ngClass]="{'submited' : f._submitted}">
-              <div class="form-group text-center">
-                <button class="btn btn-default  btn-add-tracking" type="submit" [disabled]="!f.form.valid && f._submitted">Add data file</button>
-              </div>
+              <label class="input-group-btn add-files">
+                <span class="btn btn-primary tracking-data">
+                  Upload data file <input type="file" (change)="onSelectFile($event)" id="trackingData" style="display: none;" #fileInput>
+                  </span>
+              </label>
 
               <!--<div class="form-group">
                 <input type="text" name="title" [(ngModel)]="title" class="form-control" placeholder="Title" required title>
@@ -166,12 +168,13 @@
               </div>
               <div class="form-group" style="width:100%">
                 <div class="input-group">
-                  <label class="input-group-btn">
+      
+            <label class="input-group-btn">
               <span class="btn btn-primary tracking-data">
-                Upload data file <input type="file" (change)="onSelectFile($event)" id="trackingData" style="display: none;" #fileInput>
+                <button class="btn btn-default  btn-add-tracking" type="submit" [disabled]="!f.form.valid && f._submitted">Add data file</button>
                 </span>
             </label>
-                  <input type="text" class="form-control" readonly (click)="fileInput.click()" [value]="selectedFile.name">
+                  <input type="text" class="form-control file-name-tracking" readonly (click)="fileInput.click()" [value]="selectedFile.name">
                   <input type="hidden" class="form-control" [(ngModel)]="selectedFile._file" name="trackingDataFile" readonly (click)="fileInput.click()"
                     [value]="selectedFile.name">
                 </div>
