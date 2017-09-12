@@ -26,10 +26,15 @@ export class ProfileMainComponent implements OnInit {
   cFunction: string;
   private router: Router;
   public user: User = new User();
+  public cpass: User = new User();
   successmsg: string;
   errormsg: string;
   public userList: User;
   loadingIndicator: boolean = true;
+  public roles = [
+    { value: 'true', display: 'Coach' },
+    { value: 'false', display: 'Player' }
+  ];
   @ViewChild('updateSucessModal') updateSucessModal;
   @ViewChild('updateErrorModal') updateErrorModal;
   constructor(private userService: UserService, r: Router) { }
@@ -52,7 +57,7 @@ export class ProfileMainComponent implements OnInit {
     this.user = JSON.parse(response._body);
     console.log(this.userList);
     this.loadingIndicator = false;
-
+    this.cpass._id = this.user._id;
     // this.fName = this.userList['firstName'];
     // this.lName = this.userList['lastName'];
     // this.uemail = this.userList['email'];
@@ -72,10 +77,19 @@ export class ProfileMainComponent implements OnInit {
     if (!f.valid) {
       return false;
     }
-    console.log(this.user);
     this.userService.updateProfile(this.user)
       .subscribe(
       (response) => this.onupdateProfileSuccess(response),
+      (error) => this.onError(error)
+      );
+  }
+  changePassword(p) {
+    console.log(p)
+    if (!p.valid) {
+      return false;
+    }
+    this.userService.changePassword(this.cpass)
+      .subscribe(
       (error) => this.onError(error)
       );
   }

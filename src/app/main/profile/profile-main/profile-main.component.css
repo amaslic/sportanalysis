@@ -1,7 +1,7 @@
 .message-box {
     max-width: 900px;
     margin: auto;
-    margin-top: 100px;
+    margin-top: 4%;
 }
 .message-content {
 	background: #767d9a;
@@ -213,7 +213,9 @@ p {
     padding: 0;
 }
 
-
+select.form-control{
+  height: auto !important;
+}
 
 @media (max-width: 991px) {
     .message-content.col-md-8, .message-video.col-md-4{
