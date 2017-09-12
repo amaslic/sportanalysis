@@ -71,10 +71,17 @@ export class UploadComponent implements OnInit {
   ngOnInit() {
     this.getAllClubs();
     this.getActivatedClubs();
-    this.userService.isAdmin().subscribe(
-      (response) => this.onIsAdminClubsSuccess(response),
-      (error) => this.onError(error)
-    );
+
+    var user = this.userService.loadUserFromStorage();
+
+    if(!user['admin'] && !user['coach'] ){
+      this.uploadErrorModal.open();
+    }
+
+    // this.userService.isAdmin().subscribe(
+    //   (response) => this.onIsAdminClubsSuccess(response),
+    //   (error) => this.onError(error)
+    // );
     this.filteredClubs = this.clubCtrl.valueChanges
       .startWith(null)
       .map(name => this.filterClubs(name));
@@ -109,7 +116,6 @@ export class UploadComponent implements OnInit {
     // console.log(userAdmin);
     if (userAdmin.admin) {
       this.isAdmin = true;
-
     }
 
   }

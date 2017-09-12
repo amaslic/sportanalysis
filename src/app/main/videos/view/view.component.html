@@ -162,7 +162,7 @@
       <ss-multiselect-dropdown [options]="myOptions1" [texts]="eventTexts" [settings]="eventSettings" [(ngModel)]="eventModel"
         (ngModelChange)="onChange($event)"></ss-multiselect-dropdown>
     </div>
-    <span class="settings"><a *ngIf="video" [routerLink]="['/videos/settings', video._id]">Settings</a></span>
+    <span class="settings"><a *ngIf="video && isAdminOrCoach" [routerLink]="['/videos/settings', video._id]">Settings</a></span>
 
 
 
@@ -211,7 +211,7 @@
                     <ul class="dropdown-menu multi-level" role="menu" aria-labelledby="dropdownMenu">
                       <li (click)="createPlaylist(video._id,event,false)">Create Playlist</li>
                       <li id="addtoplay" (click)="addToPlaylist(video._id,event,false)">Add to playlist</li>
-                      <li id="event" *ngIf="isAdmin" (click)="shareEventlist(video._id,event.id)">Share Event</li>
+                      <li id="event" *ngIf="isAdminOrCoach" (click)="shareEventlist(video._id,event.id)">Share Event</li>
                       <!--<li class="dropdown-submenu">
 
                         <a id="event" *ngIf="isAdmin"  (click)="shareEventlist(video._id,event.id)">Share Event</a>

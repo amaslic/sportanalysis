@@ -43,10 +43,10 @@ export class VideoSettingsComponent implements OnInit {
   ngOnInit() {
     this.getAllClubs();
     this.getActivatedClubs();
-    this.userService.isAdmin().subscribe(
-      (response) => this.onIsAdminClubsSuccess(response),
-      (error) => this.onError(error)
-    );
+    // this.userService.isAdmin().subscribe(
+    //   (response) => this.onIsAdminClubsSuccess(response),
+    //   (error) => this.onError(error)
+    // );
   }
 
   onIsAdminClubsSuccess(response) {

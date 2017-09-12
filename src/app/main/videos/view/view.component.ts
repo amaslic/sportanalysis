@@ -114,6 +114,7 @@ export class ViewComponent implements OnInit {
   cuePointData: ICuePoint = null;
   enableOverlay: boolean;
   videoLoaded: boolean;
+  isAdminOrCoach: boolean = false;
   public playlists: Playlist = new Playlist();
 
   eventPlayQueue: any = [];
@@ -222,10 +223,18 @@ export class ViewComponent implements OnInit {
 
   ngOnInit() {
 
-    this.userService.isAdmin().subscribe(
-      (response) => this.onIsAdminClubsSuccess(response),
-      (error) => this.onError(error)
-    );
+    var user = this.userService.loadUserFromStorage();
+
+    if(!user['admin'] && !user['coach'] ){
+        this.isAdminOrCoach = false;
+    }else{
+        this.isAdminOrCoach = true;
+    }
+
+    // this.userService.isAdmin().subscribe(
+    //   (response) => this.onIsAdminClubsSuccess(response),
+    //   (error) => this.onError(error)
+    // );
     this.showEvent = true;
     this.sub = this.route.params.subscribe(params => {
       this.videoId = params['id'];
