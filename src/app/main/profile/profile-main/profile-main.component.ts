@@ -19,6 +19,7 @@ import { FormControl } from "@angular/forms";
   styleUrls: ['./profile-main.component.css']
 })
 export class ProfileMainComponent implements OnInit {
+  clubName: any;
   uPhone: any;
   fName: string;
   lName: string;
@@ -57,6 +58,7 @@ export class ProfileMainComponent implements OnInit {
     this.user = JSON.parse(response._body);
     console.log(this.userList);
     this.loadingIndicator = false;
+    this.clubName = this.user.club['name'];
     this.cpass._id = this.user._id;
     // this.fName = this.userList['firstName'];
     // this.lName = this.userList['lastName'];
