@@ -183,6 +183,7 @@ export class ClubsAdministrationComponent implements OnInit {
     // console.log(response);
      this.getClubs();
      this.getActivatedClubs();
+
      alert("Club Approved");
   }
 
@@ -247,10 +248,21 @@ export class ClubsAdministrationComponent implements OnInit {
     // console.log(this.activatedClubList);
   }
 
-  deleteClub(clubId) {
+  deleteClub(clubId,flag) {
     this.clubService.deleteClub(clubId, this.userService.token).subscribe(
       (response) => {
-        this. getActivatedClubs();
+        if(flag == 1){
+            this.activatedClubList = this.activatedClubList.filter(function (element, index) {
+            return (element._id != clubId);
+            });
+        }else{
+            this.clubList = this.clubList.filter(function (element, index) {
+            return (element._id != clubId);
+            });
+            this.selectedClub = [];
+        }
+        //this.getActivatedClubs();
+        //this.getClubs();
       },
       (error) => this.onError(error)
     );
@@ -295,7 +307,11 @@ export class ClubsAdministrationComponent implements OnInit {
 
     this.clubService.deactiveClub({id: club._id, logo: club.logo }, this.userService.token).subscribe(
       (response) => {
-        this. getActivatedClubs();
+        //this. getActivatedClubs();
+        //this.getClubs();
+        this.activatedClubList = this.activatedClubList.filter(function (element, index) {
+            return (element._id != club._id);
+            });
         this.clubList.push(club);
       },
       (error) => this.onError(error)
