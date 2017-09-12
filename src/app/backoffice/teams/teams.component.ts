@@ -25,6 +25,7 @@ export class TeamsComponent implements OnInit {
     errormsg: string;
     successmsg: string;
     deleteteam: any;
+    showProgressBar: boolean = false;
 
     @ViewChild('ErrorModal') errorModal;
     @ViewChild('successModal') successModal;
@@ -49,6 +50,7 @@ export class TeamsComponent implements OnInit {
         if (!f.valid) {
             return false;
         }
+        this.showProgressBar = true;
 
         if (this.updatedId == '') {
             this.teamService.createTeam({ name: f.value.teamName.trim() }, this.userService.token).subscribe(
@@ -69,6 +71,7 @@ export class TeamsComponent implements OnInit {
                     this.updatedId = '';
                     this.successmsg = "Team updated successfully";
                     this.successModal.open();
+                    this.showProgressBar = false;
                 },
                 (error) => this.onError(error)
             );
@@ -76,6 +79,7 @@ export class TeamsComponent implements OnInit {
     }
 
     OnSuccessOfCreateTeam(response) {
+        this.showProgressBar = false;
         this.form.nativeElement.reset();
         this.teamsList.push(JSON.parse(response._body).team);
         //console.log(JSON.parse(response._body).team);
@@ -84,6 +88,7 @@ export class TeamsComponent implements OnInit {
     }
 
     onError(error) {
+        this.showProgressBar = false;
         const errorBody = JSON.parse(error._body);
         console.error(errorBody);
         this.errormsg = errorBody.msg;
@@ -107,6 +112,7 @@ export class TeamsComponent implements OnInit {
     }
 
     ConfirmDeleteTeam() {
+        this.showProgressBar = true;
         this.confirmationModal.close();
         this.teamService.deleteTeam(this.deleteteam._id, this.userService.token).subscribe(
             (response: any) => {
@@ -118,6 +124,7 @@ export class TeamsComponent implements OnInit {
                 this.deleteteam = {};
                 this.successmsg = "Team deleted successfully";
                 this.successModal.open();
+                this.showProgressBar = false;
             },
             (error) => this.onError(error)
         );

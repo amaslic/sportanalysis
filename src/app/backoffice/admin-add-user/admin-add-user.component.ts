@@ -41,6 +41,8 @@ export class AdminAddUserComponent implements OnInit {
     { value: 'true', display: 'Coach' },
     { value: 'false', display: 'Player' }
   ];
+  showProgressBar: boolean = false;
+
 
   @ViewChild('regSucessModal') regSucessModal;
   @ViewChild('regErrorModal') regErrorModal;
@@ -71,6 +73,8 @@ export class AdminAddUserComponent implements OnInit {
     if (!f.valid) {
       return false;
     }
+    this.showProgressBar = true;
+
     var clubname = this.user.club;
     var userclub = this.allClubList.filter(function (element, index) {
       return (element.name.toLowerCase() === clubname.toLowerCase());
@@ -107,6 +111,7 @@ export class AdminAddUserComponent implements OnInit {
     this.router.navigateByUrl('/backoffice/users');
   }
   onSignupSuccess(response) {
+    this.showProgressBar = false;
     const responseBody = JSON.parse(response._body);
     // console.log(responseBody);
     // alert(responseBody.msg);
@@ -118,6 +123,7 @@ export class AdminAddUserComponent implements OnInit {
   }
 
   onErrorOfCreateUser(error) {
+    this.showProgressBar = false;
     const errorBody = JSON.parse(error._body);
     // console.error(errorBody);
     this.errormsg = errorBody.message;
@@ -135,6 +141,7 @@ export class AdminAddUserComponent implements OnInit {
   }
 
   onError(error) {
+    this.showProgressBar = false;
     const errorBody = JSON.parse(error._body);
     // console.error(errorBody);
     this.errormsg = errorBody.message;

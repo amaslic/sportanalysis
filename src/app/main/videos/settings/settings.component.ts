@@ -1,6 +1,6 @@
 import {
   Component,
-  OnInit
+  OnInit,ViewChild
 } from '@angular/core';
 import {
   ActivatedRoute
@@ -37,7 +37,9 @@ export class VideoSettingsComponent implements OnInit {
   allClubList: any;
   isAdmin: boolean;
   notExistedClub = [];
+  showProgressBar: boolean = false;
 
+  @ViewChild('form') form;
   constructor(private route: ActivatedRoute, private trackingDataService: TrackingDataService, private userService: UserService,  private videoService: VideoService, private clubService: ClubService) {}
 
   ngOnInit() {
@@ -138,6 +140,7 @@ export class VideoSettingsComponent implements OnInit {
   }
 
   onError(error) {
+    this.showProgressBar = false;
     const errorBody = JSON.parse(error._body);
     // console.error(errorBody);
     alert(errorBody.msg);
@@ -160,6 +163,7 @@ export class VideoSettingsComponent implements OnInit {
     if (!f.valid || !this.selectedFile.name) {
       return false;
     }
+    
     this.uploading = true;
     f.value.selectedFile = this.selectedFile;
     f.value.token = this.userService.token;
@@ -177,6 +181,8 @@ export class VideoSettingsComponent implements OnInit {
     if (!f.valid) {
       return false;
     }
+
+    this.showProgressBar = true;
     
     var clubName = f.value.clubName;
     if(clubName != '' && clubName != null){
@@ -348,6 +354,7 @@ export class VideoSettingsComponent implements OnInit {
   }
   
   onUpdateVideoSuccess(response){
+    this.showProgressBar = false;
     // console.log(response);
     alert('data updated successfully.');
     // TODO: Handle this
@@ -355,6 +362,8 @@ export class VideoSettingsComponent implements OnInit {
 
   onUploadSuccess(response) {
     // console.log(response);
+    this.selectedFile = {name: ''};
+    this.form.nativeElement.reset();
     this.uploading = false;
     const res = JSON.parse(response._body);
     this.getVideoTrackingDataItems(this.videoId);

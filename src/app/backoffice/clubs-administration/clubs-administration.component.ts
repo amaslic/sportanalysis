@@ -31,6 +31,7 @@ export class ClubsAdministrationComponent implements OnInit {
   editClub: any = [];
   showEditForm: boolean = false;
   selectedIndex:number=0;
+  showProgressBar: boolean = false;
 
   // columns = [
   //   { prop: 'ClubName' }
@@ -64,6 +65,7 @@ export class ClubsAdministrationComponent implements OnInit {
   }
 
   onError(error) {
+    this.showProgressBar = false;
     const errorBody = JSON.parse(error._body);
     // console.error(errorBody);
     alert(errorBody.msg);
@@ -106,6 +108,7 @@ export class ClubsAdministrationComponent implements OnInit {
     if (!f.valid) {
       return false;
     }
+    this.showProgressBar = true;
 
     if(typeof(this.selectedFile) != 'undefined')
     {
@@ -130,6 +133,7 @@ export class ClubsAdministrationComponent implements OnInit {
     if (!f.valid) {
       return false;
     }
+    this.showProgressBar = true;
 
     if(typeof(this.newClub.selectedFile) != 'undefined')
     {
@@ -154,6 +158,7 @@ export class ClubsAdministrationComponent implements OnInit {
     if (!f.valid) {
       return false;
     }
+    this.showProgressBar = true;
     
     if(this.editClub.updateLogo){
         if(typeof(this.editClub.selectedFile) != 'undefined')
@@ -180,6 +185,7 @@ export class ClubsAdministrationComponent implements OnInit {
   }
 
   onApproveClubSuccess(response){
+    this.showProgressBar = false;
     // console.log(response);
      this.getClubs();
      this.getActivatedClubs();
@@ -188,6 +194,7 @@ export class ClubsAdministrationComponent implements OnInit {
   }
 
   oneditClubSuccess(response){
+    this.showProgressBar = false;
     this.showEditForm = false;
      //this.getClubs();
      this.getActivatedClubs();
@@ -200,6 +207,7 @@ export class ClubsAdministrationComponent implements OnInit {
   }
 
   onAddAndApproveClubSuccess(response){
+    this.showProgressBar = false;
     // console.log(response);
     this.form.nativeElement.reset();
     // console.log(this.newClub);
@@ -249,6 +257,7 @@ export class ClubsAdministrationComponent implements OnInit {
   }
 
   deleteClub(clubId,flag) {
+    this.showProgressBar = true;
     this.clubService.deleteClub(clubId, this.userService.token).subscribe(
       (response) => {
         if(flag == 1){
@@ -263,6 +272,7 @@ export class ClubsAdministrationComponent implements OnInit {
         }
         //this.getActivatedClubs();
         //this.getClubs();
+        this.showProgressBar = false;
       },
       (error) => this.onError(error)
     );
@@ -304,7 +314,7 @@ export class ClubsAdministrationComponent implements OnInit {
   }
 
   deactivateClubDetails(club){
-
+    this.showProgressBar = true;
     this.clubService.deactiveClub({id: club._id, logo: club.logo }, this.userService.token).subscribe(
       (response) => {
         //this. getActivatedClubs();
@@ -313,6 +323,7 @@ export class ClubsAdministrationComponent implements OnInit {
             return (element._id != club._id);
             });
         this.clubList.push(club);
+        this.showProgressBar = false;
       },
       (error) => this.onError(error)
     );
