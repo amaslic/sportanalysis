@@ -37,7 +37,7 @@
 
 form .form-group .form-control{
   border-radius: 0;
-  border-color: #dfe0e6;
+  /* border-color: #dfe0e6; */
   color: #6a7177;
   padding: 20px;
 }

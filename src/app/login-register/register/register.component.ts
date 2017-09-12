@@ -53,6 +53,7 @@ export class RegisterComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.user.coach = null;
     this.getAllClubs();
     this.getActivatedClubs();
     this.filteredClubs = this.clubCtrl.valueChanges
