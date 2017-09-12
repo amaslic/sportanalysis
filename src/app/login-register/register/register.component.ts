@@ -42,6 +42,7 @@ export class RegisterComponent implements OnInit {
     { value: 'false', display: 'Player' }
   ];
 
+  showProgressBar: boolean = false;
 
   @ViewChild('regSucessModal') regSucessModal;
   @ViewChild('regErrorModal') regErrorModal;
@@ -71,6 +72,8 @@ export class RegisterComponent implements OnInit {
     if (!f.valid) {
       return false;
     }
+
+    this.showProgressBar = true;
 
     var clubname = this.user.club;
 
@@ -110,17 +113,19 @@ export class RegisterComponent implements OnInit {
     this.router.navigateByUrl('/auth/login');
   }
   onSignupSuccess(response) {
-
+    this.showProgressBar = false;
     const responseBody = JSON.parse(response._body);
     // alert(responseBody.msg);
     this.successmsg = responseBody.message;
     this.regSucessModal.open();
 
     this.user = new User();
+
     // this.router.navigateByUrl('/auth/login');
   }
 
   onError(error) {
+    this.showProgressBar = false;
     const errorBody = JSON.parse(error._body);
     // console.error(errorBody);
     this.errormsg = errorBody.message;
@@ -130,6 +135,7 @@ export class RegisterComponent implements OnInit {
   }
 
   onErrorSignup(error) {
+    this.showProgressBar = false;
     const errorBody = JSON.parse(error._body);
     // console.error(errorBody);
     this.errormsg = errorBody.message;

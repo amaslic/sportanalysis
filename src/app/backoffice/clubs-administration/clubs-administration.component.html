@@ -1,3 +1,9 @@
+<div class="loginOverLay" *ngIf="showProgressBar">
+		<div>
+			<img src="../../assets/images/default.gif" />
+		</div>
+	</div>
+  
 <div class="container" style="margin-top:10px;">
   <md-tab-group [selectedIndex]="selectedIndex" (selectedIndexChange)="selectedIndexChange($event)" class="video-md-settings">
     <md-tab label="Approved Clubs">
@@ -16,8 +22,8 @@
               <td>{{club.name}}</td>
               <td>
                 <button type="button" class="btn btn-success btn-sm" (click)="editClubDetails(club)">Edit</button>
-                <button type="button" class="btn btn-danger btn-sm" (click)="deleteClub(club._id)">Delete</button>
                 <button type="button" class="btn btn-success btn-sm" (click)="deactivateClubDetails(club)">Deactivate</button>
+                <button *ngIf="club.users.length == 0 && club.videos.length == 0" type="button" class="btn btn-danger btn-sm" (click)="deleteClub(club._id,1)">Delete</button>
               </td>
             </tr>
           </tbody>
@@ -77,6 +83,7 @@
             </ng-template>
           </ngx-datatable-column>
         </ngx-datatable>
+
       </div>
       <div class="col-sm-9" *ngIf="selectedClub[0]" style="margin-top:15px">
         <form class="form-horizontal" id="activate-club-form" #f="ngForm" (ngSubmit)="onSubmit(f)" novalidate [ngClass]="{'submited' : f._submitted}">
@@ -103,6 +110,7 @@
           <div class="form-group" style="padding-bottom: 30px;">
             <div class="col-sm-offset-2 col-sm-10">
               <button type="submit" class="btn btn-success btn-save">Activate</button>
+              <button *ngIf="selectedClub[0].users.length == 0 && selectedClub[0].videos.length == 0" type="button" class="btn btn-danger btn-sm" (click)="deleteClub(selectedClub[0]._id,2)">Delete</button>
             </div>
           </div>
         </form>

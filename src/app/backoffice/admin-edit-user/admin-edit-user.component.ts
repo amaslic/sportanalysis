@@ -49,6 +49,7 @@ export class AdminEditUserComponent implements OnInit {
         { value: 'true', display: 'Coach' },
         { value: 'false', display: 'Player' }
     ];
+    showProgressBar: boolean = false;
 
 
     @ViewChild('editUserSuccessModel') editUserSuccessModel;
@@ -59,6 +60,7 @@ export class AdminEditUserComponent implements OnInit {
     }
 
     ngOnInit() {
+        this.showProgressBar = true;
         this.getActivatedClubs();
         this.filteredClubs = this.clubCtrl.valueChanges
             .startWith(null)
@@ -76,6 +78,7 @@ export class AdminEditUserComponent implements OnInit {
         if (!f.valid) {
             return false;
         }
+        this.showProgressBar = true;
         // console.log(this.user);
 
         var clubname = this.user.club;
@@ -114,6 +117,7 @@ export class AdminEditUserComponent implements OnInit {
         this.router.navigateByUrl('/backoffice/users');
     }
     onEditProfileSuccess(response) {
+        this.showProgressBar = false;
         const responseBody = JSON.parse(response._body);
         this.successmsg = responseBody.message;
         this.editUserSuccessModel.open();
@@ -121,6 +125,7 @@ export class AdminEditUserComponent implements OnInit {
     }
 
     onError(error) {
+        this.showProgressBar = false;
         const errorBody = JSON.parse(error._body);
         // console.error(errorBody);
         this.errormsg = errorBody.message;
@@ -128,6 +133,7 @@ export class AdminEditUserComponent implements OnInit {
     }
 
     onErrorEditProfile(error) {
+        this.showProgressBar = false;
         const errorBody = JSON.parse(error._body);
         console.error(errorBody);
         this.errormsg = errorBody.message;
@@ -174,6 +180,7 @@ export class AdminEditUserComponent implements OnInit {
     }
 
     OnSuccessOfGetAllClubs(response) {
+        this.showProgressBar = false;
         this.AllClubList = JSON.parse(response._body);
         var clubId = this.user.club;
         var userclub = this.AllClubList.filter(function (element, index) {

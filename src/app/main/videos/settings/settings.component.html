@@ -1,3 +1,9 @@
+<div class="loginOverLay" *ngIf="showProgressBar">
+		<div>
+			<img src="../../../../assets/images/default.gif" />
+		</div>
+	</div>
+
 <div class="content add-margin">
   <div class="container">
     <h3>{{video.title}}</h3>
@@ -135,7 +141,7 @@
           </div>
           <div class="col-md-8">
             <!--<h3>Add new tracking data file</h3>-->
-            <form #f="ngForm" (ngSubmit)="onSubmit(f)" novalidate [ngClass]="{'submited' : f._submitted}">
+            <form #form #f="ngForm" (ngSubmit)="onSubmit(f)" novalidate [ngClass]="{'submited' : f._submitted}">
               <div class="form-group text-center">
                 <button class="btn btn-default  btn-add-tracking" type="submit" [disabled]="!f.form.valid && f._submitted">Add data file</button>
               </div>

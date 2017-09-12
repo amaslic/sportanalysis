@@ -38,6 +38,7 @@ export class PlaylistsComponent implements OnInit {
   userlistOptions: IMultiSelectOption[];
   userlistModel: any[];
   allClubList: any;
+  showProgressBar: boolean = false;
 
   userlistSettings: IMultiSelectSettings = {
     enableSearch: false,
@@ -120,6 +121,7 @@ export class PlaylistsComponent implements OnInit {
   }
 
   onError(error) {
+    this.showProgressBar = false;
     const errorBody = JSON.parse(error._body);
     // console.error(errorBody);
     alert(errorBody.msg);
@@ -152,6 +154,7 @@ export class PlaylistsComponent implements OnInit {
     this.updatePlaylistModal.open();
   }
   usersToPlaylist() {
+    this.showProgressBar = true;
     // console.log(this.playListId);
     // console.log(this.userlistModel);
     this.playlistService.assignPlaylist(this.userService.token, this.playListId, this.userlistModel).subscribe(
@@ -160,6 +163,7 @@ export class PlaylistsComponent implements OnInit {
     );
   }
   usersToPlaylistSuccess(response) {
+    this.showProgressBar = false;
     const playresp = JSON.parse(response._body)
     this.successmsg = playresp.message;
     this.SucessModal.open();

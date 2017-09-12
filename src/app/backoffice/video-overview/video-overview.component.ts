@@ -60,6 +60,7 @@ export class VideoOverviewComponent implements OnInit {
   loadingIndicator: boolean = true;
   reorderable: boolean = true;
   allClubList: any;
+  showProgressBar: boolean = false;
 
   columns = [{
     prop: 'title'
@@ -143,6 +144,7 @@ export class VideoOverviewComponent implements OnInit {
   }
 
   onError(error) {
+    this.showProgressBar = false;
     const errorBody = JSON.parse(error._body);
     console.error(errorBody);
     alert(errorBody.msg);
@@ -180,6 +182,7 @@ export class VideoOverviewComponent implements OnInit {
 
   }
   usersToVideo() {
+    this.showProgressBar = true;
     // console.log(this.videoId);
     // console.log(this.userlistModel);
     this.videoService.assignVideo(this.userService.token, this.videoId, this.userlistModel).subscribe(
@@ -188,6 +191,7 @@ export class VideoOverviewComponent implements OnInit {
     );
   }
   usersToVideoSuccess(response) {
+    this.showProgressBar = false;
     const responseBody = JSON.parse(response._body);
     this.successmsg = responseBody.message;
     this.assignVideoModal.close();
