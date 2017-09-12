@@ -123,4 +123,7 @@ export class UserService {
     const options = new RequestOptions({ headers: headers, params: { id: userId } });
     return this.http.get(this.baseApiUrl + 'user/deactivateUser', options);
   }
+  changePassword(user: User) {
+    return this.http.post(this.baseApiUrl + 'user/changePassword', user);
+  }
 }
