@@ -49,11 +49,13 @@ export class UploadComponent implements OnInit {
   filteredClubs: any;
   allClubList: any;
   notExistedClub = [];
+  clubActive: any;
 
   protected dataService: CompleterData;
 
   @ViewChild('uploadSucessModal') uploadSucessModal;
   @ViewChild('uploadErrorModal') uploadErrorModal;
+  @ViewChild('ErrorModal') ErrorModal;
   @ViewChild('form') form;
 
   constructor(private completerService: CompleterService, private clubService: ClubService, private videoService: VideoService, private userService: UserService, private r: Router) {
@@ -69,12 +71,13 @@ export class UploadComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.ClubStatus();
     this.getAllClubs();
     this.getActivatedClubs();
 
     var user = this.userService.loadUserFromStorage();
 
-    if(!user['admin'] && !user['coach'] ){
+    if (!user['admin'] && !user['coach']) {
       this.uploadErrorModal.open();
     }
 
@@ -365,12 +368,28 @@ export class UploadComponent implements OnInit {
     this.activatedClubList.forEach(element => {
       this.clubData.push(element.name);
     });
-    // console.log(this.activatedClubList);
+
   }
 
-  OnClickOfSuccessVideoUpload(){
+  OnClickOfSuccessVideoUpload() {
     console.log('success function');
     this.router.navigateByUrl('/videos');
     this.uploadSucessModal.close();
+  }
+  ClubStatus() {
+    this.clubService.checkClubActive(this.userService.token).subscribe(
+      (response) => this.onClubStatusSuccess(response),
+      (error) => this.onError(error)
+    );
+  }
+  onClubStatusSuccess(response) {
+    const clubResp = JSON.parse(response._body);
+    if (clubResp) {
+      this.clubActive = clubResp.activated;
+      if (!this.clubActive) {
+        this.errormsg = "Club is deactivated by Admin.";
+        this.ErrorModal.open();
+      }
+    }
   }
 }

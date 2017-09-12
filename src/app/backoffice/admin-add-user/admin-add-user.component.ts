@@ -53,7 +53,7 @@ export class AdminAddUserComponent implements OnInit {
   }
 
   ngOnInit() {
-    //this.user.coach = false;
+    this.user.coach = null;
     this.getAllClubs();
     this.getActivatedClubs();
     this.filteredClubs = this.clubCtrl.valueChanges
