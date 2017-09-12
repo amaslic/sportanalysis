@@ -104,12 +104,13 @@ export class ClubComponent implements OnInit {
     }
     if (this.club) {
       this.clubActive = this.club.activated;
+     
+      if (!this.club.success) {
+        this.errormsg = this.club.message;
+      }
       if (!this.club.activated) {
         this.errormsg = "Club is deactivated by Admin.";
         this.ErrorModal.open();
-      }
-      if (!this.club.success) {
-        this.errormsg = this.club.message;
       }
 
     }
