@@ -365,7 +365,13 @@ h3.recent{
 .upload-search input{
   float: right;
 }
-
+.video-delete{
+  color: red;
+}
+.grid-delete-btn {
+    font-size: 16px !important;
+    margin-bottom: -2px;
+}
 @media (max-width: 1333px) {
     div.teams{
       left: 20%;

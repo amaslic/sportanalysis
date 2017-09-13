@@ -16,6 +16,7 @@ import {
 import {
   ClubService
 } from './../../services/club.service';
+
 @Component({
   selector: 'app-videos',
   templateUrl: './videos.component.html',
@@ -23,12 +24,19 @@ import {
 })
 
 export class VideosComponent implements OnInit {
+  isCoach: any;
+  isAdmin: any;
+  userDetails: {};
+  successmsg: any;
+  videoDelete: any;
   clubActive: any;
   errormsg: string;
   grid: boolean;
   list: boolean;
   private baseVideoUrl = GlobalVariables.BASE_VIDEO_URL;
   videoList: Video[];
+
+  @ViewChild('SucessModal') SucessModal;
   @ViewChild('ErrorModal') ErrorModal;
   constructor(private clubService: ClubService, private videoService: VideoService, private userService: UserService) { }
 
@@ -37,6 +45,14 @@ export class VideosComponent implements OnInit {
 
     this.getVideos();
     this.gridView();
+    this.userDetails = this.userService.loadUserFromStorage();
+    if (this.userDetails) {
+      this.isAdmin = this.userDetails['admin'];
+      this.isCoach = this.userDetails['coach'];
+
+    }
+
+
   }
   ClubStatus() {
     this.clubService.checkClubActive(this.userService.token).subscribe(
@@ -82,4 +98,20 @@ export class VideosComponent implements OnInit {
     alert(errorBody.message);
   }
 
+  confirmDelete(id, e) {
+    e.preventDefault();
+    e.stopPropagation();
+    if (confirm("Are you sure to delete this video ?")) {
+      this.videoService.deleteVideoById(id, this.userService.token).subscribe(
+        (response) => { this.videoDeleteSuccess(response) },
+        (error) => this.onError(error)
+      );
+    }
+  }
+  videoDeleteSuccess(response) {
+    this.videoDelete = JSON.parse(response._body);
+    this.successmsg = this.videoDelete.message;
+    this.SucessModal.open();
+    this.getVideos();
+  }
 }
