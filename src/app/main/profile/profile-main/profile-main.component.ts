@@ -36,13 +36,17 @@ export class ProfileMainComponent implements OnInit {
     { value: 'true', display: 'Coach' },
     { value: 'false', display: 'Player' }
   ];
+  showProgressBar: boolean = false;
+
   @ViewChild('updateSucessModal') updateSucessModal;
   @ViewChild('updateErrorModal') updateErrorModal;
+  @ViewChild('form') form;
   constructor(private userService: UserService, r: Router) { }
 
 
 
   ngOnInit() {
+    this.showProgressBar = true;
     this.fetchUsers();
   }
 
@@ -54,7 +58,7 @@ export class ProfileMainComponent implements OnInit {
   }
 
   onFetchUserSuccess(response) {
-
+    this.showProgressBar = false;
     this.user = JSON.parse(response._body);
     console.log(this.userList);
     this.loadingIndicator = false;
@@ -71,6 +75,7 @@ export class ProfileMainComponent implements OnInit {
   }
 
   onError(error) {
+    this.showProgressBar = false;
     const errorBody = JSON.parse(error._body);
     this.errormsg = errorBody.message;
     this.updateErrorModal.open();
@@ -79,6 +84,8 @@ export class ProfileMainComponent implements OnInit {
     if (!f.valid) {
       return false;
     }
+    this.showProgressBar = true;
+
     this.userService.updateProfile(this.user)
       .subscribe(
       (response) => this.onupdateProfileSuccess(response),
@@ -86,10 +93,12 @@ export class ProfileMainComponent implements OnInit {
       );
   }
   changePassword(p) {
-    console.log(p)
+    
     if (!p.valid) {
       return false;
     }
+    this.showProgressBar = true;
+
     this.userService.changePassword(this.cpass)
       .subscribe(
       (response) => this.onupdateProfileSuccess(response),
@@ -97,6 +106,8 @@ export class ProfileMainComponent implements OnInit {
       );
   }
   onupdateProfileSuccess(response) {
+    this.showProgressBar = false;
+    this.form.nativeElement.reset();
     const responseBody = JSON.parse(response._body);
     console.log(responseBody);
     // alert(responseBody.msg);
