@@ -49,6 +49,7 @@ export class AdminEditUserComponent implements OnInit {
         { value: 'true', display: 'Coach' },
         { value: 'false', display: 'Player' }
     ];
+    public cpass: any = {};
     showProgressBar: boolean = false;
 
 
@@ -172,7 +173,7 @@ export class AdminEditUserComponent implements OnInit {
     }
     onFetchUserSuccess(response) {
         this.user = JSON.parse(response._body);
-
+        this.cpass._id = this.user._id;
         this.clubService.getAllClubs(this.userService.token).subscribe(
             (response) => this.OnSuccessOfGetAllClubs(response),
             (error) => this.onError(error)
@@ -188,5 +189,19 @@ export class AdminEditUserComponent implements OnInit {
         })[0]
         if (typeof (userclub) != 'undefined')
             this.user.club = userclub.name;
+    }
+    changePassword(p) {
+
+        if (!p.valid) {
+            return false;
+        }
+        this.showProgressBar = true;
+        this.cpass.backoffice = true;
+
+        this.userService.changePassword(this.cpass)
+            .subscribe(
+            (response) => this.onEditProfileSuccess(response),
+            (error) => this.onError(error)
+            );
     }
 }
