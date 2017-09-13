@@ -60,7 +60,16 @@
   border-radius: 0;
   max-width: 320px;
   width: 100%;
+  background: transparent;
+  color: white;
+  border: 0;
 }
+
+.file-name-tracking{
+  padding: 40px!important;
+}
+
+
 
 :host >>> input.completer-input{
     height: 34px;
@@ -141,4 +150,16 @@
         .loginOverLay > div > img {
             width: 120px;
             height: 120px;
+        }
+
+        .input-group-btn.add-files{
+          text-align: center;
+        }
+        
+        .input-group-btn.add-files span{
+          max-width: 320px;
+          width: 100%;
+          background: white;
+          color: black;
+        
         }

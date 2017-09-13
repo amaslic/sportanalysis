@@ -99,6 +99,7 @@ html {
   left: 5px;
   top: -10px;
     font-size: 14px;
+    display: none;
   }
 
 .demo-header ul li:first-child, .demo-header ul li:nth-child(2){
@@ -130,8 +131,8 @@ html {
 }
 
 .menu-item-list{
-  max-width: 705px; /*860*/
-  width: 100%;
+/*  max-width: 705px; /*860*/
+  width: 80%;
 }
 
 
@@ -321,8 +322,9 @@ html {
 }
 
 .menu-item-list {
- /* margin-top: 30px; */
-  text-align: center;
+ /* margin-top: 30px;
+  text-align: center; */
+  margin-left: 50px;
 }
 
 .menu-item-list li {
@@ -332,6 +334,7 @@ html {
     cursor:pointer;
     color:#59719a;
     margin-left: -4px;
+    text-align: center;
 }
 
 .menu-item-list li:hover, .menu-item-list li.is-active{
@@ -352,9 +355,10 @@ html {
 }
 
 img.logo-img{
-  max-width:80px;
-  margin-top:20px;
-  margin-left: 20px;
+  max-width: 80px;
+  max-height: 80px;
+  margin-top: 10px;
+  margin-left: 50px;
 }
 
 

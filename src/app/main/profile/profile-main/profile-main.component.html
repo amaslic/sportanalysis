@@ -1,3 +1,9 @@
+<div class="loginOverLay" *ngIf="showProgressBar">
+		<div>
+			<img src="../../../assets/images/default.gif" />
+		</div>
+	</div>
+
 <md-tab-group>
 	<md-tab label="Update Profile">
 		<div class="clearfix message-box">
@@ -57,7 +63,7 @@
 	<md-tab label="Change Password">
 		<div class="clearfix message-box">
 			<div class="col-md-8">
-				<form #p="ngForm" (ngSubmit)="changePassword(p)" novalidate [ngClass]="{'submited' : p._submitted}">
+				<form #form #p="ngForm" (ngSubmit)="changePassword(p)" novalidate [ngClass]="{'submited' : p._submitted}">
 
 					<div class="form-group">
 						<label>Old Password </label>
