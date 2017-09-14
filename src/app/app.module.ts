@@ -98,7 +98,7 @@ const appRoutes: Routes = [
       { path: 'help', component: HelpComponent },
       { path: 'profile/main', component: ProfileComponent },
       { path: 'clubs', component: ClubsComponent },
-      { path: 'club/:slug', component: ClubComponent },
+      { path: 'club/:id', component: ClubComponent },
       { path: '*', component: VideosComponent }
     ]
   },

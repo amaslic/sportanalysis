@@ -73,7 +73,7 @@ export class ClubsAdministrationComponent implements OnInit {
     const errorBody = JSON.parse(error._body);
     // console.error(errorBody);
     // alert(errorBody.msg);
-    this.errormsg = errorBody.msg;
+    this.errormsg = errorBody.msg || errorBody.message;
     this.errorModal.open();
   }
 

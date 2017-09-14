@@ -126,4 +126,10 @@ export class UserService {
   changePassword(user: User) {
     return this.http.post(this.baseApiUrl + 'user/changePassword', user);
   }
+
+  getAllUsersByClubId(clubId,token: String) {
+    const headers = new Headers({ 'Authorization': token });
+    const options = new RequestOptions({ headers: headers, params: { clubId: clubId } });
+    return this.http.get(this.baseApiUrl + 'user/fetchallbyclub', options);
+  }
 }

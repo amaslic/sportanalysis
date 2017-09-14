@@ -36,7 +36,7 @@ export class ClubComponent implements OnInit {
   videoSucess: any;
   errormsg: string;
   private sub: any;
-  private slug: String;
+  private id: String;
   private club;
   private baseImageUrl = GlobalVariables.BASE_IMAGE_URL;
   private baseVideoUrl = GlobalVariables.BASE_VIDEO_URL;
@@ -44,6 +44,10 @@ export class ClubComponent implements OnInit {
   grid: boolean;
   list: boolean;
   videoList: Video[];
+  loadingIndicator: boolean = true;
+  usersList: User[];
+  isCoachOrAdmin: boolean = false;
+
   @ViewChild('SucessModal') SucessModal;
   @ViewChild('ErrorModal') ErrorModal;
   constructor(private clubService: ClubService, private userService: UserService, private route: ActivatedRoute, private videoService: VideoService) {
@@ -51,18 +55,27 @@ export class ClubComponent implements OnInit {
 
   ngOnInit() {
     this.sub = this.route.params.subscribe(params => {
-      this.slug = params['slug'];
-      this.getClub(this.slug);
+      this.id = params['id'];
+      this.getClub(this.id);
       this.getVideos();
       this.getVideos();
       this.gridView();
+      this.getUsers()
     });
+
+    var user = this.userService.loadUserFromStorage();
+
+    if (user['admin'] || user['coach']) {
+      this.isCoachOrAdmin = true;
+    }else{
+      this.isCoachOrAdmin = false;
+    }
 
   }
   getVideos() {
     // console.info("users: "+JSON.stringify(this.userService));
     // console.log(this.userService.user.club);
-    this.videoService.getVideosClub(this.slug, this.userService.token).subscribe(
+    this.videoService.getVideosClub(this.id, this.userService.token).subscribe(
       (response) => this.onGetVideosSuccess(response),
       (error) => this.onError(error)
     );
@@ -122,6 +135,18 @@ export class ClubComponent implements OnInit {
     const errorBody = JSON.parse(error._body);
     this.errormsg = errorBody.message
     this.ErrorModal.open();
+  }
+
+  getUsers() {
+    this.userService.getAllUsersByClubId(this.id,this.userService.token).subscribe(
+      (response) => this.onGetUsersSuccess(response),
+      (error) => this.onError(error)
+    );
+  }
+
+  onGetUsersSuccess(response) {
+    this.usersList = JSON.parse(response._body);
+    this.loadingIndicator = false;
   }
 
 }
