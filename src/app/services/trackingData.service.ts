@@ -133,4 +133,9 @@ export class TrackingDataService {
       values: groupedObj[key]
     }));
   }
+  deleteXmlById(id: any, token: String) {
+    const headers = new Headers({ 'Authorization': token });
+    const options = new RequestOptions({ headers: headers });
+    return this.http.get(this.baseApiUrl + 'trackingData/deleteById?id=' + id, options);
+  }
 }

@@ -1,8 +1,8 @@
 <div class="loginOverLay" *ngIf="showProgressBar">
-		<div>
-			<img src="../../../../assets/images/default.gif" />
-		</div>
-	</div>
+  <div>
+    <img src="../../../../assets/images/default.gif" />
+  </div>
+</div>
 
 <div class="content add-margin">
   <div class="container">
@@ -131,11 +131,9 @@
             <div class="list-group">
               <a class="list-group-item clearfix" *ngFor="let data of videoTrackingData">
             {{data.title}} ({{data.original_filename}})
-            <!--<span class="pull-right">
-              <a href="#" onclick="alert('Action1 -> Play');">
-                Set as default
-              </a>
-              </span>-->
+            <span class="pull-right">
+                <i (click)="confirmDelete(data._id,$event)" class="fa fa-window-close text-danger" aria-hidden="true"></i>
+            </span>
               </a>
             </div>
           </div>
@@ -168,8 +166,8 @@
               </div>
               <div class="form-group" style="width:100%">
                 <div class="input-group">
-      
-            <label class="input-group-btn">
+
+                  <label class="input-group-btn">
               <span class="btn btn-primary tracking-data">
                 <button class="btn btn-default  btn-add-tracking" type="submit" [disabled]="!f.form.valid && f._submitted">Add data file</button>
                 </span>
@@ -188,3 +186,35 @@
     </md-tab-group>
 
   </div>
+  <modal #SucessModal>
+    <modal-header>
+
+    </modal-header>
+    <modal-content>
+      <p>
+        <i class="fa fa-check" aria-hidden="true"></i>
+      </p>
+      <p>
+        {{successmsg}}
+      </p>
+    </modal-content>
+    <modal-footer>
+      <button class="btn btn-primary" (click)="SucessModal.close()">Ok</button>
+    </modal-footer>
+  </modal>
+  <modal #userErrorModal class="error-modal">
+    <modal-header>
+
+    </modal-header>
+    <modal-content>
+      <p>
+        <i class="fa fa-close" aria-hidden="true"></i>
+      </p>
+      <p>
+        {{errormsg}}
+      </p>
+    </modal-content>
+    <modal-footer>
+      <button class="btn btn-primary" (click)="ErrorModal.close()">Ok</button>
+    </modal-footer>
+  </modal>

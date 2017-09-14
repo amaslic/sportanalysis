@@ -123,7 +123,7 @@ export class UploadComponent implements OnInit {
 
   }
   onSelectFile(e) {
-    // console.log(e);
+    console.log(e);
     const files = e.target.files;
     for (let i = 0; i < files.length; i++) {
       this.selectedFile = {
