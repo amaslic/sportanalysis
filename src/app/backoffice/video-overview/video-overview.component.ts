@@ -124,7 +124,7 @@ export class VideoOverviewComponent implements OnInit {
         element['id'] = element._id;
         element['ofilename'] = element['original_filename'];
 
-        var videoClubName = element.club;
+        var videoClubName = element['user']['club'];
         var videoClub = this.allClubList.filter(function (element1, index) {
           return (element1._id === videoClubName);
         })[0];
