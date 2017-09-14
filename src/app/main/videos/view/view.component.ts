@@ -225,10 +225,10 @@ export class ViewComponent implements OnInit {
 
     var user = this.userService.loadUserFromStorage();
 
-    if(!user['admin'] && !user['coach'] ){
-        this.isAdminOrCoach = false;
-    }else{
-        this.isAdminOrCoach = true;
+    if (!user['admin'] && !user['coach']) {
+      this.isAdminOrCoach = false;
+    } else {
+      this.isAdminOrCoach = true;
     }
 
     // this.userService.isAdmin().subscribe(

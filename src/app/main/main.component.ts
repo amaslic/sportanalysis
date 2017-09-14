@@ -23,6 +23,7 @@ import {
   styleUrls: ['./main.component.css']
 })
 export class MainComponent implements OnInit {
+  isAdmin: any;
   coach: Boolean;
   clubid: any;
   club: any;
@@ -61,6 +62,8 @@ export class MainComponent implements OnInit {
 
   ngOnInit() {
     this.clubInfo();
+    let user: any = this.localStorageService.get('user');
+    this.isAdmin = user.admin;
   }
   clubInfo() {
     this.clubService.checkClubActive(this.userService.token).subscribe(
