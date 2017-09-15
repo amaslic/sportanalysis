@@ -1209,6 +1209,13 @@ a.playlist-info:hover .message-list-content h4{
     color: white;
     width: 100%;
 }
-.video-images{height: 80px;display: inline-block;margin: 0px auto;}
+.video-club1{display: inline-block;margin-left: 15px;}
+.video-club2{display: inline-block;}
+.video-date{display: block;}
+.video-image-main{display: inline-block;width: 21%;text-align: center;}
+.video-images{height: 60px;display: inline-block;margin: 0px auto;}
 .list-inline span{font-size: 30px;display: inline-block;vertical-align: middle;}
-.video-date{display: block;margin-top: 20px;}
+span.score{margin: 0px 5px;
+    vertical-align: middle;
+    display: inline-block;
+    font-size: 20px;}

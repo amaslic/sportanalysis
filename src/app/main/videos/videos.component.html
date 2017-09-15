@@ -50,7 +50,8 @@
           Player Name
       </div>-->
     <div class="video-white-bg">
-    <h2 class="video-title">{{video.title}}</h2>
+    <h2 class="video-title" *ngIf="(video.type=='Training')">{{video.title}}</h2>
+    <h2 class="video-title" *ngIf="(video.type!='Training')"><span *ngIf="video.club1details.length > 0 && video.club1details[0].name">{{video.club1details[0].name}}</span> vs <span *ngIf="video.club2details.length > 0 && video.club2details[0].name">{{video.club2details[0].name}}</span></h2>
         <div class="date">
           <ul class="list-inline">
             <!-- <li> 2414 views </li> -->
@@ -83,7 +84,8 @@
           <li></li>
           <!-- <li>Video type / Duration</li> -->
           <li class="result">Result</li>
-          <li>Video title</li>
+          <li>Type</li>
+          <li>Video Details</li>
           <li>Date</li>
           <li *ngIf="isCoach || isAdmin">Action</li>
         </ul>
@@ -114,9 +116,10 @@
                 <img *ngIf="video.club2details.length <= 0 || !video.club2details[0].logo || video.club2details[0].logo == ''" src="assets/images/juve.png"  class="img-responsive">
               </span>
             </li>
-
+            <li>{{video.type}}</li>
             <li>
-              <h2 class="video-title">{{video.title}}</h2>
+              <h2 class="video-title" *ngIf="(video.type=='Training')">{{video.title}}</h2>
+              <h2 class="video-title" *ngIf="(video.type!='Training')"><span *ngIf="video.club1details.length > 0 && video.club1details[0].name">{{video.club1details[0].name}}</span>                vs <span *ngIf="video.club2details.length > 0 && video.club2details[0].name">{{video.club2details[0].name}}</span></h2>
             </li>
             <li class="views-date"> {{video.date | date:"dd.MM.yyyy"}}</li>
 
