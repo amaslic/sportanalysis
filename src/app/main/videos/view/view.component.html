@@ -1,39 +1,48 @@
 <div class="main-content">
 
   <div class="video-white-bg" id="text-overlay" *ngIf="enableOverlay && videoLoaded">
-    <h3 class="video-title">{{video.title}}</h3>
-    <div class="date">
-      <ul class="list-inline">
-        <img src="assets/images/real.png" class="img-responsive video-images"><span>:</span>
-        <img src="assets/images/juve.png" class="img-responsive video-images">
-        <li class="video-date">{{video.date | date:"dd.MM.yyyy"}}</li>
-      </ul>
+    <span class="video-date">{{video.date | date:"dd.MM.yyyy"}}</span>
+    <h3 class="video-title" *ngIf="(video.type=='Training')">{{video.title}}</h3>
+    <h3 class="video-club1" *ngIf="video.club1details.length > 0 && video.club1details[0].name">{{video.club1details[0].name}}</h3>
+    <div *ngIf="(video.type!='Training')" class="video-image-main">
+      <img *ngIf="video.club1details.length > 0 && video.club1details[0].logo" [src]="baseVideoUrl + video.club1details[0].logo"
+        alt="video.club1details[0].name" class="img-responsive video-images">
+      <img *ngIf="video.club1details.length <= 0 || !video.club1details[0].logo || video.club1details[0].logo == ''" src="assets/images/real.png"
+        class="img-responsive video-images">
+      <span><span *ngIf="video.scoreTeam1" class="score">{{video.scoreTeam1}}</span>:
+      <span *ngIf="video.scoreTeam2" class="score">{{video.scoreTeam2}}</span>
+      </span>
+      <img *ngIf="video.club2details.length > 0 && video.club2details[0].logo" [src]="baseVideoUrl + video.club2details[0].logo"
+        alt="video.club1details[0].name" class="img-responsive video-images">
+      <img *ngIf="video.club2details.length <= 0 || !video.club2details[0].logo || video.club2details[0].logo == ''" src="assets/images/juve.png"
+        class="img-responsive video-images">
     </div>
+    <h3 class="video-club2" *ngIf="video.club2details.length > 0 && video.club1details[0].name">{{video.club2details[0].name}}</h3>
   </div>
-  <div class="video-box" #Container>
+  <div class=" video-box " #Container>
 
-    <vg-player *ngIf="video && playlist" (onPlayerReady)="onPlayerReady($event)" (mousemove)="onmouseenter()" (mouseover)="onmouseenter()"
-      (mouseleave)="onmouseleave()">
+    <vg-player *ngIf="video && playlist " (onPlayerReady)="onPlayerReady($event) " (mousemove)="onmouseenter()
+      " (mouseover)="onmouseenter() " (mouseleave)="onmouseleave() ">
       <vg-overlay-play></vg-overlay-play>
       <vg-buffering></vg-buffering>
 
-      <vg-scrub-bar (mousemove)="onScrubBarMove($event,Container.getBoundingClientRect())" *ngIf="currentIndex===1">
+      <vg-scrub-bar (mousemove)="onScrubBarMove($event,Container.getBoundingClientRect()) " *ngIf="currentIndex===1 ">
         <vg-scrub-bar-current-time></vg-scrub-bar-current-time>
         <vg-scrub-bar-buffering-time></vg-scrub-bar-buffering-time>
 
-        <vg-scrub-bar-cue-points class="customCuePoints" [vgCuePoints]="metadataTrack.cues" [vgFor]="sportanalysis-video"></vg-scrub-bar-cue-points>
+        <vg-scrub-bar-cue-points class="customCuePoints " [vgCuePoints]="metadataTrack.cues " [vgFor]="sportanalysis-video "></vg-scrub-bar-cue-points>
       </vg-scrub-bar>
 
-      <vg-controls [vgAutohide]="true" [vgAutohideTime]="1.5">
+      <vg-controls [vgAutohide]="true " [vgAutohideTime]="1.5 ">
         <vg-play-pause></vg-play-pause>
         <vg-playback-button></vg-playback-button>
 
-        <vg-time-display vgProperty="current" vgFormat="mm:ss"></vg-time-display>
+        <vg-time-display vgProperty="current " vgFormat="mm:ss "></vg-time-display>
 
         <vg-scrub-bar></vg-scrub-bar>
 
-        <vg-time-display vgProperty="left" vgFormat="mm:ss"></vg-time-display>
-        <vg-time-display vgProperty="total" vgFormat="mm:ss"></vg-time-display>
+        <vg-time-display vgProperty="left " vgFormat="mm:ss "></vg-time-display>
+        <vg-time-display vgProperty="total " vgFormat="mm:ss "></vg-time-display>
 
         <!--<vg-track-selector></vg-track-selector>-->
         <vg-mute></vg-mute>
@@ -42,49 +51,49 @@
         <vg-fullscreen></vg-fullscreen>
       </vg-controls>
 
-      <video [vgMedia]="media" #media id="sportanalysis-video" preload="auto" crossorigin [src]="currentItem.src">
-        <!-- <source [src]="currentItem.src" [type]="currentItem.type"> -->
-        <track src="assets/data/cue-points.vtt" kind="metadata" label="Cue Points" default #metadataTrack vgCuePoints (onEnterCuePoint)="onEnterCuePoint($event)"
-          (onExitCuePoint)="onExitCuePoint($event)">
+      <video [vgMedia]="media " #media id="sportanalysis-video " preload="auto " crossorigin [src]="currentItem.src ">
+        <!-- <source [src]="currentItem.src " [type]="currentItem.type "> -->
+        <track src="assets/data/cue-points.vtt " kind="metadata " label="Cue Points
+      " default #metadataTrack vgCuePoints (onEnterCuePoint)="onEnterCuePoint($event) " (onExitCuePoint)="onExitCuePoint($event) ">
       </video>
     </vg-player>
 
   </div>
-  <div class="video-timeline" *ngIf="currentIndex===1">
-    <div class="clearfix">
+  <div class="video-timeline " *ngIf="currentIndex===1 ">
+    <div class="clearfix ">
 
     </div>
-    <div class="clearfix">
-      <div class="pull-left video-controls-custom">
+    <div class="clearfix ">
+      <div class="pull-left video-controls-custom ">
         <ul>
-          <li><i class="fa fa-step-forward" aria-hidden="true"></i></li>
-          <li><i class="fa fa-forward" aria-hidden="true"></i></li>
-          <li><i class="fa fa-play" aria-hidden="true"></i></li>
-          <li><i class="fa fa-backward" aria-hidden="true"></i></li>
-          <li><i class="fa fa-step-backward" aria-hidden="true"></i></li>
-          <li class="info"><i class="fa fa-info" aria-hidden="true"></i></li>
-          <li class="setting-icon"><i class="fa fa-cog" aria-hidden="true"></i></li>
-          <li class="trash-icon"><i class="fa fa-trash-o" aria-hidden="true"></i></li>
-          <li><i class="fa fa-list-ul" aria-hidden="true"></i></li>
+          <li><i class="fa fa-step-forward " aria-hidden="true "></i></li>
+          <li><i class="fa fa-forward " aria-hidden="true "></i></li>
+          <li><i class="fa fa-play " aria-hidden="true "></i></li>
+          <li><i class="fa fa-backward " aria-hidden="true "></i></li>
+          <li><i class="fa fa-step-backward " aria-hidden="true "></i></li>
+          <li class="info "><i class="fa fa-info " aria-hidden="true "></i></li>
+          <li class="setting-icon "><i class="fa fa-cog " aria-hidden="true "></i></li>
+          <li class="trash-icon "><i class="fa fa-trash-o " aria-hidden="true "></i></li>
+          <li><i class="fa fa-list-ul " aria-hidden="true "></i></li>
         </ul>
       </div>
-      <div class="pull-right">
-        <div class="timeline-info">
-          <i class="fa fa-files-o" aria-hidden="true"></i>Timeline
+      <div class="pull-right ">
+        <div class="timeline-info ">
+          <i class="fa fa-files-o " aria-hidden="true "></i>Timeline
         </div>
       </div>
     </div>
   </div>
-  <div class="scroll-time" *ngIf="currentIndex===1 && showEvent">
-    <div class="timeline-left">
+  <div class="scroll-time " *ngIf="currentIndex===1 && showEvent ">
+    <div class="timeline-left ">
 
-      <div class="video-select-box clock">
+      <div class="video-select-box clock ">
 
-        <div class="clock-time">
-          <i class="fa fa-clock-o" aria-hidden="true"></i> Events
+        <div class="clock-time ">
+          <i class="fa fa-clock-o " aria-hidden="true "></i> Events
         </div>
       </div>
-      <!--| searchVideoTimeline:'team,name':[teamModel,eventModel,searchQuery]"  -->
+      <!--| searchVideoTimeline:'team,name':[teamModel,eventModel,searchQuery]" -->
       <div class="form-group clearfix" style="font-size: 12px; text-align: center" *ngFor="let evtGroup of videoEvents | searchVideoTimeline:'team,name':[teamModel,eventModel,searchQuery]"
         [ngClass]="{'active': checkIfCurrentTime(evtGroup)}">
         <div class="input-group">
