@@ -25,9 +25,16 @@
               <div class="teams">
 
                 <tr>
-                  <td><img src="assets/images/real.png" class="img-responsive"></td>
-                  <td>1 : 2</td>
-                  <td><img src="assets/images/juve.png" class="img-responsive"></td>
+                   <td>
+                    <img *ngIf="video.club1details[0].logo" [src]="baseVideoUrl + video.club1details[0].logo" alt="video.club1details[0].name" class="img-responsive">
+                    <img *ngIf="!video.club1details[0].logo || video.club1details[0].logo ==''" src="assets/images/real.png"  class="img-responsive">
+                  </td>
+                  <td *ngIf="video.scoreTeam1 && video.scoreTeam2">{{video.scoreTeam1}} : {{video.scoreTeam2}}</td>
+                  <td *ngIf="!video.scoreTeam1 || !video.scoreTeam2">0 : 0</td>
+                <td>
+                  <img *ngIf="video.club2details[0].logo" [src]="baseVideoUrl + video.club2details[0].logo" alt="video.club1details[0].name" class="img-responsive">
+                  <img *ngIf="!video.club2details[0].logo || video.club2details[0].logo == '' " src="assets/images/juve.png"  class="img-responsive">
+                </td>
                 </tr>
               </div>
 
@@ -72,9 +79,15 @@
                 </li>
                 <li class="teams-result">
 
-                  <span><img src="assets/images/real.png" class="img-responsive"></span>
-                  <span>1 : 2</span>
-                  <span><img src="assets/images/juve.png" class="img-responsive"></span>
+                  <span>
+                    <img *ngIf="video.club1details[0].logo" [src]="baseVideoUrl + video.club1details[0].logo" alt="video.club1details[0].name" class="img-responsive">
+                  <img *ngIf="!video.club1details[0].logo" src="assets/images/real.png"  class="img-responsive"></span>
+                  <span *ngIf="video.scoreTeam1 && video.scoreTeam2">{{video.scoreTeam1}} : {{video.scoreTeam2}}</span>
+                  <span *ngIf="!video.scoreTeam1 || !video.scoreTeam2">0 : 0</span>
+                  <span>
+                <img *ngIf="video.club2details[0].logo"  [src]="baseVideoUrl + video.club2details[0].logo" alt="video.club1details[0].name" class="img-responsive">
+                <img *ngIf="video.club2details[0].logo ==''" src="assets/images/juve.png"  class="img-responsive">
+                 </span>
                 </li>
 
                 <li>
