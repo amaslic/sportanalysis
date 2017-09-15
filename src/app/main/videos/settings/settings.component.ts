@@ -185,6 +185,7 @@ export class VideoSettingsComponent implements OnInit {
     f.value.token = this.userService.token;
     f.value.user = this.userService.user._id;
     f.value.video = this.videoId;
+    f.value.title = this.video.title;
     f.value.default = this.videoTrackingData.length > 0 ? false : true;
     this.trackingDataService.addTrackingData(f.value, this.userService.token).subscribe(
       (response) => this.onUploadSuccess(response),
