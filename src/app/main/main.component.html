@@ -59,7 +59,7 @@
               <li [routerLink]="['/playlist']" [routerLinkActive]="['is-active']"><span><i class="fa fa-sliders fa-2x" aria-hidden="true"></i><br>PLAYLIST</span></li>
               <!-- <li [routerLink]="['/clubs']" [routerLinkActive]="['is-active']"><span><i class="fa fa-shield fa-2x" aria-hidden="true"></i><br>CLUBS</span></li>
       <li [routerLinkActive]="['is-active']" class="search-option"><span><i class="fa fa-search fa-2x" aria-hidden="true"></i><br>SEARCH</span>-->
-              <li *ngIf="admin" [routerLinkActive]="['is-active']"><span><i class="fa fa-users fa-2x" aria-hidden="true"></i><br>TEAM</span></li>
+              <li *ngIf="admin || coach" [routerLink]="['/players']" [routerLinkActive]="['is-active']"><span><i class="fa fa-users fa-2x" aria-hidden="true"></i><br>PLAYERS</span></li>
               <li *ngIf="admin" [routerLink]="['/matches']" [routerLinkActive]="['is-active']"><span><i class="fa fa-futbol-o fa-2x" aria-hidden="true"></i><br>MATCHES</span></li>
               <li *ngIf="admin || coach" [routerLink]="['/videos/upload']" [routerLinkActive]="['is-active']" class="search-option"><span><i class="fa fa-upload fa-2x" aria-hidden="true"></i><br>UPLOAD</span>
               </li>

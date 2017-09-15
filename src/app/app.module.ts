@@ -46,6 +46,8 @@ import { UploadComponent } from './main/videos/upload/upload.component';
 import { ViewComponent } from './main/videos/view/view.component';
 import { VideoSettingsComponent } from './main/videos/settings/settings.component';
 import { FooterComponent } from './main/footer/footer.component';
+import { PlayersComponent } from './main/players/players.component';
+
 import { BackofficeComponent } from './backoffice/backoffice.component';
 import { UsersComponent } from './backoffice/users/users.component';
 import { AdminAddUserComponent } from './backoffice/admin-add-user/admin-add-user.component';
@@ -99,6 +101,7 @@ const appRoutes: Routes = [
       { path: 'profile/main', component: ProfileComponent },
       { path: 'clubs', component: ClubsComponent },
       { path: 'club/:id', component: ClubComponent },
+      { path: 'players', component: PlayersComponent },
       { path: '*', component: VideosComponent }
     ]
   },
@@ -129,6 +132,7 @@ const appRoutes: Routes = [
     MatchesComponent,
     VideosComponent,
     PlaylistComponent,
+    PlayersComponent,
     PlaylistsComponent,
     HelpComponent,
     UploadComponent,
