@@ -16,6 +16,7 @@ import {
 import {
   ClubService
 } from './../../services/club.service';
+import { IMultiSelectOption, IMultiSelectSettings, IMultiSelectTexts } from 'angular-2-dropdown-multiselect';
 
 @Component({
   selector: 'app-videos',
@@ -35,9 +36,27 @@ export class VideosComponent implements OnInit {
   list: boolean;
   private baseVideoUrl = GlobalVariables.BASE_VIDEO_URL;
   videoList: Video[];
+  videoId: any;
+  trackUserlist: any[];
+  userlistOptions: IMultiSelectOption[];
+  showProgressBar: boolean = false;
+  userlistModel: any[];
+
+  userlistSettings: IMultiSelectSettings = {
+    enableSearch: true,
+    checkedStyle: 'fontawesome',
+    containerClasses: 'no-button-arrow',
+    buttonClasses: 'btn btn-default btn-block',
+    fixedTitle: false,
+    maxHeight: '200px',
+    dynamicTitleMaxItems: 2,
+    closeOnClickOutside: true
+  };
 
   @ViewChild('SucessModal') SucessModal;
   @ViewChild('ErrorModal') ErrorModal;
+  @ViewChild('assignVideoModal') assignVideoModal;
+  @ViewChild('videoSucessModal') videoSucessModal;
   constructor(private clubService: ClubService, private videoService: VideoService, private userService: UserService) { }
 
   ngOnInit() {
@@ -113,5 +132,43 @@ export class VideosComponent implements OnInit {
     this.successmsg = this.videoDelete.message;
     this.SucessModal.open();
     this.getVideos();
+  }
+
+  assignVideo(id, e) {
+    e.preventDefault();
+    e.stopPropagation();
+    this.videoId = id;
+    this.userService.getAllUsersByClubId(this.userDetails['club'], this.userService.token).subscribe(
+      (response) => this.onGetUsersSuccess(response),
+      (error) => this.onError(error)
+    );
+    this.assignVideoModal.open();
+  }
+
+  onGetUsersSuccess(response) {
+    const userlist = JSON.parse(response._body);
+    this.trackUserlist = [];
+    userlist.forEach((usr, index) => {
+      this.trackUserlist.push({
+        'id': usr._id,
+        'name': usr.firstName + ' ' + usr.lastName
+      });
+    });
+    this.userlistOptions = this.trackUserlist;
+  }
+
+  usersToVideo() {
+    this.showProgressBar = true;
+    this.videoService.assignVideo(this.userService.token, this.videoId, this.userlistModel).subscribe(
+      (response) => this.usersToVideoSuccess(response),
+      (error) => this.onError(error)
+    );
+  }
+  usersToVideoSuccess(response) {
+    this.showProgressBar = false;
+    const responseBody = JSON.parse(response._body);
+    this.successmsg = responseBody.message;
+    this.assignVideoModal.close();
+    this.videoSucessModal.open();
   }
 }
