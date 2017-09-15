@@ -60,6 +60,9 @@
              <li *ngIf="isCoach || isAdmin"  class="video-delete">
                <i (click)="confirmDelete(video._id,$event)" title="Delete Video" class="fa fa-trash grid-delete-btn" aria-hidden="true"></i>
             </li>
+            <li *ngIf="isCoach || isAdmin">
+               <i (click)="assignVideo(video._id,$event)" class="fa fa-share-alt text-success"></i>
+            </li>
           </ul>
         </div>
       </div>
@@ -135,7 +138,9 @@
 
             <li *ngIf="isCoach || isAdmin" class="video-info-list">
               <i (click)="confirmDelete(video._id,$event)" title="Delete Video" class="fa fa-trash video-delete" aria-hidden="true"></i>
+              <i (click)="assignVideo(video._id,$event)" class="fa fa-share-alt text-success"></i>
             </li>
+            
           </ul>
         </a>
 
@@ -173,5 +178,49 @@
   </modal-content>
   <modal-footer>
     <button class="btn btn-primary" [routerLink]="['/home']" (click)="ErrorModal.close()">Ok</button>
+  </modal-footer>
+</modal>
+
+<modal #videoSucessModal>
+  <modal-header>
+
+  </modal-header>
+  <modal-content>
+    <p>
+      <i class="fa fa-check" aria-hidden="true"></i>
+    </p>
+    <p>
+      {{successmsg}}
+    </p>
+  </modal-content>
+  <modal-footer>
+    <button class="btn btn-primary" (click)="videoSucessModal.close()">Ok</button>
+  </modal-footer>
+</modal>
+
+<modal #assignVideoModal>
+  <modal-header>
+
+
+  </modal-header>
+  <modal-content>
+    <p>
+      Share Video
+    </p>
+    <div class="col-md-12">
+      <label class="col-md-3 control-label"> Users: </label>
+      <ss-multiselect-dropdown class="col-md-6" [options]="userlistOptions" [texts]="userlistTexts" [settings]="userlistSettings"
+        [(ngModel)]="userlistModel"></ss-multiselect-dropdown>
+    </div>
+    <div class="form-group pull-left" style="margin-top: 5%" *ngIf="updateMessage">
+      <span class="col-md-12">{{updateMessage}}</span>
+    </div>
+  </modal-content>
+  <modal-footer>
+
+    <button class=" btn btn-primary " [disabled]="!userlistModel || userlistModel?.length==0 " (click)="usersToVideo() ">Share</button>
+    <button class="btn btn-primary " (click)="assignVideoModal.close() ">Cancel</button>
+
+
   </modal-footer>
 </modal>

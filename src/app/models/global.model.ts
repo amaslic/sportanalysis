@@ -9,5 +9,5 @@ export const GlobalVariables = Object.freeze({
     // BASE_VIDEO_URL: 'http://localhost:3000',
     // BASE_IMAGE_URL: 'http://localhost:3000',
     // BASE_TRACKINGDATA_URL: 'http://localhost:3000',
-    // BASE_URL: 'http://localhost/'
+    // BASE_URL: 'http://localhost:4200/'
 });
