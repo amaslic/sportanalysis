@@ -49,6 +49,18 @@
       </ng-template>
     </ngx-datatable-column>
 
+    <ngx-datatable-column name="viewCounter">
+        
+        <ng-template let-column="club" ngx-datatable-header-template>
+          View Counter
+        </ng-template>
+        <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
+          {{value}}
+          <!--{{value.club}}-->
+        </ng-template>
+        
+    </ngx-datatable-column>
+
 
     <ngx-datatable-column name="id" sortable="false">
       <ng-template let-column="column" let-sort="sortFn" ngx-datatable-header-template>
