@@ -49,14 +49,14 @@ export class UsersComponent implements OnInit {
     this.clubService.getAllClubs(this.userService.token).subscribe(
       (response) => this.OnSuccessOfGetAllClubs(response),
       (error) => this.onError(error)
-      );
+    );
   }
 
-  OnSuccessOfGetAllClubs(response){
-        this.AllClubList = JSON.parse(response._body);
-        this.getUsers();
-        this.getUnApprovedUsers();
-      }
+  OnSuccessOfGetAllClubs(response) {
+    this.AllClubList = JSON.parse(response._body);
+    this.getUsers();
+    this.getUnApprovedUsers();
+  }
 
   getUsers() {
     this.userService.getUsers(this.userService.token).subscribe(
@@ -74,12 +74,14 @@ export class UsersComponent implements OnInit {
     this.usersList = JSON.parse(response._body);
 
     this.usersList.forEach(element => {
-        var userclub = this.AllClubList.filter(function (element1, index) {
+      var userclub = this.AllClubList.filter(function (element1, index) {
         return (element1._id === element.club);
-        })[0];
+      })[0];
 
-        if(typeof(userclub) != 'undefined')
-            element.club = userclub.name;
+      if (typeof (userclub) != 'undefined')
+        element.club = userclub.name;
+      else
+        element.club = '';
     });
     this.loadingIndicator = false;
   }
@@ -87,12 +89,14 @@ export class UsersComponent implements OnInit {
     this.unApprovedUsers = JSON.parse(response._body);
 
     this.unApprovedUsers.forEach(element => {
-        var userclub = this.AllClubList.filter(function (element1, index) {
+      var userclub = this.AllClubList.filter(function (element1, index) {
         return (element1._id === element.club);
-        })[0];
+      })[0];
 
-        if(typeof(userclub) != 'undefined')
-            element.club = userclub.name;
+      if (typeof (userclub) != 'undefined')
+        element.club = userclub.name;
+      else
+        element.club = '';
     });
 
     this.loadingIndicator = false;

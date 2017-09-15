@@ -42,7 +42,7 @@ export class AdminEditUserComponent implements OnInit {
     filteredClubs: any;
     userid: any;
     sub: any;
-    clubData = ['test'];
+    clubData = [];
     activatedClubList: any;
     AllClubList: any;
     public roles = [
@@ -189,6 +189,8 @@ export class AdminEditUserComponent implements OnInit {
         })[0]
         if (typeof (userclub) != 'undefined')
             this.user.club = userclub.name;
+        else
+            this.user.club = '';
     }
     changePassword(p) {
 

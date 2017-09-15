@@ -34,7 +34,7 @@ export class AdminAddUserComponent implements OnInit {
   private router: Router;
   clubCtrl: FormControl;
   filteredClubs: any;
-  clubData = ['test'];
+  clubData = [];
   activatedClubList: any;
   allClubList: any;
   public roles = [
