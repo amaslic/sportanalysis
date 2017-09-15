@@ -43,6 +43,10 @@ export class VideoSettingsComponent implements OnInit {
   showProgressBar: boolean = false;
   xmlId: any;
 
+  xmlDataApplicationTypes = ["tagapp", "sportscode", "telestrator"];
+  xmlDataApplicationTypeSelected = '';
+
+
   @ViewChild('form') form;
   @ViewChild('SucessModal') SucessModal;
   @ViewChild('ErrorModal') ErrorModal
@@ -55,6 +59,10 @@ export class VideoSettingsComponent implements OnInit {
     //   (response) => this.onIsAdminClubsSuccess(response),
     //   (error) => this.onError(error)
     // );
+  }
+
+  xmlTypeSelected(xmlType) {
+    console.log(this.xmlDataApplicationTypeSelected);
   }
 
   onIsAdminClubsSuccess(response) {
@@ -170,6 +178,7 @@ export class VideoSettingsComponent implements OnInit {
     if (!f.valid || !this.selectedFile.name) {
       return false;
     }
+    console.log('submitted');
 
     this.uploading = true;
     f.value.selectedFile = this.selectedFile;
