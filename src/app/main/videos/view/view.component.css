@@ -1209,3 +1209,6 @@ a.playlist-info:hover .message-list-content h4{
     color: white;
     width: 100%;
 }
+.video-images{height: 80px;display: inline-block;margin: 0px auto;}
+.list-inline span{font-size: 30px;display: inline-block;vertical-align: middle;}
+.video-date{display: block;margin-top: 20px;}
