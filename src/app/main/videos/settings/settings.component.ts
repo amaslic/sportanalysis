@@ -43,7 +43,7 @@ export class VideoSettingsComponent implements OnInit {
   showProgressBar: boolean = false;
   xmlId: any;
 
-  xmlDataApplicationTypes = ["tagapp", "sportscode", "telestrator"];
+  xmlDataApplicationTypes = ["tagapp", "ortec", "sportscode", "telestrator"];
   xmlDataApplicationTypeSelected = '';
 
 
