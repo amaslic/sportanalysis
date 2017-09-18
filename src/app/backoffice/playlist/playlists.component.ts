@@ -105,17 +105,17 @@ export class PlaylistsComponent implements OnInit {
     // console.log(this.playList);
 
     this.playList.forEach(element => {
-      
+
       var videoClubName = element['user'].club;
-        var videoClub = this.allClubList.filter(function (element1, index) {
+      var videoClub = this.allClubList.filter(function (element1, index) {
         return (element1._id === videoClubName);
-        })[0];
-      
-        if(typeof(videoClub) != 'undefined'){
-            element['user'].club = videoClub.name;
-        }else{
-            element['user'].club = '';
-        }
+      })[0];
+
+      if (typeof (videoClub) != 'undefined') {
+        element['user'].club = videoClub.name;
+      } else {
+        element['user'].club = '';
+      }
     });
     this.loadingIndicator = false;
   }
@@ -183,4 +183,20 @@ export class PlaylistsComponent implements OnInit {
     this.userlistOptions = this.trackUserlist;
 
   }
+  deletePlaylist(id) {
+    if (confirm("Are you sure to delete this playlist ?")) {
+      this.playlistService.deletePlaylist(this.userService.token, id).subscribe(
+        (response) => this.onDeletePlaylistSuccess(response),
+        (error) => this.onError(error)
+      );
+    }
+  }
+  onDeletePlaylistSuccess(response) {
+    const deleteMsgBody = JSON.parse(response._body);
+    this.successmsg = deleteMsgBody.message;
+    this.SucessModal.open();
+    this.getPlaylist();
+  }
+
+
 }
