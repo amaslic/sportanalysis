@@ -6,7 +6,8 @@
 
 <div class="content add-margin">
   <div class="container">
-    <h3>{{video.title}}</h3>
+    <h3 *ngIf="(video.type == 'Training')">{{video.title}}</h3>
+    <h3 *ngIf="(video.type != 'Training')">{{video.clubName}} vs {{video.clubName2}}</h3>
 
     <md-tab-group class="video-md-settings">
 
@@ -15,6 +16,17 @@
           <form class="form-horizontal" id="video-metadata-form" #videoEditForm="ngForm" (ngSubmit)="onVideoEditSubmit(videoEditForm)"
             novalidate [ngClass]="{'submited' : videoEditForm._submitted}">
             <div class="form-group">
+              <label class="control-label col-sm-3" for="type">Type:</label>
+              <div class="col-sm-9" style="margin-top: 24px;">
+                <md-radio-group required [(ngModel)]="video.type" id="type" name="type">
+                  <md-radio-button value="Match">Match</md-radio-button>
+                  <md-radio-button value="Event">Event</md-radio-button>
+                  <md-radio-button value="Training">Training</md-radio-button>
+                  <md-radio-button value="Telestration">Telestration</md-radio-button>
+                </md-radio-group>
+              </div>
+            </div>
+            <div *ngIf="(video.type == 'Training')" class="form-group">
               <label class="control-label col-sm-3" for="title">Video Title:</label>
               <div class="col-sm-9">
                 <input type="text" class="form-control" id="title" name="title" [ngModel]="video.title" placeholder="Enter Title" required>
@@ -27,14 +39,14 @@
                   required>
               </div>
             </div>
-            <div class="form-group">
+            <div *ngIf="(video.type != 'Training')" class="form-group">
               <label class="control-label col-sm-3">Club 1:</label>
               <div class="col-sm-9">
                 <ng2-completer #club="ngModel" id="selectClub" [(ngModel)]="video.clubName" name="clubName" placeholder="Club 1" [datasource]="clubData"
                   [minSearchLength]="3" required></ng2-completer>
               </div>
             </div>
-            <div class="form-group">
+            <div *ngIf="(video.type != 'Training')" class="form-group">
               <label class="control-label col-sm-3">Club 2:</label>
               <div class="col-sm-9">
                 <ng2-completer #club="ngModel" id="selectClub2" [(ngModel)]="video.clubName2" name="clubName2" placeholder="Club 2" [datasource]="clubData"
@@ -47,37 +59,37 @@
                 <input type="text" [(ngModel)]="video.season" class="form-control" name="season" id="season" placeholder="Season">
               </div>
             </div>
-            <div class="form-group">
+            <div *ngIf="(video.type != 'Training')" class="form-group">
               <label class="control-label col-sm-3" for="title">Competition:</label>
               <div class="col-sm-9">
                 <input type="text" [(ngModel)]="video.competition" class="form-control" name="competition" id="competition" placeholder="Competition">
               </div>
             </div>
-            <div class="form-group">
+            <div *ngIf="(video.type != 'Training')" class="form-group">
               <label class="control-label col-sm-3" for="title">Description:</label>
               <div class="col-sm-9">
                 <input type="text" [(ngModel)]="video.description" class="form-control" name="description" id="description" placeholder="Description">
               </div>
             </div>
-            <div class="form-group">
+            <div *ngIf="(video.type != 'Training')" class="form-group">
               <label class="control-label col-sm-3">Tactics of team 1:</label>
               <div class="col-sm-9">
                 <input type="text" [(ngModel)]="video.tacticsTeam1" class="form-control" name="tacticsTeam1" id="tacticsTeam1" placeholder="Tactics of team 1">
               </div>
             </div>
-            <div class="form-group">
+            <div *ngIf="(video.type != 'Training')" class="form-group">
               <label class="control-label col-sm-3">Tactics of team 2:</label>
               <div class="col-sm-9">
                 <input type="text" [(ngModel)]="video.tacticsTeam2" class="form-control" name="tacticsTeam2" id="tacticsTeam2" placeholder="Tactics of team 2">
               </div>
             </div>
-            <div class="form-group">
+            <div *ngIf="(video.type != 'Training')" class="form-group">
               <label class="control-label col-sm-3">Score of team 1:</label>
               <div class="col-sm-9">
                 <input type="text" [(ngModel)]="video.scoreTeam1" class="form-control" name="scoreTeam1" id="scoreTeam1" placeholder="Score of team 1">
               </div>
             </div>
-            <div class="form-group">
+            <div *ngIf="(video.type != 'Training')" class="form-group">
               <label class="control-label col-sm-3">Score of team 2:</label>
               <div class="col-sm-9">
                 <input type="text" [(ngModel)]="video.scoreTeam2" class="form-control" name="scoreTeam2" id="scoreTeam2" placeholder="Score of team 2">
@@ -85,17 +97,8 @@
             </div>
 
 
-            <div class="form-group">
-              <label class="control-label col-sm-3" for="type">Type:</label>
-              <div class="col-sm-9" style="margin-top: 24px;">
-                <md-radio-group required [(ngModel)]="video.type" id="type" name="type">
-                  <md-radio-button value="Match">Match</md-radio-button>
-                  <md-radio-button value="Event">Event</md-radio-button>
-                  <md-radio-button value="Training">Training</md-radio-button>
-                </md-radio-group>
-              </div>
-            </div>
-            <div class="form-group" *ngIf="video.type==='Match' || video.type==='Event'">
+
+            <div class="form-group" *ngIf="(video.type != 'Training')">
               <label class="control-label col-sm-3" for="team1">Team 1:</label>
               <div class="col-sm-9">
                 <!--<input type="text" class="form-control" id="team1" name="team1" [ngModel]="video.team1" placeholder="Enter Name">-->
@@ -105,7 +108,7 @@
 
               </div>
             </div>
-            <div class="form-group" *ngIf="video.type==='Match'">
+            <div class="form-group" *ngIf="(video.type != 'Training')">
               <label class="control-label col-sm-3" for="team2">Team 2:</label>
               <div class="col-sm-9">
                 <!--<input type="text" class="form-control" id="team2" name="team2" [ngModel]="video.team2" placeholder="Enter Name">-->
@@ -164,12 +167,13 @@
                   </ul>
                 </div>
               </div>
-              
+
               <div class="form-group">
-                  <label for="xmlDataApplication">
+                <label for="xmlDataApplication">
                     <h3>Xml Data Application:&nbsp;</h3>
                   </label>
-                  <select name="xmlDataApplication" required [(ngModel)]="xmlDataApplicationTypeSelected" (ngModelChange)="xmlTypeSelected($event)" style="font-size: 18px; font-weight: normal;">
+                <select name="xmlDataApplication" required [(ngModel)]="xmlDataApplicationTypeSelected" (ngModelChange)="xmlTypeSelected($event)"
+                  style="font-size: 18px; font-weight: normal;">
                       <option *ngFor="let xmlDataType of xmlDataApplicationTypes">{{xmlDataType}}</option>
                   </select>
               </div>
