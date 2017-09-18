@@ -9,6 +9,7 @@
     <h3 *ngIf="(video.type == 'Training')">{{video.title}}</h3>
     <h3 *ngIf="(video.type != 'Training')">{{video.clubName}} vs {{video.clubName2}}</h3>
 
+    <button class="btn btn-default pull-right" [routerLink]="['/backoffice/video-overview']">Back</button>
     <md-tab-group class="video-md-settings">
 
       <md-tab label="Video Details">

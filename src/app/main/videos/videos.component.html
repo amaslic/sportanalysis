@@ -31,15 +31,15 @@
           </ul>-->
          <tr>
         <td>
-          <img *ngIf="video.club1details.length > 0 && video.club1details[0].logo" [src]="baseVideoUrl + video.club1details[0].logo" alt="video.club1details[0].name" class="img-responsive">
-          <img *ngIf="video.club1details.length <= 0 || !video.club1details[0].logo || video.club1details[0].logo == ''" src="assets/images/real.png"  class="img-responsive">
+          <img *ngIf="(video.club1details.length > 0 && video.club1details[0].logo) && (video.type!='Training')" [src]="baseVideoUrl + video.club1details[0].logo" alt="video.club1details[0].name" class="img-responsive">
+          <img *ngIf="(video.club1details.length <= 0 || !video.club1details[0].logo || video.club1details[0].logo == '') && (video.type!='Training')" src="assets/images/default-clublogo.png"  class="img-responsive">
         </td>
        
-          <td *ngIf="video.scoreTeam1 && video.scoreTeam2">{{video.scoreTeam1}} : {{video.scoreTeam2}}</td>
-          <td *ngIf="!video.scoreTeam1 || !video.scoreTeam2">0 : 0</td>
+          <td *ngIf="(video.scoreTeam1 && video.scoreTeam2) && (video.type!='Training')">{{video.scoreTeam1}} : {{video.scoreTeam2}}</td>
+          <td *ngIf="(!video.scoreTeam1 || !video.scoreTeam2) && (video.type!='Training')">0 : 0</td>
         <td>
-          <img *ngIf="video.club2details.length > 0 && video.club2details[0].logo" [src]="baseVideoUrl + video.club2details[0].logo" alt="video.club1details[0].name" class="img-responsive">
-          <img *ngIf="video.club2details.length <= 0 || !video.club2details[0].logo || video.club2details[0].logo == ''" src="assets/images/juve.png"  class="img-responsive">
+          <img *ngIf="(video.club2details.length > 0 && video.club2details[0].logo) && (video.type!='Training')" [src]="baseVideoUrl + video.club2details[0].logo" alt="video.club1details[0].name" class="img-responsive">
+          <img *ngIf="(video.club2details.length <= 0 || !video.club2details[0].logo || video.club2details[0].logo == '') && (video.type!='Training')" src="assets/images/default-clublogo.png"  class="img-responsive">
         </td>
       </tr>
         </div>
@@ -83,10 +83,10 @@
         <ul class="list-inline">
           <li></li>
           <!-- <li>Video type / Duration</li> -->
-          <li class="result">Result</li>
-          <li>Type</li>
-          <li>Video Details</li>
           <li>Date</li>
+          <li class="result">Result</li>
+          <li>Video Details</li>
+          <li>Type</li>
           <li *ngIf="isCoach || isAdmin">Action</li>
         </ul>
       </div>
@@ -101,27 +101,29 @@
               <span>{{video.type}} 02:11:16</span> 
             </li>-->
             <!-- <div class="list-view-sideidetail">-->
+                <li class="views-date"> {{video.date | date:"dd.MM.yyyy"}}</li>
+
             <li class="teams-result">
               <!-- <ul class="list-inline">
                     <li><img src="assets/images/img1.png" class="img-responsive"></li>
                     <li>1 : 2</li>
                     <li><img src="assets/images/img2.png" class="img-responsive"></li>
                 </ul>-->
-              <span><img *ngIf="video.club1details.length > 0 && video.club1details[0].logo" [src]="baseVideoUrl + video.club1details[0].logo" alt="video.club1details[0].name" class="img-responsive">
-              <img *ngIf="video.club1details.length <= 0 || !video.club1details[0].logo || video.club1details[0].logo == ''" src="assets/images/real.png"  class="img-responsive"></span>
-              <span *ngIf="video.scoreTeam1 && video.scoreTeam2">{{video.scoreTeam1}} : {{video.scoreTeam2}}</span>
-              <span *ngIf="!video.scoreTeam1 || !video.scoreTeam2">0 : 0</span>
+              <span><img *ngIf="(video.club1details.length > 0 && video.club1details[0].logo) && (video.type!='Training')" [src]="baseVideoUrl + video.club1details[0].logo" alt="video.club1details[0].name" class="img-responsive">
+              <img *ngIf="(video.club1details.length <= 0 || !video.club1details[0].logo || video.club1details[0].logo == '') && (video.type!='Training')" src="assets/images/default-clublogo.png"  class="img-responsive"></span>
+              <span *ngIf="(video.scoreTeam1 && video.scoreTeam2) && (video.type!='Training')">{{video.scoreTeam1}} : {{video.scoreTeam2}}</span>
+              <span *ngIf="(!video.scoreTeam1 || !video.scoreTeam2) && (video.type!='Training')">0 : 0</span>
               <span>
-                <img *ngIf="video.club2details.length > 0 && video.club2details[0].logo"  [src]="baseVideoUrl + video.club2details[0].logo" alt="video.club1details[0].name" class="img-responsive">
-                <img *ngIf="video.club2details.length <= 0 || !video.club2details[0].logo || video.club2details[0].logo == ''" src="assets/images/juve.png"  class="img-responsive">
+                <img *ngIf="(video.club2details.length > 0 && video.club2details[0].logo) && (video.type!='Training')"  [src]="baseVideoUrl + video.club2details[0].logo" alt="video.club1details[0].name" class="img-responsive">
+                <img *ngIf="(video.club2details.length <= 0 || !video.club2details[0].logo || video.club2details[0].logo == '') && (video.type!='Training')" src="assets/images/default-clublogo.png"  class="img-responsive">
               </span>
             </li>
-            <li>{{video.type}}</li>
+            
             <li>
               <h2 class="video-title" *ngIf="(video.type=='Training')">{{video.title}}</h2>
               <h2 class="video-title" *ngIf="(video.type!='Training')"><span *ngIf="video.club1details.length > 0 && video.club1details[0].name">{{video.club1details[0].name}}</span>                vs <span *ngIf="video.club2details.length > 0 && video.club2details[0].name">{{video.club2details[0].name}}</span></h2>
             </li>
-            <li class="views-date"> {{video.date | date:"dd.MM.yyyy"}}</li>
+            <li>{{video.type}}</li>
 
 
             <!--   <li class="video-info-list">
@@ -140,7 +142,7 @@
               <i (click)="confirmDelete(video._id,$event)" title="Delete Video" class="fa fa-trash video-delete" aria-hidden="true"></i>
               <i (click)="assignVideo(video._id,$event)" class="fa fa-share-alt text-success"></i>
             </li>
-            
+
           </ul>
         </a>
 

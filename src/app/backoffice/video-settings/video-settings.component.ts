@@ -7,22 +7,22 @@ import {
 } from '@angular/router';
 import {
   UserService
-} from './../../../services/user.service';
+} from './../../services/user.service';
 import {
   TrackingDataService
-} from './../../../services/trackingData.service';
+} from './../../services/trackingData.service';
 import {
   VideoService
-} from './../../../services/video.service';
+} from './../../services/video.service';
 import {
   ClubService
-} from './../../../services/club.service';
+} from './../../services/club.service';
 @Component({
   selector: 'app-settings',
-  templateUrl: './settings.component.html',
-  styleUrls: ['./settings.component.css']
+  templateUrl: './video-settings.component.html',
+  styleUrls: ['./video-settings.component.css']
 })
-export class VideoSettingsComponent implements OnInit {
+export class VideosSettingComponent implements OnInit {
   successmsg: any;
   xmlDelete: any;
   errormsg: any;
@@ -325,8 +325,7 @@ export class VideoSettingsComponent implements OnInit {
             );
 
         });
-      }
-      else {
+      } else {
         this.updateVideo(f);
       }
     } else {
@@ -363,6 +362,8 @@ export class VideoSettingsComponent implements OnInit {
 
     if (typeof (f.value.team2) == 'undefined')
       f.value.team2 = '';
+    if (typeof (f.value.title) == 'undefined')
+      f.value.title = '';
 
     f.value.club = f.value.clubName;
     f.value.club2 = f.value.clubName2;

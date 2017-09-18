@@ -4,7 +4,7 @@ import {
   ViewChild
 } from '@angular/core';
 import {
-  ActivatedRoute
+  Router, ActivatedRoute
 } from '@angular/router';
 import {
   Video
@@ -47,6 +47,7 @@ export interface IMedia {
   styleUrls: ['./playlist-view.component.css']
 })
 export class PlaylistViewComponent implements OnInit {
+  errormsg: string;
   videoLoaded: boolean;
   playlisName: any;
   private sub: any;
@@ -90,9 +91,13 @@ export class PlaylistViewComponent implements OnInit {
     allSelected: 'All Playlist ',
   };
 
-  currentIndex = 1; //Set this to 0 to enable Intro video;
+  currentIndex = 0; //Set this to 0 to enable Intro video;
   currentItem: IMedia;
-  constructor(private route: ActivatedRoute, private playlistService: PlaylistService, private videoService: VideoService, private userService: UserService, private trackingDataService: TrackingDataService) { }
+  private router: Router;
+  @ViewChild('ErrorModal') ErrorModal;
+  constructor(private playlistService: PlaylistService, private videoService: VideoService, private userService: UserService, private trackingDataService: TrackingDataService, r: Router, private route: ActivatedRoute) {
+    this.router = r;
+  }
 
   ngOnInit() {
     this.sub = this.route.params.subscribe(params => {
@@ -117,11 +122,19 @@ export class PlaylistViewComponent implements OnInit {
     );
   }
   fetchPlaylistSuccess(response) {
+    //console.log("test", response._body)
     this.playList = JSON.parse(response._body);
     this.playlisName = this.playList['playlists'][0]['name'];
-    this.playList = this.playList['playlists'][0]['playdata'];
+
+    if (this.playList['playlists'] && this.playList['playlists'][0]['playdata'].length > 0) {
+      this.playList = this.playList['playlists'][0]['playdata'];
+    }
+    else {
+      this.errormsg = "Events not avalible to show";
+      this.ErrorModal.open();
+    }
     this.playList.forEach(element => {
-      console.log(element['video']);
+      // console.log(element['video']);
       var filteredObj = this.playlist.find(function (item, i) {
         return (item.id == element['video']['_id']);
       });
@@ -134,7 +147,7 @@ export class PlaylistViewComponent implements OnInit {
         'id': element['video']['_id']
       });
     });
-    console.log(this.playlist);
+
     this.currentItem = this.playlist[this.currentIndex];
 
     this.videoLoaded = true;
@@ -156,7 +169,6 @@ export class PlaylistViewComponent implements OnInit {
     // ];
 
     this.playList.forEach((play, index) => {
-      console.log(play);
       this.trackPlaylist.push({
         'id': play._id,
         'name': play.name
@@ -177,7 +189,7 @@ export class PlaylistViewComponent implements OnInit {
   onGetPlaylistSuccess(response) {
     this.playList = JSON.parse(response._body);
     this.playList = this.playList['playlists'];
-    console.log(this.playList);
+
     // this.playList.forEach(element => {
 
     // });
@@ -314,7 +326,7 @@ export class PlaylistViewComponent implements OnInit {
   }
 
   playVideo() {
-    console.log('Next video current ' + this.currentIndex);
+    // console.log('Next video current ' + this.currentIndex);
     var event: any = this.playList[this.currentIndex];
     if (this.api.getDefaultMedia())
       this.api.getDefaultMedia().currentTime = event.eventStart;
@@ -345,5 +357,8 @@ export class PlaylistViewComponent implements OnInit {
       default:
         return 'assets/event-icons/clock.svg';
     }
+  }
+  closeModal() {
+    this.router.navigateByUrl('/playlist');
   }
 }

@@ -63,4 +63,11 @@ export class PlaylistService {
         const body = { plist: plist, events: playlist };
         return this.http.post(this.baseApiUrl + 'playlist/updatePlaylist', body);
     }
+    deletePlaylist(token: String, id: any) {
+        const headers = new Headers({ 'Authorization': token });
+        const body = { token: token, id: id };
+        const options = new RequestOptions({ headers: headers });
+
+        return this.http.post(this.baseApiUrl + 'playlist/deletePlaylist', body, options);
+    }
 }
