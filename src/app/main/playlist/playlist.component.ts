@@ -28,6 +28,9 @@ import { RouterLink, Router } from '@angular/router';
   styleUrls: ['./playlist.component.css']
 })
 export class PlaylistComponent implements OnInit {
+  playdata: any = [];
+  successmsg: any;
+  isAdminOrCoach: Boolean = false;
   errormsg: string;
   clubActive: any;
   playList: Playlist[];
@@ -56,10 +59,17 @@ export class PlaylistComponent implements OnInit {
     defaultTitle: ' Select Playlist ',
     allSelected: 'All Playlist ',
   };
+  @ViewChild('SucessModal') SucessModal;
   @ViewChild('ErrorModal') ErrorModal;
   constructor(router: Router, private userService: UserService, private playlistService: PlaylistService, private clubService: ClubService) { }
 
   ngOnInit() {
+    var user = this.userService.loadUserFromStorage();
+    if (!user['admin'] && !user['coach']) {
+      this.isAdminOrCoach = false;
+    } else {
+      this.isAdminOrCoach = true;
+    }
     this.ClubStatus();
     this.getAllClubs();
   }
@@ -91,7 +101,7 @@ export class PlaylistComponent implements OnInit {
   }
   onClubStatusSuccess(response) {
     const clubResp = JSON.parse(response._body);
-    if(clubResp){
+    if (clubResp) {
       this.clubActive = clubResp.activated;
       if (!this.clubActive) {
         this.errormsg = "Club is deactivated by Admin.";
@@ -102,7 +112,7 @@ export class PlaylistComponent implements OnInit {
   onGetPlaylistSuccess(response) {
     this.playList = JSON.parse(response._body);
     this.playList = this.playList['playlists'];
-    // console.log(this.playList);
+    this.playdata = this.playList['playdata'];
 
     this.playList.forEach(element => {
 
@@ -131,9 +141,23 @@ export class PlaylistComponent implements OnInit {
   }
   onError(error) {
     const errorBody = JSON.parse(error._body);
-    console.error(errorBody);
-    alert(errorBody.msg);
-  }
+    this.errormsg = errorBody.message;
+    this.ErrorModal.open()
 
+  }
+  deletePlaylist(id) {
+    if (confirm("Are you sure to delete this playlist ?")) {
+      this.playlistService.deletePlaylist(this.userService.token, id).subscribe(
+        (response) => this.onDeletePlaylistSuccess(response),
+        (error) => this.onError(error)
+      );
+    }
+  }
+  onDeletePlaylistSuccess(response) {
+    const deleteMsgBody = JSON.parse(response._body);
+    this.successmsg = deleteMsgBody.message;
+    this.SucessModal.open();
+    this.getPlaylist();
+  }
 
 }
