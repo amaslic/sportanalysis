@@ -33,16 +33,16 @@
         <vg-scrub-bar-cue-points class="customCuePoints " [vgCuePoints]="metadataTrack.cues " [vgFor]="sportanalysis-video "></vg-scrub-bar-cue-points>
       </vg-scrub-bar>
 
-      <vg-controls [vgAutohide]="true " [vgAutohideTime]="1.5 ">
+      <vg-controls [vgAutohide]="true" [vgAutohideTime]="1.5">
         <vg-play-pause></vg-play-pause>
         <vg-playback-button></vg-playback-button>
 
-        <vg-time-display vgProperty="current " vgFormat="mm:ss "></vg-time-display>
+        <vg-time-display vgProperty="current" vgFormat="mm:ss"></vg-time-display>
 
         <vg-scrub-bar></vg-scrub-bar>
 
-        <vg-time-display vgProperty="left " vgFormat="mm:ss "></vg-time-display>
-        <vg-time-display vgProperty="total " vgFormat="mm:ss "></vg-time-display>
+        <vg-time-display vgProperty="left" vgFormat="mm:ss"></vg-time-display>
+        <vg-time-display vgProperty="total" vgFormat="mm:ss"></vg-time-display>
 
         <!--<vg-track-selector></vg-track-selector>-->
         <vg-mute></vg-mute>
@@ -203,7 +203,8 @@
                   {{fancyTimeFormat(event.start)}}
                 </div>
                 <div class="message-list-content">
-                  <h4><img [src]="getEventIcon(event.name)" alt="Event Icon" width="38" height="38" style="visibility: hidden">{{event.name}} ({{event.team}})
+                  <h4><img [src]="getEventIcon(event.name)" alt="Event Icon" width="38" height="38" style="visibility: hidden">{{event.name}}
+                    ({{event.team}})
                   </h4>
                   <!-- <p>Friday, 9 June 2017</p> -->
                   <!--  <div class="dots dropdown"><i class="dropbtn fa fa-ellipsis-h" aria-hidden="true"></i>
