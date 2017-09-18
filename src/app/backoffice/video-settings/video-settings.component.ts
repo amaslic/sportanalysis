@@ -202,6 +202,7 @@ export class VideosSettingComponent implements OnInit {
 
     this.showProgressBar = true;
     if (f.value.type != 'Training') {
+      f.value.title = '';
       var clubName = f.value.clubName;
       if (clubName != '' && clubName != null) {
         var ClubData1 = this.allClubList.filter(function (element, index) {
