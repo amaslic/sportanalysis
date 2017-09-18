@@ -59,7 +59,7 @@ import { PlaylistsComponent } from './backoffice/playlist/playlists.component';
 import { PlaylistViewComponent } from './main/playlist-view/playlist-view.component';
 
 import { VideoOverviewComponent } from './backoffice/video-overview/video-overview.component';
-
+import { VideosSettingComponent } from './backoffice/video-settings/video-settings.component';
 import { NouisliderModule } from 'ng2-nouislider';
 import { DropdownModule } from "ngx-dropdown";
 import { OrderByPipe } from './pipes/order-by.pipe';
@@ -114,7 +114,8 @@ const appRoutes: Routes = [
       { path: 'add-user', component: AdminAddUserComponent },
       { path: 'edit-user/:id', component: AdminEditUserComponent },
       { path: 'teams', component: TeamsComponent },
-      { path: '*', component: UsersComponent }
+      { path: '*', component: UsersComponent },
+      { path: 'videos-settings/:id', component: VideosSettingComponent },
     ]
   },
   { path: "*", redirectTo: 'videos' }
@@ -160,6 +161,7 @@ const appRoutes: Routes = [
     PlaylistViewComponent,
     AdminAddUserComponent,
     AdminEditUserComponent,
+    VideosSettingComponent,
   ],
   imports: [
     BrowserModule,
@@ -186,7 +188,7 @@ const appRoutes: Routes = [
     MultiselectDropdownModule,
     Ng2CompleterModule
   ],
-  providers: [UserService, VideoService, TrackingDataService, AuthGuard, AdminGuard, ClubService, PlaylistService,TeamService],
+  providers: [UserService, VideoService, TrackingDataService, AuthGuard, AdminGuard, ClubService, PlaylistService, TeamService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
