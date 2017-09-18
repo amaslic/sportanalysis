@@ -23,7 +23,7 @@ export class SearchVideoTimelineTeamPipe implements PipeTransform {
                 return team.indexOf(tItem.team) > -1;
             else return true
         });
-        console.log(fData)
+        // console.log(fData)
         return fData;
     }
 }

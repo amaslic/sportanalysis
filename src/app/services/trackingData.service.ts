@@ -75,8 +75,8 @@ export class TrackingDataService {
     const headers = new Headers({
       'Authorization': token
     });
-
-    const body = { token: token, videoId: videoId, event: event, users: user, url: this.baseUrl + 'videos/view/' + videoId + '/' + event.id[0] };
+    // console.log(event);
+    const body = { token: token, videoId: videoId, event: event, users: user, url: this.baseUrl + 'videos/view/' + videoId + '/' + event.eventDataId + '/' + event.id };
     const options = new RequestOptions({
       headers: headers
     });
@@ -138,5 +138,16 @@ export class TrackingDataService {
     const headers = new Headers({ 'Authorization': token });
     const options = new RequestOptions({ headers: headers });
     return this.http.get(this.baseApiUrl + 'trackingData/deleteById?id=' + id, options);
+  }
+
+  getEventsByVideo(videoId: any, token: String) {
+    const headers = new Headers({
+      'Authorization': token
+    });
+    const body = { token: token, videoId: videoId };
+    const options = new RequestOptions({
+      headers: headers
+    });
+    return this.http.post(this.baseApiUrl + 'eventData/getEventsByVideo', body, options);
   }
 }

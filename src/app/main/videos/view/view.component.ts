@@ -210,6 +210,8 @@ export class ViewComponent implements OnInit {
     allSelected: 'All Video ',
   };
   multiPlaylist: any = [];
+  events: any = [];
+  eventDataId: any;
 
 
   @ViewChild('createPlaylistModal') createPlaylistModal;
@@ -238,9 +240,10 @@ export class ViewComponent implements OnInit {
     this.showEvent = true;
     this.sub = this.route.params.subscribe(params => {
       this.videoId = params['id'];
-      if (params['eid']) {
+      if (params['eid'] && params['edid']) {
+        
         this.eventId = params['eid'];
-        this.trackingDataService.getEventDetails(this.videoId, params['eid'], this.userService.token).subscribe(
+        this.trackingDataService.getEventDetails(this.videoId, params['edid'], this.userService.token).subscribe(
           (response) => this.getEventDetailsSuccess(response, params['eid']),
           (error) => this.onError(error)
         )
@@ -262,6 +265,121 @@ export class ViewComponent implements OnInit {
     this.searchArray = this.teamModel.concat(this.eventModel);
 
   }
+
+  getVideoEventsData(id: String) {
+    this.trackingDataService.getEventsByVideo(id, this.userService.token).subscribe(
+      (response) => this.ongetVideoEventsDataSuccess(response),
+      (error) => this.onError(error)
+    );
+  }
+
+  ongetVideoEventsDataSuccess(response) {
+    this.events = JSON.parse(response._body);
+    // console.log(this.events);
+    this.trackingJsonData = [];
+    var count = 1;
+    this.events.forEach((element, index) => {
+      element.eventData.forEach((event, index) => {
+        if (typeof (event.id) != 'undefined') {
+          event.id = event.id[0];
+        }
+        if (typeof (event.name) != 'undefined') {
+          event.name = event.name[0];
+        }
+        if (typeof (event.team) != 'undefined') {
+          event.team = event.team[0];
+        }
+        if (typeof (event.start) != 'undefined') {
+          event.start = event.start[0];
+        }
+        if (typeof (event.end) != 'undefined') {
+          event.end = event.end[0];
+        }
+        event.rowId = count;
+        event.eventDataId = element._id; 
+        this.trackingJsonData.push(event);
+        count++;
+      });
+    });
+
+    this.videoEvents = this.trackingDataService.groupEvents(this.trackingJsonData, this.api.getDefaultMedia().duration);
+    
+    this.trackingJsonData.forEach((event, index) => {
+
+      // event.checked = true;
+
+      if (event.start !== "NaN") {
+        if (this.trackEventCheck.indexOf(event.name) == -1) {
+          this.trackEventCheck.push(event.name);
+          this.trackEvent.push({
+            'id': event.name,
+            'name': event.name
+          });
+        }
+        if (this.trackTeamCheck.indexOf(event.team) == -1) {
+          this.trackTeamCheck.push(event.team);
+          this.trackTeam.push({
+            'id': event.team,
+            'name': event.team
+          });
+
+        }
+      }
+
+      let start = parseInt(event.start);
+      let end = start + 0.5;
+      if (event.start !== "NaN" &&
+        (event.name === "Goal" ||
+          event.name === "Kick Off" ||
+          event.name === "Red Card" ||
+          event.name === "Yellow Card" ||
+          event.name === "Change" ||
+          event.name === "Free Kick"
+        ) &&
+        this.api.getDefaultMedia().duration > event.start) {
+        this.track.addCue(
+          new VTTCue(start, end, JSON.stringify({
+            title: event.name,
+            team: event.team
+          }))
+        );
+      }
+    });
+    // console.log("TRACK", this.track);
+    // console.info('Event', this.trackEvent);
+    this.myOptions = this.trackTeam;
+    this.myOptions1 = this.trackEvent;
+    // console.info('Team', this.trackTeam);
+
+
+    let greenLineHeight = this.videoEvents.length * 30 + 60;
+    document.styleSheets[0].addRule('.range-slider /deep/ .irs-slider.single::after', 'height: ' + greenLineHeight + 'px !important');
+    document.styleSheets[0].addRule('vg-scrub-bar-cue-points .cue-point-container .cue-point', 'pointer-events:auto !important');
+    document.styleSheets[0].addRule('vg-scrub-bar-cue-points', 'pointer-events:auto !important');
+
+    let cueData = this.track.cues;
+    let intId = setInterval(function () {
+      var container = document.getElementsByClassName("cue-point-container")[0];
+      if (container) {
+        var container_child = container.getElementsByClassName('cue-point');
+        if (container_child) {
+          for (var i = 0; i < cueData.length; i++) {
+            let cuePoint = JSON.parse(cueData[i].text)
+            let z = document.createAttribute('data-tooltip');
+            z.value = cuePoint.title + " - " + cuePoint.team;
+            container_child[i].setAttributeNode(z);
+
+          }
+          clearInterval(intId);
+        }
+      }
+
+    }, 1000);
+
+  }
+
+
+
 
 
   getVideoTrackingDataItems(id: String) {
@@ -416,22 +534,22 @@ export class ViewComponent implements OnInit {
   currentIndex = 1; //Set this to 0 to enable Intro video;
   currentItem: IMedia;
 
-  shareEventlist(vid, eid) {
+  shareEventlist(vid, e) {
     // console.log(vid, eid)
-
+    // console.log(e);
     this.userService.getUsers(this.userService.token).subscribe(
       (response) => this.onGetUsersSuccess(response),
       (error) => this.onError(error)
     );
-    this.trackingDataService.getEventDetails(vid, eid, this.userService.token).subscribe(
-      (response) => this.getEventDetailsSuccess(response, eid),
-      (error) => this.onError(error)
-    )
+    // this.trackingDataService.getEventDetails(vid, e.id, this.userService.token).subscribe(
+    //   (response) => this.getEventDetailsSuccess(response, e.id),
+    //   (error) => this.onError(error)
+    // )
+    this.eventsDetails = e;
     this.assignEventModal.open();
 
   }
   getEventDetailsSuccess(response, eid) {
-
     const eventsdata = JSON.parse(response._body);
     // console.log(eventsdata.eventData);
     this.eventsDetails = eventsdata.eventData.filter(function (element, index) {
@@ -453,7 +571,7 @@ export class ViewComponent implements OnInit {
 
   }
   usersToEvent() {
-
+    // console.log(this.eventsDetails);
     this.trackingDataService.shareEvent(this.videoId, this.eventsDetails, this.userlistModel, this.userService.token).subscribe(
       (response) => this.shareEventSuccess(response),
       (error) => this.onError(error)
@@ -518,7 +636,8 @@ export class ViewComponent implements OnInit {
         // console.log(this.videoDuration);
         // console.log(this.fancyVideoDuration);
 
-        this.getVideoTrackingDataItems(this.videoId);
+        // this.getVideoTrackingDataItems(this.videoId);
+        this.getVideoEventsData(this.videoId);
 
 
         //}
@@ -725,12 +844,13 @@ export class ViewComponent implements OnInit {
     this.create = true;
     this.multiplay = multiplay;
     this.vId = vId;
-    this.eId = event.id;
-    this.eStrat = event.start;
-    this.eEnd = event.end;
-    this.eName = event.name;
-    this.eTeam = event.team;
-    // console.log(event);
+    // this.eId = event.id;
+    // this.eStrat = event.start;
+    // this.eEnd = event.end;
+    // this.eName = event.name;
+    // this.eTeam = event.team;
+    // this.eventDataId = event.eventDataId;
+    //  console.log(this.eventDataId);
     this.playlistName = '';
     this.createPlaylistModal.open();
   }
@@ -744,6 +864,8 @@ export class ViewComponent implements OnInit {
     this.eEnd = event.end;
     this.eName = event.name;
     this.eTeam = event.team;
+    this.eventDataId = event.eventDataId;
+
     this.playlistService.getPlaylists(this.userService.token).subscribe(
       (response) => this.onGetPlaylistsSuccess(response),
       (error) => this.onError(error)
@@ -775,6 +897,7 @@ export class ViewComponent implements OnInit {
     this.playlists['playlistId'] = this.playlistModel;
     this.playlists['user'] = this.userService.user._id;
     this.playlists['token'] = this.userService.token;
+    this.playlists['eventDataId'] = this.eventDataId;
 
     if (this.multiPlaylist.length > 0 && this.multiplay) {
       this.playlistService.updatePlaylistsEvents(this.multiPlaylist, this.playlists).subscribe(
@@ -811,8 +934,9 @@ export class ViewComponent implements OnInit {
     this.playlists['playlistName'] = this.playlistName;
     this.playlists['user'] = this.userService.user._id;
     this.playlists['token'] = this.userService.token;
-    console.log(this.multiplay);
-    console.log('playlist', this.multiPlaylist);
+    this.playlists['eventDataId'] = this.eventDataId;
+    // console.log(this.multiplay);
+    //  console.log('playlist', this.multiPlaylist);
     if (this.multiPlaylist.length > 0 && this.multiplay) {
       this.playlistService.createPlaylistsEvents(this.multiPlaylist, this.playlists).subscribe(
         (response) => this.onAddPlaylistSuccess(response),
@@ -847,6 +971,8 @@ export class ViewComponent implements OnInit {
   }
 
   selectEvent(e, event) {
+    
+    event.checked = e.checked;
     if (e.checked) {
       this.multiPlaylist.push(event);
     } else {
@@ -855,6 +981,7 @@ export class ViewComponent implements OnInit {
   }
   deselectAll() {
     this.multiPlaylist = [];
+    
     this.trackingJsonData.forEach((event, index) => {
       event.checked = false;
     });

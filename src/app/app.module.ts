@@ -93,7 +93,7 @@ const appRoutes: Routes = [
       { path: 'videos', component: VideosComponent },
       { path: 'videos/upload', component: UploadComponent },
       { path: 'videos/view/:id', component: ViewComponent },
-      { path: 'videos/view/:id/:eid', component: ViewComponent },
+      { path: 'videos/view/:id/:edid/:eid', component: ViewComponent },
       { path: 'videos/settings/:id', component: VideoSettingsComponent },
       { path: 'playlist', component: PlaylistComponent },
       { path: 'playlist/view/:id', component: PlaylistViewComponent },

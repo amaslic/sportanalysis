@@ -197,7 +197,7 @@
 
             <li>
 
-              <md-checkbox ng-model="event.checked" [checked]="event.checked" class="more-events" id="{{event.id}}" (change)="selectEvent($event,event)"></md-checkbox>
+              <md-checkbox ng-model="event.checked" [checked]="event.checked" class="more-events" id="{{event.rowId}}" (change)="selectEvent($event,event)"></md-checkbox>
               <a style="display:block" class="playlist-info" href="#" (click)="goToEvent($event, event)" *ngIf="event.start !== 'NaN'">
                 <div class="message-img">
                   {{fancyTimeFormat(event.start)}}
@@ -220,7 +220,7 @@
                     <ul class="dropdown-menu multi-level" role="menu" aria-labelledby="dropdownMenu">
                       <!--<li (click)="createPlaylist(video._id,event,false)">Create Playlist</li>-->
                       <li id="addtoplay" (click)="addToPlaylist(video._id,event,false)">Add to playlist</li>
-                      <li id="event" *ngIf="isAdminOrCoach" (click)="shareEventlist(video._id,event.id)">Share Event</li>
+                      <li id="event" *ngIf="isAdminOrCoach" (click)="shareEventlist(video._id,event)">Share Event</li>
                       <!--<li class="dropdown-submenu">
 
                         <a id="event" *ngIf="isAdmin"  (click)="shareEventlist(video._id,event.id)">Share Event</a>

@@ -12,7 +12,7 @@ export class SearchEventPipe implements PipeTransform {
         let team = term[0];
         let event = term[1];
         let search = term[2];
-        console.log(search);
+        // console.log(search);
 
         if (!search || search.length == 0) {
             if ((!team || team.length == 0) && (!event || event.length == 0)) return value;
