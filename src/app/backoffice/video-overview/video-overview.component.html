@@ -83,7 +83,9 @@
         </button> -->
 
         <i class="fa fa-share-alt fa-lg text-success" aria-hidden="true" (click)="assignVideo(row._id)"></i>&nbsp;
-        <i class="fa fa-trash delete fa-lg text-danger" aria-hidden="true" (click)="confirmDelete(value)"></i>
+        <i class="fa fa-cog fa-lg text-info" aria-hidden="true" [routerLink]="['/backoffice/videos-settings',row._id]"></i>&nbsp;
+        <i class="fa fa-trash fa-lg text-danger" aria-hidden="true" (click)="confirmDelete(value)"></i>
+
 
       </ng-template>
     </ngx-datatable-column>

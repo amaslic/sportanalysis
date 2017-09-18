@@ -18,6 +18,9 @@ import {
 import {
   ClubService
 } from './../../services/club.service';
+import {
+  Router, ActivatedRoute
+} from '@angular/router';
 
 import { IMultiSelectOption, IMultiSelectSettings, IMultiSelectTexts } from 'angular-2-dropdown-multiselect';
 import { GlobalVariables } from "app/models/global.model";
@@ -86,10 +89,13 @@ export class VideoOverviewComponent implements OnInit {
     name: 'Action'
   }
   ];
+  private router: Router;
 
   @ViewChild('assignVideoModal') assignVideoModal;
   @ViewChild('videoSucessModal') videoSucessModal;
-  constructor(platformLocation: PlatformLocation, private videoService: VideoService, private userService: UserService, private clubService: ClubService) { }
+  constructor(platformLocation: PlatformLocation, private videoService: VideoService, private userService: UserService, private clubService: ClubService, r: Router, private route: ActivatedRoute) {
+    this.router = r;
+  }
 
   ngOnInit() {
     this.getAllClubs();
