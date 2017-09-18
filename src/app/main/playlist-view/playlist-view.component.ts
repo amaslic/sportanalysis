@@ -122,7 +122,7 @@ export class PlaylistViewComponent implements OnInit {
     );
   }
   fetchPlaylistSuccess(response) {
-    console.log("test", response._body)
+    //console.log("test", response._body)
     this.playList = JSON.parse(response._body);
     this.playlisName = this.playList['playlists'][0]['name'];
 
@@ -134,7 +134,7 @@ export class PlaylistViewComponent implements OnInit {
       this.ErrorModal.open();
     }
     this.playList.forEach(element => {
-      console.log(element['video']);
+      // console.log(element['video']);
       var filteredObj = this.playlist.find(function (item, i) {
         return (item.id == element['video']['_id']);
       });
@@ -169,7 +169,6 @@ export class PlaylistViewComponent implements OnInit {
     // ];
 
     this.playList.forEach((play, index) => {
-      console.log(play);
       this.trackPlaylist.push({
         'id': play._id,
         'name': play.name
@@ -327,7 +326,7 @@ export class PlaylistViewComponent implements OnInit {
   }
 
   playVideo() {
-    console.log('Next video current ' + this.currentIndex);
+    // console.log('Next video current ' + this.currentIndex);
     var event: any = this.playList[this.currentIndex];
     if (this.api.getDefaultMedia())
       this.api.getDefaultMedia().currentTime = event.eventStart;
