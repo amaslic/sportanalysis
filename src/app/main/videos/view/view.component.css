@@ -215,7 +215,7 @@
 
 .playlist ul {
   /*max-height: 637px;*/
-  max-height: 745px;
+  max-height: 828px;
   /*overflow: auto;*/
 }
 
@@ -582,8 +582,16 @@
 
 }
 
+.video-image-main span.video-score{
+  padding: 0 40px 0 40px;
+}
+
+.video-date{
+  margin-left: 20px;
+}
+
 .stats ul li .message-list-content {
-  padding-left: 15px;
+  
   padding-bottom:5px;
   padding-top: 5px;
 }

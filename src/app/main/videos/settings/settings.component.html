@@ -127,10 +127,10 @@
         </perfect-scrollbar>
       </md-tab>
 
-      <md-tab label="Tracking Data">
+      <md-tab label="Data">
         <div class="row">
           <div class="col-md-8">
-            <h3>Tracking Data Files:</h3>
+            <h3>Data Files:</h3>
             <div class="list-group">
               <a class="list-group-item clearfix" *ngFor="let data of videoTrackingData">
             {{data.title}} ({{data.original_filename}})
@@ -152,7 +152,7 @@
               <!--<div class="form-group">
                 <input type="text" name="title" [(ngModel)]="title" class="form-control" placeholder="Title" required title>
               </div>-->
-              <div class="form-group">
+            <!--  <div class="form-group">
                 <div class="col-md-6 data-app">
                   <h3>
                     Data application
@@ -166,13 +166,13 @@
                     <li>Option 2</li>
                   </ul>
                 </div>
-              </div>
+              </div>-->
 
               <div class="form-group">
                 <label for="xmlDataApplication">
                     <h3>Xml Data Application:&nbsp;</h3>
                   </label>
-                <select name="xmlDataApplication" required [(ngModel)]="xmlDataApplicationTypeSelected" (ngModelChange)="xmlTypeSelected($event)"
+                <select class="sportscode" name="xmlDataApplication" required [(ngModel)]="xmlDataApplicationTypeSelected" (ngModelChange)="xmlTypeSelected($event)"
                   style="font-size: 18px; font-weight: normal;">
                       <option *ngFor="let xmlDataType of xmlDataApplicationTypes">{{xmlDataType}}</option>
                   </select>
