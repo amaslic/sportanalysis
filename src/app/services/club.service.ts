@@ -58,6 +58,7 @@ export class ClubService {
     form.append('slug', data.slug);
     form.append('logoFile', data.logo._file);
     form.append('id', data.id);
+    form.append('activate', data.activate);
     return this.p_http.withUploadProgressListener(progress => {
       // console.log(`Uploading ${progress.percentage}%`);
       this.progressSubject.next(progress.percentage);
@@ -97,10 +98,10 @@ export class ClubService {
   }
 
   createClub(club) {
-        return this.http.post(this.baseApiUrl + 'club/create', club);
-    }
+    return this.http.post(this.baseApiUrl + 'club/create', club);
+  }
 
-    getAllClubs(token: String) {
+  getAllClubs(token: String) {
     const headers = new Headers({
       'Authorization': token
     });
@@ -122,6 +123,7 @@ export class ClubService {
     form.append('name', data.newClubName);
     form.append('slug', data.newClubSlug);
     form.append('logoFile', data.logo._file);
+    form.append('activate', data.activate);
     return this.p_http.withUploadProgressListener(progress => {
       // console.log(`Uploading ${progress.percentage}%`);
       this.progressSubject.next(progress.percentage);
@@ -139,8 +141,8 @@ export class ClubService {
     const form: any = new FormData();
     form.append('name', data.editClubName);
     form.append('slug', data.editClubSlug);
-    if(data.updatelogo)
-        form.append('logoFile', data.logo._file);
+    if (data.updatelogo)
+      form.append('logoFile', data.logo._file);
     form.append('id', data.id);
     form.append('updateLogo', data.updatelogo);
     return this.p_http.withUploadProgressListener(progress => {
@@ -149,14 +151,14 @@ export class ClubService {
     }).post(this.baseApiUrl + 'club/activate', form, options);
   }
 
-  updateClubwithoutLogo(token: String,club) {
+  updateClubwithoutLogo(token: String, club) {
     const headers = new Headers({
       'Authorization': token
     });
     const options = new RequestOptions({
       headers: headers
     });
-    return this.http.post(this.baseApiUrl + 'club/updateClubwithoutLogo',club, options);
+    return this.http.post(this.baseApiUrl + 'club/updateClubwithoutLogo', club, options);
   }
 
   deactiveClub(club, token) {
@@ -166,7 +168,7 @@ export class ClubService {
     const options = new RequestOptions({
       headers: headers
     });
-    return this.http.post(this.baseApiUrl + 'club/deactive', club , options);
+    return this.http.post(this.baseApiUrl + 'club/deactive', club, options);
   }
 
 }
