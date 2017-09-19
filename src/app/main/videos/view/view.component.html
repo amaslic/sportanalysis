@@ -51,7 +51,8 @@
         <vg-fullscreen></vg-fullscreen>
       </vg-controls>
 
-      <video [vgMedia]="media " #media id="sportanalysis-video " preload="auto " crossorigin [src]="currentItem.src ">
+      <video (keypress)="eventHandler($event)" [vgMedia]="media " #media id="sportanalysis-video " preload="auto " crossorigin
+        [src]="currentItem.src ">
         <!-- <source [src]="currentItem.src " [type]="currentItem.type "> -->
         <track src="assets/data/cue-points.vtt " kind="metadata " label="Cue Points
       " default #metadataTrack vgCuePoints (onEnterCuePoint)="onEnterCuePoint($event) " (onExitCuePoint)="onExitCuePoint($event) ">

@@ -1,7 +1,9 @@
 import {
   Component,
   OnInit,
-  ViewChild
+  ViewChild,
+  HostListener,
+  Renderer2
 } from '@angular/core';
 import {
   Router,
@@ -70,6 +72,9 @@ export interface IMedia {
   styleUrls: ['./view.component.css']
 })
 export class ViewComponent implements OnInit {
+  keyCode: any;
+
+  globalListenFunc: Function;
   create: boolean;
   multiplay: Boolean;
   successmsg: any;
@@ -213,6 +218,18 @@ export class ViewComponent implements OnInit {
   events: any = [];
   eventDataId: any;
 
+  @HostListener('window:keypress', ['$event'])
+  handleKeyboardEvent(event: KeyboardEvent) {
+    this.keyCode = event.keyCode;
+    console.log('test', event);
+    if (this.keyCode == '32') {
+      if (this.api.state == 'playing') {
+        this.api.pause();
+      } else {
+        this.api.play();
+      }
+    }
+  }
 
   @ViewChild('createPlaylistModal') createPlaylistModal;
   @ViewChild('updatePlaylistModal') updatePlaylistModal;
@@ -221,10 +238,12 @@ export class ViewComponent implements OnInit {
 
   //@ViewChild('eventTimelineScrollbar') eventTimelineScrollbar;
 
-  constructor(private r: Router, private route: ActivatedRoute, private playlistService: PlaylistService, private videoService: VideoService, private userService: UserService, private trackingDataService: TrackingDataService) { }
+  constructor(private r: Router, private route: ActivatedRoute, private playlistService: PlaylistService, private videoService: VideoService, private userService: UserService, private trackingDataService: TrackingDataService, private renderer: Renderer2) { }
 
   ngOnInit() {
-
+    this.globalListenFunc = this.renderer.listen('document', 'keypress', e => {
+      console.log('test', e);
+    });
     var user = this.userService.loadUserFromStorage();
 
     if (!user['admin'] && !user['coach']) {
@@ -241,7 +260,7 @@ export class ViewComponent implements OnInit {
     this.sub = this.route.params.subscribe(params => {
       this.videoId = params['id'];
       if (params['eid'] && params['edid']) {
-        
+
         this.eventId = params['eid'];
         this.trackingDataService.getEventDetails(this.videoId, params['edid'], this.userService.token).subscribe(
           (response) => this.getEventDetailsSuccess(response, params['eid']),
@@ -296,14 +315,14 @@ export class ViewComponent implements OnInit {
           event.end = event.end[0];
         }
         event.rowId = count;
-        event.eventDataId = element._id; 
+        event.eventDataId = element._id;
         this.trackingJsonData.push(event);
         count++;
       });
     });
 
     this.videoEvents = this.trackingDataService.groupEvents(this.trackingJsonData, this.api.getDefaultMedia().duration);
-    
+
     this.trackingJsonData.forEach((event, index) => {
 
       // event.checked = true;
@@ -378,7 +397,9 @@ export class ViewComponent implements OnInit {
 
   }
 
-
+  eventHandler(event) {
+    console.log(event, event.keyCode, event.keyIdentifier);
+  }
 
 
 
@@ -518,6 +539,8 @@ export class ViewComponent implements OnInit {
       ];
 
       this.currentItem = this.playlist[this.currentIndex];
+
+
     }
     else {
       this.r.navigateByUrl('/videos');
@@ -971,7 +994,7 @@ export class ViewComponent implements OnInit {
   }
 
   selectEvent(e, event) {
-    
+
     event.checked = e.checked;
     if (e.checked) {
       this.multiPlaylist.push(event);
@@ -981,9 +1004,10 @@ export class ViewComponent implements OnInit {
   }
   deselectAll() {
     this.multiPlaylist = [];
-    
+
     this.trackingJsonData.forEach((event, index) => {
       event.checked = false;
     });
   }
+
 }
