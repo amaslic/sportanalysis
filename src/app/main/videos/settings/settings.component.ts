@@ -365,8 +365,13 @@ export class VideoSettingsComponent implements OnInit {
     if (typeof (f.value.team2) == 'undefined')
       f.value.team2 = '';
 
-    f.value.club = f.value.clubName;
-    f.value.club2 = f.value.clubName2;
+    if (f.value.type != 'Training') {
+      f.value.club = f.value.clubName;
+      f.value.club2 = f.value.clubName2;
+    } else {
+      f.value.club = '';
+      f.value.club2 = '';
+    }
     this.getAllClubs();
 
     this.videoService.updateVideo(this.videoId, f.value, this.userService.token)
