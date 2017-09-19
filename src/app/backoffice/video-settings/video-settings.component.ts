@@ -327,6 +327,7 @@ export class VideosSettingComponent implements OnInit {
 
         });
       } else {
+
         this.updateVideo(f);
       }
     } else {
@@ -365,9 +366,13 @@ export class VideosSettingComponent implements OnInit {
       f.value.team2 = '';
     if (typeof (f.value.title) == 'undefined')
       f.value.title = '';
-
-    f.value.club = f.value.clubName;
-    f.value.club2 = f.value.clubName2;
+    if (f.value.type != 'Training') {
+      f.value.club = f.value.clubName;
+      f.value.club2 = f.value.clubName2;
+    } else {
+      f.value.club = '';
+      f.value.club2 = '';
+    }
     this.getAllClubs();
 
     this.videoService.updateVideo(this.videoId, f.value, this.userService.token)
