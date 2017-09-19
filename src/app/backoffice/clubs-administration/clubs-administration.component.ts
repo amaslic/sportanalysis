@@ -108,9 +108,9 @@ export class ClubsAdministrationComponent implements OnInit {
 
   selectedFile;
   name;
-  onSubmit(f) {
-    // console.log(f.value);
-
+  onSubmit(f, acivate) {
+    console.log(f.value);
+    console.log(acivate);
     if (!f.valid) {
       return false;
     }
@@ -123,6 +123,7 @@ export class ClubsAdministrationComponent implements OnInit {
         data.user = this.userService.user._id;
         data.logo = this.selectedFile;
         data.id = this.selectedClub[0]._id;
+        data.activate = acivate;
         // console.log(data);
         this.clubService.approveClub(data, this.userService.token).subscribe(
           (response) => this.onApproveClubSuccess(response),
@@ -135,14 +136,14 @@ export class ClubsAdministrationComponent implements OnInit {
         this.showProgressBar = false;
       }
     } else {
-      this.clubService.updateClubwithoutLogo(this.userService.token, { id: this.selectedClub[0]._id, name: f.value.name, slug: f.value.slug, location: null }).subscribe(
+      this.clubService.updateClubwithoutLogo(this.userService.token, { id: this.selectedClub[0]._id, name: f.value.name, slug: f.value.slug, location: null, activate: acivate }).subscribe(
         (response) => this.onApproveClubSuccess(response),
         (error) => this.onError(error)
       );
     }
   }
 
-  onSubmitNewClub(f) {
+  onSubmitNewClub(f, activate) {
     // console.log(f.value);
 
     if (!f.valid) {
@@ -155,6 +156,7 @@ export class ClubsAdministrationComponent implements OnInit {
       data.token = this.userService.token;
       data.user = this.userService.user._id;
       data.logo = this.newClub.selectedFile;
+      data.activate = activate;
       //data.id = this.selectedClub[0]._id;
       //console.log(data);
       this.clubService.addAndApproveClub(data, this.userService.token).subscribe(
@@ -210,7 +212,7 @@ export class ClubsAdministrationComponent implements OnInit {
     this.getActivatedClubs();
 
     // alert("Club Approved");
-    this.successmsg = 'Club Approved.';
+    this.successmsg = 'Club Updated Successfully.';
     this.successModal.open();
   }
 
@@ -236,8 +238,9 @@ export class ClubsAdministrationComponent implements OnInit {
     // console.log(this.newClub);
     //this.getClubs();
     this.getActivatedClubs();
+    this.getClubs();
     // alert("Club Approved");
-    this.successmsg = "Club Approved";
+    this.successmsg = "Club Created";
     this.successModal.open();
     this.newClub = [];
     //  this.selectedIndexChange(1);
