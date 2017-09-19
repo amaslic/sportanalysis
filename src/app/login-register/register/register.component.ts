@@ -77,9 +77,11 @@ export class RegisterComponent implements OnInit {
 
     var clubname = this.user.club;
 
-    var userclub = this.allClubList.filter(function (element, index) {
-      return (element.name.toLowerCase() === clubname.toLowerCase());
-    })[0];
+    if (typeof(this.allClubList) != 'undefined' && this.allClubList.length > 0) {
+      var userclub = this.allClubList.filter(function (element, index) {
+        return (element.name.toLowerCase() === clubname.toLowerCase());
+      })[0];
+    }
 
     if (typeof (userclub) == 'undefined') {
       this.clubService.createClub({ name: clubname })
