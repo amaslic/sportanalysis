@@ -262,7 +262,7 @@ h3.recent{
 }
 
 .upload-search{
-  max-width: 480px;
+  max-width: 63%;
   margin: auto;
   text-align: center;
   margin-top: 10px;
@@ -288,6 +288,7 @@ h3.recent{
   max-width: 320px;
   width: 100%;
   margin: auto;
+  margin-top: -7px;
 }
 
 .player-name{

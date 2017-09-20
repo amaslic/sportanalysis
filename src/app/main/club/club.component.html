@@ -2,20 +2,27 @@
 
   <md-tab-group [selectedIndex]="selectedIndex" (selectedIndexChange)="selectedIndexChange($event)" class="video-md-settings">
     <md-tab label="Videos">
-      <p class="upload-search" *ngIf="videoList">
+      <p class="upload-search clearfix" *ngIf="videoList">
         <span class=viewbtns>
           <i (click)="gridView()" [ngClass]="{'active':grid}" class="fa fa-table" aria-hidden="true"></i>
           <i (click)="listView()" [ngClass]="{'active':list}" class="fa fa-list" aria-hidden="true"></i>
           </span>
         <input type="text" class="form-control search-btn" placeholder="Search" [(ngModel)]="searchQuery" />
 
+        <md-radio-group id="type" [(ngModel)]="video_type" name="type" (change)="typeFilter()">
+          <md-radio-button value="All">All</md-radio-button>
+          <md-radio-button value="Match">Match</md-radio-button>
+          <md-radio-button value="Event">Event</md-radio-button>
+          <md-radio-button value="Training">Training</md-radio-button>
+          <md-radio-button value="Telestration">Telestration</md-radio-button>
+        </md-radio-group>
       </p>
 
       <h3 class="recent" *ngIf="videoList">{{club.name}} Videos</h3>
       <perfect-scrollbar *ngIf="grid">
         <div class="all-videos col-md-12" *ngIf="videoList">
 
-          <div class="col-lg-4 col-md-4 col-sm-6 col-xs-12" *ngFor="let video of videoList | search:'title,type,team1,team2':searchQuery">
+          <div class="col-lg-4 col-md-4 col-sm-6 col-xs-12" *ngFor="let video of videoList | search:'title,type,team1,team2,clubname1,clubname2':searchQuery">
             <a [routerLink]="['/videos/view', video._id]" title="Claudio Bravo, antes su debut con el Barça en la Liga">
               <img [src]="baseVideoUrl + video.screenshot_path" alt="video-screenshot" class="img-responsive video-ss" height="130px" />
 

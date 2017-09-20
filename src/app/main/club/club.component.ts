@@ -33,6 +33,7 @@ import {
   styleUrls: ['./club.component.css']
 })
 export class ClubComponent implements OnInit {
+  video_type: string = 'All';
   videoSucess: any;
   errormsg: string;
   private sub: any;
@@ -47,7 +48,7 @@ export class ClubComponent implements OnInit {
   loadingIndicator: boolean = true;
   usersList: User[];
   isCoachOrAdmin: boolean = false;
-
+  allVideos: Video[];
   @ViewChild('SucessModal') SucessModal;
   @ViewChild('ErrorModal') ErrorModal;
   constructor(private clubService: ClubService, private userService: UserService, private route: ActivatedRoute, private videoService: VideoService) {
@@ -67,7 +68,7 @@ export class ClubComponent implements OnInit {
 
     if (user['admin'] || user['coach']) {
       this.isCoachOrAdmin = true;
-    }else{
+    } else {
       this.isCoachOrAdmin = false;
     }
 
@@ -90,12 +91,14 @@ export class ClubComponent implements OnInit {
   }
   onGetVideosSuccess(response) {
     this.videoSucess = JSON.parse(response._body);
-    console.log(this.videoSucess);
+
     if (this.videoSucess.message) {
       this.errormsg = this.videoSucess.message;
       this.ErrorModal.open();
     } else {
-      this.videoList = this.videoSucess;
+      this.allVideos = this.videoSucess;
+      this.typeFilter();
+      // this.videoList = this.videoSucess;
     }
 
 
@@ -117,7 +120,7 @@ export class ClubComponent implements OnInit {
     }
     if (this.club) {
       this.clubActive = this.club.activated;
-     
+
       if (!this.club.success) {
         this.errormsg = this.club.message;
       }
@@ -138,7 +141,7 @@ export class ClubComponent implements OnInit {
   }
 
   getUsers() {
-    this.userService.getAllUsersByClubId(this.id,this.userService.token).subscribe(
+    this.userService.getAllUsersByClubId(this.id, this.userService.token).subscribe(
       (response) => this.onGetUsersSuccess(response),
       (error) => this.onError(error)
     );
@@ -148,5 +151,11 @@ export class ClubComponent implements OnInit {
     this.usersList = JSON.parse(response._body);
     this.loadingIndicator = false;
   }
+  typeFilter() {
 
+    var type = this.video_type;
+    this.videoList = this.allVideos.filter(function (element, index) {
+      return (type == "All" || element.type == type);
+    });
+  }
 }
