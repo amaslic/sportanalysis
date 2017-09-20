@@ -198,7 +198,7 @@ export class ClubsAdministrationComponent implements OnInit {
         this.showProgressBar = false;
       }
     } else {
-      this.clubService.updateClubwithoutLogo(this.userService.token, { id: this.editClub.Id, name: this.editClub.name, slug: this.editClub.NiceLinkName, location: null }).subscribe(
+      this.clubService.updateClubwithoutLogo(this.userService.token, { id: this.editClub.Id, name: this.editClub.name, slug: this.editClub.NiceLinkName, location: null, activate: true }).subscribe(
         (response) => this.oneditClubSuccess(response),
         (error) => this.onError(error)
       );

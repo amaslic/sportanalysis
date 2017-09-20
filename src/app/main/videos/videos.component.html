@@ -11,13 +11,21 @@
 
     <input type="text" class="form-control search-btn" placeholder="Search" [(ngModel)]="searchQuery" />
 
-    <md-radio-group id="type" [(ngModel)]="video_type" name="type" (change)="typeFilter()">
+    <!-- <md-radio-group id="type" [(ngModel)]="video_type" name="type" (change)="typeFilter()">
       <md-radio-button value="All">All</md-radio-button>
       <md-radio-button value="Match">Match</md-radio-button>
       <md-radio-button value="Event">Event</md-radio-button>
       <md-radio-button value="Training">Training</md-radio-button>
       <md-radio-button value="Telestration">Telestration</md-radio-button>
-    </md-radio-group>
+    </md-radio-group> -->
+    <label>Video Type:  </label>
+    <select class="sportscode" name="type" required [(ngModel)]="video_type" (ngModelChange)="typeFilter()" style="font-size: 18px; font-weight: normal;">
+                      <option>All</option>
+                      <option>Match</option>
+                      <option>Event</option>
+                      <option>Training</option>
+                      <option>Telestration</option>
+                  </select>
   </p>
 
 

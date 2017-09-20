@@ -145,6 +145,7 @@ export class ClubService {
       form.append('logoFile', data.logo._file);
     form.append('id', data.id);
     form.append('updateLogo', data.updatelogo);
+    form.append('activate', true);
     return this.p_http.withUploadProgressListener(progress => {
       // console.log(`Uploading ${progress.percentage}%`);
       this.progressSubject.next(progress.percentage);
