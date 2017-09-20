@@ -1011,6 +1011,12 @@ export class ViewComponent implements OnInit {
   }
   onKey(event) {
     this.keyCode = event.keyCode;
+    if (this.api.duration <= 30) {
+      var frameTime = this.api.duration / 5;
+    } else {
+      var frameTime = this.api.duration / 30;
+    }
+
     if (this.keyCode == '32') {
       if (this.api.state == 'playing') {
         this.api.pause();
@@ -1020,12 +1026,11 @@ export class ViewComponent implements OnInit {
     }
     else if (this.keyCode == '39') {
       if (this.api.state == 'playing') {
-        var frameTime = 1 / 29.97;
-        this.api.seekTime(this.api.currentTime + 5, false);
+        this.api.seekTime(this.api.currentTime + frameTime, false);
       }
     }
     else if (this.keyCode == '37') {
-      this.api.seekTime(this.api.currentTime - 5, false);
+      this.api.seekTime(this.api.currentTime - frameTime, false);
     }
   }
 
