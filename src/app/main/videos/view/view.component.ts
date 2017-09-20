@@ -1030,7 +1030,9 @@ export class ViewComponent implements OnInit {
       }
     }
     else if (this.keyCode == '37') {
-      this.api.seekTime(this.api.currentTime - frameTime, false);
+      if (this.api.state == 'playing') {
+        this.api.seekTime(this.api.currentTime - frameTime, false);
+      }
     }
   }
 

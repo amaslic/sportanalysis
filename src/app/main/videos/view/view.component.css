@@ -1223,7 +1223,7 @@ a.playlist-info:hover .message-list-content h4{
 .video-image-main{display: inline-block;width: 21%;text-align: center;}
 .video-images{height: 60px;display: inline-block;margin: 0px auto;}
 .list-inline span{font-size: 30px;display: inline-block;vertical-align: middle;}
-span.score{margin: 0px 5px;
+ span.score{margin: 0px 5px;
     vertical-align: middle;
     display: inline-block;
-    font-size: 20px;}
+    font-size: 20px;} 
