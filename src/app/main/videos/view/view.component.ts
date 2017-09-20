@@ -99,6 +99,7 @@ export class ViewComponent implements OnInit {
   private sub: any;
   private videoId: any;
   private baseVideoUrl = GlobalVariables.BASE_VIDEO_URL;
+  private baseAmazonVideoUrl = GlobalVariables.BASE_AMAZON_VIDEO_URL;
   private baseTrackingDataUrl = GlobalVariables.BASE_TRACKINGDATA_URL;
   trackingJsonData: any[];
   videoTrackingData: any = [];
@@ -528,7 +529,7 @@ export class ViewComponent implements OnInit {
       },
       {
         title: this.video.title,
-        src: this.baseVideoUrl + this.video.path,
+        src: this.baseAmazonVideoUrl + this.video.path,
         type: this.video.mimetype
       },
       {

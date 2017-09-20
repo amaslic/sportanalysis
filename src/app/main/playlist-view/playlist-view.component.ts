@@ -53,6 +53,7 @@ export class PlaylistViewComponent implements OnInit {
   private sub: any;
   private playId: any;
   private baseVideoUrl = GlobalVariables.BASE_VIDEO_URL;
+  private baseAmazonVideoUrl = GlobalVariables.BASE_AMAZON_VIDEO_URL;
   private baseTrackingDataUrl = GlobalVariables.BASE_TRACKINGDATA_URL;
   api: VgAPI;
   video: Video;
@@ -142,7 +143,7 @@ export class PlaylistViewComponent implements OnInit {
       //if (!filteredObj || filteredObj.length == 0)
       this.playlist.push({
         'title': element['video']['title'],
-        'src': this.baseVideoUrl + element['video']['path'],
+        'src': this.baseAmazonVideoUrl + element['video']['path'],
         'type': element['video']['mimetype'],
         'id': element['video']['_id']
       });
