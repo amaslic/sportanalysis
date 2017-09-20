@@ -218,18 +218,18 @@ export class ViewComponent implements OnInit {
   events: any = [];
   eventDataId: any;
 
-  @HostListener('window:keypress', ['$event'])
-  handleKeyboardEvent(event: KeyboardEvent) {
-    this.keyCode = event.keyCode;
-    console.log('test', event);
-    if (this.keyCode == '32') {
-      if (this.api.state == 'playing') {
-        this.api.pause();
-      } else {
-        this.api.play();
-      }
-    }
-  }
+  // @HostListener('window:keypress', ['$event'])
+  // handleKeyboardEvent(event: KeyboardEvent) {
+  //   this.keyCode = event.keyCode;
+  //   console.log('test', event);
+  //   if (this.keyCode == '32') {
+  //     if (this.api.state == 'playing') {
+  //       this.api.pause();
+  //     } else {
+  //       this.api.play();
+  //     }
+  //   }
+  // }
 
   @ViewChild('createPlaylistModal') createPlaylistModal;
   @ViewChild('updatePlaylistModal') updatePlaylistModal;
@@ -241,9 +241,9 @@ export class ViewComponent implements OnInit {
   constructor(private r: Router, private route: ActivatedRoute, private playlistService: PlaylistService, private videoService: VideoService, private userService: UserService, private trackingDataService: TrackingDataService, private renderer: Renderer2) { }
 
   ngOnInit() {
-    this.globalListenFunc = this.renderer.listen('document', 'keypress', e => {
-      console.log('test', e);
-    });
+    // this.globalListenFunc = this.renderer.listen('document', 'keypress', e => {
+    //   console.log('test', e);
+    // });
     var user = this.userService.loadUserFromStorage();
 
     if (!user['admin'] && !user['coach']) {
@@ -1008,6 +1008,25 @@ export class ViewComponent implements OnInit {
     this.trackingJsonData.forEach((event, index) => {
       event.checked = false;
     });
+  }
+  onKey(event) {
+    this.keyCode = event.keyCode;
+    if (this.keyCode == '32') {
+      if (this.api.state == 'playing') {
+        this.api.pause();
+      } else {
+        this.api.play();
+      }
+    }
+    else if (this.keyCode == '39') {
+      if (this.api.state == 'playing') {
+        var frameTime = 1 / 29.97;
+        this.api.seekTime(this.api.currentTime + 5, false);
+      }
+    }
+    else if (this.keyCode == '37') {
+      this.api.seekTime(this.api.currentTime - 5, false);
+    }
   }
 
 }

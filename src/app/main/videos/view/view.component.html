@@ -1,4 +1,4 @@
-<div class="main-content">
+<div class="main-content" (window:keydown)="onKey($event)">
 
   <div class="video-white-bg" id="text-overlay" *ngIf="enableOverlay && videoLoaded">
     <span class="video-date">{{video.date | date:"dd.MM.yyyy"}}</span>
