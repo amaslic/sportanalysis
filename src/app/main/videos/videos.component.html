@@ -109,11 +109,11 @@
                     <li>1 : 2</li>
                     <li><img src="assets/images/img2.png" class="img-responsive"></li>
                 </ul>-->
-              <span><img *ngIf="(video.club1details.length > 0 && video.club1details[0].logo) && (video.type!='Training')" [src]="baseVideoUrl + video.club1details[0].logo" alt="video.club1details[0].name" class="img-responsive">
+              <span class="first-team"><img *ngIf="(video.club1details.length > 0 && video.club1details[0].logo) && (video.type!='Training')" [src]="baseVideoUrl + video.club1details[0].logo" alt="video.club1details[0].name" class="img-responsive">
               <img *ngIf="(video.club1details.length <= 0 || !video.club1details[0].logo || video.club1details[0].logo == '') && (video.type!='Training')" src="assets/images/default-clublogo.png"  class="img-responsive"></span>
               <span *ngIf="(video.scoreTeam1 && video.scoreTeam2) && (video.type!='Training')">{{video.scoreTeam1}} : {{video.scoreTeam2}}</span>
               <span *ngIf="(!video.scoreTeam1 || !video.scoreTeam2) && (video.type!='Training')">0 : 0</span>
-              <span>
+              <span class="second-team">
                 <img *ngIf="(video.club2details.length > 0 && video.club2details[0].logo) && (video.type!='Training')"  [src]="baseVideoUrl + video.club2details[0].logo" alt="video.club1details[0].name" class="img-responsive">
                 <img *ngIf="(video.club2details.length <= 0 || !video.club2details[0].logo || video.club2details[0].logo == '') && (video.type!='Training')" src="assets/images/default-clublogo.png"  class="img-responsive">
               </span>

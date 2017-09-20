@@ -361,7 +361,10 @@ img.logo-img{
   margin-left: 50px;
 }
 
-
+.profile-picture{
+  position: absolute;
+  right: 185px;
+}
 
 @media (max-width: 1278px) {
   .menu-item-list{
