@@ -1,7 +1,7 @@
 export const GlobalVariables = Object.freeze({
     //Live server links
     BASE_API_URL: 'http://136.144.141.55:3000/api/',
-    BASE_VIDEO_URL: 'http://136.144.141.55:3000',
+    BASE_VIDEO_URL: 'https://s3.eu-central-1.amazonaws.com/sportsanalysis',
     BASE_IMAGE_URL: 'http://136.144.141.55:3000',
     BASE_TRACKINGDATA_URL: 'http://136.144.141.55:3000',
     BASE_URL: 'http://136.144.141.55/'
