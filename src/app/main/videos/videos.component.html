@@ -2,21 +2,35 @@
   <!--<p  class="upload-search">
     <a [routerLink]="['/videos/upload']">Upload Video</a>
   </p>-->
-  <p class="upload-search">
+
+  <p class="upload-search clearfix">
     <span class=viewbtns>
           <i (click)="gridView()" [ngClass]="{'active':grid}" class="fa fa-table" aria-hidden="true"></i>
           <i (click)="listView()" [ngClass]="{'active':list}" class="fa fa-list" aria-hidden="true"></i>
-          </span>
+    </span>
+
     <input type="text" class="form-control search-btn" placeholder="Search" [(ngModel)]="searchQuery" />
 
+    <md-radio-group id="type" [(ngModel)]="video_type" name="type" (change)="typeFilter()">
+      <md-radio-button value="All">All</md-radio-button>
+      <md-radio-button value="Match">Match</md-radio-button>
+      <md-radio-button value="Event">Event</md-radio-button>
+      <md-radio-button value="Training">Training</md-radio-button>
+      <md-radio-button value="Telestration">Telestration</md-radio-button>
+    </md-radio-group>
   </p>
+
+
+
+
+
 
   <h3 class="recent">Recent Videos</h3>
   <perfect-scrollbar *ngIf="grid">
     <div class="all-videos col-md-12" *ngIf="videoList">
       <!--<ul class="list-unstyled video-list-thumbs row" *ngIf="videoList">
     <li class="col-lg-3 col-sm-4 col-xs-6" *ngFor="let video of videoList">-->
-      <div class="col-lg-4 col-md-4 col-sm-6 col-xs-12" *ngFor="let video of videoList | search:'title,type,team1,team2':searchQuery">
+      <div class="col-lg-4 col-md-4 col-sm-6 col-xs-12" *ngFor="let video of videoList | search:'title,type,team1,team2,clubname1,clubname2':searchQuery">
         <a [routerLink]="['/videos/view', video._id]" title="Claudio Bravo, antes su debut con el Barça en la Liga">
         <img [src]="baseVideoUrl + video.screenshot_path" alt="video-screenshot" class="img-responsive video-ss" height="130px" />
         
@@ -101,7 +115,7 @@
               <span>{{video.type}} 02:11:16</span> 
             </li>-->
             <!-- <div class="list-view-sideidetail">-->
-                <li class="views-date"> {{video.date | date:"dd.MM.yyyy"}}</li>
+            <li class="views-date"> {{video.date | date:"dd.MM.yyyy"}}</li>
 
             <li class="teams-result">
               <!-- <ul class="list-inline">
@@ -118,7 +132,7 @@
                 <img *ngIf="(video.club2details.length <= 0 || !video.club2details[0].logo || video.club2details[0].logo == '') && (video.type!='Training')" src="assets/images/default-clublogo.png"  class="img-responsive">
               </span>
             </li>
-            
+
             <li>
               <h2 class="video-title" *ngIf="(video.type=='Training')">{{video.title}}</h2>
               <h2 class="video-title" *ngIf="(video.type!='Training')"><span *ngIf="video.club1details.length > 0 && video.club1details[0].name">{{video.club1details[0].name}}</span>                vs <span *ngIf="video.club2details.length > 0 && video.club2details[0].name">{{video.club2details[0].name}}</span></h2>

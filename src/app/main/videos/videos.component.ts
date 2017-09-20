@@ -25,6 +25,7 @@ import { IMultiSelectOption, IMultiSelectSettings, IMultiSelectTexts } from 'ang
 })
 
 export class VideosComponent implements OnInit {
+  video_type: string = 'All';
   isCoach: any;
   isAdmin: any;
   userDetails: {};
@@ -41,6 +42,7 @@ export class VideosComponent implements OnInit {
   userlistOptions: IMultiSelectOption[];
   showProgressBar: boolean = false;
   userlistModel: any[];
+  allVideos: Video[];
 
   userlistSettings: IMultiSelectSettings = {
     enableSearch: true,
@@ -107,7 +109,9 @@ export class VideosComponent implements OnInit {
   }
 
   onGetVideosSuccess(response) {
-    this.videoList = JSON.parse(response._body);
+    this.allVideos = JSON.parse(response._body);
+    this.typeFilter();
+    //this.videoList = JSON.parse(response._body);
     // console.log(this.videoList);
   }
 
@@ -170,5 +174,12 @@ export class VideosComponent implements OnInit {
     this.successmsg = responseBody.message;
     this.assignVideoModal.close();
     this.videoSucessModal.open();
+  }
+  typeFilter() {
+    // this.getVideos();
+    var type = this.video_type;
+    this.videoList = this.allVideos.filter(function (element, index) {
+      return (type == "All" || element.type == type);
+    });
   }
 }

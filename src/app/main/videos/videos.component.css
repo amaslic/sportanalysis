@@ -216,6 +216,7 @@ div.date ul.list-inline li:nth-child(2) i{
     color: #000;
     margin-left: 1.8%;
     cursor: pointer;
+    margin-top: -2px;
 }
 .viewbtns i{
   margin: 0px 10px;
@@ -270,7 +271,7 @@ h3.recent{
 }
 
 .upload-search{
-  max-width: 480px;
+  max-width: 63%;
   margin: auto;
  text-align: center;
 
@@ -295,6 +296,7 @@ h3.recent{
   max-width: 320px;
   width: 100%;
   margin: auto;
+  margin-top: -7px;
 }
 
 .player-name{
