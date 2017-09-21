@@ -15,6 +15,11 @@ import {
   GlobalVariables
 } from './../../models/global.model';
 import { ViewChild } from '@angular/core';
+import { IMultiSelectOption, IMultiSelectSettings, IMultiSelectTexts } from 'angular-2-dropdown-multiselect';
+import {
+  TeamService
+} from './../../services/team.service';
+
 @Component({
   selector: 'app-clubs-administration',
   templateUrl: './clubs-administration.component.html',
@@ -34,6 +39,28 @@ export class ClubsAdministrationComponent implements OnInit {
   showProgressBar: boolean = false;
   errormsg: string;
   successmsg: string;
+  teamslistOptions: IMultiSelectOption[];
+  teamsModel: any[];
+
+  teamslistSettings: IMultiSelectSettings = {
+    enableSearch: true,
+    checkedStyle: 'fontawesome',
+    containerClasses: 'no-button-arrow',
+    buttonClasses: 'btn btn-default btn-block',
+    fixedTitle: false,
+    maxHeight: '100px',
+    dynamicTitleMaxItems: 2,
+    closeOnClickOutside: true
+  };
+  teamslistTexts: IMultiSelectTexts = {
+    checkAll: 'Select all',
+    uncheckAll: 'Unselect all',
+    checked: 'Team selected',
+    checkedPlural: 'Teams selected',
+    searchPlaceholder: 'Find',
+    defaultTitle: ' Select Team  ',
+    allSelected: 'All Teams ',
+  };
 
   // columns = [
   //   { prop: 'ClubName' }
@@ -42,13 +69,28 @@ export class ClubsAdministrationComponent implements OnInit {
   @ViewChild('form') form;
   @ViewChild('ErrorModal') errorModal;
   @ViewChild('successModal') successModal;
-  constructor(private clubService: ClubService, private userService: UserService) {
+  constructor(private clubService: ClubService, private userService: UserService, private teamService: TeamService) {
     //this.selectedIndex = "1";
   }
 
   ngOnInit() {
     this.getClubs();
     this.getActivatedClubs();
+    this.teamService.getAllTeams(this.userService.token).subscribe(
+      (response: any) => {
+        const teamslLst = JSON.parse(response._body);
+        this.teamslistOptions = [];
+        teamslLst.forEach((obj, index) => {
+          this.teamslistOptions.push({
+            'id': obj._id,
+            'name': obj.name
+          });
+        });
+        // console.log(this.teamslistOptions);
+
+      },
+      (error) => this.onError(error)
+    );
   }
 
   getClubs() {
@@ -109,12 +151,13 @@ export class ClubsAdministrationComponent implements OnInit {
   selectedFile;
   name;
   onSubmit(f, acivate) {
-    console.log(f.value);
-    console.log(acivate);
+    // console.log(f.value);
+    // console.log(acivate);
     if (!f.valid) {
       return false;
     }
     this.showProgressBar = true;
+    // console.log(f.value);
 
     if (this.selectedClub[0].logo == '' || this.selectedClub[0].updateLogo) {
       if (typeof (this.selectedFile) != 'undefined') {
@@ -136,7 +179,7 @@ export class ClubsAdministrationComponent implements OnInit {
         this.showProgressBar = false;
       }
     } else {
-      this.clubService.updateClubwithoutLogo(this.userService.token, { id: this.selectedClub[0]._id, name: f.value.name, slug: f.value.slug, location: null, activate: acivate }).subscribe(
+      this.clubService.updateClubwithoutLogo(this.userService.token, { id: this.selectedClub[0]._id, name: f.value.name, slug: f.value.slug, location: null, activate: acivate, teams: f.value.teams }).subscribe(
         (response) => this.onApproveClubSuccess(response),
         (error) => this.onError(error)
       );
@@ -187,6 +230,7 @@ export class ClubsAdministrationComponent implements OnInit {
         data.logo = this.editClub.selectedFile;
         data.id = this.editClub.Id;
         data.updatelogo = this.editClub.updateLogo;
+        data.teams = this.editClub.teams;
         this.clubService.editClub(data, this.userService.token).subscribe(
           (response) => this.oneditClubSuccess(response),
           (error) => this.onError(error)
@@ -198,7 +242,7 @@ export class ClubsAdministrationComponent implements OnInit {
         this.showProgressBar = false;
       }
     } else {
-      this.clubService.updateClubwithoutLogo(this.userService.token, { id: this.editClub.Id, name: this.editClub.name, slug: this.editClub.NiceLinkName, location: null, activate: true }).subscribe(
+      this.clubService.updateClubwithoutLogo(this.userService.token, { id: this.editClub.Id, name: this.editClub.name, slug: this.editClub.NiceLinkName, location: null, activate: true, teams: this.editClub.teams }).subscribe(
         (response) => this.oneditClubSuccess(response),
         (error) => this.onError(error)
       );
@@ -325,6 +369,7 @@ export class ClubsAdministrationComponent implements OnInit {
     this.editClub.NiceLinkName = club.slug;
     this.editClub.logo = club.logo;
     this.editClub.updateLogo = false;
+    this.editClub.teams = club.teams;
   }
 
   updateLogo(club) {
