@@ -1094,6 +1094,9 @@ md-checkbox.mat-checkbox-checked.more-events /deep/ .mat-checkbox-background {
     float: none;
     margin-top: 10px;
   }
+  .video-image-main span.video-score{
+    padding: 0;
+  }
 }
 
 @media screen and (max-width: 479px) {}

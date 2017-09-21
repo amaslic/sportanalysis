@@ -103,7 +103,11 @@ html {
   }
 
 .demo-header ul li:first-child, .demo-header ul li:nth-child(2){
-  border-right: 1px solid #cdceda;
+ /* border-right: 1px solid #cdceda; */
+}
+
+ul.dropdown-menu.profile-options{
+  left: 20px;
 }
 
 .demo-header ul.menu-item-list li:first-child, .demo-header ul li:nth-child(2){
@@ -363,7 +367,12 @@ img.logo-img{
 
 .profile-picture{
   position: absolute;
-  right: 185px;
+  right: 180px;
+}
+
+.demo-header ul li.profile-name:last-child{
+  background: white;
+  color: #767d9a;
 }
 
 @media (max-width: 1278px) {
