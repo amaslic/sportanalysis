@@ -6,14 +6,14 @@
     <h3 class="video-club1" *ngIf="video.club1details.length > 0 && video.club1details[0].name && (video.type!='Training')">{{video.club1details[0].name}}</h3>
     <div *ngIf="(video.type!='Training')" class="video-image-main">
       <img *ngIf="video.club1details.length > 0 && video.club1details[0].logo" [src]="baseVideoUrl + video.club1details[0].logo"
-        alt="video.club1details[0].name" class="img-responsive video-images team1-logo">
+        alt="" class="img-responsive video-images team1-logo">
       <img *ngIf="video.club1details.length <= 0 || !video.club1details[0].logo || video.club1details[0].logo == ''" src="assets/images/default-clublogo.png"
         class="img-responsive video-images team2-logo">
       <span class="video-score"><span *ngIf="video.scoreTeam1" class="score">{{video.scoreTeam1}}</span>:
       <span *ngIf="video.scoreTeam2" class="score">{{video.scoreTeam2}}</span>
       </span>
       <img *ngIf="video.club2details.length > 0 && video.club2details[0].logo" [src]="baseVideoUrl + video.club2details[0].logo"
-        alt="video.club1details[0].name" class="img-responsive video-images team1-logo">
+        alt="" class="img-responsive video-images team1-logo">
       <img *ngIf="video.club2details.length <= 0 || !video.club2details[0].logo || video.club2details[0].logo == ''" src="assets/images/default-clublogo.png"
         class="img-responsive video-images team2-logo">
     </div>
@@ -314,7 +314,7 @@
   </modal-content>
   <modal-footer *ngIf="!create">
     <button class=" btn btn-primary " [disabled]="!playlistModel || playlistModel?.length==0 " (click)="updatePlaylist() ">Add</button>
-    <button class="btn btn-primary" (click)="createPlaylist(video._id,event,false)">Create playlist</button>
+    <button class="btn btn-primary" *ngIf="!multiplay" (click)="createPlaylist(video._id,event,false)">Create playlist</button>
     <button class="btn btn-primary " (click)="createPlaylistModal.close() ">Cancel</button>
   </modal-footer>
 
