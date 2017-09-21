@@ -38,8 +38,11 @@ export class AdminAddUserComponent implements OnInit {
   activatedClubList: any;
   allClubList: any;
   public roles = [
-    { value: 'true', display: 'Coach' },
-    { value: 'false', display: 'Player' }
+    { value: 1, display: 'Superadmin' },
+    { value: 2, display: 'Club Admin' },
+    { value: 3, display: 'Coach' },
+    { value: 4, display: 'Player' },
+    { value: 5, display: 'Viewer' }
   ];
   showProgressBar: boolean = false;
 
@@ -55,7 +58,7 @@ export class AdminAddUserComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.user.coach = null;
+    this.user.role = null;
     this.getAllClubs();
     this.getActivatedClubs();
     this.filteredClubs = this.clubCtrl.valueChanges
