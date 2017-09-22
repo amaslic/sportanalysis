@@ -76,8 +76,7 @@ export class UploadComponent implements OnInit {
     this.getActivatedClubs();
 
     var user = this.userService.loadUserFromStorage();
-
-    if (!user['admin'] && !user['coach']) {
+    if (user['role'] != 3 && user['role'] != 4) {
       this.uploadErrorModal.open();
     }
 
