@@ -32,10 +32,11 @@ ul.privacy li:first-child, ul.privacy li:nth-child(2){
 }
 
 footer {
-
   width: 100%;
   height: 90px;
+  clear: both;
 }
+
 
 
 @media screen and (max-width: 950px) {
