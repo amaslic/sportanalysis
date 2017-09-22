@@ -105,6 +105,10 @@ export class ClubsAdministrationComponent implements OnInit {
     // console.log(this.clubList);
     this.loadingIndicator = false;
 
+    this.clubList.forEach((obj: any, index) => {
+      obj.teams = typeof(obj.teams) != 'undefined' && obj.teams[0] == 'undefined' ? [] : obj.teams;
+    });
+
     if (this.selectedClub != null) {
       this.selectedClub = [];
     }
@@ -325,6 +329,11 @@ export class ClubsAdministrationComponent implements OnInit {
 
   onGetActivatedClubsSuccess(response) {
     this.activatedClubList = JSON.parse(response._body);
+
+    this.activatedClubList.forEach((obj: any, index) => {
+      obj.teams = typeof(obj.teams) != 'undefined' && obj.teams[0] == 'undefined' ? [] : obj.teams;
+    });
+
     // console.log(this.activatedClubList);
   }
 
