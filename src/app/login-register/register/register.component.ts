@@ -39,9 +39,10 @@ export class RegisterComponent implements OnInit {
   allClubList: any;
   public roles = [
     { value: 2, display: 'Club Admin' },
-    { value: 3, display: 'Coach' },
-    { value: 4, display: 'Player' },
-    { value: 5, display: 'Viewer' }
+    { value: 3, display: 'Analyst' },
+    { value: 4, display: 'Coach' },
+    { value: 5, display: 'Player' },
+    { value: 6, display: 'Viewer' }
   ];
 
   showProgressBar: boolean = false;
