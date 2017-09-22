@@ -15,12 +15,19 @@ import {
   GlobalVariables
 } from './../../models/global.model';
 import { ViewChild } from '@angular/core';
+import {
+  Router, ActivatedRoute
+} from '@angular/router';
 @Component({
   selector: 'app-clubs-administration',
   templateUrl: './clubs-administration.component.html',
   styleUrls: ['./clubs-administration.component.css']
 })
 export class ClubsAdministrationComponent implements OnInit {
+  clubData: any;
+  clubId: any;
+  isCoachAdmin: boolean = false;
+  isAdmin: boolean;
 
   private baseUrl = GlobalVariables.BASE_VIDEO_URL;
   clubList: Club[] = [];
@@ -34,7 +41,7 @@ export class ClubsAdministrationComponent implements OnInit {
   showProgressBar: boolean = false;
   errormsg: string;
   successmsg: string;
-
+  private router: Router;
   // columns = [
   //   { prop: 'ClubName' }
   // ];
@@ -42,11 +49,20 @@ export class ClubsAdministrationComponent implements OnInit {
   @ViewChild('form') form;
   @ViewChild('ErrorModal') errorModal;
   @ViewChild('successModal') successModal;
-  constructor(private clubService: ClubService, private userService: UserService) {
-    //this.selectedIndex = "1";
-  }
-
+  constructor(private clubService: ClubService, private userService: UserService, r: Router) { this.router = r; }
   ngOnInit() {
+    var user = this.userService.loadUserFromStorage();
+    if (user['role'] == 1) {
+      this.isAdmin = true;
+    } else {
+      this.isAdmin = false;
+      this.router.navigate(['/backoffice']);
+    }
+    if (user['role'] == 2) {
+      this.isCoachAdmin = true;
+      this.clubId = user['club'];
+    }
+
     this.getClubs();
     this.getActivatedClubs();
   }
@@ -273,15 +289,28 @@ export class ClubsAdministrationComponent implements OnInit {
   }
 
   getActivatedClubs() {
-    this.clubService.getActivatedClubs(this.userService.token).subscribe(
-      (response) => this.onGetActivatedClubsSuccess(response),
-      (error) => this.onError(error)
-    );
+    if (this.isCoachAdmin) {
+      this.clubService.getClubBySlug(this.clubId)
+        .subscribe(
+        (response) => this.onGetActivatedClubsSuccess(response),
+        (error) => this.onError(error)
+        );
+    } else {
+      this.clubService.getActivatedClubs(this.userService.token).subscribe(
+        (response) => this.onGetActivatedClubsSuccess(response),
+        (error) => this.onError(error)
+      );
+    }
+
   }
 
   onGetActivatedClubsSuccess(response) {
-    this.activatedClubList = JSON.parse(response._body);
-    // console.log(this.activatedClubList);
+    this.clubData = JSON.parse(response._body);
+    if (this.isCoachAdmin && this.clubData != null) {
+      this.activatedClubList.push(JSON.parse(response._body));
+    } else {
+      this.activatedClubList = JSON.parse(response._body);
+    }
   }
 
   deleteClub(club, flag) {
