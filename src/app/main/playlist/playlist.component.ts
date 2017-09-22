@@ -30,7 +30,7 @@ import { RouterLink, Router } from '@angular/router';
 export class PlaylistComponent implements OnInit {
   playdata: any = [];
   successmsg: any;
-  isAdminOrCoach: Boolean = false;
+  isCoachOrAnalyst: Boolean = false;
   errormsg: string;
   clubActive: any;
   playList: Playlist[];
@@ -65,10 +65,10 @@ export class PlaylistComponent implements OnInit {
 
   ngOnInit() {
     var user = this.userService.loadUserFromStorage();
-    if (!user['admin'] && !user['coach']) {
-      this.isAdminOrCoach = false;
+    if (user['role'] != 3 && user['role'] != 4) {
+      this.isCoachOrAnalyst = false;
     } else {
-      this.isAdminOrCoach = true;
+      this.isCoachOrAnalyst = true;
     }
     this.ClubStatus();
     this.getAllClubs();
