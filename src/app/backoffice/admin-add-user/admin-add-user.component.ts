@@ -27,6 +27,7 @@ import { CompleterService, CompleterData } from 'ng2-completer';
   styleUrls: ['./admin-add-user.css']
 })
 export class AdminAddUserComponent implements OnInit {
+  isAdmin: boolean;
   public user: User = new User();
   successmsg: string;
   errormsg: string;
@@ -38,11 +39,11 @@ export class AdminAddUserComponent implements OnInit {
   activatedClubList: any;
   allClubList: any;
   public roles = [
-    { value: 1, display: 'Superadmin' },
     { value: 2, display: 'Club Admin' },
-    { value: 3, display: 'Coach' },
-    { value: 4, display: 'Player' },
-    { value: 5, display: 'Viewer' }
+    { value: 3, display: 'Analyst' },
+    { value: 4, display: 'Coach' },
+    { value: 5, display: 'Player' },
+    { value: 6, display: 'Viewer' }
   ];
   showProgressBar: boolean = false;
 
@@ -54,10 +55,18 @@ export class AdminAddUserComponent implements OnInit {
     this.router = r;
     this.clubCtrl = new FormControl();
 
+
     // this.dataService = completerService.local(this.searchData, 'color', 'color');
   }
 
   ngOnInit() {
+    var user = this.userService.loadUserFromStorage();
+    if (user['role'] == 1) {
+      this.isAdmin = true;
+    } else {
+      this.isAdmin = false;
+      this.user.club = user['club'];
+    }
     this.user.role = null;
     this.getAllClubs();
     this.getActivatedClubs();
@@ -79,18 +88,23 @@ export class AdminAddUserComponent implements OnInit {
     this.showProgressBar = true;
 
     var clubname = this.user.club;
+
     var userclub = this.allClubList.filter(function (element, index) {
       return (element.name.toLowerCase() === clubname.toLowerCase());
     })[0];
 
-    if (typeof (userclub) == 'undefined') {
+    if (typeof (userclub) == 'undefined' && this.isAdmin) {
       this.clubService.createClub({ name: clubname })
         .subscribe(
         (response) => this.updateClubId(response),
         (error) => this.onError(error)
         );
     } else {
-      this.user.club = userclub._id;
+
+      if (this.isAdmin) {
+        this.user.club = userclub._id;
+      }
+
       this.createNewUser(this.user);
     }
   }
