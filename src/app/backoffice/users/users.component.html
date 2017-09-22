@@ -17,9 +17,10 @@
                     <ng-template let-row="row" ngx-datatable-cell-template>
                         <span *ngIf="row.role==1">Superadmin</span>
                         <span *ngIf="row.role==2">Club Admin</span>
-                        <span *ngIf="row.role==3">Coach</span>
-                        <span *ngIf="row.role==4">Player</span>
-                        <span *ngIf="row.role==5">Viewer</span>
+                        <span *ngIf="row.role==3">Analyst</span>
+                        <span *ngIf="row.role==4">Coach</span>
+                        <span *ngIf="row.role==5">Player</span>
+                        <span *ngIf="row.role==6">Viewer</span>
                     </ng-template>
                 </ngx-datatable-column>
                 <ngx-datatable-column name="Action">
@@ -43,10 +44,11 @@
                 <ngx-datatable-column name="Role" [width]="90">
                     <ng-template let-row="row" ngx-datatable-cell-template>
                         <span *ngIf="row.role==1">Superadmin</span>
-                        <span *ngIf="row.role==2">Coach Admin</span>
-                        <span *ngIf="row.role==3">Club Admin</span>
-                        <span *ngIf="row.role==4">Player</span>
-                        <span *ngIf="row.role==5">Viewer</span>
+                        <span *ngIf="row.role==2">Club Admin</span>
+                        <span *ngIf="row.role==3">Analyst</span>
+                        <span *ngIf="row.role==4">Coach</span>
+                        <span *ngIf="row.role==5">Player</span>
+                        <span *ngIf="row.role==6">Viewer</span>
                     </ng-template>
                 </ngx-datatable-column>
                 <ngx-datatable-column name="Action">
