@@ -1,5 +1,5 @@
-import { Component, OnInit,ViewChild } 
-from '@angular/core';
+import { Component, OnInit, ViewChild }
+  from '@angular/core';
 import {
   LocalStorageService
 } from 'angular-2-local-storage';
@@ -26,17 +26,20 @@ export class PlayersComponent implements OnInit {
   errormsg: string;
 
   @ViewChild('ErrorModal') ErrorModal;
-  constructor(private localStorageService: LocalStorageService, private r: Router,private userService: UserService) {
+  constructor(private localStorageService: LocalStorageService, private r: Router, private userService: UserService) {
   }
 
   ngOnInit() {
-      let user: any = this.localStorageService.get('user');
-      this.getUsers(user['club']);
+    let user: any = this.localStorageService.get('user');
+    if (user['role'] != 3 && user['role'] != 4) {
+      this.r.navigate(['/home']);
+    }
+    this.getUsers(user['club']);
 
   }
 
   getUsers(clubId) {
-    this.userService.getAllUsersByClubId(clubId,this.userService.token).subscribe(
+    this.userService.getAllUsersByClubId(clubId, this.userService.token).subscribe(
       (response) => this.onGetUsersSuccess(response),
       (error) => this.onError(error)
     );
