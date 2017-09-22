@@ -17,20 +17,21 @@ import 'rxjs/Rx';
 
 @Injectable()
 export class AdminGuard implements CanActivate {
-  constructor(private userService: UserService, private router: Router) {}
+  constructor(private userService: UserService, private router: Router) { }
   canActivate(route: ActivatedRouteSnapshot,
-    state: RouterStateSnapshot): Observable < boolean > | Promise < boolean > | boolean {
-     return this.userService.isAdmin().map(e => {
+    state: RouterStateSnapshot): Observable<boolean> | Promise<boolean> | boolean {
+    return this.userService.isAdmin().map(e => {
       //  console.log(e);
-            if (e) {
-              // console.log(e);
-                return true;
-            }
-        }).catch(() => {
-            // console.log("Not admin");
-            this.router.navigate(['/home']);
-            return Observable.of(false);
-        });
+      if (e) {
+        // console.log(e);
+        return true;
+
+      }
+    }).catch(() => {
+      // console.log("Not admin");
+      this.router.navigate(['/home']);
+      return Observable.of(false);
+    });
 
   }
 }
