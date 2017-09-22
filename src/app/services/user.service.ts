@@ -67,7 +67,7 @@ export class UserService {
     const promise = new Promise(
       (resolve, reject) => {
         //TODO : Check login stats from server
-        resolve(this.token ? true : false)
+        resolve(this.token && (this.user.role != 1 && this.user.role != 2) ? true : false)
       }
     )
     return promise;
@@ -127,7 +127,7 @@ export class UserService {
     return this.http.post(this.baseApiUrl + 'user/changePassword', user);
   }
 
-  getAllUsersByClubId(clubId,token: String) {
+  getAllUsersByClubId(clubId, token: String) {
     const headers = new Headers({ 'Authorization': token });
     const options = new RequestOptions({ headers: headers, params: { clubId: clubId } });
     return this.http.get(this.baseApiUrl + 'user/fetchallbyclub', options);
