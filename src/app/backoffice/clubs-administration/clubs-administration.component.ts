@@ -106,7 +106,16 @@ export class ClubsAdministrationComponent implements OnInit {
     this.loadingIndicator = false;
 
     this.clubList.forEach((obj: any, index) => {
-      obj.teams = typeof(obj.teams) != 'undefined' && obj.teams[0] == 'undefined' ? [] : obj.teams;
+      //obj.teams = typeof (obj.teams) != 'undefined' && obj.teams[0] == 'undefined' ? [] : obj.teams;
+
+      if (typeof (obj.teams) != 'undefined' && obj.teams != null) {
+        if (obj.teams[0] == 'undefined') {
+          obj.teams = [];
+        }
+      } else {
+        obj.teams = [];
+      }
+
     });
 
     if (this.selectedClub != null) {
@@ -161,32 +170,38 @@ export class ClubsAdministrationComponent implements OnInit {
       return false;
     }
     this.showProgressBar = true;
-    // console.log(f.value);
+    // console.log(f.value.teams);
 
-    if (this.selectedClub[0].logo == '' || this.selectedClub[0].updateLogo) {
-      if (typeof (this.selectedFile) != 'undefined') {
-        let data = f.form.getRawValue();
-        data.token = this.userService.token;
-        data.user = this.userService.user._id;
-        data.logo = this.selectedFile;
-        data.id = this.selectedClub[0]._id;
-        data.activate = acivate;
-        // console.log(data);
-        this.clubService.approveClub(data, this.userService.token).subscribe(
+    if (typeof (f.value.teams) != 'undefined' && f.value.teams != null && f.value.teams.length > 0) {
+      if (this.selectedClub[0].logo == '' || this.selectedClub[0].updateLogo) {
+        if (typeof (this.selectedFile) != 'undefined') {
+          let data = f.form.getRawValue();
+          data.token = this.userService.token;
+          data.user = this.userService.user._id;
+          data.logo = this.selectedFile;
+          data.id = this.selectedClub[0]._id;
+          data.activate = acivate;
+          // console.log(data);
+          this.clubService.approveClub(data, this.userService.token).subscribe(
+            (response) => this.onApproveClubSuccess(response),
+            (error) => this.onError(error)
+          );
+        } else {
+          //alert('Please select file.');
+          this.errormsg = 'Please select file.';
+          this.errorModal.open();
+          this.showProgressBar = false;
+        }
+      } else {
+        this.clubService.updateClubwithoutLogo(this.userService.token, { id: this.selectedClub[0]._id, name: f.value.name, slug: f.value.slug, location: null, activate: acivate, teams: f.value.teams }).subscribe(
           (response) => this.onApproveClubSuccess(response),
           (error) => this.onError(error)
         );
-      } else {
-        //alert('Please select file.');
-        this.errormsg = 'Please select file.';
-        this.errorModal.open();
-        this.showProgressBar = false;
       }
     } else {
-      this.clubService.updateClubwithoutLogo(this.userService.token, { id: this.selectedClub[0]._id, name: f.value.name, slug: f.value.slug, location: null, activate: acivate, teams: f.value.teams }).subscribe(
-        (response) => this.onApproveClubSuccess(response),
-        (error) => this.onError(error)
-      );
+      this.errormsg = 'Please select team(s).';
+      this.errorModal.open();
+      this.showProgressBar = false;
     }
   }
 
@@ -198,21 +213,27 @@ export class ClubsAdministrationComponent implements OnInit {
     }
     this.showProgressBar = true;
 
-    if (typeof (this.newClub.selectedFile) != 'undefined') {
-      let data = f.form.getRawValue();
-      data.token = this.userService.token;
-      data.user = this.userService.user._id;
-      data.logo = this.newClub.selectedFile;
-      data.activate = activate;
-      //data.id = this.selectedClub[0]._id;
-      //console.log(data);
-      this.clubService.addAndApproveClub(data, this.userService.token).subscribe(
-        (response) => this.onAddAndApproveClubSuccess(response),
-        (error) => this.onError(error)
-      );
+    if (typeof (f.value.teams) != 'undefined' && f.value.teams != null && f.value.teams.length > 0) {
+      if (typeof (this.newClub.selectedFile) != 'undefined') {
+        let data = f.form.getRawValue();
+        data.token = this.userService.token;
+        data.user = this.userService.user._id;
+        data.logo = this.newClub.selectedFile;
+        data.activate = activate;
+        //data.id = this.selectedClub[0]._id;
+        //console.log(data);
+        this.clubService.addAndApproveClub(data, this.userService.token).subscribe(
+          (response) => this.onAddAndApproveClubSuccess(response),
+          (error) => this.onError(error)
+        );
+      } else {
+        //alert('Please select file.');
+        this.errormsg = 'Please select file.';
+        this.errorModal.open();
+        this.showProgressBar = false;
+      }
     } else {
-      //alert('Please select file.');
-      this.errormsg = 'Please select file.';
+      this.errormsg = 'Please select team(s).';
       this.errorModal.open();
       this.showProgressBar = false;
     }
@@ -225,31 +246,38 @@ export class ClubsAdministrationComponent implements OnInit {
       return false;
     }
     this.showProgressBar = true;
+    
 
-    if (this.editClub.updateLogo) {
-      if (typeof (this.editClub.selectedFile) != 'undefined') {
-        let data = f.form.getRawValue();
-        data.token = this.userService.token;
-        data.user = this.userService.user._id;
-        data.logo = this.editClub.selectedFile;
-        data.id = this.editClub.Id;
-        data.updatelogo = this.editClub.updateLogo;
-        data.teams = this.editClub.teams;
-        this.clubService.editClub(data, this.userService.token).subscribe(
+    if (typeof (this.editClub.teams) != 'undefined' && this.editClub.teams != null && this.editClub.teams.length > 0) {
+      if (this.editClub.updateLogo) {
+        if (typeof (this.editClub.selectedFile) != 'undefined') {
+          let data = f.form.getRawValue();
+          data.token = this.userService.token;
+          data.user = this.userService.user._id;
+          data.logo = this.editClub.selectedFile;
+          data.id = this.editClub.Id;
+          data.updatelogo = this.editClub.updateLogo;
+          data.teams = this.editClub.teams;
+          this.clubService.editClub(data, this.userService.token).subscribe(
+            (response) => this.oneditClubSuccess(response),
+            (error) => this.onError(error)
+          );
+        } else {
+          // alert('Please select file.');
+          this.errormsg = 'Please select file.';
+          this.errorModal.open();
+          this.showProgressBar = false;
+        }
+      } else {
+        this.clubService.updateClubwithoutLogo(this.userService.token, { id: this.editClub.Id, name: this.editClub.name, slug: this.editClub.NiceLinkName, location: null, activate: true, teams: this.editClub.teams }).subscribe(
           (response) => this.oneditClubSuccess(response),
           (error) => this.onError(error)
         );
-      } else {
-        // alert('Please select file.');
-        this.errormsg = 'Please select file.';
-        this.errorModal.open();
-        this.showProgressBar = false;
       }
     } else {
-      this.clubService.updateClubwithoutLogo(this.userService.token, { id: this.editClub.Id, name: this.editClub.name, slug: this.editClub.NiceLinkName, location: null, activate: true, teams: this.editClub.teams }).subscribe(
-        (response) => this.oneditClubSuccess(response),
-        (error) => this.onError(error)
-      );
+      this.errormsg = 'Please select team(s).';
+      this.errorModal.open();
+      this.showProgressBar = false;
     }
   }
 
@@ -331,7 +359,16 @@ export class ClubsAdministrationComponent implements OnInit {
     this.activatedClubList = JSON.parse(response._body);
 
     this.activatedClubList.forEach((obj: any, index) => {
-      obj.teams = typeof(obj.teams) != 'undefined' && obj.teams[0] == 'undefined' ? [] : obj.teams;
+      // obj.teams = typeof (obj.teams) != 'undefined' && obj.teams[0] == 'undefined' ? [] : obj.teams;
+
+      if (typeof (obj.teams) != 'undefined' && obj.teams != null) {
+        if (obj.teams[0] == 'undefined') {
+          obj.teams = [];
+        }
+      } else {
+        obj.teams = [];
+      }
+
     });
 
     // console.log(this.activatedClubList);
