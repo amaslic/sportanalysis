@@ -23,7 +23,8 @@ import {
   styleUrls: ['./main.component.css']
 })
 export class MainComponent implements OnInit {
-  isAdmin: any;
+  isAdmin: boolean;
+  isCoachOrAnalyst: Boolean;
   coach: Boolean;
   clubid: any;
   club: any;
@@ -63,7 +64,17 @@ export class MainComponent implements OnInit {
   ngOnInit() {
     this.clubInfo();
     let user: any = this.localStorageService.get('user');
-    this.isAdmin = user.admin;
+    if (user['role'] == 3 || user['role'] == 4) {
+      this.isCoachOrAnalyst = true;
+    }
+    else if (user['isAdmin']) {
+      this.isAdmin = true;
+    }
+    else {
+      this.isCoachOrAnalyst = false;
+      this.isAdmin = false;
+    }
+
   }
   clubInfo() {
     this.clubService.checkClubActive(this.userService.token).subscribe(
