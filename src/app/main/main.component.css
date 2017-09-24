@@ -90,8 +90,16 @@ html {
 
 
 .demo-header ul li img{
-  padding: 5px 0px 5px 0px;
+  /*padding: 5px 0px 5px 0px;*/
   cursor: pointer;
+}
+
+span.name-profile{
+  margin-top: 12px;
+}
+
+.btn-usr.dropdown-toggle::after{
+  margin-top: 18px!important;
 }
 
  #site-title{
@@ -130,7 +138,7 @@ ul.dropdown-menu.profile-options{
 }
 
 .demo-header ul li:last-child button{
-  padding: 5px;
+  /*padding: 5px;*/
   background: transparent;
 }
 
@@ -365,9 +373,11 @@ img.logo-img{
   margin-left: 50px;
 }
 
+
+
+
 .profile-picture{
-  position: absolute;
-  right: 180px;
+  
 }
 
 .demo-header ul li.profile-name:last-child{
