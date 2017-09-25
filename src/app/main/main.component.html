@@ -76,8 +76,8 @@
               </li>-->
               <li class="profile-name">
                 <div class="dropdown" dropdown [dropdownToggle]="false">
-                  <img src="assets/images/img9.png" class="img img-responsive img-rounded profile-picture">
-                  <button class="btn dropdown-toggle btn-usr" type="button" dropdown-open>{{getUserDisplayName()}}
+                  
+                  <button class="btn dropdown-toggle btn-usr" type="button" dropdown-open><img src="assets/images/img9.png" class="img img-responsive img-rounded profile-picture col-md-3"> <span class="col-md-9 name-profile">{{getUserDisplayName()}}</span>
 									</button>
                   <ul class="dropdown-menu profile-options">
                     <li [routerLink]="['/profile/main']">Profile</li>

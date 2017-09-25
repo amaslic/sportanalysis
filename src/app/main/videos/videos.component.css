@@ -373,7 +373,8 @@ h3.recent{
 }
 
 .upload-search input{
-  float: right;
+  float: left;
+  margin-left: 50px;
 }
 .video-delete{
   color: red;
