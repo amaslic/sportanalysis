@@ -85,6 +85,10 @@
             <li *ngIf="isCoach || isAdmin">
                <i (click)="assignVideo(video._id,$event)" class="fa fa-share-alt text-success"></i>
             </li>
+            <li>
+              <a target="_self" href="https://s3.eu-central-1.amazonaws.com/sportsanalysis\videos\{{video.filename}}" (click)="$event.stopPropagation();" download="foo.pdf"><i class="fa fa-download text-info"></i></a>
+                <!--<i (click)="downloadVideo(video._id,$event)" class="fa fa-download text-info"></i>-->
+            </li>
           </ul>
         </div>
       </div>
@@ -163,6 +167,8 @@
             <li *ngIf="isCoach || isAdmin" class="video-info-list">
               <i (click)="confirmDelete(video._id,$event)" title="Delete Video" class="fa fa-trash video-delete" aria-hidden="true"></i>
               <i (click)="assignVideo(video._id,$event)" class="fa fa-share-alt text-success"></i>
+              <!--<i (click)="downloadVideo(video._id,$event)" class="fa fa-download text-info"></i>-->
+              <a target="_self" href="https://s3.eu-central-1.amazonaws.com/sportsanalysis\videos\{{video.filename}}" (click)="$event.stopPropagation();" download="foo.pdf"><i class="fa fa-download text-info"></i></a>
             </li>
 
           </ul>
@@ -171,6 +177,8 @@
       </div>
     </div>
   </perfect-scrollbar>
+  <div #htmldiv [innerHtml]="downloadVideoHtml"></div>
+
 </div>
 <modal #SucessModal>
   <modal-header>
