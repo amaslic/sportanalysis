@@ -10,6 +10,8 @@ export class User {
   private password: string;
   private confirmed: boolean;
   public coach: boolean;
+  public teams: any;
+  public activate: boolean;
 
   constructor() { }
 }

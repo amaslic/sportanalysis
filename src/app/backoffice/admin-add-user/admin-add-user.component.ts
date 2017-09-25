@@ -19,6 +19,9 @@ import { FormControl } from "@angular/forms";
 import 'rxjs/add/operator/startWith';
 import 'rxjs/add/operator/map';
 import { CompleterService, CompleterData } from 'ng2-completer';
+import {
+  TeamService
+} from './../../services/team.service';
 
 
 @Component({
@@ -42,11 +45,13 @@ export class AdminAddUserComponent implements OnInit {
     { value: 'false', display: 'Player' }
   ];
   showProgressBar: boolean = false;
+  teamsList: any;
+  clubTeams: any;
 
 
   @ViewChild('regSucessModal') regSucessModal;
   @ViewChild('regErrorModal') regErrorModal;
-  constructor(private completerService: CompleterService, private clubService: ClubService, private userService: UserService, r: Router) {
+  constructor(private completerService: CompleterService, private clubService: ClubService, private userService: UserService, r: Router, private teamService: TeamService) {
 
     this.router = r;
     this.clubCtrl = new FormControl();
@@ -56,11 +61,19 @@ export class AdminAddUserComponent implements OnInit {
 
   ngOnInit() {
     this.user.coach = null;
+    this.user.teams = null;
     this.getAllClubs();
     this.getActivatedClubs();
     this.filteredClubs = this.clubCtrl.valueChanges
       .startWith(null)
       .map(name => this.filterClubs(name));
+
+    this.teamService.getAllTeams(this.userService.token).subscribe(
+      (response: any) => {
+        this.teamsList = JSON.parse(response._body);
+      },
+      (error) => this.onError(error)
+    );
 
   }
   filterClubs(val: string) {
@@ -100,6 +113,7 @@ export class AdminAddUserComponent implements OnInit {
   }
 
   createNewUser(user) {
+    this.user.activate = true;
     this.userService.createNewUser(this.user)
       .subscribe(
       (response) => this.onSignupSuccess(response),
@@ -175,5 +189,29 @@ export class AdminAddUserComponent implements OnInit {
   onGetAllClubsSuccess(response) {
     this.allClubList = JSON.parse(response._body);
   }
+
+  onChangeofClub() {
+    var clubname = this.user.club;
+    
+    var userclub = this.allClubList.filter(function (element, index) {
+      return (element.name.toLowerCase() === clubname.toLowerCase());
+    })[0];
+    
+    this.clubTeams = [];
+     if (typeof (userclub) != 'undefined') {
+        this.teamsList.forEach((element,index) => {
+            if(userclub.teams.indexOf(element._id) > -1){
+              this.clubTeams.push(element);
+            }
+        });
+
+        if(this.clubTeams.length == 0){
+          this.user.teams = null;
+        }
+
+     }
+
+  }
+
 }
 

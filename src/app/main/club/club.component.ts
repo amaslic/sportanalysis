@@ -27,6 +27,10 @@ import {
 import {
   VideoService
 } from './../../services/video.service';
+import {
+  TeamService
+} from './../../services/team.service';
+
 @Component({
   selector: 'app-club',
   templateUrl: './club.component.html',
@@ -49,12 +53,21 @@ export class ClubComponent implements OnInit {
   usersList: User[];
   isCoachOrAdmin: boolean = false;
   allVideos: Video[];
+  teamsList: any;
+
   @ViewChild('SucessModal') SucessModal;
   @ViewChild('ErrorModal') ErrorModal;
-  constructor(private clubService: ClubService, private userService: UserService, private route: ActivatedRoute, private videoService: VideoService) {
+  constructor(private clubService: ClubService, private userService: UserService, private route: ActivatedRoute, private videoService: VideoService, private teamService: TeamService) {
   }
 
   ngOnInit() {
+    this.teamService.getAllTeams(this.userService.token).subscribe(
+      (response: any) => {
+        this.teamsList = JSON.parse(response._body);
+      },
+      (error) => this.onError(error)
+    );
+
     this.sub = this.route.params.subscribe(params => {
       this.id = params['id'];
       this.getClub(this.id);
@@ -71,6 +84,8 @@ export class ClubComponent implements OnInit {
     } else {
       this.isCoachOrAdmin = false;
     }
+
+    
 
   }
   getVideos() {
@@ -149,6 +164,22 @@ export class ClubComponent implements OnInit {
 
   onGetUsersSuccess(response) {
     this.usersList = JSON.parse(response._body);
+
+    this.usersList.forEach(element => {
+      if (this.teamsList.length > 0) {
+        var userTeam = this.teamsList.filter(function (element1, index) {
+          return (element1._id === element.teams[0]);
+        })[0];
+
+        if (typeof (userTeam) != 'undefined')
+          element.teams = userTeam.name;
+        else
+          element.teams = '';
+      } else {
+        element.teams = '';
+      }
+    });
+    
     this.loadingIndicator = false;
   }
   typeFilter() {

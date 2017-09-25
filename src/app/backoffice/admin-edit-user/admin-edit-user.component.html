@@ -44,8 +44,15 @@
                         </div>
                         <div class="form-group">
                             <label>Club</label>
-                            <ng2-completer #club="ngModel" [(ngModel)]="user.club" name="club" [inputClass]="['autocompleteInput']" class="autocompleteControl"
+                            <ng2-completer #club="ngModel" [(ngModel)]="user.club"  (ngModelChange)="onChangeofClub()" name="club" [inputClass]="['autocompleteInput']" class="autocompleteControl"
                                 placeholder="Club" [datasource]="clubData" [minSearchLength]="3" required></ng2-completer>
+                        </div>
+                        <div class="form-group">
+                            <label>Team</label>
+                            <select name="teams" #teams class="form-control" [(ngModel)]="user.teams" required>
+                              <option value="null" disabled>Select Team </option>
+                              <option *ngFor="let team of clubTeams" [ngValue]="team._id">{{team.name}}</option>
+                            </select>
                         </div>
                         <div class="form-group">
                             <label>Club Function</label>

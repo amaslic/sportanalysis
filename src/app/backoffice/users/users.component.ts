@@ -12,6 +12,10 @@ import {
 import {
   ClubService
 } from './../../services/club.service';
+import {
+  TeamService
+} from './../../services/team.service';
+
 @Component({
   selector: 'app-users',
   templateUrl: './users.component.html',
@@ -27,6 +31,7 @@ export class UsersComponent implements OnInit {
   loadingIndicator: boolean = true;
   reorderable: boolean = true;
   AllClubList: any;
+  teamsList: any;
 
   columns = [
     { prop: 'email' },
@@ -43,13 +48,21 @@ export class UsersComponent implements OnInit {
   @ViewChild('deactivetable') deactivetable;
   @ViewChild('userSucessModal') userSucessModal;
   @ViewChild('userErrorModal') userErrorModal
-  constructor(private userService: UserService, private clubService: ClubService) { }
+  constructor(private userService: UserService, private clubService: ClubService, private teamService: TeamService) { }
 
   ngOnInit() {
     this.clubService.getAllClubs(this.userService.token).subscribe(
       (response) => this.OnSuccessOfGetAllClubs(response),
       (error) => this.onError(error)
     );
+
+    this.teamService.getAllTeams(this.userService.token).subscribe(
+      (response: any) => {
+        this.teamsList = JSON.parse(response._body);
+      },
+      (error) => this.onError(error)
+    );
+
   }
 
   OnSuccessOfGetAllClubs(response) {
@@ -74,29 +87,66 @@ export class UsersComponent implements OnInit {
     this.usersList = JSON.parse(response._body);
 
     this.usersList.forEach(element => {
-      var userclub = this.AllClubList.filter(function (element1, index) {
-        return (element1._id === element.club);
-      })[0];
+      if (this.AllClubList.length > 0) {
+        var userclub = this.AllClubList.filter(function (element1, index) {
+          return (element1._id === element.club);
+        })[0];
 
-      if (typeof (userclub) != 'undefined')
-        element.club = userclub.name;
-      else
+        if (typeof (userclub) != 'undefined')
+          element.club = userclub.name;
+        else
+          element.club = '';
+      } else {
         element.club = '';
+      }
+
+      if (this.teamsList.length > 0) {
+        var userTeam = this.teamsList.filter(function (element1, index) {
+          return (element1._id === element.teams[0]);
+        })[0];
+
+        if (typeof (userTeam) != 'undefined')
+          element.teams = userTeam.name;
+        else
+          element.teams = '';
+      } else {
+        element.teams = '';
+      }
+
     });
+    console.log(this.usersList);
     this.loadingIndicator = false;
   }
   onGetUnApprovedUsers(response) {
     this.unApprovedUsers = JSON.parse(response._body);
 
     this.unApprovedUsers.forEach(element => {
-      var userclub = this.AllClubList.filter(function (element1, index) {
-        return (element1._id === element.club);
-      })[0];
+      if (this.AllClubList.length > 0) {
+        var userclub = this.AllClubList.filter(function (element1, index) {
+          return (element1._id === element.club);
+        })[0];
 
-      if (typeof (userclub) != 'undefined')
-        element.club = userclub.name;
-      else
+        if (typeof (userclub) != 'undefined')
+          element.club = userclub.name;
+        else
+          element.club = '';
+      } else {
         element.club = '';
+      }
+
+      if (this.teamsList.length > 0) {
+        var userTeam = this.teamsList.filter(function (element1, index) {
+          return (element1._id === element.teams[0]);
+        })[0];
+
+        if (typeof (userTeam) != 'undefined')
+          element.teams = userTeam.name;
+        else
+          element.teams = '';
+      } else {
+        element.teams = '';
+      }
+
     });
 
     this.loadingIndicator = false;

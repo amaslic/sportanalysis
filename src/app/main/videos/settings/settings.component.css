@@ -163,3 +163,13 @@
           color: black;
         
         }
+
+select.form-control {
+    height: 60px !important;
+    width: 100%;
+    max-width: 320px;
+    background: #ececec;
+    border: 0;
+    box-shadow: none;
+    color: black;
+}        

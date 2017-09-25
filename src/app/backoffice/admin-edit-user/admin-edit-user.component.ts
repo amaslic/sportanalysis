@@ -25,6 +25,9 @@ import {
     CompleterService,
     CompleterData
 } from 'ng2-completer';
+import {
+    TeamService
+} from './../../services/team.service';
 
 
 @Component({
@@ -51,16 +54,19 @@ export class AdminEditUserComponent implements OnInit {
     ];
     public cpass: any = {};
     showProgressBar: boolean = false;
+    teamsList: any;
+    clubTeams: any;
 
 
     @ViewChild('editUserSuccessModel') editUserSuccessModel;
     @ViewChild('editUserErrorModal') editUserErrorModal;
-    constructor(private route: ActivatedRoute, private completerService: CompleterService, private clubService: ClubService, private userService: UserService, r: Router) {
+    constructor(private route: ActivatedRoute, private completerService: CompleterService, private clubService: ClubService, private userService: UserService, r: Router, private teamService: TeamService) {
         this.router = r;
         this.clubCtrl = new FormControl();
     }
 
     ngOnInit() {
+        this.user.teams = null;
         this.showProgressBar = true;
         this.getActivatedClubs();
         this.filteredClubs = this.clubCtrl.valueChanges
@@ -70,6 +76,13 @@ export class AdminEditUserComponent implements OnInit {
             this.userid = params['id'];
             this.getEditUser(this.userid);
         });
+
+        this.teamService.getAllTeams(this.userService.token).subscribe(
+            (response: any) => {
+                this.teamsList = JSON.parse(response._body);
+            },
+            (error) => this.onError(error)
+        );
     }
     filterClubs(val: string) {
         return val ? this.clubData.filter(s => s.toLowerCase().indexOf(val.toLowerCase()) === 0) :
@@ -79,6 +92,7 @@ export class AdminEditUserComponent implements OnInit {
         if (!f.valid) {
             return false;
         }
+
         this.showProgressBar = true;
         // console.log(this.user);
 
@@ -173,6 +187,17 @@ export class AdminEditUserComponent implements OnInit {
     }
     onFetchUserSuccess(response) {
         this.user = JSON.parse(response._body);
+
+        if (typeof (this.user.teams) != 'undefined') {
+            if (this.user.teams.length > 0) {
+                this.user.teams = this.user.teams[0];
+            }else{
+                this.user.teams = null;
+            }
+        }else{
+            this.user.teams = null;
+        }
+
         this.cpass._id = this.user._id;
         this.clubService.getAllClubs(this.userService.token).subscribe(
             (response) => this.OnSuccessOfGetAllClubs(response),
@@ -191,6 +216,8 @@ export class AdminEditUserComponent implements OnInit {
             this.user.club = userclub.name;
         else
             this.user.club = '';
+
+        this.onChangeofClub();
     }
     changePassword(p) {
 
@@ -205,5 +232,30 @@ export class AdminEditUserComponent implements OnInit {
             (response) => this.onEditProfileSuccess(response),
             (error) => this.onError(error)
             );
+    }
+
+    onChangeofClub() {
+        var clubname = this.user.club;
+
+        if (this.AllClubList.length > 0) {
+            var userclub = this.AllClubList.filter(function (element, index) {
+                return (element.name.toLowerCase() === clubname.toLowerCase());
+            })[0];
+        }
+
+        this.clubTeams = [];
+        if (typeof (userclub) != 'undefined') {
+            this.teamsList.forEach((element, index) => {
+                if (userclub.teams.indexOf(element._id) > -1) {
+                    this.clubTeams.push(element);
+                }
+            });
+        }
+
+        if (this.clubTeams.length == 0) {
+            this.user.teams = null;
+        }
+        // console.log(this.clubTeams);
+
     }
 }
