@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild,ViewChildren, ElementRef, QueryList } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import {
   Video
 } from './../../models/video.model';
@@ -44,7 +44,8 @@ export class VideosComponent implements OnInit {
   showProgressBar: boolean = false;
   userlistModel: any[];
   allVideos: Video[];
-  downloadVideoHtml: any;
+  videoUrl: any;
+  videoOriginalName: any;
 
   userlistSettings: IMultiSelectSettings = {
     enableSearch: true,
@@ -61,8 +62,8 @@ export class VideosComponent implements OnInit {
   @ViewChild('ErrorModal') ErrorModal;
   @ViewChild('assignVideoModal') assignVideoModal;
   @ViewChild('videoSucessModal') videoSucessModal;
-  @ViewChild('htmldiv') htmldiv:ElementRef;
-  @ViewChild('htmldiv', { read: ElementRef }) elemRefs: QueryList<ElementRef>;
+  @ViewChild('lnkDownloadLink') lnkDownloadLink: ElementRef;
+
   constructor(private clubService: ClubService, private videoService: VideoService, private userService: UserService) { }
 
   ngOnInit() {
@@ -187,19 +188,16 @@ export class VideosComponent implements OnInit {
     });
   }
 
-  downloadVideo(id, e) {
+  downloadVideo(video, e) {
     e.preventDefault();
     e.stopPropagation();
-    this.downloadVideoHtml = '<a #lnkDownloadLink style="display:none;" target="_self" href="'+ this.baseAmazonVideoUrl +'/videos/01042f54c427a96e6850330a603274131506088287961.mp4" download="xyz.mp4">downlaod</a>';
-    // this.fileInput.nativeElement.click();
-    //this.elemRefs.first.nativeElement.click();
-  }
+    this.videoUrl = this.baseAmazonVideoUrl + '/videos/' + video.filename;
+    this.videoOriginalName = video.original_filename;
+    const elem= this.lnkDownloadLink;
+    setTimeout(function () {
+      elem.nativeElement.click();
+    }, 1000);
 
-  downloadVideo1(id, e) {
-    e.preventDefault();
-    e.stopPropagation();
-    //this.downloadVideoHtml = '<a #lnkDownloadLink style="display:none;" target="_self" href="'+ this.baseAmazonVideoUrl +'/videos/01042f54c427a96e6850330a603274131506088287961.mp4" download="xyz.mp4">downlaod</a>';
-    // this.fileInput.nativeElement.click();
-    this.elemRefs.first.nativeElement.click();
   }
+  
 }
