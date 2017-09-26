@@ -32,6 +32,8 @@ export class UsersComponent implements OnInit {
   reorderable: boolean = true;
   AllClubList: any;
   teamsList: any;
+  allApprovedUserList: User[];
+  allDeactivatedUserList: User[];
 
   columns = [
     { prop: 'email' },
@@ -44,6 +46,9 @@ export class UsersComponent implements OnInit {
     { prop: 'confirmed' },
     { prop: 'superadmin' }
   ];
+
+  search: any = { ActivatedClub: null, ActivatedTeam: null, DeactivatedClub: null, DeactivatedTeam: null };
+
   @ViewChild('activetable') activetable;
   @ViewChild('deactivetable') deactivetable;
   @ViewChild('userSucessModal') userSucessModal;
@@ -84,9 +89,13 @@ export class UsersComponent implements OnInit {
     );
   }
   onGetUsersSuccess(response) {
-    this.usersList = JSON.parse(response._body);
+    this.allApprovedUserList = JSON.parse(response._body);
 
-    this.usersList.forEach(element => {
+    this.allApprovedUserList.forEach(element => {
+      element.clubId = element.club;
+      if (element.teams && element.teams.length > 0)
+        element.teamId = element.teams[0];
+
       if (this.AllClubList.length > 0) {
         var userclub = this.AllClubList.filter(function (element1, index) {
           return (element1._id === element.club);
@@ -114,13 +123,17 @@ export class UsersComponent implements OnInit {
       }
 
     });
-    console.log(this.usersList);
+    this.onChangeofActivatedSearch();
     this.loadingIndicator = false;
   }
   onGetUnApprovedUsers(response) {
-    this.unApprovedUsers = JSON.parse(response._body);
+    this.allDeactivatedUserList = JSON.parse(response._body);
 
-    this.unApprovedUsers.forEach(element => {
+    this.allDeactivatedUserList.forEach(element => {
+      element.clubId = element.club;
+      if (element.teams && element.teams.length > 0)
+        element.teamId = element.teams[0];
+
       if (this.AllClubList.length > 0) {
         var userclub = this.AllClubList.filter(function (element1, index) {
           return (element1._id === element.club);
@@ -148,7 +161,7 @@ export class UsersComponent implements OnInit {
       }
 
     });
-
+    this.onChangeofDeactivatedSearch();
     this.loadingIndicator = false;
   }
   onError(error) {
@@ -210,5 +223,22 @@ export class UsersComponent implements OnInit {
     this.ngOnInit();
     this.activetable.resize.emit();
     this.deactivetable.resize.emit();
+  }
+
+  onChangeofActivatedSearch() {
+    
+    if (this.allApprovedUserList.length > 0) {
+      this.usersList = this.allApprovedUserList.filter((element, index) => {
+        return ((this.search.ActivatedClub == null || this.search.ActivatedClub == "null") || element.clubId == this.search.ActivatedClub) && ((this.search.ActivatedTeam == null || this.search.ActivatedTeam == "null") || element.teamId == this.search.ActivatedTeam);
+      });
+    }
+  }
+
+  onChangeofDeactivatedSearch() {
+    if (this.allDeactivatedUserList.length > 0) {
+      this.unApprovedUsers = this.allDeactivatedUserList.filter((element, index) => {
+        return ((this.search.DeactivatedClub == null || this.search.DeactivatedClub == "null") || element.clubId == this.search.DeactivatedClub) && ((this.search.DeactivatedTeam == null || this.search.DeactivatedTeam == "null") || element.teamId == this.search.DeactivatedTeam);
+      });
+    }
   }
 }

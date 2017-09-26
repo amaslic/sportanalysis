@@ -12,6 +12,8 @@ export class User {
   public coach: boolean;
   public teams: any;
   public activate: boolean;
+  public clubId: string;
+  public teamId: string;
 
   constructor() { }
 }
