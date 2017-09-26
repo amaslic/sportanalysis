@@ -227,18 +227,14 @@ export class UsersComponent implements OnInit {
 
   onChangeofActivatedSearch() {
     
-    if (this.allApprovedUserList.length > 0) {
       this.usersList = this.allApprovedUserList.filter((element, index) => {
         return ((this.search.ActivatedClub == null || this.search.ActivatedClub == "null") || element.clubId == this.search.ActivatedClub) && ((this.search.ActivatedTeam == null || this.search.ActivatedTeam == "null") || element.teamId == this.search.ActivatedTeam);
       });
-    }
   }
 
   onChangeofDeactivatedSearch() {
-    if (this.allDeactivatedUserList.length > 0) {
       this.unApprovedUsers = this.allDeactivatedUserList.filter((element, index) => {
         return ((this.search.DeactivatedClub == null || this.search.DeactivatedClub == "null") || element.clubId == this.search.DeactivatedClub) && ((this.search.DeactivatedTeam == null || this.search.DeactivatedTeam == "null") || element.teamId == this.search.DeactivatedTeam);
       });
-    }
   }
 }

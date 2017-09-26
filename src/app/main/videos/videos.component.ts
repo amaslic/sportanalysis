@@ -191,11 +191,12 @@ export class VideosComponent implements OnInit {
   downloadVideo(video, e) {
     e.preventDefault();
     e.stopPropagation();
-    this.videoUrl = this.baseAmazonVideoUrl + '/videos/' + video.filename;
+    this.videoUrl = this.baseAmazonVideoUrl + video.path;
     this.videoOriginalName = video.original_filename;
     const elem= this.lnkDownloadLink;
     setTimeout(function () {
       elem.nativeElement.click();
+      this.videoUrl = '';
     }, 1000);
 
   }

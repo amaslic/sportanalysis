@@ -1,7 +1,8 @@
 import {
   Component,
   OnInit,
-  ViewChild
+  ViewChild, 
+  ElementRef
 } from '@angular/core';
 import {
   User
@@ -45,6 +46,7 @@ export class ClubComponent implements OnInit {
   private club;
   private baseImageUrl = GlobalVariables.BASE_IMAGE_URL;
   private baseVideoUrl = GlobalVariables.BASE_VIDEO_URL;
+  private baseAmazonVideoUrl = GlobalVariables.BASE_AMAZON_VIDEO_URL;
   private clubActive: boolean;
   grid: boolean;
   list: boolean;
@@ -54,9 +56,12 @@ export class ClubComponent implements OnInit {
   isCoachOrAdmin: boolean = false;
   allVideos: Video[];
   teamsList: any;
+  videoUrl: any;
+  videoOriginalName: any;
 
   @ViewChild('SucessModal') SucessModal;
   @ViewChild('ErrorModal') ErrorModal;
+  @ViewChild('lnkDownloadLink') lnkDownloadLink: ElementRef;
   constructor(private clubService: ClubService, private userService: UserService, private route: ActivatedRoute, private videoService: VideoService, private teamService: TeamService) {
   }
 
@@ -188,5 +193,18 @@ export class ClubComponent implements OnInit {
     this.videoList = this.allVideos.filter(function (element, index) {
       return (type == "All" || element.type == type);
     });
+  }
+
+  downloadVideo(video, e) {
+    e.preventDefault();
+    e.stopPropagation();
+    this.videoUrl = this.baseAmazonVideoUrl + video.path;
+    this.videoOriginalName = video.original_filename;
+    const elem= this.lnkDownloadLink;
+    setTimeout(function () {
+      elem.nativeElement.click();
+      this.videoUrl = '';
+    }, 1000);
+
   }
 }

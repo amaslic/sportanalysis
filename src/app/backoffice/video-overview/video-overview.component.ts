@@ -1,7 +1,8 @@
 import {
   Component,
   OnInit,
-  ViewChild
+  ViewChild, 
+  ElementRef
 } from '@angular/core';
 import {
   User
@@ -90,9 +91,13 @@ export class VideoOverviewComponent implements OnInit {
   }
   ];
   private router: Router;
+  videoUrl: any;
+  videoOriginalName: any;
+  private baseAmazonVideoUrl = GlobalVariables.BASE_AMAZON_VIDEO_URL;
 
   @ViewChild('assignVideoModal') assignVideoModal;
   @ViewChild('videoSucessModal') videoSucessModal;
+  @ViewChild('lnkDownloadLink') lnkDownloadLink: ElementRef;
   constructor(platformLocation: PlatformLocation, private videoService: VideoService, private userService: UserService, private clubService: ClubService, r: Router, private route: ActivatedRoute) {
     this.router = r;
   }
@@ -202,5 +207,18 @@ export class VideoOverviewComponent implements OnInit {
     this.successmsg = responseBody.message;
     this.assignVideoModal.close();
     this.videoSucessModal.open();
+  }
+
+  downloadVideo(video, e) {
+    e.preventDefault();
+    e.stopPropagation();
+    this.videoUrl = this.baseAmazonVideoUrl + video.path;
+    this.videoOriginalName = video.original_filename;
+    const elem= this.lnkDownloadLink;
+    setTimeout(function () {
+      elem.nativeElement.click();
+      this.videoUrl = '';
+    }, 1000);
+
   }
 }

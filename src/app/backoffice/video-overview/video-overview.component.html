@@ -85,11 +85,16 @@
         <i class="fa fa-share-alt fa-lg text-success" aria-hidden="true" (click)="assignVideo(row._id)"></i>&nbsp;
         <i class="fa fa-cog fa-lg text-info" aria-hidden="true" [routerLink]="['/backoffice/videos-settings',row._id]"></i>&nbsp;
         <i class="fa fa-trash fa-lg text-danger" aria-hidden="true" (click)="confirmDelete(value)"></i>
-
+        <i (click)="downloadVideo(row,$event)" class="fa fa-download fa-lg text-info"></i>
 
       </ng-template>
     </ngx-datatable-column>
   </ngx-datatable>
+
+  <div #htmldiv>
+    <a #lnkDownloadLink style="display: none;" target="_self" href="{{videoUrl}}" download="{{videoOriginalName}}">downlaod</a>
+  </div>
+
 </div>
 <modal #videoSucessModal>
   <modal-header>
