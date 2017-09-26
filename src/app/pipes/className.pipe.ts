@@ -11,8 +11,9 @@ export class ClassNamePipe implements PipeTransform {
     public transform(value, keys: string, term: string) {
 
         let replaced;
-        replaced = value.split(' ').join('-').toLowerCase();
-
+        if (value) {
+            replaced = value.split(' ').join('-').toLowerCase();
+        }
         return replaced;
 
     }
