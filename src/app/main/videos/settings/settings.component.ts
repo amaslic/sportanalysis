@@ -54,7 +54,7 @@ export class VideoSettingsComponent implements OnInit {
   clubTeams2: any;
 
 
-  xmlDataApplicationTypes = ["tagapp", "ortec", "sportscode", "telestrator"];
+  xmlDataApplicationTypes = ["tagapp", "ortec", "sportscode", "telestrator", "instat_deep", "instat_simple"];
   xmlDataApplicationTypeSelected = '';
 
   private baseTrackingDataUrl = GlobalVariables.BASE_TRACKINGDATA_URL;
