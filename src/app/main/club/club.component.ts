@@ -53,7 +53,7 @@ export class ClubComponent implements OnInit {
   videoList: Video[];
   loadingIndicator: boolean = true;
   usersList: User[];
-  isCoachOrAdmin: boolean = false;
+  isCoachOrAnalyst: boolean = false;
   allVideos: Video[];
   teamsList: any;
   videoUrl: any;
@@ -84,10 +84,10 @@ export class ClubComponent implements OnInit {
 
     var user = this.userService.loadUserFromStorage();
 
-    if (user['admin'] || user['coach']) {
-      this.isCoachOrAdmin = true;
+    if (user['role'] == 3 || user['role'] == 4) {
+      this.isCoachOrAnalyst = true;
     } else {
-      this.isCoachOrAdmin = false;
+      this.isCoachOrAnalyst = false;
     }
 
     
@@ -123,8 +123,8 @@ export class ClubComponent implements OnInit {
 
 
   }
-  getClub(slug) {
-    this.clubService.getClubBySlug(slug)
+  getClub(id) {
+    this.clubService.getClubBySlug(id)
       .subscribe(
       (response) => this.onGetClubSuccess(response),
       (error) => this.onError(error)

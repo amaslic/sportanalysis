@@ -12,6 +12,9 @@ import {
   styleUrls: ['./backoffice.component.css']
 })
 export class BackofficeComponent implements OnInit {
+  isAnalyst: boolean;
+  isClubAdmin: boolean;
+  isAdmin: boolean;
 
 
   private _opened = true;
@@ -23,6 +26,21 @@ export class BackofficeComponent implements OnInit {
   constructor(private localStorageService: LocalStorageService, r: Router) { this.router = r; }
 
   ngOnInit() {
+    let user: any = this.localStorageService.get('user');
+    if (user['role'] == 1) {
+      this.isAdmin = true;
+    }
+    else if (user['role'] == 2) {
+      this.isClubAdmin = true;
+    }
+    else if (user['role'] == 3 || user['role'] == 4) {
+      this.isAnalyst = true;
+    }
+    else {
+      this.isClubAdmin = false;
+      this.isAdmin = false;
+      this.isAnalyst = false;
+    }
   }
   logout() {
     this.localStorageService.remove('token');

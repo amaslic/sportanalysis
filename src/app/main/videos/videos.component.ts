@@ -16,6 +16,10 @@ import {
 import {
   ClubService
 } from './../../services/club.service';
+import {
+  Router, ActivatedRoute
+} from '@angular/router';
+
 import { IMultiSelectOption, IMultiSelectSettings, IMultiSelectTexts } from 'angular-2-dropdown-multiselect';
 
 @Component({
@@ -46,6 +50,7 @@ export class VideosComponent implements OnInit {
   allVideos: Video[];
   videoUrl: any;
   videoOriginalName: any;
+  private router: Router;
 
   userlistSettings: IMultiSelectSettings = {
     enableSearch: true,
@@ -64,7 +69,9 @@ export class VideosComponent implements OnInit {
   @ViewChild('videoSucessModal') videoSucessModal;
   @ViewChild('lnkDownloadLink') lnkDownloadLink: ElementRef;
 
-  constructor(private clubService: ClubService, private videoService: VideoService, private userService: UserService) { }
+  constructor(private clubService: ClubService, private videoService: VideoService, private userService: UserService, r: Router) {
+    this.router = r;
+  }
 
   ngOnInit() {
     this.ClubStatus();
@@ -72,10 +79,8 @@ export class VideosComponent implements OnInit {
     this.getVideos();
     this.gridView();
     this.userDetails = this.userService.loadUserFromStorage();
-    if (this.userDetails) {
-      this.isAdmin = this.userDetails['admin'];
-      this.isCoach = this.userDetails['coach'];
-
+    if (this.userDetails['role'] == 3 || this.userDetails['role'] == 4) {
+      this.isCoach = true;
     }
 
 
@@ -193,12 +198,20 @@ export class VideosComponent implements OnInit {
     e.stopPropagation();
     this.videoUrl = this.baseAmazonVideoUrl + video.path;
     this.videoOriginalName = video.original_filename;
-    const elem= this.lnkDownloadLink;
+    const elem = this.lnkDownloadLink;
     setTimeout(function () {
       elem.nativeElement.click();
       this.videoUrl = '';
     }, 1000);
 
   }
-  
+
+  settingsVideo(video, e) {
+    e.preventDefault();
+    e.stopPropagation();
+
+    this.router.navigateByUrl('/videos/settings/' + video._id);
+
+  }
+
 }

@@ -120,7 +120,7 @@ export class ViewComponent implements OnInit {
   cuePointData: ICuePoint = null;
   enableOverlay: boolean;
   videoLoaded: boolean;
-  isAdminOrCoach: boolean = false;
+  isCoachOrAnalyst: boolean = false;
   public playlists: Playlist = new Playlist();
 
   eventPlayQueue: any = [];
@@ -247,10 +247,10 @@ export class ViewComponent implements OnInit {
     // });
     var user = this.userService.loadUserFromStorage();
 
-    if (!user['admin'] && !user['coach']) {
-      this.isAdminOrCoach = false;
+    if (user['role'] != 3 && user['role'] != 4) {
+      this.isCoachOrAnalyst = false;
     } else {
-      this.isAdminOrCoach = true;
+      this.isCoachOrAnalyst = true;
     }
 
     // this.userService.isAdmin().subscribe(

@@ -23,18 +23,23 @@
                 </div>
             </div>
             <div>
+
                 <ngx-datatable #activetable class="material" [columnMode]="'standard'" [rows]="usersList" (onRowsUpdate)='updateRows()'>
                     <ngx-datatable-column [flexGrow]="3" name="Email" prop="email"> </ngx-datatable-column>
-                    <ngx-datatable-column name="First Name" prop="firstName"> </ngx-datatable-column>
-                    <ngx-datatable-column name="Last Name" prop="lastName"> </ngx-datatable-column>
+                    <ngx-datatable-column name="First Name" [width]="80" prop="firstName"> </ngx-datatable-column>
+                    <ngx-datatable-column name="Last Name" [width]="80" prop="lastName"> </ngx-datatable-column>
                     <ngx-datatable-column name="Club" [width]="70" prop="club"> </ngx-datatable-column>
                     <ngx-datatable-column name="Team(s)" [width]="70" prop="teams"> </ngx-datatable-column>
                     <ngx-datatable-column name="Club Function" prop="clubFunction"> </ngx-datatable-column>
                     <ngx-datatable-column name="Phone Number" prop="phone"> </ngx-datatable-column>
-                    <ngx-datatable-column name="Role" [width]="80">
+                    <ngx-datatable-column name="Role" [width]="90">
                         <ng-template let-row="row" ngx-datatable-cell-template>
-                            <span *ngIf="row.coach">Coach</span>
-                            <span *ngIf="!row.coach">Player</span>
+                            <span *ngIf="row.role==1">Superadmin</span>
+                            <span *ngIf="row.role==2">Club Admin</span>
+                            <span *ngIf="row.role==3">Analyst</span>
+                            <span *ngIf="row.role==4">Coach</span>
+                            <span *ngIf="row.role==5">Player</span>
+                            <span *ngIf="row.role==6">Viewer</span>
                         </ng-template>
                     </ngx-datatable-column>
                     <ngx-datatable-column name="Action">
@@ -69,16 +74,20 @@
             <div>
                 <ngx-datatable #deactivetable class="material" [columnMode]="'standard'" [rows]="unApprovedUsers">
                     <ngx-datatable-column [flexGrow]="3" name="Email" prop="email"> </ngx-datatable-column>
-                    <ngx-datatable-column name="First Name" prop="firstName"> </ngx-datatable-column>
-                    <ngx-datatable-column name="Last Name" prop="lastName"> </ngx-datatable-column>
+                    <ngx-datatable-column name="First Name" [width]="80" prop="firstName"> </ngx-datatable-column>
+                    <ngx-datatable-column name="Last Name" [width]="80" prop="lastName"> </ngx-datatable-column>
                     <ngx-datatable-column name="Club" [width]="70" prop="club"> </ngx-datatable-column>
                     <ngx-datatable-column name="Team(s)" [width]="70" prop="teams"> </ngx-datatable-column>
                     <ngx-datatable-column name="Club Function" prop="clubFunction"> </ngx-datatable-column>
                     <ngx-datatable-column name="Phone Number" prop="phone"> </ngx-datatable-column>
-                    <ngx-datatable-column name="Role" [width]="80">
+                    <ngx-datatable-column name="Role" [width]="90">
                         <ng-template let-row="row" ngx-datatable-cell-template>
-                            <span *ngIf="row.coach">Coach</span>
-                            <span *ngIf="!row.coach">Player</span>
+                            <span *ngIf="row.role==1">Superadmin</span>
+                            <span *ngIf="row.role==2">Club Admin</span>
+                            <span *ngIf="row.role==3">Analyst</span>
+                            <span *ngIf="row.role==4">Coach</span>
+                            <span *ngIf="row.role==5">Player</span>
+                            <span *ngIf="row.role==6">Viewer</span>
                         </ng-template>
                     </ngx-datatable-column>
                     <ngx-datatable-column name="Action">
@@ -90,6 +99,7 @@
                     </ngx-datatable-column>
                 </ngx-datatable>
             </div>
+
         </md-tab>
     </md-tab-group>
 </div>

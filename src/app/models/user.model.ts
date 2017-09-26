@@ -10,6 +10,7 @@ export class User {
   private password: string;
   private confirmed: boolean;
   public coach: boolean;
+  public role: Number;
   public teams: any;
   public activate: boolean;
   public clubId: string;

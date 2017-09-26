@@ -16,14 +16,15 @@
               <th></th>
             </tr>
           </thead>
+
           <tbody>
             <tr *ngFor="let club of activatedClubList">
               <td><img [src]="baseUrl + club.logo" style="width:50px" /></td>
               <td>{{club.name}}</td>
               <td>
                 <button type="button" class="btn btn-success btn-sm" (click)="editClubDetails(club)">Edit</button>
-                <button type="button" class="btn btn-success btn-sm" (click)="deactivateClubDetails(club)">Deactivate</button>
-                <button type="button" class="btn btn-danger btn-sm" (click)="deleteClub(club,1)">Delete</button>
+                <button type="button" class="btn btn-success btn-sm" *ngIf="isAdmin" (click)="deactivateClubDetails(club)">Deactivate</button>
+                <button type="button" class="btn btn-danger btn-sm" *ngIf="isAdmin" (click)="deleteClub(club,1)">Delete</button>
                 <!--*ngIf="club.users.length == 0 && club.videos.length == 0"-->
               </td>
             </tr>
@@ -83,7 +84,7 @@
       </div>
 
     </md-tab>
-    <md-tab label="Clubs wating approval">
+    <md-tab label="Clubs wating approval" *ngIf="isAdmin">
       <div class="col-sm-3" style="margin-top:15px">
         <ngx-datatable class="material" [scrollbarH]="true" [rows]="clubList" [columnMode]="'flex'" [loadingIndicator]="loadingIndicator"
           [selected]="selectedClub" [selectionType]="'single'" (activate)="onRowActivate($event)" (select)='onRowSelected($event)'>
@@ -147,7 +148,7 @@
       </div>
     </md-tab>
 
-    <md-tab label="Add new Club">
+    <md-tab label="Add new Club" *ngIf="isAdmin">
       <div class="col-sm-12" style="margin-top:15px">
         <form #form class="form-horizontal" id="add-club-form" #f="ngForm" (ngSubmit)="onSubmitNewClub(f,true)" novalidate [ngClass]="{'submited' : f._submitted}">
           <div class="form-group">

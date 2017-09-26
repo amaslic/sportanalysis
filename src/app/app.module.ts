@@ -116,6 +116,7 @@ const appRoutes: Routes = [
       { path: 'teams', component: TeamsComponent },
       { path: '*', component: UsersComponent },
       { path: 'videos-settings/:id', component: VideosSettingComponent },
+      { path: 'playlist/view/:id', component: PlaylistViewComponent },
     ]
   },
   { path: "*", redirectTo: 'videos' }

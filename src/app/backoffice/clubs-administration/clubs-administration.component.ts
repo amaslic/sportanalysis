@@ -15,6 +15,9 @@ import {
   GlobalVariables
 } from './../../models/global.model';
 import { ViewChild } from '@angular/core';
+import {
+  Router, ActivatedRoute
+} from '@angular/router';
 import { IMultiSelectOption, IMultiSelectSettings, IMultiSelectTexts } from 'angular-2-dropdown-multiselect';
 import {
   TeamService
@@ -26,6 +29,10 @@ import {
   styleUrls: ['./clubs-administration.component.css']
 })
 export class ClubsAdministrationComponent implements OnInit {
+  clubData: any;
+  clubId: any;
+  isCoachAdmin: boolean = false;
+  isAdmin: boolean;
 
   private baseUrl = GlobalVariables.BASE_VIDEO_URL;
   clubList: Club[] = [];
@@ -39,6 +46,7 @@ export class ClubsAdministrationComponent implements OnInit {
   showProgressBar: boolean = false;
   errormsg: string;
   successmsg: string;
+  private router: Router;
   teamslistOptions: IMultiSelectOption[];
   teamsModel: any[];
 
@@ -69,11 +77,24 @@ export class ClubsAdministrationComponent implements OnInit {
   @ViewChild('form') form;
   @ViewChild('ErrorModal') errorModal;
   @ViewChild('successModal') successModal;
-  constructor(private clubService: ClubService, private userService: UserService, private teamService: TeamService) {
+  constructor(private clubService: ClubService, private userService: UserService, private teamService: TeamService, r: Router) {
     //this.selectedIndex = "1";
+    this.router = r;
   }
 
   ngOnInit() {
+    var user = this.userService.loadUserFromStorage();
+    if (user['role'] == 1) {
+      this.isAdmin = true;
+    } else {
+      this.isAdmin = false;
+      // this.router.navigate(['/backoffice']);
+    }
+    if (user['role'] == 2) {
+      this.isCoachAdmin = true;
+      this.clubId = user['club'];
+    }
+
     this.getClubs();
     this.getActivatedClubs();
     this.teamService.getAllTeams(this.userService.token).subscribe(
@@ -246,7 +267,7 @@ export class ClubsAdministrationComponent implements OnInit {
       return false;
     }
     this.showProgressBar = true;
-    
+
 
     if (typeof (this.editClub.teams) != 'undefined' && this.editClub.teams != null && this.editClub.teams.length > 0) {
       if (this.editClub.updateLogo) {
@@ -349,18 +370,33 @@ export class ClubsAdministrationComponent implements OnInit {
   }
 
   getActivatedClubs() {
-    this.clubService.getActivatedClubs(this.userService.token).subscribe(
-      (response) => this.onGetActivatedClubsSuccess(response),
-      (error) => this.onError(error)
-    );
+    if (this.isCoachAdmin) {
+      this.clubService.getClubBySlug(this.clubId)
+        .subscribe(
+        (response) => this.onGetActivatedClubsSuccess(response),
+        (error) => this.onError(error)
+        );
+    } else {
+      this.clubService.getActivatedClubs(this.userService.token).subscribe(
+        (response) => this.onGetActivatedClubsSuccess(response),
+        (error) => this.onError(error)
+      );
+    }
+
   }
 
   onGetActivatedClubsSuccess(response) {
-    this.activatedClubList = JSON.parse(response._body);
+    this.clubData = JSON.parse(response._body);
+    if (this.isCoachAdmin && this.clubData != null) {
+      this.activatedClubList = [];
+      this.activatedClubList.push(JSON.parse(response._body));
+
+    } else {
+      this.activatedClubList = JSON.parse(response._body);
+    }
 
     this.activatedClubList.forEach((obj: any, index) => {
       // obj.teams = typeof (obj.teams) != 'undefined' && obj.teams[0] == 'undefined' ? [] : obj.teams;
-
       if (typeof (obj.teams) != 'undefined' && obj.teams != null) {
         if (obj.teams[0] == 'undefined') {
           obj.teams = [];
@@ -368,10 +404,7 @@ export class ClubsAdministrationComponent implements OnInit {
       } else {
         obj.teams = [];
       }
-
     });
-
-    // console.log(this.activatedClubList);
   }
 
   deleteClub(club, flag) {

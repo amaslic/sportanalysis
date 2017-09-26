@@ -38,8 +38,11 @@ export class RegisterComponent implements OnInit {
   activatedClubList: any;
   allClubList: any;
   public roles = [
-    { value: 'true', display: 'Coach' },
-    { value: 'false', display: 'Player' }
+    { value: 2, display: 'Club Admin' },
+    { value: 3, display: 'Analyst' },
+    { value: 4, display: 'Coach' },
+    { value: 5, display: 'Player' },
+    { value: 6, display: 'Viewer' }
   ];
 
   showProgressBar: boolean = false;
@@ -54,7 +57,7 @@ export class RegisterComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.user.coach = null;
+    this.user.role = null;
     this.getAllClubs();
     this.getActivatedClubs();
     this.filteredClubs = this.clubCtrl.valueChanges
@@ -77,7 +80,7 @@ export class RegisterComponent implements OnInit {
 
     var clubname = this.user.club;
 
-    if (typeof(this.allClubList) != 'undefined' && this.allClubList.length > 0) {
+    if (typeof (this.allClubList) != 'undefined' && this.allClubList.length > 0) {
       var userclub = this.allClubList.filter(function (element, index) {
         return (element.name.toLowerCase() === clubname.toLowerCase());
       })[0];

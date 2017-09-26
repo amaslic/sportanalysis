@@ -49,8 +49,11 @@ export class AdminEditUserComponent implements OnInit {
     activatedClubList: any;
     AllClubList: any;
     public roles = [
-        { value: 'true', display: 'Coach' },
-        { value: 'false', display: 'Player' }
+        { value: 2, display: 'Club Admin' },
+        { value: 3, display: 'Analyst' },
+        { value: 4, display: 'Coach' },
+        { value: 5, display: 'Player' },
+        { value: 6, display: 'Viewer' }
     ];
     public cpass: any = {};
     showProgressBar: boolean = false;

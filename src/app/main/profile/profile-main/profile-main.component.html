@@ -1,8 +1,8 @@
 <div class="loginOverLay" *ngIf="showProgressBar">
-		<div>
-			<img src="../../../assets/images/default.gif" />
-		</div>
+	<div>
+		<img src="../../../assets/images/default.gif" />
 	</div>
+</div>
 
 <md-tab-group>
 	<md-tab label="Update Profile">
@@ -35,7 +35,7 @@
 					</div>
 					<div class="form-group">
 						<label>Role </label>
-						<select disabled name="role" #role class="form-control" [(ngModel)]="user.coach" required>
+						<select disabled name="role" #role class="form-control" [(ngModel)]="user.role" required>
                     <option *ngFor="let role of roles" [value]="role.value">  
                     {{role.display}}
                     </option>

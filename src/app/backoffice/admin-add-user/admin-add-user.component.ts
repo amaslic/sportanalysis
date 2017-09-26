@@ -30,6 +30,7 @@ import {
   styleUrls: ['./admin-add-user.css']
 })
 export class AdminAddUserComponent implements OnInit {
+  isAdmin: boolean;
   public user: User = new User();
   successmsg: string;
   errormsg: string;
@@ -41,8 +42,11 @@ export class AdminAddUserComponent implements OnInit {
   activatedClubList: any;
   allClubList: any;
   public roles = [
-    { value: 'true', display: 'Coach' },
-    { value: 'false', display: 'Player' }
+    { value: 2, display: 'Club Admin' },
+    { value: 3, display: 'Analyst' },
+    { value: 4, display: 'Coach' },
+    { value: 5, display: 'Player' },
+    { value: 6, display: 'Viewer' }
   ];
   showProgressBar: boolean = false;
   teamsList: any;
@@ -56,11 +60,20 @@ export class AdminAddUserComponent implements OnInit {
     this.router = r;
     this.clubCtrl = new FormControl();
 
+
     // this.dataService = completerService.local(this.searchData, 'color', 'color');
   }
 
   ngOnInit() {
-    this.user.coach = null;
+    var user = this.userService.loadUserFromStorage();
+    if (user['role'] == 1) {
+      this.isAdmin = true;
+    } else {
+      this.isAdmin = false;
+      this.user.club = user['club'];
+    }
+    this.user.role = null;
+    // this.user.coach = null;
     this.user.teams = null;
     this.getAllClubs();
     this.getActivatedClubs();
@@ -89,18 +102,23 @@ export class AdminAddUserComponent implements OnInit {
     this.showProgressBar = true;
 
     var clubname = this.user.club;
+
     var userclub = this.allClubList.filter(function (element, index) {
       return (element.name.toLowerCase() === clubname.toLowerCase());
     })[0];
 
-    if (typeof (userclub) == 'undefined') {
+    if (typeof (userclub) == 'undefined' && this.isAdmin) {
       this.clubService.createClub({ name: clubname })
         .subscribe(
         (response) => this.updateClubId(response),
         (error) => this.onError(error)
         );
     } else {
-      this.user.club = userclub._id;
+
+      if (this.isAdmin) {
+        this.user.club = userclub._id;
+      }
+
       this.createNewUser(this.user);
     }
   }
@@ -192,24 +210,24 @@ export class AdminAddUserComponent implements OnInit {
 
   onChangeofClub() {
     var clubname = this.user.club;
-    
+
     var userclub = this.allClubList.filter(function (element, index) {
       return (element.name.toLowerCase() === clubname.toLowerCase());
     })[0];
-    
+
     this.clubTeams = [];
-     if (typeof (userclub) != 'undefined') {
-        this.teamsList.forEach((element,index) => {
-            if(userclub.teams.indexOf(element._id) > -1){
-              this.clubTeams.push(element);
-            }
-        });
-
-        if(this.clubTeams.length == 0){
-          this.user.teams = null;
+    if (typeof (userclub) != 'undefined') {
+      this.teamsList.forEach((element, index) => {
+        if (userclub.teams.indexOf(element._id) > -1) {
+          this.clubTeams.push(element);
         }
+      });
 
-     }
+      if (this.clubTeams.length == 0) {
+        this.user.teams = null;
+      }
+
+    }
 
   }
 

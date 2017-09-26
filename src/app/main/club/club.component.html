@@ -23,7 +23,7 @@
                       <option>Event</option>
                       <option>Training</option>
                       <option>Telestration</option>
-                  </select>-->
+                  </select> -->
       </p>
 
       <h3 class="recent" *ngIf="videoList">{{club.name}} Videos</h3>
@@ -134,7 +134,7 @@
         </div>
       </perfect-scrollbar>
     </md-tab>
-    <md-tab label="Players" *ngIf="isCoachOrAdmin">
+    <md-tab label="Players" *ngIf="isCoachOrAnalyst">
       <ngx-datatable #activetable class="material" [columnMode]="'force'" [rows]="usersList">
         <ngx-datatable-column name="Email" prop="email"> </ngx-datatable-column>
         <ngx-datatable-column name="First Name" prop="firstName"> </ngx-datatable-column>

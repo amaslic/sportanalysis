@@ -68,23 +68,11 @@ export class VideosSettingComponent implements OnInit {
     );
     this.getAllClubs();
     this.getActivatedClubs();
-    // this.userService.isAdmin().subscribe(
-    //   (response) => this.onIsAdminClubsSuccess(response),
-    //   (error) => this.onError(error)
-    // );
+
   }
 
   xmlTypeSelected(xmlType) {
     console.log(this.xmlDataApplicationTypeSelected);
-  }
-
-  onIsAdminClubsSuccess(response) {
-    const userAdmin = JSON.parse(response._body);
-    if (userAdmin.success) {
-      this.isAdmin = true;
-
-    }
-
   }
 
   getAllClubs() {
@@ -93,7 +81,6 @@ export class VideosSettingComponent implements OnInit {
       (error) => this.onError(error)
     );
   }
-
   onGetAllClubsSuccess(response) {
     this.allClubList = JSON.parse(response._body);
     this.sub = this.route.params.subscribe(params => {
@@ -102,7 +89,6 @@ export class VideosSettingComponent implements OnInit {
       this.getVideo(this.videoId);
     });
   }
-
 
   getVideo(id) {
     this.videoService.getVideoById(id, this.userService.token)
