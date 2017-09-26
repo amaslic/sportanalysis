@@ -210,11 +210,11 @@ export class PlaylistViewComponent implements OnInit {
     var lastVideoSrc = this.playlist[this.currentIndex].src;
     this.currentIndex++;
     if (this.currentIndex >= this.playlist.length) {
-      this.currentIndex = 1;
+      this.currentIndex = 0;
     }
     this.currentItem = this.playlist[this.currentIndex];
 
-    if (lastVideoSrc == this.currentItem.src) {
+    if (this.currentItem && lastVideoSrc == this.currentItem.src) {
       this.playVideo();
     }
   }
