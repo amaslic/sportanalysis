@@ -131,9 +131,9 @@
 }
 
 .search {
-  margin: auto;
+ /* margin: auto;*/
   width: 100%;
-  max-width: 300px;
+  max-width: 320px;
   padding-top: 10px;
 }
 
@@ -220,16 +220,17 @@
 }
 
 .first-dropdown{
-  max-width: 100px;
+  max-width: 340px;
   width: 100%; 
   float: left;
 }
 
 .second-dropdown{
   float: left; 
-  margin-left: 5px; 
-  max-width: 100px;
+ /* margin-left: 5px;*/ 
+  max-width: 340px;
   width: 100%;
+  margin-top: 5px;
 }
 
 .playlist h2 {
@@ -472,7 +473,7 @@
     border-radius: 50px;
     position: absolute;
     right: 20px;
-  
+    bottom: 13px;
 }
 
 .settings a:hover{
@@ -578,23 +579,25 @@
 
 .stats ul li .message-img {
   position: absolute;
-  top: 16px;
-  left: 5px;
+  top: 15px;
+  left: 25px;
 
 }
 
 .video-image-main span.video-score{
-  padding: 0 40px 0 40px;
+  padding: 0 30px 0 30px;
+  font-size: 28px;
 }
 
 .video-date{
-  margin-left: 20px;
+  margin-left: 10px;
 }
 
 .stats ul li .message-list-content {
   
   padding-bottom:5px;
   padding-top: 5px;
+  padding-left: 7px;
 }
 
 .stats a {

@@ -351,6 +351,33 @@ h3.recent{
 
 }
 
+
+
+.list-view .list-inline.video-list-details > li:first-child, .list-view .list-inline.video-list-details > li:last-child{
+  max-width: 100px;
+}
+
+.list-view .list-inline.video-list-details > li:nth-child(2){
+  max-width: 150px;
+}
+
+.list-view .list-inline.video-list-details > li:nth-child(4), .list-view .list-inline.video-list-details > li:nth-child(5){
+  max-width: 180px;
+}
+
+.list-view .list-inline.video-list-details > li:nth-child(6){
+  max-width: 150px;
+}
+
+.list-view .video-info-list i:first-child, .list-view .video-info-list i:nth-child(2){
+  padding-right: 15px;
+}
+
+.date .list-inline .video-delete{
+  padding-right: 10px;
+}
+
+
 .list-view .teams-result img{
   max-width: 35px;
   width: 100%;
