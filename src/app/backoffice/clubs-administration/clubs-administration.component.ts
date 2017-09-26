@@ -46,9 +46,7 @@ export class ClubsAdministrationComponent implements OnInit {
   showProgressBar: boolean = false;
   errormsg: string;
   successmsg: string;
-<<<<<<< HEAD
   private router: Router;
-=======
   teamslistOptions: IMultiSelectOption[];
   teamsModel: any[];
 
@@ -72,7 +70,6 @@ export class ClubsAdministrationComponent implements OnInit {
     allSelected: 'All Teams ',
   };
 
->>>>>>> 0d8d49910407a8d64cc6e9c44c0f8219c5219648
   // columns = [
   //   { prop: 'ClubName' }
   // ];
@@ -80,21 +77,18 @@ export class ClubsAdministrationComponent implements OnInit {
   @ViewChild('form') form;
   @ViewChild('ErrorModal') errorModal;
   @ViewChild('successModal') successModal;
-<<<<<<< HEAD
-  constructor(private clubService: ClubService, private userService: UserService, r: Router) { this.router = r; }
-=======
-  constructor(private clubService: ClubService, private userService: UserService, private teamService: TeamService) {
+  constructor(private clubService: ClubService, private userService: UserService, private teamService: TeamService, r: Router) {
     //this.selectedIndex = "1";
+    this.router = r;
   }
 
->>>>>>> 0d8d49910407a8d64cc6e9c44c0f8219c5219648
   ngOnInit() {
     var user = this.userService.loadUserFromStorage();
     if (user['role'] == 1) {
       this.isAdmin = true;
     } else {
       this.isAdmin = false;
-      this.router.navigate(['/backoffice']);
+      // this.router.navigate(['/backoffice']);
     }
     if (user['role'] == 2) {
       this.isCoachAdmin = true;
@@ -392,19 +386,17 @@ export class ClubsAdministrationComponent implements OnInit {
   }
 
   onGetActivatedClubsSuccess(response) {
-<<<<<<< HEAD
     this.clubData = JSON.parse(response._body);
     if (this.isCoachAdmin && this.clubData != null) {
+      this.activatedClubList = [];
       this.activatedClubList.push(JSON.parse(response._body));
+
     } else {
       this.activatedClubList = JSON.parse(response._body);
     }
-=======
-    this.activatedClubList = JSON.parse(response._body);
 
     this.activatedClubList.forEach((obj: any, index) => {
       // obj.teams = typeof (obj.teams) != 'undefined' && obj.teams[0] == 'undefined' ? [] : obj.teams;
-
       if (typeof (obj.teams) != 'undefined' && obj.teams != null) {
         if (obj.teams[0] == 'undefined') {
           obj.teams = [];
@@ -412,11 +404,7 @@ export class ClubsAdministrationComponent implements OnInit {
       } else {
         obj.teams = [];
       }
-
     });
-
-    // console.log(this.activatedClubList);
->>>>>>> 0d8d49910407a8d64cc6e9c44c0f8219c5219648
   }
 
   deleteClub(club, flag) {
