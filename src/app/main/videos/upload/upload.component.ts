@@ -60,7 +60,7 @@ export class UploadComponent implements OnInit {
   clubName2: any;
   team1: any = null;
   team2: any = null;
-
+  season: any = null;
   protected dataService: CompleterData;
 
   @ViewChild('uploadSucessModal') uploadSucessModal;
@@ -464,7 +464,7 @@ export class UploadComponent implements OnInit {
     if (this.clubTeams2.length == 0) {
       this.team2 = null;
     }
-    
+
 
   }
 

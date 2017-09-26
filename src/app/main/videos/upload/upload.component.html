@@ -60,20 +60,28 @@
           </div>
           <div class="form-group" *ngIf="(type != 'Training')">
             <label class="control-label text-left" for="title">Club 1:</label>
-            <ng2-completer #club="ngModel" id="selectClub" [(ngModel)]="clubName" (ngModelChange)="onChangeofClub1()" name="clubName" placeholder="Club 1" [datasource]="clubData"
-              [minSearchLength]="3" required></ng2-completer>
+            <ng2-completer #club="ngModel" id="selectClub" [(ngModel)]="clubName" (ngModelChange)="onChangeofClub1()" name="clubName"
+              placeholder="Club 1" [datasource]="clubData" [minSearchLength]="3" required></ng2-completer>
 
           </div>
           <div class="form-group" *ngIf="(type != 'Training')">
             <label class="control-label text-left" for="title">Club 2:</label>
-            <ng2-completer #club="ngModel" id="selectClub2" [(ngModel)]="clubName2" (ngModelChange)="onChangeofClub2()" name="clubName2" placeholder="Club 2" [datasource]="clubData"
-              [minSearchLength]="3" required></ng2-completer>
+            <ng2-completer #club="ngModel" id="selectClub2" [(ngModel)]="clubName2" (ngModelChange)="onChangeofClub2()" name="clubName2"
+              placeholder="Club 2" [datasource]="clubData" [minSearchLength]="3" required></ng2-completer>
 
           </div>
           <div class="form-group">
             <label class="control-label text-left" for="title">Season:</label>
-            <input type="text" [(ngModel)]="season" class="form-control" name="season" id="season" placeholder="Season">
+
+            <select name="season" class="form-control" [(ngModel)]="season">
+              <option value="null">Select Season</option>
+              <option>2015/2016</option>
+              <option>2016/2017</option>
+              <option>2017/2018</option>
+              <option>2018/2019</option>
+            </select>
           </div>
+
         </div>
 
         <div class="row margin-bottom-10">

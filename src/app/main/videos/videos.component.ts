@@ -16,6 +16,10 @@ import {
 import {
   ClubService
 } from './../../services/club.service';
+import {
+  Router, ActivatedRoute
+} from '@angular/router';
+
 import { IMultiSelectOption, IMultiSelectSettings, IMultiSelectTexts } from 'angular-2-dropdown-multiselect';
 
 @Component({
@@ -46,6 +50,7 @@ export class VideosComponent implements OnInit {
   allVideos: Video[];
   videoUrl: any;
   videoOriginalName: any;
+  private router: Router;
 
   userlistSettings: IMultiSelectSettings = {
     enableSearch: true,
@@ -64,7 +69,9 @@ export class VideosComponent implements OnInit {
   @ViewChild('videoSucessModal') videoSucessModal;
   @ViewChild('lnkDownloadLink') lnkDownloadLink: ElementRef;
 
-  constructor(private clubService: ClubService, private videoService: VideoService, private userService: UserService) { }
+  constructor(private clubService: ClubService, private videoService: VideoService, private userService: UserService, r: Router) {
+    this.router = r;
+  }
 
   ngOnInit() {
     this.ClubStatus();
@@ -195,6 +202,14 @@ export class VideosComponent implements OnInit {
     setTimeout(function () {
       elem.nativeElement.click();
     }, 1000);
+
+  }
+
+  settingsVideo(video, e) {
+    e.preventDefault();
+    e.stopPropagation();
+
+    this.router.navigateByUrl('/videos/settings/' + video._id);
 
   }
 

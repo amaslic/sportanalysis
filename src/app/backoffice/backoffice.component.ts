@@ -33,7 +33,7 @@ export class BackofficeComponent implements OnInit {
     else if (user['role'] == 2) {
       this.isClubAdmin = true;
     }
-    else if (user['role'] == 3) {
+    else if (user['role'] == 3 || user['role'] == 4) {
       this.isAnalyst = true;
     }
     else {

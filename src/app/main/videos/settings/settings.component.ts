@@ -50,6 +50,7 @@ export class VideoSettingsComponent implements OnInit {
   clubTeams1: any;
   clubTeams2: any;
 
+
   xmlDataApplicationTypes = ["tagapp", "ortec", "sportscode", "telestrator"];
   xmlDataApplicationTypeSelected = '';
 
@@ -60,6 +61,7 @@ export class VideoSettingsComponent implements OnInit {
   constructor(private route: ActivatedRoute, private trackingDataService: TrackingDataService, private userService: UserService, private videoService: VideoService, private clubService: ClubService, private teamService: TeamService) { }
 
   ngOnInit() {
+    this.video.title = '';
     this.teamService.getAllTeams(this.userService.token).subscribe(
       (response: any) => {
         this.teamsList = JSON.parse(response._body);
