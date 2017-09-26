@@ -20,3 +20,15 @@ margin-right: 75%;
     font-size: 20px;
     margin-right: 5px;
 }
+
+.row {
+    margin: 10px 0px;
+}
+
+select.form-control{
+    height: auto !important;
+}
+
+.no-padding{
+    padding: 0 !important;
+}

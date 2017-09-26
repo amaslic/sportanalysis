@@ -18,14 +18,14 @@
       <md-radio-button value="Training">Training</md-radio-button>
       <md-radio-button value="Telestration">Telestration</md-radio-button>
     </md-radio-group> -->
-    <!-- <label>Video Type:  </label>
+    <!--<label>Video Type:  </label>
     <select class="sportscode" name="type" required [(ngModel)]="video_type" (ngModelChange)="typeFilter()" style="font-size: 18px; font-weight: normal;">
                       <option>All</option>
                       <option>Match</option>
                       <option>Event</option>
                       <option>Training</option>
                       <option>Telestration</option>
-                  </select> -->
+                  </select>-->
   </p>
 
 
@@ -86,8 +86,8 @@
                <i (click)="assignVideo(video._id,$event)" class="fa fa-share-alt text-success"></i>
             </li>
             <li>
-              <a target="_self" href="https://s3.eu-central-1.amazonaws.com/sportsanalysis\videos\{{video.filename}}" (click)="$event.stopPropagation();" download="foo.pdf"><i class="fa fa-download text-info"></i></a>
-        <!--<i (click)="downloadVideo(video._id,$event)" class="fa fa-download text-info"></i>-->
+              <!--<a target="_self" href="https://s3.eu-central-1.amazonaws.com/sportsanalysis\videos\{{video.filename}}" (click)="$event.stopPropagation();" download="foo.pdf"><i class="fa fa-download text-info"></i></a>-->
+        <i (click)="downloadVideo(video,$event)" class="fa fa-download text-info"></i>
         </li>
         </ul>
       </div>
@@ -167,9 +167,8 @@
           <li *ngIf="isCoach || isAdmin" class="video-info-list">
             <i (click)="confirmDelete(video._id,$event)" title="Delete Video" class="fa fa-trash video-delete" aria-hidden="true"></i>
             <i (click)="assignVideo(video._id,$event)" class="fa fa-share-alt text-success"></i>
-            <!--<i (click)="downloadVideo(video._id,$event)" class="fa fa-download text-info"></i>-->
-            <a target="_self" href="https://s3.eu-central-1.amazonaws.com/sportsanalysis\videos\{{video.filename}}" (click)="$event.stopPropagation();"
-              download="foo.pdf"><i class="fa fa-download text-info"></i></a>
+            <i (click)="downloadVideo(video,$event)" class="fa fa-download text-info"></i>
+            <!--<a target="_self" href="https://s3.eu-central-1.amazonaws.com/sportsanalysis\videos\{{video.filename}}" (click)="$event.stopPropagation();" download="foo.pdf"><i class="fa fa-download text-info"></i></a>-->
           </li>
 
         </ul>
@@ -178,7 +177,9 @@
     </div>
   </div>
 </perfect-scrollbar>
-<div #htmldiv [innerHtml]="downloadVideoHtml"></div>
+<div #htmldiv>
+  <a #lnkDownloadLink style="display: none;" target="_self" href="{{videoUrl}}" download="{{videoOriginalName}}">downlaod</a>
+</div>
 
 </div>
 <modal #SucessModal>

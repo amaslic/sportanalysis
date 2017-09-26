@@ -13,6 +13,8 @@ export class User {
   public role: Number;
   public teams: any;
   public activate: boolean;
+  public clubId: string;
+  public teamId: string;
 
   constructor() { }
 }
