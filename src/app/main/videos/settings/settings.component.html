@@ -42,14 +42,14 @@
             <div *ngIf="(video.type != 'Training')" class="form-group">
               <label class="control-label col-sm-3">Club 1:</label>
               <div class="col-sm-9">
-                <ng2-completer #club="ngModel" id="selectClub" [(ngModel)]="video.clubName" name="clubName" placeholder="Club 1" [datasource]="clubData"
+                <ng2-completer #club="ngModel" id="selectClub" [(ngModel)]="video.clubName" (ngModelChange)="onChangeofClub1()" name="clubName" placeholder="Club 1" [datasource]="clubData"
                   [minSearchLength]="3" required></ng2-completer>
               </div>
             </div>
             <div *ngIf="(video.type != 'Training')" class="form-group">
               <label class="control-label col-sm-3">Club 2:</label>
               <div class="col-sm-9">
-                <ng2-completer #club="ngModel" id="selectClub2" [(ngModel)]="video.clubName2" name="clubName2" placeholder="Club 2" [datasource]="clubData"
+                <ng2-completer #club="ngModel" id="selectClub2" [(ngModel)]="video.clubName2" (ngModelChange)="onChangeofClub2()" name="clubName2" placeholder="Club 2" [datasource]="clubData"
                   [minSearchLength]="3" required></ng2-completer>
               </div>
             </div>
@@ -110,8 +110,12 @@
               <div class="col-sm-9">
                 <!--<input type="text" class="form-control" id="team1" name="team1" [ngModel]="video.team1" placeholder="Enter Name">-->
 
-                <ng2-completer id="team1" #club="ngModel" [(ngModel)]="video.team1" name="team1" [inputClass]="['autocompleteInput']" class="autocompleteControl"
-                  placeholder="Enter Name" [datasource]="clubData" [minSearchLength]="3"></ng2-completer>
+                <!--<ng2-completer id="team1" #club="ngModel" [(ngModel)]="video.team1" name="team1" [inputClass]="['autocompleteInput']" class="autocompleteControl"
+                  placeholder="Enter Name" [datasource]="clubData" [minSearchLength]="3"></ng2-completer>-->
+                <select name="team1" #team class="form-control" [(ngModel)]="video.team1">
+                  <option value="null">Select Team 1</option>
+                  <option *ngFor="let team of clubTeams1" [ngValue]="team._id">{{team.name}}</option>
+                </select>
 
               </div>
             </div>
@@ -120,8 +124,12 @@
               <div class="col-sm-9">
                 <!--<input type="text" class="form-control" id="team2" name="team2" [ngModel]="video.team2" placeholder="Enter Name">-->
 
-                <ng2-completer id="team2" #club="ngModel" [(ngModel)]="video.team2" name="team2" [inputClass]="['autocompleteInput']" class="autocompleteControl"
-                  placeholder="Enter Name" [datasource]="clubData" [minSearchLength]="3"></ng2-completer>
+                <!--<ng2-completer id="team2" #club="ngModel" [(ngModel)]="video.team2" name="team2" [inputClass]="['autocompleteInput']" class="autocompleteControl"
+                  placeholder="Enter Name" [datasource]="clubData" [minSearchLength]="3"></ng2-completer>-->
+                <select name="team2" #team class="form-control" [(ngModel)]="video.team2">
+                  <option value="null">Select Team 2</option>
+                  <option *ngFor="let team of clubTeams2" [ngValue]="team._id">{{team.name}}</option>
+                </select>
 
               </div>
             </div>

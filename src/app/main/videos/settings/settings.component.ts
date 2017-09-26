@@ -17,6 +17,10 @@ import {
 import {
   ClubService
 } from './../../../services/club.service';
+import {
+  TeamService
+} from './../../../services/team.service';
+
 @Component({
   selector: 'app-settings',
   templateUrl: './settings.component.html',
@@ -42,6 +46,9 @@ export class VideoSettingsComponent implements OnInit {
   notExistedClub = [];
   showProgressBar: boolean = false;
   xmlId: any;
+  teamsList: any;
+  clubTeams1: any;
+  clubTeams2: any;
 
   xmlDataApplicationTypes = ["tagapp", "ortec", "sportscode", "telestrator"];
   xmlDataApplicationTypeSelected = '';
@@ -50,9 +57,16 @@ export class VideoSettingsComponent implements OnInit {
   @ViewChild('form') form;
   @ViewChild('SucessModal') SucessModal;
   @ViewChild('ErrorModal') ErrorModal
-  constructor(private route: ActivatedRoute, private trackingDataService: TrackingDataService, private userService: UserService, private videoService: VideoService, private clubService: ClubService) { }
+  constructor(private route: ActivatedRoute, private trackingDataService: TrackingDataService, private userService: UserService, private videoService: VideoService, private clubService: ClubService, private teamService: TeamService) { }
 
   ngOnInit() {
+    this.teamService.getAllTeams(this.userService.token).subscribe(
+      (response: any) => {
+        this.teamsList = JSON.parse(response._body);
+      },
+      (error) => this.onError(error)
+    );
+
     this.getAllClubs();
     this.getActivatedClubs();
     // this.userService.isAdmin().subscribe(
@@ -62,7 +76,7 @@ export class VideoSettingsComponent implements OnInit {
   }
 
   xmlTypeSelected(xmlType) {
-    console.log(this.xmlDataApplicationTypeSelected);
+    // console.log(this.xmlDataApplicationTypeSelected);
   }
 
   onIsAdminClubsSuccess(response) {
@@ -113,16 +127,16 @@ export class VideoSettingsComponent implements OnInit {
       return (element._id === clubName2);
     })[0];
 
-    var teamA = this.video.team1;
-    var teamAClub = this.allClubList.filter(function (element, index) {
-      return (element._id === teamA);
-    })[0];
+    // var teamA = this.video.team1;
+    // var teamAClub = this.allClubList.filter(function (element, index) {
+    //   return (element._id === teamA);
+    // })[0];
 
-    var teamB = this.video.team2;
+    // var teamB = this.video.team2;
 
-    var teamBClub = this.allClubList.filter(function (element, index) {
-      return (element._id === teamB);
-    })[0];
+    // var teamBClub = this.allClubList.filter(function (element, index) {
+    //   return (element._id === teamB);
+    // })[0];
 
     if (typeof (ClubData1) != 'undefined')
       this.video.clubName = ClubData1.name;
@@ -130,12 +144,14 @@ export class VideoSettingsComponent implements OnInit {
     if (typeof (ClubData2) != 'undefined')
       this.video.clubName2 = ClubData2.name;
 
-    if (typeof (teamAClub) != 'undefined')
-      this.video.team1 = teamAClub.name;
+    // if (typeof (teamAClub) != 'undefined')
+    //   this.video.team1 = teamAClub.name;
 
-    if (typeof (teamBClub) != 'undefined')
-      this.video.team2 = teamBClub.name;
+    // if (typeof (teamBClub) != 'undefined')
+    //   this.video.team2 = teamBClub.name;
 
+    this.onChangeofClub1();
+    this.onChangeofClub2();
   }
 
 
@@ -178,7 +194,7 @@ export class VideoSettingsComponent implements OnInit {
     if (!f.valid || !this.selectedFile.name) {
       return false;
     }
-    console.log('submitted');
+    // console.log('submitted');
 
     this.uploading = true;
     f.value.selectedFile = this.selectedFile;
@@ -217,19 +233,19 @@ export class VideoSettingsComponent implements OnInit {
         })[0];
       }
 
-      var teamName1 = f.value.team1;
-      if (teamName1 != '' && teamName1 != null) {
-        var TeamData1 = this.allClubList.filter(function (element, index) {
-          return (element.name.toLowerCase() === teamName1.toLowerCase());
-        })[0];
-      }
+      // var teamName1 = f.value.team1;
+      // if (teamName1 != '' && teamName1 != null) {
+      //   var TeamData1 = this.allClubList.filter(function (element, index) {
+      //     return (element.name.toLowerCase() === teamName1.toLowerCase());
+      //   })[0];
+      // }
 
-      var teamName2 = f.value.team2;
-      if (teamName2 != '' && teamName2 != null) {
-        var TeamData2 = this.allClubList.filter(function (element, index) {
-          return (element.name.toLowerCase() === teamName2.toLowerCase());
-        })[0];
-      }
+      // var teamName2 = f.value.team2;
+      // if (teamName2 != '' && teamName2 != null) {
+      //   var TeamData2 = this.allClubList.filter(function (element, index) {
+      //     return (element.name.toLowerCase() === teamName2.toLowerCase());
+      //   })[0];
+      // }
 
       this.notExistedClub = [];
       if (typeof (ClubData1) == 'undefined' && clubName && clubName != '' && clubName != null) {
@@ -250,33 +266,33 @@ export class VideoSettingsComponent implements OnInit {
         f.value.clubName2 = ClubData2._id;
       }
 
-      if (typeof (TeamData1) == 'undefined' && teamName1 && teamName1 != '' && teamName1 != null) {
-        var existclub = this.notExistedClub.filter(function (element, index) {
-          return (element.name.toLowerCase() === teamName1.toLowerCase());
-        });
+      // if (typeof (TeamData1) == 'undefined' && teamName1 && teamName1 != '' && teamName1 != null) {
+      //   var existclub = this.notExistedClub.filter(function (element, index) {
+      //     return (element.name.toLowerCase() === teamName1.toLowerCase());
+      //   });
 
-        if (typeof (existclub) == 'undefined' || existclub.length == 0)
-          this.notExistedClub.push({ name: teamName1 });
-      } else {
-        if (teamName1 && teamName1 != '' && teamName1 != null)
-          f.value.team1 = TeamData1._id;
-        else
-          f.value.team1 = '';
-      }
+      //   if (typeof (existclub) == 'undefined' || existclub.length == 0)
+      //     this.notExistedClub.push({ name: teamName1 });
+      // } else {
+      //   if (teamName1 && teamName1 != '' && teamName1 != null)
+      //     f.value.team1 = TeamData1._id;
+      //   else
+      //     f.value.team1 = '';
+      // }
 
-      if (typeof (TeamData2) == 'undefined' && teamName2 && teamName2 != '' && teamName2 != null) {
-        var existclub = this.notExistedClub.filter(function (element, index) {
-          return (element.name.toLowerCase() === teamName2.toLowerCase());
-        });
+      // if (typeof (TeamData2) == 'undefined' && teamName2 && teamName2 != '' && teamName2 != null) {
+      //   var existclub = this.notExistedClub.filter(function (element, index) {
+      //     return (element.name.toLowerCase() === teamName2.toLowerCase());
+      //   });
 
-        if (typeof (existclub) == 'undefined' || existclub.length == 0)
-          this.notExistedClub.push({ name: teamName2 });
-      } else {
-        if (teamName2 && teamName2 != '' && teamName2 != null)
-          f.value.team2 = TeamData2._id;
-        else
-          f.value.team2 = '';
-      }
+      //   if (typeof (existclub) == 'undefined' || existclub.length == 0)
+      //     this.notExistedClub.push({ name: teamName2 });
+      // } else {
+      //   if (teamName2 && teamName2 != '' && teamName2 != null)
+      //     f.value.team2 = TeamData2._id;
+      //   else
+      //     f.value.team2 = '';
+      // }
 
       if (this.notExistedClub.length > 0) {
         var count = 0;
@@ -306,19 +322,19 @@ export class VideoSettingsComponent implements OnInit {
                   f.value.clubName2 = existclub.clubId;
                 }
 
-                if (typeof (TeamData1) == 'undefined' && teamName1 && teamName1 != '' && teamName1 != null) {
-                  var existclub = this.notExistedClub.filter(function (element, index) {
-                    return (element.name.toLowerCase() === teamName1.toLowerCase());
-                  })[0];
-                  f.value.team1 = existclub.clubId;
-                }
+                // if (typeof (TeamData1) == 'undefined' && teamName1 && teamName1 != '' && teamName1 != null) {
+                //   var existclub = this.notExistedClub.filter(function (element, index) {
+                //     return (element.name.toLowerCase() === teamName1.toLowerCase());
+                //   })[0];
+                //   f.value.team1 = existclub.clubId;
+                // }
 
-                if (typeof (TeamData2) == 'undefined' && teamName2 && teamName2 != '' && teamName2 != null) {
-                  var existclub = this.notExistedClub.filter(function (element, index) {
-                    return (element.name.toLowerCase() === teamName2.toLowerCase());
-                  })[0];
-                  f.value.team2 = existclub.clubId;
-                }
+                // if (typeof (TeamData2) == 'undefined' && teamName2 && teamName2 != '' && teamName2 != null) {
+                //   var existclub = this.notExistedClub.filter(function (element, index) {
+                //     return (element.name.toLowerCase() === teamName2.toLowerCase());
+                //   })[0];
+                //   f.value.team2 = existclub.clubId;
+                // }
                 this.updateVideo(f);
               }
             },
@@ -430,5 +446,57 @@ export class VideoSettingsComponent implements OnInit {
     this.SucessModal.open();
   }
 
+  onChangeofClub1() {
+    var clubname = this.video.clubName;
+
+    if (clubname != null) {
+      if (this.allClubList.length > 0) {
+        var userclub = this.allClubList.filter(function (element, index) {
+          return (element.name.toLowerCase() === clubname.toLowerCase());
+        })[0];
+      }
+
+      this.clubTeams1 = [];
+      if (typeof (userclub) != 'undefined') {
+        this.teamsList.forEach((element, index) => {
+          if (userclub.teams.indexOf(element._id) > -1) {
+            this.clubTeams1.push(element);
+          }
+        });
+      }
+    }
+
+    if (this.clubTeams1.length == 0) {
+      this.video.team1 = null;
+    }
+    // console.log(this.clubTeams1);
+
+  }
+
+  onChangeofClub2() {
+    var clubname = this.video.clubName2;
+
+    if (clubname != null) {
+      if (this.allClubList.length > 0) {
+        var userclub = this.allClubList.filter(function (element, index) {
+          return (element.name.toLowerCase() === clubname.toLowerCase());
+        })[0];
+      }
+
+      this.clubTeams2 = [];
+      if (typeof (userclub) != 'undefined') {
+        this.teamsList.forEach((element, index) => {
+          if (userclub.teams.indexOf(element._id) > -1) {
+            this.clubTeams2.push(element);
+          }
+        });
+      }
+    }
+
+    if (this.clubTeams2.length == 0) {
+      this.video.team2 = null;
+    }
+
+  }
 
 }

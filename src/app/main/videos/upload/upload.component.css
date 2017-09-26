@@ -342,3 +342,7 @@ input.ng-invalid {
 :host >>> ng2-completer.ng-invalid {
     border-left: 3px solid #a94442 !important;
 }
+
+select.form-control{
+    height: auto !important;
+}

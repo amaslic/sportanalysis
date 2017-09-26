@@ -48,6 +48,13 @@
                 required>
             </div>
           </div>
+          <div class="form-group">
+            <label class="control-label col-sm-3" for="slug">Teams:</label>
+            <div class="col-sm-9">
+              <ss-multiselect-dropdown style="padding:0 !important;" name="teams" [options]="teamslistOptions" [texts]="teamslistTexts" [settings]="teamslistSettings"
+                [(ngModel)]="editClub.teams"></ss-multiselect-dropdown>
+            </div>
+          </div>
           <div class="form-group" *ngIf="editClub.updateLogo">
             <label class="control-label col-sm-3" for="logoFile">Logo:</label>
             <div class="col-sm-6">
@@ -105,6 +112,13 @@
                 (keypress)="generateNiceLinkName()" required>
             </div>
           </div>
+          <div class="form-group">
+            <label class="control-label col-sm-2" for="slug">Teams:</label>
+            <div class="col-sm-10">
+              <ss-multiselect-dropdown style="padding:0 !important;" name="teams" [options]="teamslistOptions" [texts]="teamslistTexts" [settings]="teamslistSettings"
+                [(ngModel)]="selectedClub[0].teams"></ss-multiselect-dropdown>
+            </div>
+          </div>
           <div class="form-group" *ngIf="selectedClub[0].logo == '' || selectedClub[0].updateLogo">
             <label class="control-label col-sm-2" for="logoFile">Logo:</label>
             <div class="col-sm-10">
@@ -121,6 +135,7 @@
               <button type="button" class="btn btn-danger btn-sm" (click)="updateDeactivatedClubLogo(selectedClub[0])">Update</button>
             </div>
           </div>
+
           <div class="form-group" style="padding-bottom: 30px;">
             <div class="col-sm-offset-2 col-sm-10">
               <button type="button" (click)="onSubmit(f,false)" class="btn btn-success btn-save">Save</button>
@@ -148,6 +163,13 @@
             <div class="col-sm-10">
               <input type="text" class="form-control" id="newClubSlug" name="newClubSlug" [(ngModel)]="newClub.NiceLinkName" placeholder="Nice Link Name"
                 required>
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="control-label col-sm-2" for="slug">Teams:</label>
+            <div class="col-sm-10">
+              <ss-multiselect-dropdown style="padding:0 !important;" name="teams" [options]="teamslistOptions" [texts]="teamslistTexts" [settings]="teamslistSettings"
+                [(ngModel)]="newClub.teams"></ss-multiselect-dropdown>
             </div>
           </div>
           <div class="form-group">

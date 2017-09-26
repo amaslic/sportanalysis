@@ -1,6 +1,6 @@
 <div class="container videos-list" *ngIf="clubActive">
 
-  <md-tab-group [selectedIndex]="selectedIndex" (selectedIndexChange)="selectedIndexChange($event)" class="video-md-settings">
+  <md-tab-group class="video-md-settings">
     <md-tab label="Videos">
       <p class="upload-search clearfix" *ngIf="videoList">
         <span class=viewbtns>
@@ -31,7 +31,7 @@
         <div class="all-videos col-md-12" *ngIf="videoList">
 
           <div class="col-lg-4 col-md-4 col-sm-6 col-xs-12" *ngFor="let video of videoList | search:'title,type,team1,team2,clubname1,clubname2':searchQuery">
-            <a [routerLink]="['/videos/view', video._id]" title="Claudio Bravo, antes su debut con el Barça en la Liga">
+            <a [routerLink]="['/videos/view', video._id]">
               <img [src]="baseVideoUrl + video.screenshot_path" alt="video-screenshot" class="img-responsive video-ss" height="130px" />
 
               <span class="glyphicon glyphicon-play-circle play-btn"></span>
@@ -40,13 +40,13 @@
               <div class="teams">
                 <tr>
                 <td>
-                <img *ngIf="(video.club1details.length > 0 && video.club1details[0].logo) && (video.type!='Training')" [src]="baseVideoUrl + video.club1details[0].logo" alt="video.club1details[0].name" class="img-responsive">
+                <img *ngIf="(video.club1details.length > 0 && video.club1details[0].logo) && (video.type!='Training')" [src]="baseVideoUrl + video.club1details[0].logo" alt="" class="img-responsive">
                 <img *ngIf="(video.club1details.length <= 0 || !video.club1details[0].logo || video.club1details[0].logo == '') && (video.type!='Training')" src="assets/images/default-clublogo.png"  class="img-responsive">
                 </td>
                 <td *ngIf="(video.scoreTeam1 && video.scoreTeam2) && (video.type!='Training')">{{video.scoreTeam1}} : {{video.scoreTeam2}}</td>
                 <td *ngIf="(!video.scoreTeam1 || !video.scoreTeam2) &&  (video.type!='Training')">0 : 0</td>
                 <td>
-                <img *ngIf="(video.club2details.length > 0 && video.club2details[0].logo) && (video.type!='Training')" [src]="baseVideoUrl + video.club2details[0].logo" alt="video.club1details[0].name" class="img-responsive">
+                <img *ngIf="(video.club2details.length > 0 && video.club2details[0].logo) && (video.type!='Training')" [src]="baseVideoUrl + video.club2details[0].logo" alt="" class="img-responsive">
                 <img *ngIf="(video.club2details.length <= 0 || !video.club2details[0].logo || video.club2details[0].logo == '') && (video.type!='Training')" src="assets/images/default-clublogo.png"  class="img-responsive">
                 </td>
                 </tr>
@@ -75,39 +75,48 @@
             <ul class="list-inline">
               <li></li>
               <!-- <li>Video type / Duration</li> -->
+              <li>Date</li>
               <li class="result">Result</li>
-              <li>Video title</li>
-              <li>Views / Date</li>
+              <li>Team</li>
               <li>Type</li>
+
             </ul>
           </div>
           <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 list-view" *ngFor="let video of videoList | search:'title,type,team1,team2':searchQuery">
 
-            <a [routerLink]="['/videos/view', video._id]" title="Claudio Bravo, antes su debut con el Barça en la Liga">
+            <a [routerLink]="['/videos/view', video._id]">
               <ul class="list-inline">
                 <li>
                   <img [src]="baseVideoUrl + video.screenshot_path" alt="video-screenshot" class="img-responsive video-ss" height="130px" />
                 </li>
                 <!-- <li class="type-duration">
-                  <span>{{video.type}} 02:11:16</span>
-                </li> -->
+                          <span>{{video.type}} 02:11:16</span> 
+                        </li>-->
+                <!-- <div class="list-view-sideidetail">-->
+                <li class="views-date"> {{video.date | date:"dd.MM.yyyy"}}</li>
+
                 <li class="teams-result">
-                  <span><img *ngIf="(video.club1details.length > 0 && video.club1details[0].logo) && (video.type!='Training')" [src]="baseVideoUrl + video.club1details[0].logo" alt="video.club1details[0].name" class="img-responsive">
-                  <img *ngIf="(video.club1details.length <= 0 || !video.club1details[0].logo || video.club1details[0].logo == '') && (video.type!='Training')" src="assets/images/default-clublogo.png"  class="img-responsive"></span>
+                  <!-- <ul class="list-inline">
+                                <li><img src="assets/images/img1.png" class="img-responsive"></li>
+                                <li>1 : 2</li>
+                                <li><img src="assets/images/img2.png" class="img-responsive"></li>
+                            </ul>-->
+                  <span class="first-team"><img *ngIf="(video.club1details.length > 0 && video.club1details[0].logo) && (video.type!='Training')" [src]="baseVideoUrl + video.club1details[0].logo" alt="" class="img-responsive">
+                          <img *ngIf="(video.club1details.length <= 0 || !video.club1details[0].logo || video.club1details[0].logo == '') && (video.type!='Training')" src="assets/images/default-clublogo.png"  class="img-responsive"></span>
                   <span *ngIf="(video.scoreTeam1 && video.scoreTeam2) && (video.type!='Training')">{{video.scoreTeam1}} : {{video.scoreTeam2}}</span>
                   <span *ngIf="(!video.scoreTeam1 || !video.scoreTeam2) && (video.type!='Training')">0 : 0</span>
-                  <span>
-                <img *ngIf="(video.club2details.length > 0 && video.club2details[0].logo) && (video.type!='Training')"  [src]="baseVideoUrl + video.club2details[0].logo" alt="video.club1details[0].name" class="img-responsive">
-                <img *ngIf="(video.club2details.length <= 0 || !video.club2details[0].logo || video.club2details[0].logo == '') && (video.type!='Training')" src="assets/images/default-clublogo.png"  class="img-responsive">
-                </span>
+                  <span class="second-team">
+                            <img *ngIf="(video.club2details.length > 0 && video.club2details[0].logo) && (video.type!='Training')"  [src]="baseVideoUrl + video.club2details[0].logo" alt="" class="img-responsive">
+                            <img *ngIf="(video.club2details.length <= 0 || !video.club2details[0].logo || video.club2details[0].logo == '') && (video.type!='Training')" src="assets/images/default-clublogo.png"  class="img-responsive">
+                          </span>
                 </li>
 
                 <li>
                   <h2 class="video-title" *ngIf="(video.type=='Training')">{{video.title}}</h2>
                   <h2 class="video-title" *ngIf="(video.type!='Training')"><span *ngIf="video.club1details.length > 0 && video.club1details[0].name">{{video.club1details[0].name}}</span>                    vs <span *ngIf="video.club2details.length > 0 && video.club2details[0].name">{{video.club2details[0].name}}</span></h2>
                 </li>
-                <li class="views-date"> {{video.date | date:"dd.MM.yyyy"}}</li>
                 <li>{{video.type}}</li>
+
               </ul>
             </a>
 
@@ -125,6 +134,7 @@
             {{row.club[0].name}}
           </ng-template>
         </ngx-datatable-column>
+        <ngx-datatable-column name="Team(s)" prop="teams"> </ngx-datatable-column>
         <ngx-datatable-column name="Club Function" prop="clubFunction"> </ngx-datatable-column>
         <ngx-datatable-column name="Phone Number" prop="phone"> </ngx-datatable-column>
         <ngx-datatable-column name="Role">

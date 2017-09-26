@@ -399,7 +399,7 @@ export class ViewComponent implements OnInit {
   }
 
   eventHandler(event) {
-    console.log(event, event.keyCode, event.keyIdentifier);
+    // console.log(event, event.keyCode, event.keyIdentifier);
   }
 
 
@@ -877,6 +877,8 @@ export class ViewComponent implements OnInit {
     // this.eventDataId = event.eventDataId;
     //  console.log(this.eventDataId);
     this.playlistName = '';
+    // console.log(this.multiplay);
+    // console.log(this.multiPlaylist);
     this.createPlaylistModal.open();
   }
 
@@ -924,6 +926,10 @@ export class ViewComponent implements OnInit {
     this.playlists['token'] = this.userService.token;
     this.playlists['eventDataId'] = this.eventDataId;
 
+    // console.log(this.multiplay);
+    // console.log(this.multiPlaylist.length);
+    // console.log(this.multiPlaylist);
+
     if (this.multiPlaylist.length > 0 && this.multiplay) {
       this.playlistService.updatePlaylistsEvents(this.multiPlaylist, this.playlists).subscribe(
         (response) => this.onGetUpdatePlaylistSuccess(response),
@@ -939,6 +945,7 @@ export class ViewComponent implements OnInit {
 
   }
   onGetUpdatePlaylistSuccess(response) {
+    this.deselectAll();
     const updateMsg = JSON.parse(response._body);
     // console.log(updateMsg.message);
     this.updateMessage = updateMsg.message;
@@ -946,7 +953,7 @@ export class ViewComponent implements OnInit {
       this.createPlaylistModal.close()
       this.updateMessage = '';
     }, 1500);
-    this.deselectAll();
+    
   }
   addPlaylist() {
 
@@ -961,7 +968,8 @@ export class ViewComponent implements OnInit {
     this.playlists['token'] = this.userService.token;
     this.playlists['eventDataId'] = this.eventDataId;
     // console.log(this.multiplay);
-    //  console.log('playlist', this.multiPlaylist);
+    // console.log('playlist', this.multiPlaylist);
+
     if (this.multiPlaylist.length > 0 && this.multiplay) {
       this.playlistService.createPlaylistsEvents(this.multiPlaylist, this.playlists).subscribe(
         (response) => this.onAddPlaylistSuccess(response),
@@ -976,6 +984,7 @@ export class ViewComponent implements OnInit {
   }
 
   onAddPlaylistSuccess(response) {
+    this.deselectAll();
     const saveMsg = JSON.parse(response._body);
 
     this.saveMessage = saveMsg.message;
@@ -984,7 +993,7 @@ export class ViewComponent implements OnInit {
       this.createPlaylistModal.close()
       this.saveMessage = '';
     }, 1500);
-    this.deselectAll();
+    
   }
   onChangeEvent(e) {
 
@@ -1005,11 +1014,13 @@ export class ViewComponent implements OnInit {
     }
   }
   deselectAll() {
+    this.multiplay = false;
     this.multiPlaylist = [];
 
     this.trackingJsonData.forEach((event, index) => {
       event.checked = false;
     });
+    // console.log(this.multiPlaylist);
   }
   onKey(event) {
     this.keyCode = event.keyCode;

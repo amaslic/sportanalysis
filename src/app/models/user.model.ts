@@ -11,6 +11,8 @@ export class User {
   private confirmed: boolean;
   public coach: boolean;
   public role: Number;
+  public teams: any;
+  public activate: boolean;
 
   constructor() { }
 }
