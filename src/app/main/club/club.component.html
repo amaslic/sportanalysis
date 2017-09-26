@@ -79,20 +79,21 @@
         <div class="all-videos col-md-12" *ngIf="videoList">
 
           <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 list-view">
-            <ul class="list-inline">
+            <ul class="list-inline video-list-details">
               <li></li>
               <!-- <li>Video type / Duration</li> -->
               <li>Date</li>
               <li class="result">Result</li>
-              <li>Team</li>
+              <li>Home Team</li>
+              <li>Away Team</li>
               <li>Type</li>
-
+              <li>Action</li> 
             </ul>
           </div>
           <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 list-view" *ngFor="let video of videoList | search:'title,type,team1,team2':searchQuery">
 
             <a [routerLink]="['/videos/view', video._id]">
-              <ul class="list-inline">
+              <ul class="list-inline video-list-details">
                 <li>
                   <img [src]="baseVideoUrl + video.screenshot_path" alt="video-screenshot" class="img-responsive video-ss" height="130px" />
                 </li>
@@ -120,7 +121,11 @@
 
                 <li>
                   <h2 class="video-title" *ngIf="(video.type=='Training')">{{video.title}}</h2>
-                  <h2 class="video-title" *ngIf="(video.type!='Training')"><span *ngIf="video.club1details.length > 0 && video.club1details[0].name">{{video.club1details[0].name}}</span>                    vs <span *ngIf="video.club2details.length > 0 && video.club2details[0].name">{{video.club2details[0].name}}</span></h2>
+                  <h2 class="video-title" *ngIf="(video.type!='Training')"><span *ngIf="video.club1details.length > 0 && video.club1details[0].name">{{video.club1details[0].name}}</span></h2>
+                </li>
+                <li>
+                  <h2 class="video-title" *ngIf="(video.type=='Training')">{{video.title}}</h2>
+                  <h2 class="video-title" *ngIf="(video.type!='Training')"><span *ngIf="video.club2details.length > 0 && video.club2details[0].name">{{video.club2details[0].name}}</span></h2>
                 </li>
                 <li>{{video.type}}</li>
                 <li>
