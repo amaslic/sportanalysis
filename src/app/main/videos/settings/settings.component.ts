@@ -1,6 +1,6 @@
 import {
   Component,
-  OnInit, ViewChild
+  OnInit, ViewChild, ElementRef
 } from '@angular/core';
 import {
   ActivatedRoute
@@ -20,6 +20,9 @@ import {
 import {
   TeamService
 } from './../../../services/team.service';
+import {
+  GlobalVariables
+} from './../../../models/global.model';
 
 @Component({
   selector: 'app-settings',
@@ -54,10 +57,15 @@ export class VideoSettingsComponent implements OnInit {
   xmlDataApplicationTypes = ["tagapp", "ortec", "sportscode", "telestrator"];
   xmlDataApplicationTypeSelected = '';
 
+  private baseTrackingDataUrl = GlobalVariables.BASE_TRACKINGDATA_URL;
+  xmlUrl: any;
+  xmlOriginalName: any;
+
 
   @ViewChild('form') form;
   @ViewChild('SucessModal') SucessModal;
-  @ViewChild('ErrorModal') ErrorModal
+  @ViewChild('ErrorModal') ErrorModal;
+  @ViewChild('lnkDownloadLink') lnkDownloadLink: ElementRef;
   constructor(private route: ActivatedRoute, private trackingDataService: TrackingDataService, private userService: UserService, private videoService: VideoService, private clubService: ClubService, private teamService: TeamService) { }
 
   ngOnInit() {
@@ -499,6 +507,18 @@ export class VideoSettingsComponent implements OnInit {
       this.video.team2 = null;
     }
 
+  }
+
+  downloadVideo(xml, e) {
+    e.preventDefault();
+    e.stopPropagation();
+    this.xmlUrl = this.baseTrackingDataUrl + xml.path;
+    this.xmlOriginalName = xml.original_filename;
+    const elem= this.lnkDownloadLink;
+    setTimeout(function () {
+      elem.nativeElement.click();
+      this.xmlUrl = '';
+    }, 1000);
   }
 
 }

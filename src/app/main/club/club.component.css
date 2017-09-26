@@ -200,10 +200,10 @@ div.date{
 }
 
 div.date ul.list-inline li:nth-child(2) i{
-  font-size: 8px;
-  position: absolute;
-  margin-left: -3px;
-  bottom: 18px;
+    font-size: 14px;
+    position: absolute;
+    margin-left: -3px;
+    bottom: 15px;
 }
 
 .durationn{

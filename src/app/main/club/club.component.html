@@ -39,25 +39,32 @@
               <!-- <span class="durationn">02:11:16</span> -->
               <div class="teams">
                 <tr>
-                <td>
-                <img *ngIf="(video.club1details.length > 0 && video.club1details[0].logo) && (video.type!='Training')" [src]="baseVideoUrl + video.club1details[0].logo" alt="" class="img-responsive">
-                <img *ngIf="(video.club1details.length <= 0 || !video.club1details[0].logo || video.club1details[0].logo == '') && (video.type!='Training')" src="assets/images/default-clublogo.png"  class="img-responsive">
-                </td>
-                <td *ngIf="(video.scoreTeam1 && video.scoreTeam2) && (video.type!='Training')">{{video.scoreTeam1}} : {{video.scoreTeam2}}</td>
-                <td *ngIf="(!video.scoreTeam1 || !video.scoreTeam2) &&  (video.type!='Training')">0 : 0</td>
-                <td>
-                <img *ngIf="(video.club2details.length > 0 && video.club2details[0].logo) && (video.type!='Training')" [src]="baseVideoUrl + video.club2details[0].logo" alt="" class="img-responsive">
-                <img *ngIf="(video.club2details.length <= 0 || !video.club2details[0].logo || video.club2details[0].logo == '') && (video.type!='Training')" src="assets/images/default-clublogo.png"  class="img-responsive">
-                </td>
+                  <td>
+                    <img *ngIf="(video.club1details.length > 0 && video.club1details[0].logo) && (video.type!='Training')" [src]="baseVideoUrl + video.club1details[0].logo"
+                      alt="" class="img-responsive">
+                    <img *ngIf="(video.club1details.length <= 0 || !video.club1details[0].logo || video.club1details[0].logo == '') && (video.type!='Training')"
+                      src="assets/images/default-clublogo.png" class="img-responsive">
+                  </td>
+                  <td *ngIf="(video.scoreTeam1 && video.scoreTeam2) && (video.type!='Training')">{{video.scoreTeam1}} : {{video.scoreTeam2}}</td>
+                  <td *ngIf="(!video.scoreTeam1 || !video.scoreTeam2) &&  (video.type!='Training')">0 : 0</td>
+                  <td>
+                    <img *ngIf="(video.club2details.length > 0 && video.club2details[0].logo) && (video.type!='Training')" [src]="baseVideoUrl + video.club2details[0].logo"
+                      alt="" class="img-responsive">
+                    <img *ngIf="(video.club2details.length <= 0 || !video.club2details[0].logo || video.club2details[0].logo == '') && (video.type!='Training')"
+                      src="assets/images/default-clublogo.png" class="img-responsive">
+                  </td>
                 </tr>
               </div>
               <div class="video-white-bg">
                 <h2 class="video-title" *ngIf="(video.type=='Training')">{{video.title}}</h2>
-              <h2 class="video-title" *ngIf="(video.type!='Training')"><span *ngIf="video.club1details.length > 0 && video.club1details[0].name">{{video.club1details[0].name}}</span>                vs <span *ngIf="video.club2details.length > 0 && video.club2details[0].name">{{video.club2details[0].name}}</span></h2>
+                <h2 class="video-title" *ngIf="(video.type!='Training')"><span *ngIf="video.club1details.length > 0 && video.club1details[0].name">{{video.club1details[0].name}}</span>                  vs <span *ngIf="video.club2details.length > 0 && video.club2details[0].name">{{video.club2details[0].name}}</span></h2>
                 <div class="date">
                   <ul class="list-inline">
 
                     <li>{{video.date | date:"dd.MM.yyyy"}}</li>
+                    <li>
+                      <i (click)="downloadVideo(video,$event)" class="fa fa-download text-info"></i>
+                    </li>
                   </ul>
                 </div>
               </div>
@@ -116,6 +123,9 @@
                   <h2 class="video-title" *ngIf="(video.type!='Training')"><span *ngIf="video.club1details.length > 0 && video.club1details[0].name">{{video.club1details[0].name}}</span>                    vs <span *ngIf="video.club2details.length > 0 && video.club2details[0].name">{{video.club2details[0].name}}</span></h2>
                 </li>
                 <li>{{video.type}}</li>
+                <li>
+                  <i (click)="downloadVideo(video,$event)" class="fa fa-download text-info"></i>
+                </li>
 
               </ul>
             </a>
@@ -152,6 +162,11 @@
       </ngx-datatable>
     </md-tab>
   </md-tab-group>
+
+  <div #htmldiv>
+    <a #lnkDownloadLink style="display: none;" target="_self" href="{{videoUrl}}" download="{{videoOriginalName}}">downlaod</a>
+  </div>
+
 </div>
 
 <modal #SucessModal>
