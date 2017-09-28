@@ -1,7 +1,7 @@
 import {
   Component,
   OnInit,
-  ViewChild, 
+  ViewChild,
   ElementRef
 } from '@angular/core';
 import {
@@ -17,7 +17,7 @@ import {
   ClubService
 } from './../../services/club.service';
 import {
-  ActivatedRoute
+  ActivatedRoute, Router
 } from '@angular/router';
 import {
   GlobalVariables
@@ -31,6 +31,7 @@ import {
 import {
   TeamService
 } from './../../services/team.service';
+import { IMultiSelectOption, IMultiSelectSettings, IMultiSelectTexts } from 'angular-2-dropdown-multiselect';
 
 @Component({
   selector: 'app-club',
@@ -38,6 +39,11 @@ import {
   styleUrls: ['./club.component.css']
 })
 export class ClubComponent implements OnInit {
+  successmsg: any;
+  showProgressBar: boolean;
+  videoId: any;
+  isCoach: boolean;
+  userDetails: {};
   video_type: string = 'All';
   videoSucess: any;
   errormsg: string;
@@ -58,14 +64,36 @@ export class ClubComponent implements OnInit {
   teamsList: any;
   videoUrl: any;
   videoOriginalName: any;
+  private router: Router;
+  trackUserlist: any[];
+  userlistOptions: IMultiSelectOption[];
+  userlistModel: any[];
+
+  userlistSettings: IMultiSelectSettings = {
+    enableSearch: true,
+    checkedStyle: 'fontawesome',
+    containerClasses: 'no-button-arrow',
+    buttonClasses: 'btn btn-default btn-block',
+    fixedTitle: false,
+    maxHeight: '200px',
+    dynamicTitleMaxItems: 2,
+    closeOnClickOutside: true
+  };
 
   @ViewChild('SucessModal') SucessModal;
   @ViewChild('ErrorModal') ErrorModal;
+  @ViewChild('assignVideoModal') assignVideoModal;
+  @ViewChild('videoSucessModal') videoSucessModal;
   @ViewChild('lnkDownloadLink') lnkDownloadLink: ElementRef;
-  constructor(private clubService: ClubService, private userService: UserService, private route: ActivatedRoute, private videoService: VideoService, private teamService: TeamService) {
+  constructor(private clubService: ClubService, private userService: UserService, private route: ActivatedRoute, private videoService: VideoService, private teamService: TeamService, r: Router) {
+    this.router = r;
   }
 
   ngOnInit() {
+    this.userDetails = this.userService.loadUserFromStorage();
+    if (this.userDetails['role'] == 3 || this.userDetails['role'] == 4) {
+      this.isCoach = true;
+    }
     this.teamService.getAllTeams(this.userService.token).subscribe(
       (response: any) => {
         this.teamsList = JSON.parse(response._body);
@@ -90,7 +118,7 @@ export class ClubComponent implements OnInit {
       this.isCoachOrAnalyst = false;
     }
 
-    
+
 
   }
   getVideos() {
@@ -184,7 +212,7 @@ export class ClubComponent implements OnInit {
         element.teams = '';
       }
     });
-    
+
     this.loadingIndicator = false;
   }
   typeFilter() {
@@ -200,11 +228,56 @@ export class ClubComponent implements OnInit {
     e.stopPropagation();
     this.videoUrl = this.baseAmazonVideoUrl + video.path;
     this.videoOriginalName = video.original_filename;
-    const elem= this.lnkDownloadLink;
+    const elem = this.lnkDownloadLink;
     setTimeout(function () {
       elem.nativeElement.click();
       this.videoUrl = '';
     }, 1000);
 
   }
+  settingsVideo(video, e) {
+    e.preventDefault();
+    e.stopPropagation();
+
+    this.router.navigateByUrl('/videos/settings/' + video._id);
+
+  }
+  assignVideo(id, e) {
+
+    e.preventDefault();
+    e.stopPropagation();
+    this.videoId = id;
+    this.userService.getAllUsersByClubId(this.userDetails['club'], this.userService.token).subscribe(
+      (response) => this.onAssignUsersSuccess(response),
+      (error) => this.onError(error)
+    );
+    this.assignVideoModal.open();
+  }
+  onAssignUsersSuccess(response) {
+    const userlist = JSON.parse(response._body);
+    this.trackUserlist = [];
+    userlist.forEach((usr, index) => {
+      this.trackUserlist.push({
+        'id': usr._id,
+        'name': usr.firstName + ' ' + usr.lastName
+      });
+    });
+    this.userlistOptions = this.trackUserlist;
+
+  }
+  usersToVideo() {
+    this.showProgressBar = true;
+    this.videoService.assignVideo(this.userService.token, this.videoId, this.userlistModel).subscribe(
+      (response) => this.usersToVideoSuccess(response),
+      (error) => this.onError(error)
+    );
+  }
+  usersToVideoSuccess(response) {
+    this.showProgressBar = false;
+    const responseBody = JSON.parse(response._body);
+    this.successmsg = responseBody.message;
+    this.assignVideoModal.close();
+    this.videoSucessModal.open();
+  }
+
 }
