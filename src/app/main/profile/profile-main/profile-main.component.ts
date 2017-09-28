@@ -130,6 +130,7 @@ export class ProfileMainComponent implements OnInit {
     this.updateErrorModal.open();
   }
   onSubmit(f) {
+    this.user.image = this.data.image;
     if (!f.valid) {
       return false;
     }

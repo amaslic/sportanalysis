@@ -16,6 +16,6 @@ export class User {
   public activate: boolean;
   public clubId: string;
   public teamId: string;
-
+  public image: string;
   constructor() { }
 }
