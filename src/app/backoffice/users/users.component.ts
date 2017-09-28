@@ -48,6 +48,7 @@ export class UsersComponent implements OnInit {
   ];
 
   search: any = { ActivatedClub: null, ActivatedTeam: null, DeactivatedClub: null, DeactivatedTeam: null };
+  errormsg: string;
 
   @ViewChild('activetable') activetable;
   @ViewChild('deactivetable') deactivetable;
@@ -109,15 +110,16 @@ export class UsersComponent implements OnInit {
         element.club = '';
       }
 
-      if (this.teamsList.length > 0) {
-        var userTeam = this.teamsList.filter(function (element1, index) {
-          return (element1._id === element.teams[0]);
-        })[0];
-
-        if (typeof (userTeam) != 'undefined')
-          element.teams = userTeam.name;
-        else
-          element.teams = '';
+      if (this.teamsList.length > 0 && element.teams.length > 0) {
+        var teamsList = '';
+        element.teams.forEach(element1 => {
+          var userTeam = this.teamsList.filter(function (element2, index) {
+            return (element2._id == element1);
+          })[0];
+          if (typeof (userTeam) != 'undefined')
+            teamsList += userTeam.name + ',';
+        });
+        element.teams = teamsList.substr(0,teamsList.length - 1);
       } else {
         element.teams = '';
       }
@@ -147,15 +149,16 @@ export class UsersComponent implements OnInit {
         element.club = '';
       }
 
-      if (this.teamsList.length > 0) {
-        var userTeam = this.teamsList.filter(function (element1, index) {
-          return (element1._id === element.teams[0]);
-        })[0];
-
-        if (typeof (userTeam) != 'undefined')
-          element.teams = userTeam.name;
-        else
-          element.teams = '';
+      if (this.teamsList.length > 0 && element.teams.length > 0) {
+        var teamsList = '';
+        element.teams.forEach(element1 => {
+          var userTeam = this.teamsList.filter(function (element2, index) {
+            return (element2._id == element1);
+          })[0];
+          if (typeof (userTeam) != 'undefined')
+            teamsList += userTeam.name + ',';
+        });
+        element.teams = teamsList.substr(0,teamsList.length - 1);
       } else {
         element.teams = '';
       }
@@ -189,11 +192,16 @@ export class UsersComponent implements OnInit {
 
   }
 
-  activateUser(userId) {
-    this.userService.activateUser(this.userService.token, userId).subscribe(
+  activateUser(user) {
+    if(user.teams.length > 0){
+    this.userService.activateUser(this.userService.token, user._id).subscribe(
       (response) => this.onActivateUserSuccess(response),
       (error) => this.onError(error)
     );
+    }else{
+      this.errormsg = "Please add teams to activate user.";
+      this.userErrorModal.open();
+    }
   }
   onActivateUserSuccess(response) {
     this.activateUserResponce = JSON.parse(response._body);
@@ -226,15 +234,15 @@ export class UsersComponent implements OnInit {
   }
 
   onChangeofActivatedSearch() {
-    
-      this.usersList = this.allApprovedUserList.filter((element, index) => {
-        return ((this.search.ActivatedClub == null || this.search.ActivatedClub == "null") || element.clubId == this.search.ActivatedClub) && ((this.search.ActivatedTeam == null || this.search.ActivatedTeam == "null") || element.teamId == this.search.ActivatedTeam);
-      });
+
+    this.usersList = this.allApprovedUserList.filter((element, index) => {
+      return ((this.search.ActivatedClub == null || this.search.ActivatedClub == "null") || element.clubId == this.search.ActivatedClub) && ((this.search.ActivatedTeam == null || this.search.ActivatedTeam == "null") || element.teamId == this.search.ActivatedTeam);
+    });
   }
 
   onChangeofDeactivatedSearch() {
-      this.unApprovedUsers = this.allDeactivatedUserList.filter((element, index) => {
-        return ((this.search.DeactivatedClub == null || this.search.DeactivatedClub == "null") || element.clubId == this.search.DeactivatedClub) && ((this.search.DeactivatedTeam == null || this.search.DeactivatedTeam == "null") || element.teamId == this.search.DeactivatedTeam);
-      });
+    this.unApprovedUsers = this.allDeactivatedUserList.filter((element, index) => {
+      return ((this.search.DeactivatedClub == null || this.search.DeactivatedClub == "null") || element.clubId == this.search.DeactivatedClub) && ((this.search.DeactivatedTeam == null || this.search.DeactivatedTeam == "null") || element.teamId == this.search.DeactivatedTeam);
+    });
   }
 }

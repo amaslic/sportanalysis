@@ -28,6 +28,7 @@ import {
 import {
     TeamService
 } from './../../services/team.service';
+import { IMultiSelectOption, IMultiSelectSettings, IMultiSelectTexts } from 'angular-2-dropdown-multiselect';
 
 
 @Component({
@@ -60,6 +61,29 @@ export class AdminEditUserComponent implements OnInit {
     teamsList: any;
     clubTeams: any;
 
+    teamslistOptions: IMultiSelectOption[];
+    teamsModel: any[];
+
+    teamslistSettings: IMultiSelectSettings = {
+        enableSearch: true,
+        checkedStyle: 'fontawesome',
+        containerClasses: 'no-button-arrow',
+        buttonClasses: 'btn btn-default btn-block',
+        fixedTitle: false,
+        maxHeight: '100px',
+        dynamicTitleMaxItems: 2,
+        closeOnClickOutside: true
+    };
+    teamslistTexts: IMultiSelectTexts = {
+        checkAll: 'Select all',
+        uncheckAll: 'Unselect all',
+        checked: 'Team selected',
+        checkedPlural: 'Teams selected',
+        searchPlaceholder: 'Find',
+        defaultTitle: ' Select Team  ',
+        allSelected: 'All Teams ',
+    };
+
 
     @ViewChild('editUserSuccessModel') editUserSuccessModel;
     @ViewChild('editUserErrorModal') editUserErrorModal;
@@ -69,12 +93,19 @@ export class AdminEditUserComponent implements OnInit {
     }
 
     ngOnInit() {
-        this.user.teams = null;
+        this.user.team = null;
         this.showProgressBar = true;
 
         this.teamService.getAllTeams(this.userService.token).subscribe(
             (response: any) => {
                 this.teamsList = JSON.parse(response._body);
+                this.teamslistOptions = [];
+                this.teamsList.forEach((obj, index) => {
+                    this.teamslistOptions.push({
+                        'id': obj._id,
+                        'name': obj.name
+                    });
+                });
                 this.getActivatedClubs();
                 this.filteredClubs = this.clubCtrl.valueChanges
                     .startWith(null)
@@ -93,6 +124,12 @@ export class AdminEditUserComponent implements OnInit {
     }
     onSubmit(f) {
         if (!f.valid) {
+            return false;
+        }
+
+        if(this.user.role == 3 && this.user.teams.length == 0){
+            this.errormsg = "Please select teams";
+            this.editUserErrorModal.open();
             return false;
         }
 
@@ -124,6 +161,9 @@ export class AdminEditUserComponent implements OnInit {
     }
 
     updateProfile(user) {
+        if (user.role != 3)
+            user.teams = user.team;
+
         this.userService.updateProfile(user)
             .subscribe(
             (response) => this.onEditProfileSuccess(response),
@@ -193,12 +233,20 @@ export class AdminEditUserComponent implements OnInit {
 
         if (typeof (this.user.teams) != 'undefined') {
             if (this.user.teams.length > 0) {
-                this.user.teams = this.user.teams[0];
+                this.user.team = this.user.teams[0];
             } else {
-                this.user.teams = null;
+                this.user.team = null;
             }
         } else {
-            this.user.teams = null;
+            this.user.team = null;
+        }
+
+        if (typeof (this.user.teams) != 'undefined' && this.user.teams != null) {
+            if (this.user.teams[0] == 'undefined') {
+                this.user.teams = [];
+            }
+        } else {
+            this.user.teams = [];
         }
 
         this.cpass._id = this.user._id;
@@ -220,7 +268,7 @@ export class AdminEditUserComponent implements OnInit {
         else
             this.user.club = '';
 
-        this.onChangeofClub();
+        this.onChangeofClub(1);
     }
     changePassword(p) {
 
@@ -237,7 +285,7 @@ export class AdminEditUserComponent implements OnInit {
             );
     }
 
-    onChangeofClub() {
+    onChangeofClub(flag) {
         var clubname = this.user.club;
 
         if (this.AllClubList.length > 0) {
@@ -247,18 +295,22 @@ export class AdminEditUserComponent implements OnInit {
         }
 
         this.clubTeams = [];
+        this.teamslistOptions = [];
+
+        if(flag != 1){
+        this.user.team = null;
+        this.user.teams = [];
+        }
         if (typeof (userclub) != 'undefined') {
             this.teamsList.forEach((element, index) => {
                 if (userclub.teams.indexOf(element._id) > -1) {
                     this.clubTeams.push(element);
+                    this.teamslistOptions.push({
+                        'id': element._id,
+                        'name': element.name
+                    });
                 }
             });
         }
-
-        if (this.clubTeams.length == 0) {
-            this.user.teams = null;
-        }
-        // console.log(this.clubTeams);
-
     }
 }

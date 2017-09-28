@@ -92,7 +92,7 @@
                     </ngx-datatable-column>
                     <ngx-datatable-column name="Action">
                         <ng-template let-row="row" ngx-datatable-cell-template>
-                            <i class="fa fa-check-square active" aria-hidden="true" (click)="activateUser(row._id)"></i>
+                            <i class="fa fa-check-square active" aria-hidden="true" (click)="activateUser(row)"></i>
                             <i class="fa fa-pencil edit" aria-hidden="true" [routerLink]="['/backoffice/edit-user', row._id]"></i>
                             <i class="fa fa-trash delete" aria-hidden="true" (click)="deleteUser(row._id)"></i>
                         </ng-template>
