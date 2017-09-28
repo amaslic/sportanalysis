@@ -119,7 +119,7 @@ export class UsersComponent implements OnInit {
           if (typeof (userTeam) != 'undefined')
             teamsList += userTeam.name + ',';
         });
-        element.teams = teamsList.substr(0,teamsList.length - 1);
+        element.teams = teamsList.substr(0, teamsList.length - 1);
       } else {
         element.teams = '';
       }
@@ -158,7 +158,7 @@ export class UsersComponent implements OnInit {
           if (typeof (userTeam) != 'undefined')
             teamsList += userTeam.name + ',';
         });
-        element.teams = teamsList.substr(0,teamsList.length - 1);
+        element.teams = teamsList.substr(0, teamsList.length - 1);
       } else {
         element.teams = '';
       }
@@ -172,18 +172,21 @@ export class UsersComponent implements OnInit {
     console.error(errorBody);
 
   }
-  onDeleteUserSuccess(response) {
+  onDeleteUserSuccess(response, flag) {
     this.deleteUserResponce = JSON.parse(response._body);
-
+    if (flag == 1)
+      this.getUsers();
+    else
+      this.getUnApprovedUsers();
     this.successmsg = this.deleteUserResponce.message;
     this.userSucessModal.open()
 
   }
-  deleteUser(userId) {
+  deleteUser(userId, flag) {
 
     if (confirm("Are you sure to delete this user ?")) {
       this.userService.deleteUser(this.userService.token, userId).subscribe(
-        (response) => this.onDeleteUserSuccess(response),
+        (response) => this.onDeleteUserSuccess(response, flag),
         (error) => this.onError(error)
       );
 
@@ -193,12 +196,12 @@ export class UsersComponent implements OnInit {
   }
 
   activateUser(user) {
-    if(user.teams.length > 0){
-    this.userService.activateUser(this.userService.token, user._id).subscribe(
-      (response) => this.onActivateUserSuccess(response),
-      (error) => this.onError(error)
-    );
-    }else{
+    if (user.teams.length > 0) {
+      this.userService.activateUser(this.userService.token, user._id).subscribe(
+        (response) => this.onActivateUserSuccess(response),
+        (error) => this.onError(error)
+      );
+    } else {
       this.errormsg = "Please add teams to activate user.";
       this.userErrorModal.open();
     }
