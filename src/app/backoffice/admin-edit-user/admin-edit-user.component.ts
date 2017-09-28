@@ -36,6 +36,7 @@ import {
     styleUrls: ['./admin-edit-user.css']
 })
 export class AdminEditUserComponent implements OnInit {
+    isAdmin: boolean;
     userdetails: any;
     public user: User = new User();
     successmsg: string;
@@ -69,6 +70,12 @@ export class AdminEditUserComponent implements OnInit {
     }
 
     ngOnInit() {
+        var user = this.userService.loadUserFromStorage();
+        if (user['role'] == 1) {
+            this.isAdmin = true;
+        } else {
+            this.isAdmin = false;
+        }
         this.user.teams = null;
         this.showProgressBar = true;
         this.getActivatedClubs();
@@ -194,10 +201,10 @@ export class AdminEditUserComponent implements OnInit {
         if (typeof (this.user.teams) != 'undefined') {
             if (this.user.teams.length > 0) {
                 this.user.teams = this.user.teams[0];
-            }else{
+            } else {
                 this.user.teams = null;
             }
-        }else{
+        } else {
             this.user.teams = null;
         }
 
