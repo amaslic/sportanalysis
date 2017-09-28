@@ -21,13 +21,18 @@ import {
 
 import { IMultiSelectOption, IMultiSelectSettings, IMultiSelectTexts } from 'angular-2-dropdown-multiselect';
 import { RouterLink, Router } from '@angular/router';
-
+import {
+  LocalStorageService
+} from 'angular-2-local-storage';
 @Component({
   selector: 'app-playlist',
   templateUrl: './playlist.component.html',
   styleUrls: ['./playlist.component.css']
 })
 export class PlaylistComponent implements OnInit {
+  trackUserlist: any[];
+  userlistModel: any[];
+  playListId: any;
   playdata: any = [];
   successmsg: any;
   isCoachOrAnalyst: Boolean = false;
@@ -39,6 +44,7 @@ export class PlaylistComponent implements OnInit {
   playlistOptions: IMultiSelectOption[];
   playlistModel: any[];
   allClubList: any;
+  userlistOptions: IMultiSelectOption[];
 
   playlistSettings: IMultiSelectSettings = {
     enableSearch: false,
@@ -59,9 +65,29 @@ export class PlaylistComponent implements OnInit {
     defaultTitle: ' Select Playlist ',
     allSelected: 'All Playlist ',
   };
+  userlistSettings: IMultiSelectSettings = {
+    enableSearch: false,
+    checkedStyle: 'fontawesome',
+    containerClasses: 'no-button-arrow',
+    buttonClasses: 'btn btn-default btn-block',
+    fixedTitle: false,
+    maxHeight: '100px',
+    dynamicTitleMaxItems: 2,
+    closeOnClickOutside: true
+  };
+  userlistTexts: IMultiSelectTexts = {
+    checkAll: 'Select all',
+    uncheckAll: 'Unselect all',
+    checked: 'Playlist selected',
+    checkedPlural: 'Playlist selected',
+    searchPlaceholder: 'Find',
+    defaultTitle: ' Select  Users  ',
+    allSelected: 'All Playlist ',
+  };
   @ViewChild('SucessModal') SucessModal;
   @ViewChild('ErrorModal') ErrorModal;
-  constructor(router: Router, private userService: UserService, private playlistService: PlaylistService, private clubService: ClubService) { }
+  @ViewChild('updatePlaylistModal') updatePlaylistModal;
+  constructor(router: Router, private userService: UserService, private playlistService: PlaylistService, private clubService: ClubService, private localStorageService: LocalStorageService) { }
 
   ngOnInit() {
     var user = this.userService.loadUserFromStorage();
@@ -158,6 +184,47 @@ export class PlaylistComponent implements OnInit {
     this.successmsg = deleteMsgBody.message;
     this.SucessModal.open();
     this.getPlaylist();
+  }
+  assignUser(id) {
+    this.playListId = id;
+
+    this.playlistService.fetchPlaylistData(this.userService.token, this.playListId).subscribe(
+      (response) => this.fetchPlaylistSuccess(response),
+      (error) => this.onError(error)
+    );
+    this.userService.getUsers(this.userService.token).subscribe(
+      (response) => this.onGetUsersSuccess(response),
+      (error) => this.onError(error)
+    );
+
+  }
+  fetchPlaylistSuccess(response) {
+
+    this.userlistModel = [];
+    var loggedInUserId = this.localStorageService.get('user')['_id'];
+
+    const userSelect = JSON.parse(response._body);
+    userSelect.playlists[0]['assignedUsers'].forEach((usr, index) => {
+
+      if (usr != loggedInUserId)
+        this.userlistModel.push(usr);
+    });
+
+    this.updatePlaylistModal.open();
+  }
+  onGetUsersSuccess(response) {
+    const userlist = JSON.parse(response._body);
+    this.trackUserlist = [];
+
+    userlist.forEach((usr, index) => {
+      this.trackUserlist.push({
+        'id': usr._id,
+        'name': usr.firstName
+      });
+    });
+
+    this.userlistOptions = this.trackUserlist;
+
   }
 
 }
