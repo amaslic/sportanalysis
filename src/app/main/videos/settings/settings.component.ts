@@ -54,7 +54,7 @@ export class VideoSettingsComponent implements OnInit {
   clubTeams2: any;
 
 
-  xmlDataApplicationTypes = ["tagapp", "ortec", "sportscode", "telestrator", "instat_deep", "instat_simple"];
+  xmlDataApplicationTypes = ["tagapp", "ortec", "sportscode", "telestrator", "instat_deep", "instat_simple", 'easytag'];
   xmlDataApplicationTypeSelected = '';
 
   private baseTrackingDataUrl = GlobalVariables.BASE_TRACKINGDATA_URL;
@@ -73,12 +73,13 @@ export class VideoSettingsComponent implements OnInit {
     this.teamService.getAllTeams(this.userService.token).subscribe(
       (response: any) => {
         this.teamsList = JSON.parse(response._body);
+        this.getAllClubs();
+        this.getActivatedClubs();
       },
       (error) => this.onError(error)
     );
 
-    this.getAllClubs();
-    this.getActivatedClubs();
+
     // this.userService.isAdmin().subscribe(
     //   (response) => this.onIsAdminClubsSuccess(response),
     //   (error) => this.onError(error)
@@ -514,7 +515,7 @@ export class VideoSettingsComponent implements OnInit {
     e.stopPropagation();
     this.xmlUrl = this.baseTrackingDataUrl + xml.path;
     this.xmlOriginalName = xml.original_filename;
-    const elem= this.lnkDownloadLink;
+    const elem = this.lnkDownloadLink;
     setTimeout(function () {
       elem.nativeElement.click();
       this.xmlUrl = '';

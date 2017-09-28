@@ -39,6 +39,7 @@ import { IMultiSelectOption, IMultiSelectSettings, IMultiSelectTexts } from 'ang
   styleUrls: ['./club.component.css']
 })
 export class ClubComponent implements OnInit {
+  videoDelete: any;
   successmsg: any;
   showProgressBar: boolean;
   videoId: any;
@@ -93,13 +94,9 @@ export class ClubComponent implements OnInit {
     this.userDetails = this.userService.loadUserFromStorage();
     if (this.userDetails['role'] == 3 || this.userDetails['role'] == 4) {
       this.isCoach = true;
+    } else {
+      this.isCoach = false;
     }
-    this.teamService.getAllTeams(this.userService.token).subscribe(
-      (response: any) => {
-        this.teamsList = JSON.parse(response._body);
-      },
-      (error) => this.onError(error)
-    );
 
     this.sub = this.route.params.subscribe(params => {
       this.id = params['id'];
@@ -107,19 +104,18 @@ export class ClubComponent implements OnInit {
       this.getVideos();
       this.getVideos();
       this.gridView();
-      this.getUsers()
+
+      this.teamService.getAllTeams(this.userService.token).subscribe(
+        (response: any) => {
+          this.teamsList = JSON.parse(response._body);
+          this.getUsers();
+        },
+        (error) => this.onError(error)
+      );
+
     });
 
-    var user = this.userService.loadUserFromStorage();
-
-    if (user['role'] == 3 || user['role'] == 4) {
-      this.isCoachOrAnalyst = true;
-    } else {
-      this.isCoachOrAnalyst = false;
-    }
-
-
-
+    //  var user = this.userService.loadUserFromStorage();
   }
   getVideos() {
     // console.info("users: "+JSON.stringify(this.userService));
@@ -279,5 +275,20 @@ export class ClubComponent implements OnInit {
     this.assignVideoModal.close();
     this.videoSucessModal.open();
   }
-
+  confirmDelete(id, e) {
+    e.preventDefault();
+    e.stopPropagation();
+    if (confirm("Are you sure to delete this video ?")) {
+      this.videoService.deleteVideoById(id, this.userService.token).subscribe(
+        (response) => { this.videoDeleteSuccess(response) },
+        (error) => this.onError(error)
+      );
+    }
+  }
+  videoDeleteSuccess(response) {
+    this.videoDelete = JSON.parse(response._body);
+    this.successmsg = this.videoDelete.message;
+    this.SucessModal.open();
+    this.getVideos();
+  }
 }

@@ -63,11 +63,12 @@ export class VideosSettingComponent implements OnInit {
     this.teamService.getAllTeams(this.userService.token).subscribe(
       (response: any) => {
         this.teamsList = JSON.parse(response._body);
+        this.getAllClubs();
+        this.getActivatedClubs();
       },
       (error) => this.onError(error)
     );
-    this.getAllClubs();
-    this.getActivatedClubs();
+
 
   }
 

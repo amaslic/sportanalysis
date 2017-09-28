@@ -62,18 +62,16 @@
                   <ul class="list-inline">
 
                     <li>{{video.date | date:"dd.MM.yyyy"}}</li>
-                <li *ngIf="isCoach || isAdmin"  class="video-delete">
+                <li *ngIf="isCoach"  class="video-delete">
                   <i (click)="confirmDelete(video._id,$event)" title="Delete Video" class="fa fa-trash grid-delete-btn" aria-hidden="true"></i>
                 </li>
-                <li *ngIf="isCoach || isAdmin">
+                <li *ngIf="isCoach">
                   <i (click)="assignVideo(video._id,$event)" class="fa fa-share-alt text-success"></i>
                 </li>
-
-                    <li>
+                    <li *ngIf="isCoach">
                       <i (click)="downloadVideo(video,$event)" class="fa fa-download text-info"></i>
                     </li>
-
-                  <li *ngIf="isCoach || isAdmin">
+                  <li *ngIf="isCoach">
                    <i class="fa fa-cog text-info" (click)="settingsVideo(video,$event)"></i>
                   </li>
                   </ul>
@@ -139,8 +137,11 @@
                   <h2 class="video-title" *ngIf="(video.type!='Training')"><span *ngIf="video.club2details.length > 0 && video.club2details[0].name">{{video.club2details[0].name}}</span></h2>
                 </li>
                 <li>{{video.type}}</li>
-                <li>
+                <li *ngIf="isCoach" class="video-info-list">
+                  <i (click)="confirmDelete(video._id,$event)" title="Delete Video" class="fa fa-trash video-delete" aria-hidden="true"></i>
+                  <i (click)="assignVideo(video._id,$event)" class="fa fa-share-alt text-success"></i>
                   <i (click)="downloadVideo(video,$event)" class="fa fa-download text-info"></i>
+                  <i class="fa fa-cog text-info" (click)="settingsVideo(video,$event)" aria-hidden="true"></i>
                 </li>
 
               </ul>
@@ -150,7 +151,7 @@
         </div>
       </perfect-scrollbar>
     </md-tab>
-    <md-tab label="Players" *ngIf="isCoachOrAnalyst">
+    <md-tab label="Players" *ngIf="isCoach">
       <ngx-datatable #activetable class="material" [columnMode]="'force'" [rows]="usersList">
         <ngx-datatable-column name="Email" prop="email"> </ngx-datatable-column>
         <ngx-datatable-column name="First Name" prop="firstName"> </ngx-datatable-column>

@@ -75,8 +75,7 @@ export class AdminAddUserComponent implements OnInit {
     this.user.role = null;
     // this.user.coach = null;
     this.user.teams = null;
-    this.getAllClubs();
-    this.getActivatedClubs();
+
     this.filteredClubs = this.clubCtrl.valueChanges
       .startWith(null)
       .map(name => this.filterClubs(name));
@@ -84,6 +83,8 @@ export class AdminAddUserComponent implements OnInit {
     this.teamService.getAllTeams(this.userService.token).subscribe(
       (response: any) => {
         this.teamsList = JSON.parse(response._body);
+        this.getAllClubs();
+        this.getActivatedClubs();
       },
       (error) => this.onError(error)
     );
@@ -222,12 +223,10 @@ export class AdminAddUserComponent implements OnInit {
           this.clubTeams.push(element);
         }
       });
-
-      if (this.clubTeams.length == 0) {
+    }
+    if (this.clubTeams.length == 0) {
         this.user.teams = null;
       }
-
-    }
 
   }
 

@@ -78,18 +78,18 @@ export class AdminEditUserComponent implements OnInit {
         }
         this.user.teams = null;
         this.showProgressBar = true;
-        this.getActivatedClubs();
-        this.filteredClubs = this.clubCtrl.valueChanges
-            .startWith(null)
-            .map(name => this.filterClubs(name));
-        this.sub = this.route.params.subscribe(params => {
-            this.userid = params['id'];
-            this.getEditUser(this.userid);
-        });
 
         this.teamService.getAllTeams(this.userService.token).subscribe(
             (response: any) => {
                 this.teamsList = JSON.parse(response._body);
+                this.getActivatedClubs();
+                this.filteredClubs = this.clubCtrl.valueChanges
+                    .startWith(null)
+                    .map(name => this.filterClubs(name));
+                this.sub = this.route.params.subscribe(params => {
+                    this.userid = params['id'];
+                    this.getEditUser(this.userid);
+                });
             },
             (error) => this.onError(error)
         );

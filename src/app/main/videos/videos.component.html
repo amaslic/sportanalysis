@@ -85,7 +85,7 @@
             <li *ngIf="isCoach || isAdmin">
                <i (click)="assignVideo(video._id,$event)" class="fa fa-share-alt text-success"></i>
             </li>
-            <li>
+            <li *ngIf="isCoach || isAdmin">
             <i (click)="downloadVideo(video,$event)" class="fa fa-download text-info"></i>
             </li>
         <li *ngIf="isCoach || isAdmin">
@@ -176,7 +176,6 @@
               <i (click)="assignVideo(video._id,$event)" class="fa fa-share-alt text-success"></i>
               <i (click)="downloadVideo(video,$event)" class="fa fa-download text-info"></i>
               <i class="fa fa-cog text-info" (click)="settingsVideo(video,$event)" aria-hidden="true"></i>
-              <!--<a target="_self" href="https://s3.eu-central-1.amazonaws.com/sportsanalysis\videos\{{video.filename}}" (click)="$event.stopPropagation();" download="foo.pdf"><i class="fa fa-download text-info"></i></a>-->
             </li>
 
           </ul>
