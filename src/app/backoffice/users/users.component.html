@@ -25,12 +25,12 @@
             <div>
 
                 <ngx-datatable #activetable class="material" [columnMode]="'standard'" [rows]="usersList" (onRowsUpdate)='updateRows()'>
-                    <ngx-datatable-column [flexGrow]="3" name="Email" prop="email"> </ngx-datatable-column>
-                    <ngx-datatable-column name="First Name" [width]="80" prop="firstName"> </ngx-datatable-column>
-                    <ngx-datatable-column name="Last Name" [width]="80" prop="lastName"> </ngx-datatable-column>
-                    <ngx-datatable-column name="Club" [width]="70" prop="club"> </ngx-datatable-column>
-                    <ngx-datatable-column name="Team(s)" [width]="70" prop="teams"> </ngx-datatable-column>
-                    <ngx-datatable-column name="Club Function" prop="clubFunction"> </ngx-datatable-column>
+                    <ngx-datatable-column [flexGrow]="3" [width]="180" name="Email" prop="email"> </ngx-datatable-column>
+                    <ngx-datatable-column name="First Name" [width]="90" prop="firstName"> </ngx-datatable-column>
+                    <ngx-datatable-column name="Last Name" [width]="90" prop="lastName"> </ngx-datatable-column>
+                    <ngx-datatable-column name="Club" [width]="80" prop="club"> </ngx-datatable-column>
+                    <ngx-datatable-column name="Team(s)" [width]="200" prop="teams"> </ngx-datatable-column>
+                    <!-- <ngx-datatable-column name="Club Function" prop="clubFunction"> </ngx-datatable-column> -->
                     <ngx-datatable-column name="Phone Number" prop="phone"> </ngx-datatable-column>
                     <ngx-datatable-column name="Role" [width]="90">
                         <ng-template let-row="row" ngx-datatable-cell-template>
@@ -42,7 +42,7 @@
                             <span *ngIf="row.role==6">Viewer</span>
                         </ng-template>
                     </ngx-datatable-column>
-                    <ngx-datatable-column name="Action">
+                    <ngx-datatable-column name="Action" [width]="90">
                         <ng-template let-row="row" ngx-datatable-cell-template>
                             <i class="fa fa-ban deactive" aria-hidden="true" (click)="deactivateUser(row._id)"></i>
                             <i class="fa fa-pencil edit" aria-hidden="true" [routerLink]="['/backoffice/edit-user', row._id]"></i>
@@ -73,12 +73,12 @@
             </div>
             <div>
                 <ngx-datatable #deactivetable class="material" [columnMode]="'standard'" [rows]="unApprovedUsers">
-                    <ngx-datatable-column [flexGrow]="3" name="Email" prop="email"> </ngx-datatable-column>
-                    <ngx-datatable-column name="First Name" [width]="80" prop="firstName"> </ngx-datatable-column>
-                    <ngx-datatable-column name="Last Name" [width]="80" prop="lastName"> </ngx-datatable-column>
-                    <ngx-datatable-column name="Club" [width]="70" prop="club"> </ngx-datatable-column>
-                    <ngx-datatable-column name="Team(s)" [width]="70" prop="teams"> </ngx-datatable-column>
-                    <ngx-datatable-column name="Club Function" prop="clubFunction"> </ngx-datatable-column>
+                    <ngx-datatable-column [flexGrow]="3" [width]="180" name="Email" prop="email"> </ngx-datatable-column>
+                    <ngx-datatable-column name="First Name" [width]="90" prop="firstName"> </ngx-datatable-column>
+                    <ngx-datatable-column name="Last Name" [width]="90" prop="lastName"> </ngx-datatable-column>
+                    <ngx-datatable-column name="Club" [width]="80" prop="club"> </ngx-datatable-column>
+                    <ngx-datatable-column name="Team(s)" [width]="200" prop="teams"> </ngx-datatable-column>
+                    <!-- <ngx-datatable-column name="Club Function" prop="clubFunction"> </ngx-datatable-column> -->
                     <ngx-datatable-column name="Phone Number" prop="phone"> </ngx-datatable-column>
                     <ngx-datatable-column name="Role" [width]="90">
                         <ng-template let-row="row" ngx-datatable-cell-template>
@@ -90,7 +90,7 @@
                             <span *ngIf="row.role==6">Viewer</span>
                         </ng-template>
                     </ngx-datatable-column>
-                    <ngx-datatable-column name="Action">
+                    <ngx-datatable-column name="Action" [width]="90">
                         <ng-template let-row="row" ngx-datatable-cell-template>
                             <i class="fa fa-check-square active" aria-hidden="true" (click)="activateUser(row)"></i>
                             <i class="fa fa-pencil edit" aria-hidden="true" [routerLink]="['/backoffice/edit-user', row._id]"></i>
