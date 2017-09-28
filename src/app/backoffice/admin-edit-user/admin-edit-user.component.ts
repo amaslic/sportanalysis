@@ -71,18 +71,18 @@ export class AdminEditUserComponent implements OnInit {
     ngOnInit() {
         this.user.teams = null;
         this.showProgressBar = true;
-        this.getActivatedClubs();
-        this.filteredClubs = this.clubCtrl.valueChanges
-            .startWith(null)
-            .map(name => this.filterClubs(name));
-        this.sub = this.route.params.subscribe(params => {
-            this.userid = params['id'];
-            this.getEditUser(this.userid);
-        });
 
         this.teamService.getAllTeams(this.userService.token).subscribe(
             (response: any) => {
                 this.teamsList = JSON.parse(response._body);
+                this.getActivatedClubs();
+                this.filteredClubs = this.clubCtrl.valueChanges
+                    .startWith(null)
+                    .map(name => this.filterClubs(name));
+                this.sub = this.route.params.subscribe(params => {
+                    this.userid = params['id'];
+                    this.getEditUser(this.userid);
+                });
             },
             (error) => this.onError(error)
         );
@@ -194,10 +194,10 @@ export class AdminEditUserComponent implements OnInit {
         if (typeof (this.user.teams) != 'undefined') {
             if (this.user.teams.length > 0) {
                 this.user.teams = this.user.teams[0];
-            }else{
+            } else {
                 this.user.teams = null;
             }
-        }else{
+        } else {
             this.user.teams = null;
         }
 

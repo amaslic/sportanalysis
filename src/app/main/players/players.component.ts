@@ -35,16 +35,17 @@ export class PlayersComponent implements OnInit {
 
   ngOnInit() {
     let user: any = this.localStorageService.get('user');
-    this.teamService.getAllTeams(this.userService.token).subscribe(
-      (response: any) => {
-        this.teamsList = JSON.parse(response._body);
-      },
-      (error) => this.onError(error)
-    );
     if (user['role'] != 3 && user['role'] != 4) {
       this.r.navigate(['/home']);
     }
-    this.getUsers(user['club']);
+
+    this.teamService.getAllTeams(this.userService.token).subscribe(
+      (response: any) => {
+        this.teamsList = JSON.parse(response._body);
+        this.getUsers(user['club']);
+      },
+      (error) => this.onError(error)
+    );
 
   }
 

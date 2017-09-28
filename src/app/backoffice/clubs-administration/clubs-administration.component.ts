@@ -95,11 +95,11 @@ export class ClubsAdministrationComponent implements OnInit {
       this.clubId = user['club'];
     }
 
-    this.getClubs();
-    this.getActivatedClubs();
     this.teamService.getAllTeams(this.userService.token).subscribe(
       (response: any) => {
         const teamslLst = JSON.parse(response._body);
+        this.getClubs();
+        this.getActivatedClubs();
         this.teamslistOptions = [];
         teamslLst.forEach((obj, index) => {
           this.teamslistOptions.push({

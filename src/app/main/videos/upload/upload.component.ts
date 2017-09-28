@@ -84,13 +84,14 @@ export class UploadComponent implements OnInit {
     this.teamService.getAllTeams(this.userService.token).subscribe(
       (response: any) => {
         this.teamsList = JSON.parse(response._body);
+        this.ClubStatus();
+        this.getAllClubs();
+        this.getActivatedClubs();
       },
       (error) => this.onError(error)
     );
 
-    this.ClubStatus();
-    this.getAllClubs();
-    this.getActivatedClubs();
+
 
     var user = this.userService.loadUserFromStorage();
     if (user['role'] != 3 && user['role'] != 4) {

@@ -62,7 +62,7 @@
                   <ul class="list-inline">
 
                     <li>{{video.date | date:"dd.MM.yyyy"}}</li>
-                    <li>
+                    <li *ngIf="isCoachOrAnalyst">
                       <i (click)="downloadVideo(video,$event)" class="fa fa-download text-info"></i>
                     </li>
                   </ul>
@@ -128,7 +128,7 @@
                   <h2 class="video-title" *ngIf="(video.type!='Training')"><span *ngIf="video.club2details.length > 0 && video.club2details[0].name">{{video.club2details[0].name}}</span></h2>
                 </li>
                 <li>{{video.type}}</li>
-                <li>
+                <li *ngIf="isCoachOrAnalyst">
                   <i (click)="downloadVideo(video,$event)" class="fa fa-download text-info"></i>
                 </li>
 

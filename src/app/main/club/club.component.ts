@@ -66,20 +66,22 @@ export class ClubComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.teamService.getAllTeams(this.userService.token).subscribe(
-      (response: any) => {
-        this.teamsList = JSON.parse(response._body);
-      },
-      (error) => this.onError(error)
-    );
-
+    
     this.sub = this.route.params.subscribe(params => {
       this.id = params['id'];
       this.getClub(this.id);
       this.getVideos();
       this.getVideos();
       this.gridView();
-      this.getUsers()
+
+      this.teamService.getAllTeams(this.userService.token).subscribe(
+      (response: any) => {
+        this.teamsList = JSON.parse(response._body);
+        this.getUsers();
+      },
+      (error) => this.onError(error)
+    );
+      
     });
 
     var user = this.userService.loadUserFromStorage();
