@@ -60,7 +60,7 @@ export class UploadComponent implements OnInit {
   clubName2: any;
   team1: any = null;
   team2: any = null;
-  season: any = null;
+  season: any = '2017/2018';
   protected dataService: CompleterData;
 
   @ViewChild('uploadSucessModal') uploadSucessModal;

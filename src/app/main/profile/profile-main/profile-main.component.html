@@ -46,11 +46,24 @@
 						<input type="text" disabled name="club" [(ngModel)]="clubName" #clubFunction="ngModel" class="form-control" placeholder="Club"
 						 required>
 					</div>
-					<div class="form-group">
+					<!-- <div class="form-group">
 						<label>Club Function</label>
 						<input type="text" name="clubFunction" [(ngModel)]="user.clubFunction" #clubFunction="ngModel" class="form-control" placeholder="Club Function"
 						 required>
+					</div> -->
+					<label>Profile Picture </label>
+					<div class="file-upload">
+						<span class="text">Upload</span>
+						<input id="custom-input" type="file" (change)="fileChangeListener($event)">
 					</div>
+					<img-cropper *ngIf="imageSubmitted" #cropper [image]="data" [settings]="cropperSettings2"></img-cropper>
+					<br>
+					<!-- <span class="result rounded" *ngIf="data.image">
+    				<img [src]="data.image" [width]="200" [height]="200">
+					</span> -->
+					<span class="result rounded" *ngIf="profile_path && !imageSubmitted">
+    				<img [src]="profile_path" (error)="setDefaultPic()" [width]="200" [height]="200">
+					</span>
 
 
 					<div class="form-group text-right ">
