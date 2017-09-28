@@ -17,12 +17,14 @@ import {
 import {
   GlobalVariables
 } from './../models/global.model';
+import { Global } from './../services/global'
 @Component({
   selector: 'app-main',
   templateUrl: './main.component.html',
   styleUrls: ['./main.component.css']
 })
 export class MainComponent implements OnInit {
+  profile_path: string;
   isAdmin: boolean;
   isCoachOrAnalyst: Boolean;
   coach: Boolean;
@@ -33,6 +35,7 @@ export class MainComponent implements OnInit {
   private router: Router;
   private sub: any;
   private baseImageUrl = GlobalVariables.BASE_IMAGE_URL;
+  public profile = Global;
   private _toggleSidebar() {
     this._opened = !this._opened;
   }
@@ -59,11 +62,19 @@ export class MainComponent implements OnInit {
       }
 
     });
+
   }
 
   ngOnInit() {
+
     this.clubInfo();
     let user: any = this.localStorageService.get('user');
+
+    this.profile_path = this.baseImageUrl + '/profile/' + user['_id'] + '.png';
+    Global.profile_path = this.baseImageUrl + '/profile/' + user['_id'] + '.png';
+    // console.log('Global', this.profile.profile_path)
+
+    console.log(this.profile_path);
     if (user['role'] == 3 || user['role'] == 4) {
       this.isCoachOrAnalyst = true;
     }
@@ -106,6 +117,9 @@ export class MainComponent implements OnInit {
   getUserDisplayName() {
     let user: any = this.localStorageService.get('user');
     return user.firstName + " " + user.lastName;
+  }
+  setDefaultPic() {
+    this.profile.profile_path = "assets/images/user.png";
   }
 
 }

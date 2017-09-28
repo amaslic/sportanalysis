@@ -224,7 +224,12 @@ ul.dropdown-menu.profile-options{
   background-image: url('/assets/images/bubble.png');
 }
 */
-
+.profile-img{width: 32px;height: 32px;border-radius: 50%;border:1px solid #ccc;display: inline-block;vertical-align: top;margin-right: 5px;}
+.profile-img img{width: 100%;}
+span.name-profile{display: inline-block;}
+.btn-usr.dropdown-toggle[_ngcontent-c1]::after {
+    margin-top: 0px!important;
+}
 .dropdown-menu{
   left: -11px;
   font-size: 12px;
