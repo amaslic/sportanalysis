@@ -30,6 +30,7 @@ import {
   styleUrls: ['./playlist.component.css']
 })
 export class PlaylistComponent implements OnInit {
+  showProgressBar: boolean;
   trackUserlist: any[];
   userlistModel: any[];
   playListId: any;
@@ -204,11 +205,11 @@ export class PlaylistComponent implements OnInit {
     var loggedInUserId = this.localStorageService.get('user')['_id'];
 
     const userSelect = JSON.parse(response._body);
-    userSelect.playlists[0]['assignedUsers'].forEach((usr, index) => {
+    // userSelect.playlists[0]['assignedUsers'].forEach((usr, index) => {
 
-      if (usr != loggedInUserId)
-        this.userlistModel.push(usr);
-    });
+    //   if (usr != loggedInUserId)
+    //     this.userlistModel.push(usr);
+    // });
 
     this.updatePlaylistModal.open();
   }
@@ -225,6 +226,22 @@ export class PlaylistComponent implements OnInit {
 
     this.userlistOptions = this.trackUserlist;
 
+  }
+  usersToPlaylist() {
+    this.showProgressBar = true;
+    // console.log(this.playListId);
+    // console.log(this.userlistModel);
+    this.playlistService.assignPlaylist(this.userService.token, this.playListId, this.userlistModel).subscribe(
+      (response) => this.usersToPlaylistSuccess(response),
+      (error) => this.onError(error)
+    );
+  }
+  usersToPlaylistSuccess(response) {
+    this.showProgressBar = false;
+    const playresp = JSON.parse(response._body)
+    this.successmsg = playresp.message;
+    this.SucessModal.open();
+    this.updatePlaylistModal.close();
   }
 
 }
