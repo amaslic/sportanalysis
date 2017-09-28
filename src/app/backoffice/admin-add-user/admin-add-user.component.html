@@ -31,7 +31,7 @@
         <div class="form-group">
           <select name="role" #role class="form-control role-select" [(ngModel)]="user.role" required>
             <option value="null"> Role </option>
-             <option value=1 *ngIf="user.role==1"> Superadmin </option>
+             <option value=1 *ngIf="isAdmin"> Superadmin </option>
             <option *ngFor="let role of roles"  [ngValue]="role.value">{{role.display}}</option>
           </select>
         </div>
@@ -51,10 +51,11 @@
           <ss-multiselect-dropdown style="padding:0 !important;" name="teams" [options]="teamslistOptions" [texts]="teamslistTexts" [settings]="teamslistSettings"
                 [(ngModel)]="user.teams"></ss-multiselect-dropdown>
         </div>
-        <div class="form-group">
+        <!-- <div class="form-group">
+
           <input type="text" name="clubFunction" [(ngModel)]="user.clubFunction" #clubFunction="ngModel" class="form-control" placeholder="Club Function"
             required>
-        </div>
+        </div> -->
         <div class="form-group">
           <input type="password" name="password" minlength="6" maxlength="12" pattern="([A-Z])([A-z0-9@_])*" [(ngModel)]="user.password"
             #password="ngModel" ngControl="password" class="form-control" placeholder="Password" required>

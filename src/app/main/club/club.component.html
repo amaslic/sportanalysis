@@ -62,9 +62,18 @@
                   <ul class="list-inline">
 
                     <li>{{video.date | date:"dd.MM.yyyy"}}</li>
-                    <li *ngIf="isCoachOrAnalyst">
+                <li *ngIf="isCoach"  class="video-delete">
+                  <i (click)="confirmDelete(video._id,$event)" title="Delete Video" class="fa fa-trash grid-delete-btn" aria-hidden="true"></i>
+                </li>
+                <li *ngIf="isCoach">
+                  <i (click)="assignVideo(video._id,$event)" class="fa fa-share-alt text-success"></i>
+                </li>
+                    <li *ngIf="isCoach">
                       <i (click)="downloadVideo(video,$event)" class="fa fa-download text-info"></i>
                     </li>
+                  <li *ngIf="isCoach">
+                   <i class="fa fa-cog text-info" (click)="settingsVideo(video,$event)"></i>
+                  </li>
                   </ul>
                 </div>
               </div>
@@ -87,7 +96,7 @@
               <li>Home Team</li>
               <li>Away Team</li>
               <li>Type</li>
-              <li>Action</li> 
+              <li>Action</li>
             </ul>
           </div>
           <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 list-view" *ngFor="let video of videoList | search:'title,type,team1,team2':searchQuery">
@@ -128,8 +137,11 @@
                   <h2 class="video-title" *ngIf="(video.type!='Training')"><span *ngIf="video.club2details.length > 0 && video.club2details[0].name">{{video.club2details[0].name}}</span></h2>
                 </li>
                 <li>{{video.type}}</li>
-                <li *ngIf="isCoachOrAnalyst">
+                <li *ngIf="isCoach" class="video-info-list">
+                  <i (click)="confirmDelete(video._id,$event)" title="Delete Video" class="fa fa-trash video-delete" aria-hidden="true"></i>
+                  <i (click)="assignVideo(video._id,$event)" class="fa fa-share-alt text-success"></i>
                   <i (click)="downloadVideo(video,$event)" class="fa fa-download text-info"></i>
+                  <i class="fa fa-cog text-info" (click)="settingsVideo(video,$event)" aria-hidden="true"></i>
                 </li>
 
               </ul>
@@ -139,7 +151,7 @@
         </div>
       </perfect-scrollbar>
     </md-tab>
-    <md-tab label="Players" *ngIf="isCoachOrAnalyst">
+    <md-tab label="Players" *ngIf="isCoach">
       <ngx-datatable #activetable class="material" [columnMode]="'force'" [rows]="usersList">
         <ngx-datatable-column name="Email" prop="email"> </ngx-datatable-column>
         <ngx-datatable-column name="First Name" prop="firstName"> </ngx-datatable-column>
@@ -204,5 +216,47 @@
   </modal-content>
   <modal-footer>
     <button class="btn btn-primary" (click)="ErrorModal.close()">Ok</button>
+  </modal-footer>
+</modal>
+<modal #assignVideoModal>
+  <modal-header>
+
+
+  </modal-header>
+  <modal-content>
+    <p>
+      Share Video
+    </p>
+    <div class="col-md-12">
+      <label class="col-md-3 control-label"> Users: </label>
+      <ss-multiselect-dropdown class="col-md-6" [options]="userlistOptions" [texts]="userlistTexts" [settings]="userlistSettings"
+        [(ngModel)]="userlistModel"></ss-multiselect-dropdown>
+    </div>
+    <div class="form-group pull-left" style="margin-top: 5%" *ngIf="updateMessage">
+      <span class="col-md-12">{{updateMessage}}</span>
+    </div>
+  </modal-content>
+  <modal-footer>
+
+    <button class=" btn btn-primary " [disabled]="!userlistModel || userlistModel?.length==0 " (click)="usersToVideo() ">Share</button>
+    <button class="btn btn-primary " (click)="assignVideoModal.close() ">Cancel</button>
+
+
+  </modal-footer>
+</modal>
+<modal #videoSucessModal>
+  <modal-header>
+
+  </modal-header>
+  <modal-content>
+    <p>
+      <i class="fa fa-check" aria-hidden="true"></i>
+    </p>
+    <p>
+      {{successmsg}}
+    </p>
+  </modal-content>
+  <modal-footer>
+    <button class="btn btn-primary" (click)="videoSucessModal.close()">Ok</button>
   </modal-footer>
 </modal>

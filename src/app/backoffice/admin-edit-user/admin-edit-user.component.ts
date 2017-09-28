@@ -37,6 +37,7 @@ import { IMultiSelectOption, IMultiSelectSettings, IMultiSelectTexts } from 'ang
     styleUrls: ['./admin-edit-user.css']
 })
 export class AdminEditUserComponent implements OnInit {
+    isAdmin: boolean;
     userdetails: any;
     public user: User = new User();
     successmsg: string;
@@ -93,7 +94,15 @@ export class AdminEditUserComponent implements OnInit {
     }
 
     ngOnInit() {
+
+        var user = this.userService.loadUserFromStorage();
+        if (user['role'] == 1) {
+            this.isAdmin = true;
+        } else {
+            this.isAdmin = false;
+        }
         this.user.team = null;
+
         this.showProgressBar = true;
 
         this.teamService.getAllTeams(this.userService.token).subscribe(

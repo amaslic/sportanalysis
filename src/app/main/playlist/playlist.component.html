@@ -16,6 +16,9 @@
         <button *ngIf="isCoachOrAnalyst" type="button" (click)="deletePlaylist(row._id)" class="btn btn-default" aria-label="Left Align">
  <i class="fa fa-trash text-danger" aria-hidden="true"></i>
  </button>
+        <button *ngIf="isCoachOrAnalyst" type="button" (click)="assignUser(row._id)" class="btn btn-default" aria-label="Left Align">
+ <i class="fa fa-share-alt text-success" aria-hidden="true" ></i>
+ </button>
       </ng-template>
     </ngx-datatable-column>
   </ngx-datatable>
@@ -50,5 +53,33 @@
   </modal-content>
   <modal-footer>
     <button class="btn btn-primary" [routerLink]="['/home']" (click)="ErrorModal.close()">Ok</button>
+  </modal-footer>
+</modal>
+<modal #updatePlaylistModal class="error-modal">
+  <modal-header>
+  </modal-header>
+  <modal-content>
+    <p>
+      Share Playlist
+    </p>
+
+    <div class="form-group">
+      <label class="col-md-4 control-label">Users</label>
+      <ss-multiselect-dropdown class="col-md-5" [options]="userlistOptions" [texts]="userlistTexts" [settings]="userlistSettings"
+        [(ngModel)]="userlistModel"></ss-multiselect-dropdown>
+    </div>
+
+
+
+    <div class="form-group pull-left" style="margin-top: 5%" *ngIf="updateMessage">
+      <span class="col-md-12">{{updateMessage}}</span>
+    </div>
+  </modal-content>
+  <modal-footer>
+
+    <button class=" btn btn-primary " [disabled]="!userlistModel || userlistModel?.length==0 " (click)="usersToPlaylist() ">Share</button>
+    <button class="btn btn-primary " (click)="updatePlaylistModal.close() ">Cancel</button>
+
+
   </modal-footer>
 </modal>

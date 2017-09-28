@@ -79,6 +79,7 @@ import { ClubsComponent } from './main/clubs/clubs.component';
 import { SearchVideoTimelineTeamPipe } from './pipes/searchVideoTimelineTeam.pipe'
 import { ClassNamePipe } from './pipes/className.pipe';
 import { Ng2CompleterModule } from "ng2-completer";
+import { ImageCropperComponent, CropperSettings, Bounds } from 'ng2-img-cropper';
 
 const PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {};
 
@@ -163,6 +164,7 @@ const appRoutes: Routes = [
     AdminAddUserComponent,
     AdminEditUserComponent,
     VideosSettingComponent,
+    ImageCropperComponent,
   ],
   imports: [
     BrowserModule,
