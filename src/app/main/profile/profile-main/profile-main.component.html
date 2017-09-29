@@ -36,6 +36,7 @@
 					<div class="form-group">
 						<label>Role </label>
 						<select disabled name="role" #role class="form-control" [(ngModel)]="user.role" required>
+							<option *ngIf="isAdmin" value="1">Superadmin</option>
                     <option *ngFor="let role of roles" [value]="role.value">  
                     {{role.display}}
                     </option>
@@ -51,8 +52,8 @@
 						<input type="text" name="clubFunction" [(ngModel)]="user.clubFunction" #clubFunction="ngModel" class="form-control" placeholder="Club Function"
 						 required>
 					</div> -->
-					<label>Profile Picture </label>
-					<div class="file-upload">
+					<label *ngIf="!isAdmin">Profile Picture </label>
+					<div *ngIf="!isAdmin" class="file-upload">
 						<span class="text">Upload</span>
 						<input id="custom-input" type="file" (change)="fileChangeListener($event)">
 					</div>
@@ -61,8 +62,8 @@
 					<!-- <span class="result rounded" *ngIf="data.image">
     				<img [src]="data.image" [width]="200" [height]="200">
 					</span> -->
-					<span class="result rounded" *ngIf="profile_path && !imageSubmitted">
-    				<img [src]="profile_path" (error)="setDefaultPic()" [width]="200" [height]="200">
+					<span class="result rounded" *ngIf="profile_path && !imageSubmitted && !isAdmin">
+    				<img  [src]="profile_path" (error)="setDefaultPic()" [width]="200" [height]="200">
 					</span>
 
 
