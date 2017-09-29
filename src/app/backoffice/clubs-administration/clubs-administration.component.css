@@ -24,3 +24,7 @@
             width: 120px;
             height: 120px;
         }
+
+        ss-multiselect-dropdown /deep/ ul.dropdown-menu {
+            max-height: 600px!important;
+          }
