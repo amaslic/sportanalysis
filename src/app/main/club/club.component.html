@@ -62,18 +62,18 @@
                   <ul class="list-inline">
 
                     <li>{{video.date | date:"dd.MM.yyyy"}}</li>
-                <li *ngIf="isCoach"  class="video-delete">
-                  <i (click)="confirmDelete(video._id,$event)" title="Delete Video" class="fa fa-trash grid-delete-btn" aria-hidden="true"></i>
-                </li>
-                <li *ngIf="isCoach">
-                  <i (click)="assignVideo(video._id,$event)" class="fa fa-share-alt text-success"></i>
-                </li>
+                    <li *ngIf="isCoach" class="video-delete">
+                      <i (click)="confirmDelete(video._id,$event)" title="Delete Video" class="fa fa-trash grid-delete-btn" aria-hidden="true"></i>
+                    </li>
+                    <li *ngIf="isCoach">
+                      <i (click)="assignVideo(video._id,$event)" class="fa fa-share-alt text-success"></i>
+                    </li>
                     <li *ngIf="isCoach">
                       <i (click)="downloadVideo(video,$event)" class="fa fa-download text-info"></i>
                     </li>
-                  <li *ngIf="isCoach">
-                   <i class="fa fa-cog text-info" (click)="settingsVideo(video,$event)"></i>
-                  </li>
+                    <li *ngIf="isCoach">
+                      <i class="fa fa-cog text-info" (click)="settingsVideo(video,$event)"></i>
+                    </li>
                   </ul>
                 </div>
               </div>
@@ -177,6 +177,51 @@
           </ng-template>
         </ngx-datatable-column>
       </ngx-datatable>
+    </md-tab>
+    <md-tab label="Matches" *ngIf="isCoach">
+
+      <div class="main-part">
+        <ul class="list-inline matches header">
+          <li>Club 1</li>
+          <li>Club 2</li>
+          <li>Team 1</li>
+          <li>Team 2</li>
+          <li>Date</li>
+          <li>Action</li>
+        </ul>
+        <perfect-scrollbar>
+          <div class="scroll-matches">
+            <div *ngIf="matches.length > 0">
+              <ul class="list-inline matches" *ngFor="let match of matches">
+                <li>
+                  <img *ngIf=" match.club1details[0].logo != ''" [src]="baseVideoUrl + match.club1details[0].logo" alt="Home team">
+                  <img *ngIf=" match.club1details[0].logo == ''" src="assets/images/default-clublogo.png" alt="Home team">
+                  <span>{{match.club1details[0].name}}</span>
+                </li>
+                <li>
+                  <img *ngIf=" match.club2details[0].logo != ''" [src]="baseVideoUrl + match.club2details[0].logo" alt="Away team">
+                  <img *ngIf=" match.club2details[0].logo == ''" src="assets/images/default-clublogo.png" alt="Home team">
+                  <span>{{match.club2details[0].name}}</span>
+                </li>
+                <li *ngIf="match.team1details.length > 0">{{match.team1details[0].name}}</li>
+                <li *ngIf="match.team1details.length == 0">&nbsp;</li>
+                <li *ngIf="match.team2details.length > 0">{{match.team2details[0].name}}</li>
+                <li *ngIf="match.team2details.length == 0">&nbsp;</li>
+                <li>{{match.date | date: 'yyyy-MM-dd'}} {{match.time}}</li>
+                <li>
+                  <button type="button" [routerLink]="['/match/view/',match._id]" class="btn btn-default" aria-label="Left Align">
+                  <i class="fa fa-eye text-success" aria-hidden="true"></i>
+                </button>
+                </li>
+              </ul>
+            </div>
+
+            <ul *ngIf="matches.length == 0" class="list-inline matches">
+              <li>No Matches Found</li>
+            </ul>
+          </div>
+        </perfect-scrollbar>
+      </div>
     </md-tab>
   </md-tab-group>
 

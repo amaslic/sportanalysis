@@ -20,7 +20,7 @@ export class MatchService {
     progress$: Observable<number>;
     private progressSubject: Subject<number>;
 
-    
+
     constructor(private http: Http) {
         this.progressSubject = new Subject<number>();
         this.progress$ = this.progressSubject.asObservable();
@@ -30,14 +30,20 @@ export class MatchService {
     }
 
     getAllMatch(token: String) {
-    const headers = new Headers({ 'Authorization': token });
-    const options = new RequestOptions({ headers: headers });
-    return this.http.get(this.baseApiUrl + 'match/fetchAll', options);
-  }
-    
+        const headers = new Headers({ 'Authorization': token });
+        const options = new RequestOptions({ headers: headers });
+        return this.http.get(this.baseApiUrl + 'match/fetchAll', options);
+    }
+
     getMatchById(id: any, token: String) {
-    const headers = new Headers({ 'Authorization': token });
-    const options = new RequestOptions({ headers: headers });
-    return this.http.get(this.baseApiUrl + 'match/getById?id=' + id, options);
-  }
+        const headers = new Headers({ 'Authorization': token });
+        const options = new RequestOptions({ headers: headers });
+        return this.http.get(this.baseApiUrl + 'match/getById?id=' + id, options);
+    }
+
+    getMatchesByClub(token: String) {
+        const headers = new Headers({ 'Authorization': token });
+        const options = new RequestOptions({ headers: headers });
+        return this.http.get(this.baseApiUrl + 'match/getByClub', options);
+    }
 }

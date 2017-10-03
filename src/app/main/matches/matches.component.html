@@ -33,8 +33,8 @@
         <li>{{match.date | date: 'yyyy-MM-dd'}} {{match.time}}</li>
         <li>
           <button class="btn btn-default" [routerLink]="['/match/',match._id]"><i class="fa fa-pencil-square-o text-info" aria-hidden="true"></i></button>
-          <button type="button" (click)="deletePlaylist(match._id)" class="btn btn-default" aria-label="Left Align">
-          <i class="fa fa-eye text-success" aria-hidden="true"></i>
+          <button type="button" [routerLink]="['/match/view/',match._id]" class="btn btn-default" aria-label="Left Align">
+            <i class="fa fa-eye text-success" aria-hidden="true"></i>
           </button>
         </li>
       </ul>
@@ -43,62 +43,6 @@
       <ul *ngIf="matches.length == 0" class="list-inline matches">
         <li>No Matches Found</li>
       </ul>
-      <!--<ul class="list-inline matches">
-        <li>
-          <img src="assets/images/real.png" alt="Home team">
-          <span>Real Madrid</span>
-        </li>
-        <li>
-          <img src="assets/images/real.png" alt="Away team">
-          <span>Real Madrid</span>
-        </li>
-        <li>Turno 28</li>
-        <li>24-03-2017 18:00</li>
-        <li>Turno 28</li>
-        <li>24-03-2017 18:00</li>
-      </ul>
-      <ul class="list-inline matches">
-        <li>
-          <img src="assets/images/real.png" alt="Home team">
-          <span>Real Madrid</span>
-        </li>
-        <li>
-          <img src="assets/images/real.png" alt="Away team">
-          <span>Real Madrid</span>
-        </li>
-        <li>Turno 28</li>
-        <li>24-03-2017 18:00</li>
-        <li>Turno 28</li>
-        <li>24-03-2017 18:00</li>
-      </ul>
-      <ul class="list-inline matches">
-        <li>
-          <img src="assets/images/real.png" alt="Home team">
-          <span>Real Madrid</span>
-        </li>
-        <li>
-          <img src="assets/images/real.png" alt="Away team">
-          <span>Real Madrid</span>
-        </li>
-        <li>Turno 28</li>
-        <li>24-03-2017 18:00</li>
-        <li>Turno 28</li>
-        <li>24-03-2017 18:00</li>
-      </ul>
-      <ul class="list-inline matches">
-        <li>
-          <img src="assets/images/real.png" alt="Home team">
-          <span>Real Madrid</span>
-        </li>
-        <li>
-          <img src="assets/images/real.png" alt="Away team">
-          <span>Real Madrid</span>
-        </li>
-        <li>Turno 28</li>
-        <li>24-03-2017 18:00</li>
-        <li>Turno 28</li>
-        <li>24-03-2017 18:00</li>
-      </ul>-->
     </div>
   </perfect-scrollbar>
 </div>

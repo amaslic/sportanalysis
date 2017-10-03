@@ -110,6 +110,7 @@ const appRoutes: Routes = [
       { path: '*', component: VideosComponent },
       { path: 'match', component: addEditMatchesComponent },
       { path: 'match/:id', component: addEditMatchesComponent },
+      { path: 'match/view/:id', component: VideosComponent },
     ]
   },
   {

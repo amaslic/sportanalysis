@@ -21,6 +21,9 @@ import {
 import {
   Router
 } from '@angular/router';
+import {
+  MatchService
+} from './../../../services/match.service';
 
 import { FormControl } from "@angular/forms";
 import 'rxjs/add/operator/startWith';
@@ -62,13 +65,15 @@ export class UploadComponent implements OnInit {
   team2: any = null;
   season: any = '2017/2018';
   protected dataService: CompleterData;
+  matches: any = [];
+  match: any = null;
 
   @ViewChild('uploadSucessModal') uploadSucessModal;
   @ViewChild('uploadErrorModal') uploadErrorModal;
   @ViewChild('ErrorModal') ErrorModal;
   @ViewChild('form') form;
 
-  constructor(private completerService: CompleterService, private clubService: ClubService, private videoService: VideoService, private userService: UserService, private r: Router, private teamService: TeamService) {
+  constructor(private completerService: CompleterService, private clubService: ClubService, private videoService: VideoService, private userService: UserService, private r: Router, private teamService: TeamService, private matchService: MatchService) {
     videoService.progress$.subscribe((newValue: number) => { this.progress = newValue; });
     this.router = r;
 
@@ -87,6 +92,17 @@ export class UploadComponent implements OnInit {
         this.ClubStatus();
         this.getAllClubs();
         this.getActivatedClubs();
+
+        this.matchService.getMatchesByClub(this.userService.token).subscribe(
+          (response: any) => {
+            this.matches = JSON.parse(response._body);
+
+            this.matches.forEach((element, index) => {
+              element.time = this.get12Time(element.time);
+            });
+          },
+          (error) => this.onError(error)
+        );
       },
       (error) => this.onError(error)
     );
@@ -350,6 +366,10 @@ export class UploadComponent implements OnInit {
     if (typeof (f.value.team2) == 'undefined')
       f.value.team2 = '';
 
+    if (f.value.type != 'Match' || typeof (f.value.match) == 'undefined') {
+      f.value.match = null;
+    }
+
     this.videoService.upload(f.value).subscribe(
       (response) => this.onUploadSuccess(response),
       (error) => this.onError(error)
@@ -458,6 +478,26 @@ export class UploadComponent implements OnInit {
       }
     }
 
+  }
+
+  get12Time(currentTime) {
+    var time = currentTime.split(':')
+    var hours = time[0];
+    var minutes = time[1];
+
+    if (minutes < 10)
+      minutes = "0" + minutes;
+
+    var suffix = "AM";
+    if (hours >= 12) {
+      suffix = "PM";
+      hours = hours - 12;
+    }
+    if (hours == 0) {
+      hours = 12;
+    }
+    var current_time = hours + ":" + minutes + " " + suffix;
+    return current_time;
   }
 
 }

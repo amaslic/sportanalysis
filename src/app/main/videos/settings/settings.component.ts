@@ -23,6 +23,9 @@ import {
 import {
   GlobalVariables
 } from './../../../models/global.model';
+import {
+  MatchService
+} from './../../../services/match.service';
 
 @Component({
   selector: 'app-settings',
@@ -60,13 +63,14 @@ export class VideoSettingsComponent implements OnInit {
   private baseTrackingDataUrl = GlobalVariables.BASE_TRACKINGDATA_URL;
   xmlUrl: any;
   xmlOriginalName: any;
+  matches: any = [];
 
 
   @ViewChild('form') form;
   @ViewChild('SucessModal') SucessModal;
   @ViewChild('ErrorModal') ErrorModal;
   @ViewChild('lnkDownloadLink') lnkDownloadLink: ElementRef;
-  constructor(private route: ActivatedRoute, private trackingDataService: TrackingDataService, private userService: UserService, private videoService: VideoService, private clubService: ClubService, private teamService: TeamService) { }
+  constructor(private route: ActivatedRoute, private trackingDataService: TrackingDataService, private userService: UserService, private videoService: VideoService, private clubService: ClubService, private teamService: TeamService, private matchService: MatchService) { }
 
   ngOnInit() {
     this.video.title = '';
@@ -75,6 +79,18 @@ export class VideoSettingsComponent implements OnInit {
         this.teamsList = JSON.parse(response._body);
         this.getAllClubs();
         this.getActivatedClubs();
+
+        this.matchService.getMatchesByClub(this.userService.token).subscribe(
+          (response: any) => {
+            this.matches = JSON.parse(response._body);
+
+            this.matches.forEach((element, index) => {
+              element.time = this.get12Time(element.time);
+            });
+          },
+          (error) => this.onError(error)
+        );
+
       },
       (error) => this.onError(error)
     );
@@ -401,6 +417,10 @@ export class VideoSettingsComponent implements OnInit {
     }
     this.getAllClubs();
 
+    if (f.value.type != 'Match' || typeof(f.value.match) == 'undefined') {
+      f.value.match = null;
+    }
+
     this.videoService.updateVideo(this.videoId, f.value, this.userService.token)
       .subscribe(
       (response) => this.onUpdateVideoSuccess(response),
@@ -511,6 +531,26 @@ export class VideoSettingsComponent implements OnInit {
       elem.nativeElement.click();
       this.xmlUrl = '';
     }, 1000);
+  }
+
+  get12Time(currentTime) {
+    var time = currentTime.split(':')
+    var hours = time[0];
+    var minutes = time[1];
+
+    if (minutes < 10)
+      minutes = "0" + minutes;
+
+    var suffix = "AM";
+    if (hours >= 12) {
+      suffix = "PM";
+      hours = hours - 12;
+    }
+    if (hours == 0) {
+      hours = 12;
+    }
+    var current_time = hours + ":" + minutes + " " + suffix;
+    return current_time;
   }
 
 }
