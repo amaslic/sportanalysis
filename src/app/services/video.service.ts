@@ -27,7 +27,7 @@ export class VideoService {
   }
 
   upload(data: any) {
-    // console.log(data);
+    console.log(data);
     const form: any = new FormData();
     form.append('user', data.user);
     form.append('title', data.title);
@@ -46,6 +46,7 @@ export class VideoService {
     form.append('tacticsTeam2', data.tacticsTeam2);
     form.append('team1', data.team1);
     form.append('team2', data.team2);
+    form.append('public', data.video_rights_allRoles);
 
     const headers = new Headers({ 'Authorization': data.token });
     const options = new RequestOptions({ headers: headers });

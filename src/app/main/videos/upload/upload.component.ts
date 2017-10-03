@@ -30,6 +30,7 @@ import { CompleterService, CompleterData } from 'ng2-completer';
 import {
   TeamService
 } from './../../../services/team.service';
+import { IMultiSelectOption, IMultiSelectSettings, IMultiSelectTexts } from 'angular-2-dropdown-multiselect';
 
 @Component({
   selector: 'app-upload',
@@ -37,6 +38,9 @@ import {
   styleUrls: ['./upload.component.css']
 })
 export class UploadComponent implements OnInit {
+  viewerUserlist: any[];
+  playerUserlist: any[];
+  teamUserlist: any[];
 
   errormsg: any;
   successmsg: any;
@@ -61,7 +65,78 @@ export class UploadComponent implements OnInit {
   team1: any = null;
   team2: any = null;
   season: any = '2017/2018';
+  team: boolean = false;
+  all: boolean = false;
+  player: boolean = false;
+  viewer: boolean = false;
+  teamlistOptions: IMultiSelectOption[];
+  teamlistSettings: IMultiSelectSettings = {
+    enableSearch: false,
+    checkedStyle: 'fontawesome',
+    containerClasses: 'no-button-arrow',
+    buttonClasses: 'btn btn-default btn-block',
+    fixedTitle: false,
+    maxHeight: '300px',
+    dynamicTitleMaxItems: 2,
+    closeOnClickOutside: true,
+    showCheckAll: true,
+    showUncheckAll: true,
+  };
+  teamlistTexts: IMultiSelectTexts = {
+    checkAll: 'Select all',
+    uncheckAll: 'Unselect all',
+    checked: 'Team selected',
+    checkedPlural: 'Team selected',
+    searchPlaceholder: 'Find',
+    defaultTitle: ' Select  Team  ',
+    allSelected: 'All Teams ',
+  };
+  viewerlistOptions: IMultiSelectOption[];
+  viewerlistSettings: IMultiSelectSettings = {
+    enableSearch: false,
+    checkedStyle: 'fontawesome',
+    containerClasses: 'no-button-arrow',
+    buttonClasses: 'btn btn-default btn-block',
+    fixedTitle: false,
+    maxHeight: '300px',
+    dynamicTitleMaxItems: 2,
+    closeOnClickOutside: true,
+    showCheckAll: true,
+    showUncheckAll: true,
+  };
+  viewerlistTexts: IMultiSelectTexts = {
+    checkAll: 'Select all',
+    uncheckAll: 'Unselect all',
+    checked: 'Viewer selected',
+    checkedPlural: 'Viewer selected',
+    searchPlaceholder: 'Find',
+    defaultTitle: ' Select  Viewer  ',
+    allSelected: 'All Teams ',
+  };
+  playerlistOptions: IMultiSelectOption[];
+  playerlistSettings: IMultiSelectSettings = {
+    enableSearch: false,
+    checkedStyle: 'fontawesome',
+    containerClasses: 'no-button-arrow',
+    buttonClasses: 'btn btn-default btn-block',
+    fixedTitle: false,
+    maxHeight: '300px',
+    dynamicTitleMaxItems: 2,
+    closeOnClickOutside: true,
+    showCheckAll: true,
+    showUncheckAll: true,
+  };
+  playerlistTexts: IMultiSelectTexts = {
+    checkAll: 'Select all',
+    uncheckAll: 'Unselect all',
+    checked: 'Player selected',
+    checkedPlural: 'Player selected',
+    searchPlaceholder: 'Find',
+    defaultTitle: ' Select  Player  ',
+    allSelected: 'All Player ',
+  };
   protected dataService: CompleterData;
+  videoRights: any = { allRoles: true, team: true, player: true, viewer: true };
 
   @ViewChild('uploadSucessModal') uploadSucessModal;
   @ViewChild('uploadErrorModal') uploadErrorModal;
@@ -91,7 +166,10 @@ export class UploadComponent implements OnInit {
       (error) => this.onError(error)
     );
 
-
+    this.userService.getVideoUsers(this.userService.token).subscribe(
+      (response) => this.onGetUsersSuccess(response),
+      (error) => this.onError(error)
+    );
 
     var user = this.userService.loadUserFromStorage();
     if (user['role'] != 3 && user['role'] != 4) {
@@ -304,6 +382,7 @@ export class UploadComponent implements OnInit {
                 //   })[0];
                 //   f.value.team2 = existclub.clubId;
                 // }
+                f.value.public = this.videoRights.allRoles;
                 this.uploadVideo(f);
               }
             },
@@ -350,6 +429,29 @@ export class UploadComponent implements OnInit {
     if (typeof (f.value.team2) == 'undefined')
       f.value.team2 = '';
 
+    if (typeof (f.value.public) == 'undefined')
+      f.value.public = '';
+    let teamArray = [];
+    if ((f.value.video_rights_team && !f.value.video_rights_allRoles) && (f.value.team && f.value.team.length > 0)) {
+      let playerlist = this.playerUserlist;
+      f.value.team.forEach(function (e) {
+        if (playerlist.length > 0) {
+          var teamPlayers = playerlist.filter(function (element, index) {
+            return (element.teams.indexOf(e) > -1)
+          });
+          if (typeof (teamPlayers) != 'undefined') {
+            if (teamPlayers.length > 0) {
+              teamArray.push(teamPlayers[0]['id']);
+            }
+          }
+        }
+      });
+      console.log(teamArray)
+    }
+
+    // this.assignedUser = f.value.team.filter(function (element, index) {
+    //   return (element._id != club._id);
+    // });
     this.videoService.upload(f.value).subscribe(
       (response) => this.onUploadSuccess(response),
       (error) => this.onError(error)
@@ -468,5 +570,78 @@ export class UploadComponent implements OnInit {
 
 
   }
+  selectAll(e) {
+    if (this.videoRights.allRoles) {
+      this.videoRights.team = true;
+      this.videoRights.player = true;
+      this.videoRights.viewer = true;
+    } else {
+      this.videoRights.team = false;
+      this.videoRights.player = false;
+      this.videoRights.viewer = false;
+    }
+  }
+  selectTeam(e) {
+    if (this.videoRights.team) {
+      if (this.videoRights.player && this.videoRights.viewer)
+        this.videoRights.allRoles = true;
+    } else {
+      this.videoRights.allRoles = false;
+    }
+  }
+  selectPlayer(e) {
+    if (this.videoRights.player) {
+      if (this.videoRights.team && this.videoRights.viewer)
+        this.videoRights.allRoles = true;
+    } else {
+      this.videoRights.allRoles = false;
+    }
 
+  }
+  selectViewer(e) {
+    if (this.videoRights.viewer) {
+      if (this.videoRights.team && this.videoRights.player)
+        this.videoRights.allRoles = true;
+    } else {
+      this.videoRights.allRoles = false;
+    }
+  }
+  onGetUsersSuccess(response) {
+    const userlist = JSON.parse(response._body);
+    this.teamUserlist = [];
+    this.playerUserlist = [];
+    this.viewerUserlist = [];
+    if (userlist['Teams'] != null) {
+      userlist['Teams'].forEach((usr, index) => {
+        this.teamUserlist.push({
+          'id': usr._id,
+          'name': usr.name
+        });
+      });
+    }
+    if (userlist['Player'] != null) {
+      userlist['Player'].forEach((usr, index) => {
+        this.playerUserlist.push({
+          'id': usr._id,
+          'name': usr.firstName,
+          'teams': usr.teams,
+        });
+      });
+    }
+    if (userlist['Viewer'] != null) {
+      userlist['Viewer'].forEach((usr, index) => {
+        this.viewerUserlist.push({
+          'id': usr._id,
+          'name': usr.firstName
+        });
+      });
+    }
+
+    this.teamlistOptions = this.teamUserlist;
+    this.playerlistOptions = this.playerUserlist;
+    console.log(this.playerlistOptions);
+    this.viewerlistOptions = this.viewerUserlist;
+    console.log(this.teamlistOptions);
+
+  }
 }

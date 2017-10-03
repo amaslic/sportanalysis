@@ -57,7 +57,7 @@
     cursor:pointer;
 } 
 #video-metadata .form-group{
-  margin-left: auto;
+   margin-left: auto; 
   margin-right: auto;
 }
 .mat-radio-checked /deep/ .mat-radio-inner-circle {
@@ -245,6 +245,17 @@ form.upload-inputs{
     color: #555555;
     display: block;
     margin-top: 5px;
+}
+.checkbox-section {
+  display: flex;
+  align-content: center;
+  align-items: center;
+  height: 60px;
+}
+
+.checkbox-margin {
+  /* margin: 0 10px; */
+  display: inline-block;
 }
 
 @media (max-width: 1339px) {
