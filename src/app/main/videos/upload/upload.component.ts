@@ -263,6 +263,26 @@ export class UploadComponent implements OnInit {
     f.value.selectedFile = this.selectedFile;
     f.value.token = this.userService.token;
     f.value.user = this.userService.user._id;
+    let teamArray = [];
+    if ((f.value.video_rights_team && !f.value.video_rights_allRoles) && (f.value.team && f.value.team.length > 0)) {
+      let playerlist = this.playerUserlist;
+      f.value.team.forEach(function (e) {
+        if (playerlist.length > 0) {
+          var teamPlayers = playerlist.filter(function (element, index) {
+            return (element.teams.indexOf(e) > -1)
+          });
+          if (typeof (teamPlayers) != 'undefined') {
+            if (teamPlayers.length > 0) {
+              teamArray.push(teamPlayers[0]['id']);
+            }
+          }
+        }
+      });
+      f.value.teamArray = teamArray;
+      if (typeof (f.value.teamArray) == 'undefined') {
+        f.value.teamArray = '';
+      }
+    }
     if (f.value.type != 'Training') {
 
 
@@ -431,23 +451,7 @@ export class UploadComponent implements OnInit {
 
     if (typeof (f.value.public) == 'undefined')
       f.value.public = '';
-    let teamArray = [];
-    if ((f.value.video_rights_team && !f.value.video_rights_allRoles) && (f.value.team && f.value.team.length > 0)) {
-      let playerlist = this.playerUserlist;
-      f.value.team.forEach(function (e) {
-        if (playerlist.length > 0) {
-          var teamPlayers = playerlist.filter(function (element, index) {
-            return (element.teams.indexOf(e) > -1)
-          });
-          if (typeof (teamPlayers) != 'undefined') {
-            if (teamPlayers.length > 0) {
-              teamArray.push(teamPlayers[0]['id']);
-            }
-          }
-        }
-      });
-      console.log(teamArray)
-    }
+
 
     // this.assignedUser = f.value.team.filter(function (element, index) {
     //   return (element._id != club._id);

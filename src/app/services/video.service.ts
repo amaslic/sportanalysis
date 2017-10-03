@@ -47,6 +47,7 @@ export class VideoService {
     form.append('team1', data.team1);
     form.append('team2', data.team2);
     form.append('public', data.video_rights_allRoles);
+    form.append('teamArray', data.teamArray);
 
     const headers = new Headers({ 'Authorization': data.token });
     const options = new RequestOptions({ headers: headers });
