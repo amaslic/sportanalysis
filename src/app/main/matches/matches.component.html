@@ -1,17 +1,49 @@
 <div class="main-part">
   <div class="heading">
-    <h2>Channel news</h2>
-    <p>Girone A</p>
+    <h2>Matches</h2>
+    <div class="pull-right"><button [routerLink]="['/match']">Add Matches</button></div>
+    <!--<p>Girone A</p>-->
   </div>
   <ul class="list-inline matches header">
-    <li>Home team</li>
-    <li>Away team</li>
-    <li>Type</li>
+    <li>Club 1</li>
+    <li>Club 2</li>
+    <li>Team 1</li>
+    <li>Team 2</li>
     <li>Date</li>
+    <li>Action</li>
   </ul>
   <perfect-scrollbar>
     <div class="scroll-matches">
-      <ul class="list-inline matches">
+      <div *ngIf="matches.length > 0">
+      <ul class="list-inline matches" *ngFor="let match of matches">
+        <li>
+          <img *ngIf=" match.club1details[0].logo != ''"[src]="baseUrl + match.club1details[0].logo" alt="Home team">
+          <img *ngIf=" match.club1details[0].logo == ''" src="assets/images/default-clublogo.png" alt="Home team">  
+          <span>{{match.club1details[0].name}}</span>
+        </li>
+        <li>
+          <img *ngIf=" match.club2details[0].logo != ''" [src]="baseUrl + match.club2details[0].logo" alt="Away team">
+          <img *ngIf=" match.club2details[0].logo == ''" src="assets/images/default-clublogo.png" alt="Home team">
+          <span>{{match.club2details[0].name}}</span>
+        </li>
+        <li *ngIf="match.team1details.length > 0">{{match.team1details[0].name}}</li>
+        <li *ngIf="match.team1details.length == 0">&nbsp;</li>
+        <li *ngIf="match.team2details.length > 0">{{match.team2details[0].name}}</li>
+        <li *ngIf="match.team2details.length == 0">&nbsp;</li>
+        <li>{{match.date | date: 'yyyy-MM-dd'}} {{match.time}}</li>
+        <li>
+          <button class="btn btn-default" [routerLink]="['/match/',match._id]"><i class="fa fa-pencil-square-o text-info" aria-hidden="true"></i></button>
+          <button type="button" (click)="deletePlaylist(match._id)" class="btn btn-default" aria-label="Left Align">
+          <i class="fa fa-eye text-success" aria-hidden="true"></i>
+          </button>
+        </li>
+      </ul>
+      </div>
+      
+      <ul *ngIf="matches.length == 0" class="list-inline matches">
+        <li>No Matches Found</li>
+      </ul>
+      <!--<ul class="list-inline matches">
         <li>
           <img src="assets/images/real.png" alt="Home team">
           <span>Real Madrid</span>
@@ -20,6 +52,8 @@
           <img src="assets/images/real.png" alt="Away team">
           <span>Real Madrid</span>
         </li>
+        <li>Turno 28</li>
+        <li>24-03-2017 18:00</li>
         <li>Turno 28</li>
         <li>24-03-2017 18:00</li>
       </ul>
@@ -34,16 +68,6 @@
         </li>
         <li>Turno 28</li>
         <li>24-03-2017 18:00</li>
-      </ul>
-      <ul class="list-inline matches">
-        <li>
-          <img src="assets/images/real.png" alt="Home team">
-          <span>Real Madrid</span>
-        </li>
-        <li>
-          <img src="assets/images/real.png" alt="Away team">
-          <span>Real Madrid</span>
-        </li>
         <li>Turno 28</li>
         <li>24-03-2017 18:00</li>
       </ul>
@@ -58,7 +82,40 @@
         </li>
         <li>Turno 28</li>
         <li>24-03-2017 18:00</li>
+        <li>Turno 28</li>
+        <li>24-03-2017 18:00</li>
       </ul>
+      <ul class="list-inline matches">
+        <li>
+          <img src="assets/images/real.png" alt="Home team">
+          <span>Real Madrid</span>
+        </li>
+        <li>
+          <img src="assets/images/real.png" alt="Away team">
+          <span>Real Madrid</span>
+        </li>
+        <li>Turno 28</li>
+        <li>24-03-2017 18:00</li>
+        <li>Turno 28</li>
+        <li>24-03-2017 18:00</li>
+      </ul>-->
     </div>
   </perfect-scrollbar>
 </div>
+
+<modal #ErrorModal class="error-modal">
+  <modal-header>
+
+  </modal-header>
+  <modal-content>
+    <p>
+      <i class="fa fa-close" aria-hidden="true"></i>
+    </p>
+    <p>
+      {{errormsg}}
+    </p>
+  </modal-content>
+  <modal-footer>
+    <button class="btn btn-primary" [routerLink]="['/home']" (click)="ErrorModal.close()">Ok</button>
+  </modal-footer>
+</modal>

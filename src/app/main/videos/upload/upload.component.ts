@@ -426,6 +426,7 @@ export class UploadComponent implements OnInit {
       }
 
       this.clubTeams1 = [];
+      this.team1 = null;
       if (typeof (userclub) != 'undefined') {
         this.teamsList.forEach((element, index) => {
           if (userclub.teams.indexOf(element._id) > -1) {
@@ -434,12 +435,6 @@ export class UploadComponent implements OnInit {
         });
       }
     }
-
-    if (this.clubTeams1.length == 0) {
-      this.team1 = null;
-    }
-    // console.log(this.clubTeams1);
-
   }
 
   onChangeofClub2() {
@@ -453,6 +448,7 @@ export class UploadComponent implements OnInit {
       }
 
       this.clubTeams2 = [];
+      this.team2 = null;
       if (typeof (userclub) != 'undefined') {
         this.teamsList.forEach((element, index) => {
           if (userclub.teams.indexOf(element._id) > -1) {
@@ -461,11 +457,6 @@ export class UploadComponent implements OnInit {
         });
       }
     }
-
-    if (this.clubTeams2.length == 0) {
-      this.team2 = null;
-    }
-
 
   }
 

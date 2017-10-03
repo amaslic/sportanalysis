@@ -1,0 +1,97 @@
+<div class="loginOverLay" *ngIf="showProgressBar">
+	<div>
+		<img src="../../assets/images/default.gif" />
+	</div>
+</div>
+
+<div class="panel panel-default">
+  <div class="panel-heading">Add Match to Sportanalysis.tv</div>
+  <div class="panel-body">
+    <div class="row container">
+
+      <div class="col-md-7 col-md-offset-3">
+        <form #form class="form-inline upload-inputs text-center" id="video-metadata" #f="ngForm" (ngSubmit)="onSubmit(f)" novalidate
+          [ngClass]="{'submited' : f._submitted}">
+
+          
+            <div class="form-group col-12">
+              <label class="control-label text-left" for="title">Date of event:</label>
+              <input [(ngModel)]="match.date" class="form-control col-12" name="date" ngui-datetime-picker date-only="true" placeholder="Date of event"
+                required>
+            </div>
+            <div class="form-group col-12">
+            <label class="control-label text-left" for="title">Time:</label>
+            <input type="time" [(ngModel)]="match.time" class="form-control col-12" name="time" id="time" placeholder="Time" required>
+          </div>
+            <div class="form-group col-12" *ngIf="(type != 'Training')">
+              <label class="control-label text-left" for="title">Club 1:</label>
+              <ng2-completer #club="ngModel" id="selectClub" [(ngModel)]="match.club1" (ngModelChange)="onChangeofClub1()" name="clubName"
+                placeholder="Club 1" [datasource]="clubData" [minSearchLength]="3" required></ng2-completer>
+
+            </div>
+            <div class="form-group col-12" *ngIf="(type != 'Training')">
+              <label class="control-label text-left" for="title">Club 2:</label>
+              <ng2-completer #club="ngModel" id="selectClub2" [(ngModel)]="match.club2" (ngModelChange)="onChangeofClub2()" name="clubName2"
+                placeholder="Club 2" [datasource]="clubData" [minSearchLength]="3" required></ng2-completer>
+
+            </div>
+            <div class="form-group col-12">
+              <label class="control-label text-left" for="title">Team 1:</label>
+              <!--<ng2-completer id="selectTeam1" #club="ngModel" [(ngModel)]="team1" name="team1" placeholder="Team 1" [datasource]="clubData"
+              [minSearchLength]="3"></ng2-completer>-->
+              <select name="team1" #team class="form-control" [(ngModel)]="match.team1">
+              <option value="null">Select Team 1</option>
+              <option *ngFor="let team of clubTeams1" [ngValue]="team._id">{{team.name}}</option>
+            </select>
+            </div>
+            <div class="form-group col-12">
+              <label class="control-label text-left" for="title">Team 2:</label>
+              <!--<ng2-completer #club="ngModel" id="selectTeam2" [(ngModel)]="team2" name="team2" placeholder="Team 2" [datasource]="clubData"
+              [minSearchLength]="3"></ng2-completer>-->
+              <select name="team2" #team class="form-control" [(ngModel)]="match.team2">
+              <option value="null">Select Team 2</option>
+              <option *ngFor="let team of clubTeams2" [ngValue]="team._id">{{team.name}}</option>
+            </select>
+            </div>
+
+          <div class="upload-div">
+            <button class="btn btn-round btn-blue-outline btn-upload" type="submit" [disabled]="!f.form.valid && f._submitted">Add Match</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+<modal #SucessModal>
+  <modal-header>
+
+  </modal-header>
+  <modal-content>
+    <p>
+      <i class="fa fa-check" aria-hidden="true"></i>
+    </p>
+    <p>
+      {{successmsg}}
+    </p>
+  </modal-content>
+  <modal-footer>
+    <button class="btn btn-primary" [routerLink]="['/matches']" (click)="SucessModal.close()">Ok</button>
+  </modal-footer>
+</modal>
+<modal #ErrorModal class="error-modal">
+  <modal-header>
+
+  </modal-header>
+  <modal-content>
+    <p>
+      <i class="fa fa-close" aria-hidden="true"></i>
+    </p>
+    <p>
+      {{errormsg}}
+    </p>
+  </modal-content>
+  <modal-footer>
+    <button class="btn btn-primary" [routerLink]="['/matches']" (click)="ErrorModal.close()">Ok</button>
+  </modal-footer>
+</modal>
