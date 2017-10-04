@@ -48,9 +48,13 @@ export class LoginComponent implements OnInit {
     this.userService.setUser(responseBody.user);
     this.userService.setToken(responseBody.token);
     this.userService.saveUserToStorage();
-    if (responseBody.user.admin) {
+    if (responseBody.user.role == 1 || responseBody.user.role == 2) {
       this.router.navigateByUrl('/backoffice/users');
-    } else {
+    }
+    else if (responseBody.user.role == 6) {
+      this.router.navigateByUrl('/videos');
+    }
+    else {
       this.router.navigateByUrl('/club/' + responseBody.user.club);
     }
 
