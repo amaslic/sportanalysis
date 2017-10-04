@@ -127,6 +127,7 @@ const appRoutes: Routes = [
       { path: '*', component: UsersComponent },
       { path: 'videos-settings/:id', component: VideosSettingComponent },
       { path: 'playlist/view/:id', component: PlaylistViewComponent },
+      { path: 'profile/main', component: ProfileComponent },
     ]
   },
   { path: "*", redirectTo: 'videos' }

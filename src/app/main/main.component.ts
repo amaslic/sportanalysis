@@ -27,6 +27,7 @@ export class MainComponent implements OnInit {
   profile_path: string;
   isAdmin: boolean;
   isCoachOrAnalyst: Boolean;
+  isViewer: Boolean;
   coach: Boolean;
   clubid: any;
   club: any;
@@ -78,8 +79,11 @@ export class MainComponent implements OnInit {
     if (user['role'] == 3 || user['role'] == 4) {
       this.isCoachOrAnalyst = true;
     }
-    else if (user['isAdmin']) {
+    else if (user['role'] == 1 || user['role'] == 2) {
       this.isAdmin = true;
+    }
+    else if (user['role'] == 6) {
+      this.isViewer = true;
     }
     else {
       this.isCoachOrAnalyst = false;

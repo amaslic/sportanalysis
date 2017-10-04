@@ -25,6 +25,7 @@ import { CropperSettings, ImageCropperComponent, Bounds } from "ng2-img-cropper"
   styleUrls: ['./profile-main.component.css']
 })
 export class ProfileMainComponent implements OnInit {
+  isAdmin: boolean;
   profile_path: string;
   cropperSettings2: CropperSettings;
   cropperSettings: CropperSettings;
@@ -109,6 +110,9 @@ export class ProfileMainComponent implements OnInit {
     console.log(this.userList);
     this.loadingIndicator = false;
     this.clubName = this.user.club['name'];
+    if (this.user && (this.user.role == 1 || this.user.role == 2)) {
+      this.isAdmin = true;
+    }
     this.cpass._id = this.user._id;
     let time = new Date();
     this.profile_path = this.baseImageUrl + '/profile/' + this.user._id + '.png?date=' + time.getTime();
