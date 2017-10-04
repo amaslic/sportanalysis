@@ -200,6 +200,9 @@ form .form-group .form-control::-ms-input-placeholder { /* Microsoft Edge */
     margin-bottom: 160px;
 }
 
+.width{width: 100%;}
+.margin-left-0{margin-left:0px !important;}
+
 form.upload-inputs{
     margin: auto;
 }
@@ -240,6 +243,9 @@ form.upload-inputs{
 :host >>> .completer-input:-moz-placeholder { /* Firefox 18- */
   color :#b6bac9;
   font-weight:bold;
+}
+:host >>> .mat-checkbox-checked.mat-accent .mat-checkbox-background, .mat-checkbox-indeterminate.mat-accent .mat-checkbox-background{
+    background-color:#009cff;
 }
 #video-metadata.form-inline .control-label{
     color: #555555;
