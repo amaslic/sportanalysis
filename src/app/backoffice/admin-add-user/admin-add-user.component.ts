@@ -139,7 +139,6 @@ export class AdminAddUserComponent implements OnInit {
 
     this.showProgressBar = true;
 
-    if(this.user.role != 6){
     var clubname = this.user.club;
 
     var userclub = this.allClubList.filter(function (element, index) {
@@ -160,10 +159,7 @@ export class AdminAddUserComponent implements OnInit {
 
       this.createNewUser(this.user);
     }
-    }else{
-      this.user.club = '';
-      this.createNewUser(this.user);
-    }
+
 
   }
 

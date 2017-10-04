@@ -89,6 +89,12 @@ export class UserService {
     const options = new RequestOptions({ headers: headers, params: { loggedInUserId: loggedInUserId } });
     return this.http.get(this.baseApiUrl + 'user/fetchAll', options);
   }
+  getVideoUsers(token: String) {
+    const headers = new Headers({ 'Authorization': token });
+    var loggedInUserId = this.localStorageService.get('user')['_id'];
+    const options = new RequestOptions({ headers: headers, params: { loggedInUserId: loggedInUserId } });
+    return this.http.get(this.baseApiUrl + 'user/getVideoUsers', options);
+  }
 
   getUnApprovedUsers(token: String) {
     const headers = new Headers({ 'Authorization': token });

@@ -27,7 +27,7 @@ export class VideoService {
   }
 
   upload(data: any) {
-    // console.log(data);
+    console.log(data);
     const form: any = new FormData();
     form.append('user', data.user);
     form.append('title', data.title);
@@ -46,6 +46,14 @@ export class VideoService {
     form.append('tacticsTeam2', data.tacticsTeam2);
     form.append('team1', data.team1);
     form.append('team2', data.team2);
+    form.append('shareWithAll', data.video_rights_allRoles);
+    form.append('shareWithTeams', data.video_rights_team);
+    form.append('shareWithPlayers', data.video_rights_player);
+    form.append('shareWithViewers', data.video_rights_viewer);
+    form.append('team', data.team);
+    form.append('sharedWithUsers', data.sharedWithUsers);
+    form.append('sharedWithTeams', data.sharedWithTeams);
+    form.append('viewer', data.viewer);
     form.append('match', data.match);
 
     const headers = new Headers({ 'Authorization': data.token });
