@@ -38,6 +38,9 @@ import { IMultiSelectOption, IMultiSelectSettings, IMultiSelectTexts } from 'ang
   styleUrls: ['./upload.component.css']
 })
 export class UploadComponent implements OnInit {
+  viewerlistModel: any = [];
+  teamlistModel: any = [];
+  playerlistModel: any = [];
   viewerUserlist: any[];
   playerUserlist: any[];
   teamUserlist: any[];
@@ -259,11 +262,27 @@ export class UploadComponent implements OnInit {
       return false;
     }
 
+    if (!f.value.video_rights_allRoles) {
+      if (f.value.team && f.value.team.length == 0) {
+        alert("Please select team");
+        return false;
+      }
+      if (f.value.player && f.value.player.length == 0) {
+        alert("Please select player");
+        return false;
+      }
+      if (f.value.viewer && f.value.viewer.length == 0) {
+        alert("Please select viewer");
+        return false;
+      }
+    }
+
     this.uploading = true;
     f.value.selectedFile = this.selectedFile;
     f.value.token = this.userService.token;
     f.value.user = this.userService.user._id;
     let teamArray = [];
+    let sharedUsers = [];
     if ((f.value.video_rights_team && !f.value.video_rights_allRoles) && (f.value.team && f.value.team.length > 0)) {
       let playerlist = this.playerUserlist;
       f.value.team.forEach(function (e) {
@@ -283,6 +302,21 @@ export class UploadComponent implements OnInit {
         f.value.teamArray = '';
       }
     }
+    console.log('player', f.value.player);
+    if ((f.value.video_rights_player && !f.value.video_rights_allRoles) && (f.value.player && f.value.player.length > 0)) {
+      console.log('player', f.value.player);
+      teamArray = teamArray.concat(f.value.player);
+    }
+    console.log('Viewer', f.value.viewer);
+    if ((f.value.video_rights_viewer && !f.value.video_rights_allRoles) && (f.value.viewer && f.value.viewer.length > 0)) {
+      console.log('Viewer', f.value.viewer);
+      teamArray = teamArray.concat(f.value.viewer);
+    }
+
+
+    sharedUsers = this.remove_duplicates(teamArray);
+
+    f.value.sharedWithUsers = sharedUsers;
     if (f.value.type != 'Training') {
 
 
@@ -587,16 +621,16 @@ export class UploadComponent implements OnInit {
   }
   selectTeam(e) {
     if (this.videoRights.team) {
-      if (this.videoRights.player && this.videoRights.viewer)
-        this.videoRights.allRoles = true;
+      // if (this.videoRights.player && this.videoRights.viewer)
+      //   this.videoRights.allRoles = true;
     } else {
       this.videoRights.allRoles = false;
     }
   }
   selectPlayer(e) {
     if (this.videoRights.player) {
-      if (this.videoRights.team && this.videoRights.viewer)
-        this.videoRights.allRoles = true;
+      // if (this.videoRights.team && this.videoRights.viewer)
+      //   this.videoRights.allRoles = true;
     } else {
       this.videoRights.allRoles = false;
     }
@@ -604,8 +638,8 @@ export class UploadComponent implements OnInit {
   }
   selectViewer(e) {
     if (this.videoRights.viewer) {
-      if (this.videoRights.team && this.videoRights.player)
-        this.videoRights.allRoles = true;
+      // if (this.videoRights.team && this.videoRights.player)
+      //   this.videoRights.allRoles = true;
     } else {
       this.videoRights.allRoles = false;
     }
@@ -621,6 +655,7 @@ export class UploadComponent implements OnInit {
           'id': usr._id,
           'name': usr.name
         });
+        this.teamlistModel.push(usr._id);
       });
     }
     if (userlist['Player'] != null) {
@@ -630,6 +665,7 @@ export class UploadComponent implements OnInit {
           'name': usr.firstName,
           'teams': usr.teams,
         });
+        this.playerlistModel.push(usr._id);
       });
     }
     if (userlist['Viewer'] != null) {
@@ -638,14 +674,27 @@ export class UploadComponent implements OnInit {
           'id': usr._id,
           'name': usr.firstName
         });
+        this.viewerlistModel.push(usr._id);
       });
     }
 
     this.teamlistOptions = this.teamUserlist;
     this.playerlistOptions = this.playerUserlist;
-    console.log(this.playerlistOptions);
+
+
     this.viewerlistOptions = this.viewerUserlist;
     console.log(this.teamlistOptions);
 
+  }
+  remove_duplicates(arr) {
+    let obj = {};
+    for (let i = 0; i < arr.length; i++) {
+      obj[arr[i]] = true;
+    }
+    arr = [];
+    for (let key in obj) {
+      arr.push(key);
+    }
+    return arr;
   }
 }

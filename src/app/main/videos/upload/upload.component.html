@@ -179,7 +179,7 @@
 
           <div class="form-group" *ngIf="(videoRights.allRoles==false && videoRights.team==true)">
             <label class="control-label text-left" for="title">Teams:</label>
-            <ss-multiselect-dropdown name="team" [options]="teamlistOptions" [texts]="teamlistTexts" [settings]="teamlistSettings" [(ngModel)]="userlistModel"></ss-multiselect-dropdown>
+            <ss-multiselect-dropdown name="team" [options]="teamlistOptions" [texts]="teamlistTexts" [settings]="teamlistSettings" [(ngModel)]="teamlistModel"></ss-multiselect-dropdown>
           </div>
           <div class="form-group" *ngIf="(videoRights.allRoles==false && videoRights.player==true)">
             <label class="control-label text-left" for="title">Player:</label>
