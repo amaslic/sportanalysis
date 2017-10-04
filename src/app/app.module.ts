@@ -31,6 +31,7 @@ import { TrackingDataService } from './services/trackingData.service';
 import { ClubService } from './services/club.service';
 import { PlaylistService } from './services/playlist.service';
 import { TeamService } from './services/team.service';
+import { MatchService } from './services/match.service';
 
 import { MainComponent } from './main/main.component';
 import { AdminGuard } from './admin-guard.service';
@@ -80,6 +81,9 @@ import { SearchVideoTimelineTeamPipe } from './pipes/searchVideoTimelineTeam.pip
 import { ClassNamePipe } from './pipes/className.pipe';
 import { Ng2CompleterModule } from "ng2-completer";
 import { ImageCropperComponent, CropperSettings, Bounds } from 'ng2-img-cropper';
+//import { AddEditMatchesComponent } from './main/addEditMatches/addEditMatchesComponent.component';
+import { addEditMatchesComponent } from './main/addEditMatches/addEditMatches.component';
+
 
 const PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {};
 
@@ -103,7 +107,10 @@ const appRoutes: Routes = [
       { path: 'clubs', component: ClubsComponent },
       { path: 'club/:id', component: ClubComponent },
       { path: 'players', component: PlayersComponent },
-      { path: '*', component: VideosComponent }
+      { path: '*', component: VideosComponent },
+      { path: 'match', component: addEditMatchesComponent },
+      { path: 'match/:id', component: addEditMatchesComponent },
+      { path: 'match/view/:id', component: VideosComponent },
     ]
   },
   {
@@ -166,6 +173,7 @@ const appRoutes: Routes = [
     AdminEditUserComponent,
     VideosSettingComponent,
     ImageCropperComponent,
+    addEditMatchesComponent,
   ],
   imports: [
     BrowserModule,
@@ -192,7 +200,7 @@ const appRoutes: Routes = [
     MultiselectDropdownModule,
     Ng2CompleterModule
   ],
-  providers: [UserService, VideoService, TrackingDataService, AuthGuard, AdminGuard, ClubService, PlaylistService, TeamService],
+  providers: [UserService, VideoService, TrackingDataService, AuthGuard, AdminGuard, ClubService, PlaylistService, TeamService,MatchService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

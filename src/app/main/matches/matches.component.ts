@@ -1,10 +1,19 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import {
   LocalStorageService
 } from 'angular-2-local-storage';
 import {
   Router, ActivatedRoute
 } from '@angular/router';
+import {
+  UserService
+} from './../../services/user.service';
+import {
+  MatchService
+} from './../../services/match.service';
+import {
+  GlobalVariables
+} from './../../models/global.model';
 
 @Component({
   selector: 'app-matches',
@@ -12,19 +21,61 @@ import {
   styleUrls: ['./matches.component.css']
 })
 export class MatchesComponent implements OnInit {
-  coach: Boolean;
-  admin: Boolean;
-  constructor(private localStorageService: LocalStorageService, private r: Router) {
-    let user: any = this.localStorageService.get('user');
-    this.admin = user['admin'];
-    this.coach = user['coach'];
+  userDetails: {};
+  isCoach: boolean;
+  errormsg: any;
+  matches: any = [];
+  private baseUrl = GlobalVariables.BASE_VIDEO_URL;
+
+  @ViewChild('ErrorModal') ErrorModal;
+  constructor(private userService: UserService, private r: Router, private matchService: MatchService) {
+    this.userDetails = this.userService.loadUserFromStorage();
+    if (this.userDetails['role'] == 3 || this.userDetails['role'] == 4) {
+      this.isCoach = true;
+    } else {
+      this.isCoach = false;
+    }
   }
 
   ngOnInit() {
-    if (!this.admin) {
-      this.r.navigateByUrl('/videos');
-    }
+    this.matchService.getAllMatch(this.userService.token).subscribe(
+      (response: any) => {
+        this.matches = JSON.parse(response._body);
+
+        this.matches.forEach((element, index) => {
+          element.time = this.get12Time(element.time);
+        });
+      },
+      (error) => this.onError(error)
+    );
 
   }
+
+  onError(error) {
+    const errorBody = JSON.parse(error._body);
+    this.errormsg = errorBody.message;
+    this.ErrorModal.open();
+  }
+
+  get12Time(currentTime) {
+    var time = currentTime.split(':')
+    var hours = time[0];
+    var minutes = time[1];
+
+    if (minutes < 10)
+        minutes = "0" + minutes;
+
+    var suffix = "AM";
+    if (hours >= 12) {
+        suffix = "PM";
+        hours = hours - 12;
+    }
+    if (hours == 0) {
+        hours = 12;
+    }
+    var current_time = hours + ":" + minutes + " " + suffix;
+    return current_time;
+}
+
 
 }

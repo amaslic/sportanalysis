@@ -54,6 +54,7 @@ export class VideoService {
     form.append('sharedWithUsers', data.sharedWithUsers);
     form.append('sharedWithTeams', data.sharedWithTeams);
     form.append('viewer', data.viewer);
+    form.append('match', data.match);
 
     const headers = new Headers({ 'Authorization': data.token });
     const options = new RequestOptions({ headers: headers });
@@ -100,5 +101,11 @@ export class VideoService {
     const headers = new Headers({ 'Authorization': token });
     const options = new RequestOptions({ headers: headers });
     return this.http.get(this.baseApiUrl + 'video/getVideosClub?club=' + id, options);
+  }
+
+  getVideosByMatch(id: any, token: String) {
+    const headers = new Headers({ 'Authorization': token });
+    const options = new RequestOptions({ headers: headers });
+    return this.http.get(this.baseApiUrl + 'video/getVideosByMatch?match=' + id, options);
   }
 }

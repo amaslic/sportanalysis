@@ -173,3 +173,11 @@ select.form-control {
     box-shadow: none;
     color: black;
 }        
+
+.fa-window-close{
+  padding-right: 15px;
+}
+
+.list-group-item span i{
+  cursor: pointer;
+}

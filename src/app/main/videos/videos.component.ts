@@ -52,6 +52,9 @@ export class VideosComponent implements OnInit {
   videoOriginalName: any;
   private router: Router;
 
+  private sub: any;
+  private id: String;
+
   userlistSettings: IMultiSelectSettings = {
     enableSearch: true,
     checkedStyle: 'fontawesome',
@@ -69,22 +72,39 @@ export class VideosComponent implements OnInit {
   @ViewChild('videoSucessModal') videoSucessModal;
   @ViewChild('lnkDownloadLink') lnkDownloadLink: ElementRef;
 
-  constructor(private clubService: ClubService, private videoService: VideoService, private userService: UserService, r: Router) {
+  constructor(private clubService: ClubService, private videoService: VideoService, private userService: UserService, r: Router, private route: ActivatedRoute) {
     this.router = r;
   }
 
   ngOnInit() {
     this.ClubStatus();
 
-    this.getVideos();
     this.gridView();
     this.userDetails = this.userService.loadUserFromStorage();
     if (this.userDetails['role'] == 3 || this.userDetails['role'] == 4) {
       this.isCoach = true;
     }
 
+    this.sub = this.route.params.subscribe(params => {
+      this.id = params['id'];
+      if (typeof (this.id) == 'undefined') {
+        this.getVideos();
+      } else {
+        this.getVideosbyMatch();
+      }
+    });
+
 
   }
+
+  getVideosbyMatch() {
+    this.videoService.getVideosByMatch(this.id, this.userService.token).subscribe(
+      (response) => this.onGetVideosSuccess(response),
+      (error) => this.onError(error)
+    );
+
+  }
+
   ClubStatus() {
     this.clubService.checkClubActive(this.userService.token).subscribe(
       (response) => this.onClubStatusSuccess(response),

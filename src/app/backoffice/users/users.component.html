@@ -25,13 +25,13 @@
                 </div>
             </div>
             <div>
-
+                
                 <ngx-datatable #activetable class="material" [columnMode]="'standard'" [rows]="usersList" (onRowsUpdate)='updateRows()'>
-                    <ngx-datatable-column [flexGrow]="3" [width]="180" name="Email" prop="email"> </ngx-datatable-column>
+                    <ngx-datatable-column [flexGrow]="3" [width]="210" name="Email" prop="email"> </ngx-datatable-column>
                     <ngx-datatable-column name="First Name" [width]="90" prop="firstName"> </ngx-datatable-column>
-                    <ngx-datatable-column name="Last Name" [width]="90" prop="lastName"> </ngx-datatable-column>
-                    <ngx-datatable-column name="Club" [width]="80" prop="club"> </ngx-datatable-column>
-                    <ngx-datatable-column name="Team(s)" [width]="200" prop="teams"> </ngx-datatable-column>
+                    <ngx-datatable-column name="Last Name" [width]="130" prop="lastName"> </ngx-datatable-column>
+                    <ngx-datatable-column name="Club" [width]="100" prop="club"> </ngx-datatable-column>
+                    <ngx-datatable-column name="Team(s)" [width]="150" prop="teams"> </ngx-datatable-column>
                     <!-- <ngx-datatable-column name="Club Function" prop="clubFunction"> </ngx-datatable-column> -->
                     <ngx-datatable-column name="Phone Number" prop="phone"> </ngx-datatable-column>
                     <ngx-datatable-column name="Role" [width]="90">
@@ -75,11 +75,11 @@
             </div>
             <div>
                 <ngx-datatable #deactivetable class="material" [columnMode]="'standard'" [rows]="unApprovedUsers">
-                    <ngx-datatable-column [flexGrow]="3" [width]="180" name="Email" prop="email"> </ngx-datatable-column>
+                    <ngx-datatable-column [flexGrow]="3" [width]="210" name="Email" prop="email"> </ngx-datatable-column>
                     <ngx-datatable-column name="First Name" [width]="90" prop="firstName"> </ngx-datatable-column>
-                    <ngx-datatable-column name="Last Name" [width]="90" prop="lastName"> </ngx-datatable-column>
-                    <ngx-datatable-column name="Club" [width]="80" prop="club"> </ngx-datatable-column>
-                    <ngx-datatable-column name="Team(s)" [width]="200" prop="teams"> </ngx-datatable-column>
+                    <ngx-datatable-column name="Last Name" [width]="130" prop="lastName"> </ngx-datatable-column>
+                    <ngx-datatable-column name="Club" [width]="100" prop="club"> </ngx-datatable-column>
+                    <ngx-datatable-column name="Team(s)" [width]="150" prop="teams"> </ngx-datatable-column>
                     <!-- <ngx-datatable-column name="Club Function" prop="clubFunction"> </ngx-datatable-column> -->
                     <ngx-datatable-column name="Phone Number" prop="phone"> </ngx-datatable-column>
                     <ngx-datatable-column name="Role" [width]="90">
