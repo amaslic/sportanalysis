@@ -46,8 +46,14 @@ export class VideoService {
     form.append('tacticsTeam2', data.tacticsTeam2);
     form.append('team1', data.team1);
     form.append('team2', data.team2);
-    form.append('public', data.video_rights_allRoles);
-    form.append('teamArray', data.teamArray);
+    form.append('shareWithAll', data.video_rights_allRoles);
+    form.append('shareWithTeams', data.video_rights_team);
+    form.append('shareWithPlayers', data.video_rights_player);
+    form.append('shareWithViewers', data.video_rights_viewer);
+    form.append('team', data.team);
+    form.append('sharedWithUsers', data.sharedWithUsers);
+    form.append('sharedWithTeams', data.sharedWithTeams);
+    form.append('viewer', data.viewer);
 
     const headers = new Headers({ 'Authorization': data.token });
     const options = new RequestOptions({ headers: headers });
