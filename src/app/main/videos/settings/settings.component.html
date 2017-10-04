@@ -29,7 +29,7 @@
             <div *ngIf="(video.type == 'Match')" class="form-group">
               <label class="control-label col-sm-3" for="title">Match:</label>
               <div class="col-sm-9">
-                <select name="match" #team class="form-control" [(ngModel)]="video.match">
+                <select name="match" #team class="form-control" [(ngModel)]="video.match" (ngModelChange)="onChangeofMatch()">
                   <option value="null">Select Match</option>
                   <option *ngFor="let m of matches" [ngValue]="m._id">{{m.club1details[0].name}} vs {{m.club2details[0].name}} ({{m.date | date: 'yyyy-MM-dd'}} {{m.time}}) </option>
                 </select>

@@ -68,6 +68,8 @@ export class UploadComponent implements OnInit {
   matches: any = [];
   match: any = null;
 
+  date:any;
+
   @ViewChild('uploadSucessModal') uploadSucessModal;
   @ViewChild('uploadErrorModal') uploadErrorModal;
   @ViewChild('ErrorModal') ErrorModal;
@@ -498,6 +500,31 @@ export class UploadComponent implements OnInit {
     }
     var current_time = hours + ":" + minutes + " " + suffix;
     return current_time;
+  }
+
+  onChangeofMatch() {
+    
+    var matchId = this.match;
+    if (this.match != null) {
+      var matchData = this.matches.filter(function (element, index) {
+        return (element._id === matchId);
+      })[0];
+
+      if(typeof(matchData) != 'undefined'){
+        
+        this.date = matchData.date;
+        this.clubName = matchData.club1details[0].name;
+        this.clubName2 = matchData.club2details[0].name;
+
+        this.onChangeofClub1();
+        this.onChangeofClub2();
+
+        this.team1 = matchData.team1;
+        this.team2 = matchData.team2;
+      }
+
+    }
+
   }
 
 }

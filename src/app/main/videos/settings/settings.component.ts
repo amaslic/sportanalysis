@@ -177,8 +177,8 @@ export class VideoSettingsComponent implements OnInit {
     // if (typeof (teamBClub) != 'undefined')
     //   this.video.team2 = teamBClub.name;
 
-    this.onChangeofClub1();
-    this.onChangeofClub2();
+    this.onChangeofClub1(1);
+    this.onChangeofClub2(1);
   }
 
 
@@ -417,7 +417,7 @@ export class VideoSettingsComponent implements OnInit {
     }
     this.getAllClubs();
 
-    if (f.value.type != 'Match' || typeof(f.value.match) == 'undefined') {
+    if (f.value.type != 'Match' || typeof (f.value.match) == 'undefined') {
       f.value.match = null;
     }
 
@@ -477,7 +477,7 @@ export class VideoSettingsComponent implements OnInit {
     this.SucessModal.open();
   }
 
-  onChangeofClub1() {
+  onChangeofClub1(flag) {
     var clubname = this.video.clubName;
 
     if (clubname != null) {
@@ -488,7 +488,8 @@ export class VideoSettingsComponent implements OnInit {
       }
 
       this.clubTeams1 = [];
-      this.video.team1 = null;
+      if (flag != 1)
+        this.video.team1 = null;
       if (typeof (userclub) != 'undefined') {
         this.teamsList.forEach((element, index) => {
           if (userclub.teams.indexOf(element._id) > -1) {
@@ -499,7 +500,7 @@ export class VideoSettingsComponent implements OnInit {
     }
   }
 
-  onChangeofClub2() {
+  onChangeofClub2(flag) {
     var clubname = this.video.clubName2;
 
     if (clubname != null) {
@@ -510,7 +511,8 @@ export class VideoSettingsComponent implements OnInit {
       }
 
       this.clubTeams2 = [];
-      this.video.team2 = null;
+      if (flag != 1)
+        this.video.team2 = null;
       if (typeof (userclub) != 'undefined') {
         this.teamsList.forEach((element, index) => {
           if (userclub.teams.indexOf(element._id) > -1) {
@@ -551,6 +553,31 @@ export class VideoSettingsComponent implements OnInit {
     }
     var current_time = hours + ":" + minutes + " " + suffix;
     return current_time;
+  }
+
+  onChangeofMatch() {
+    
+    var matchId = this.video.match;
+    if (this.video.match != null) {
+      var matchData = this.matches.filter(function (element, index) {
+        return (element._id === matchId);
+      })[0];
+
+      if(typeof(matchData) != 'undefined'){
+        
+        this.video.date = matchData.date;
+        this.video.clubName = matchData.club1details[0].name;
+        this.video.clubName2 = matchData.club2details[0].name;
+
+        this.onChangeofClub1(0);
+        this.onChangeofClub2(0);
+
+        this.video.team1 = matchData.team1;
+        this.video.team2 = matchData.team2;
+      }
+
+    }
+
   }
 
 }

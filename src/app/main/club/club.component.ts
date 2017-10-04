@@ -327,4 +327,22 @@ export class ClubComponent implements OnInit {
     var current_time = hours + ":" + minutes + " " + suffix;
     return current_time;
   }
+
+  deleteMatchById(id){
+  if (confirm("Are you sure you want to delete this match? It will delete all videos, events and playlist attached to this match.")) {
+      this.matchService.deleteMatchById(id, this.userService.token).subscribe(
+        (response) => { this.matchDeleteSuccess(response,id) },
+        (error) => this.onError(error)
+      );
+    }
+}
+
+matchDeleteSuccess(response,id) {
+    this.successmsg = JSON.parse(response._body).message;
+    this.SucessModal.open();
+    
+     this.matches = this.matches.filter(function (element, index) {
+        return (element._id !== id);
+      });
+  }
 }

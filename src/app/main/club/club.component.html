@@ -209,9 +209,13 @@
                 <li *ngIf="match.team2details.length == 0">&nbsp;</li>
                 <li>{{match.date | date: 'yyyy-MM-dd'}} {{match.time}}</li>
                 <li>
+                  <button *ngIf="userService.user._id == match.user" class="btn btn-default" [routerLink]="['/match/',match._id]"><i class="fa fa-pencil-square-o text-info" aria-hidden="true"></i></button>
                   <button type="button" [routerLink]="['/match/view/',match._id]" class="btn btn-default" aria-label="Left Align">
                   <i class="fa fa-eye text-success" aria-hidden="true"></i>
                 </button>
+                  <button *ngIf="userService.user._id == match.user" type="button" (click)="deleteMatchById(match._id)" class="btn btn-default" aria-label="Left Align">
+                     <i class="fa fa-trash text-danger" aria-hidden="true"></i>
+                  </button>
                 </li>
               </ul>
             </div>

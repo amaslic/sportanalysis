@@ -54,6 +54,7 @@ import { UsersComponent } from './backoffice/users/users.component';
 import { AdminAddUserComponent } from './backoffice/admin-add-user/admin-add-user.component';
 import { AdminEditUserComponent } from './backoffice/admin-edit-user/admin-edit-user.component';
 import { TeamsComponent } from './backoffice/teams/teams.component';
+import { MatchComponent } from './backoffice/matches/matches.component';
 
 import { PlaylistsComponent } from './backoffice/playlist/playlists.component';
 
@@ -122,6 +123,7 @@ const appRoutes: Routes = [
       { path: 'add-user', component: AdminAddUserComponent },
       { path: 'edit-user/:id', component: AdminEditUserComponent },
       { path: 'teams', component: TeamsComponent },
+      { path: 'matches-overview', component: MatchComponent },
       { path: '*', component: UsersComponent },
       { path: 'videos-settings/:id', component: VideosSettingComponent },
       { path: 'playlist/view/:id', component: PlaylistViewComponent },
@@ -152,6 +154,7 @@ const appRoutes: Routes = [
     BackofficeComponent,
     UsersComponent,
     TeamsComponent,
+    MatchComponent,
     OrderByPipe,
     ProfileComponent,
     ProfileMainComponent,

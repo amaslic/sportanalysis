@@ -26,7 +26,9 @@ export class MatchesComponent implements OnInit {
   errormsg: any;
   matches: any = [];
   private baseUrl = GlobalVariables.BASE_VIDEO_URL;
+  successmsg: any;
 
+  @ViewChild('SucessModal') SucessModal;
   @ViewChild('ErrorModal') ErrorModal;
   constructor(private userService: UserService, private r: Router, private matchService: MatchService) {
     this.userDetails = this.userService.loadUserFromStorage();
@@ -77,5 +79,22 @@ export class MatchesComponent implements OnInit {
     return current_time;
 }
 
+deleteMatchById(id){
+  if (confirm("Are you sure you want to delete this match? It will delete all videos, events and playlist attached to this match.")) {
+      this.matchService.deleteMatchById(id, this.userService.token).subscribe(
+        (response) => { this.matchDeleteSuccess(response,id) },
+        (error) => this.onError(error)
+      );
+    }
+}
+
+matchDeleteSuccess(response,id) {
+    this.successmsg = JSON.parse(response._body).message;
+    this.SucessModal.open();
+    
+     this.matches = this.matches.filter(function (element, index) {
+        return (element._id !== id);
+      });
+  }
 
 }
