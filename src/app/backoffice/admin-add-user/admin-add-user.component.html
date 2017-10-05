@@ -41,15 +41,15 @@
           <!-- <input type="text" *ngIf="!isAdminOrCoach" name="club" disabled [(ngModel)]="user.club" class="form-control" placeholder="Club"
             required> -->
         </div>
-        <div class="form-group" *ngIf="user.role!=3">
+        <div class="form-group" *ngIf="user.role!=3 && isAdmin">
           <select name="teams" #teams class="form-control role-select" [(ngModel)]="user.team" required>
             <option value="null" disabled>Select Team </option>
             <option *ngFor="let team of clubTeams" [ngValue]="team._id">{{team.name}}</option>
           </select>
         </div>
         <div class="form-group" *ngIf="user.role==3">
-          <ss-multiselect-dropdown style="padding:0 !important;" name="teams" [options]="teamslistOptions" [texts]="teamslistTexts" [settings]="teamslistSettings"
-                [(ngModel)]="user.teams"></ss-multiselect-dropdown>
+          <ss-multiselect-dropdown style="padding:0 !important;" name="teams" [options]="teamslistOptions" [texts]="teamslistTexts"
+            [settings]="teamslistSettings" [(ngModel)]="user.teams"></ss-multiselect-dropdown>
         </div>
         <!-- <div class="form-group">
 

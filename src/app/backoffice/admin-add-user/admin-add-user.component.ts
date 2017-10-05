@@ -94,6 +94,7 @@ export class AdminAddUserComponent implements OnInit {
     } else {
       this.isAdmin = false;
       this.user.club = user['club'];
+      this.user.team = user['team'];
     }
     this.user.role = null;
     // this.user.coach = null;

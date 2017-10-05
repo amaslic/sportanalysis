@@ -100,6 +100,8 @@ export class AdminEditUserComponent implements OnInit {
             this.isAdmin = true;
         } else {
             this.isAdmin = false;
+            this.user.club = user['club'];
+            this.user.team = user['team'];
         }
         this.user.team = null;
 
@@ -136,7 +138,7 @@ export class AdminEditUserComponent implements OnInit {
             return false;
         }
 
-        if(this.user.role == 3 && this.user.teams.length == 0){
+        if (this.user.role == 3 && this.user.teams.length == 0) {
             this.errormsg = "Please select teams";
             this.editUserErrorModal.open();
             return false;
@@ -240,7 +242,8 @@ export class AdminEditUserComponent implements OnInit {
     onFetchUserSuccess(response) {
         this.user = JSON.parse(response._body);
 
-        if (typeof (this.user.teams) != 'undefined') {
+        if (typeof (this.user.teams) != 'undefined' && this.user.teams != null) {
+
             if (this.user.teams.length > 0) {
                 this.user.team = this.user.teams[0];
             } else {
@@ -306,9 +309,9 @@ export class AdminEditUserComponent implements OnInit {
         this.clubTeams = [];
         this.teamslistOptions = [];
 
-        if(flag != 1){
-        this.user.team = null;
-        this.user.teams = [];
+        if (flag != 1) {
+            this.user.team = null;
+            this.user.teams = [];
         }
         if (typeof (userclub) != 'undefined') {
             this.teamsList.forEach((element, index) => {
