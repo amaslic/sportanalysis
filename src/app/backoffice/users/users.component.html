@@ -2,8 +2,9 @@
     <h3>User list</h3>
     <div class="adduser">
         <button class="pull-right" [routerLink]="['/backoffice/add-user']">Add User</button>
+        <!-- <i class="fa fa-user pull-right" [routerLink]="['/backoffice/profile/main']" aria-hidden="true" (click)="activateUser(row)"></i> -->
 
-        <button class="pull-right" [routerLink]="['/backoffice/profile/main']">My Profile</button>
+        <button class="pull-right" [routerLink]="['/backoffice/profile/main']">Profile </button>
     </div>
     <md-tab-group>
         <md-tab label="Active users">
@@ -25,7 +26,7 @@
                 </div>
             </div>
             <div>
-                
+
                 <ngx-datatable #activetable class="material" [columnMode]="'standard'" [rows]="usersList" (onRowsUpdate)='updateRows()'>
                     <ngx-datatable-column [flexGrow]="3" [width]="210" name="Email" prop="email"> </ngx-datatable-column>
                     <ngx-datatable-column name="First Name" [width]="90" prop="firstName"> </ngx-datatable-column>

@@ -50,7 +50,7 @@
           </div>
         </div>
         <div class="row margin-bottom-10" *ngIf="(type == 'Match')">
-           <div class="form-group" >
+          <div class="form-group">
             <label class="control-label text-left" for="title">Match:</label>
             <select name="match" #team class="form-control" [(ngModel)]="match" (ngModelChange)="onChangeofMatch()">
               <option value="null">Select Match</option>
@@ -174,10 +174,10 @@
           <div class="form-group margin-left-0">
             <label class="control-label text-left" for="title">Share with:</label>
 
-            <md-checkbox class="checkbox-margin" name="video_rights_allRoles" [(ngModel)]="videoRights.allRoles" (ngModelChange)="selectAll($event)">All</md-checkbox>
-            <md-checkbox class="checkbox-margin" name="video_rights_team" [(ngModel)]="videoRights.team" (ngModelChange)="selectTeam($event)">Team</md-checkbox>
-            <md-checkbox class="checkbox-margin" name="video_rights_player" [(ngModel)]="videoRights.player" (ngModelChange)="selectPlayer($event)">Player</md-checkbox>
-            <md-checkbox class="checkbox-margin" name="video_rights_viewer" [(ngModel)]="videoRights.viewer" (ngModelChange)="selectViewer($event)">Viewer</md-checkbox>
+            <md-checkbox class="checkbox-margin" name="shareWithAll" [(ngModel)]="videoRights.allRoles" (ngModelChange)="selectAll($event)">All</md-checkbox>
+            <md-checkbox class="checkbox-margin" name="shareWithTeams" [(ngModel)]="videoRights.team" (ngModelChange)="selectTeam($event)">Team</md-checkbox>
+            <md-checkbox class="checkbox-margin" name="shareWithPlayers" [(ngModel)]="videoRights.player" (ngModelChange)="selectPlayer($event)">Player</md-checkbox>
+            <md-checkbox class="checkbox-margin" name="shareWithViewers" [(ngModel)]="videoRights.viewer" (ngModelChange)="selectViewer($event)">Viewer</md-checkbox>
           </div>
           <div class="form-group"></div>
           <div class="form-group"></div>

@@ -84,7 +84,24 @@
 :host >>> ng2-completer.ng-invalid {
     display: block;
 }
-
+:host >>> .mat-checkbox-checked.mat-accent .mat-checkbox-background, .mat-checkbox-indeterminate.mat-accent .mat-checkbox-background{
+    background-color:#009cff;
+}
+:host >>> .drop-down-button button.btn-default {
+    color: #333;
+    background-color: #fff;
+    border-color: #ccc;
+    height: 60px !important;
+    width: 100%;
+    max-width: 320px;
+    background: #ececec;
+    border: 0;
+    box-shadow: none;
+    color: black;
+}
+:host >>> .dropdown-menu{
+  min-width: 320px;
+}
 .sportscode.dropdown{
   padding-bottom: 20px;
 }

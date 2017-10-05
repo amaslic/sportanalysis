@@ -146,7 +146,7 @@ export class UploadComponent implements OnInit {
   matches: any = [];
   match: any = null;
 
-  date:any;
+  date: any;
 
   @ViewChild('uploadSucessModal') uploadSucessModal;
   @ViewChild('uploadErrorModal') uploadErrorModal;
@@ -280,7 +280,7 @@ export class UploadComponent implements OnInit {
       return false;
     }
 
-    if (!f.value.video_rights_allRoles) {
+    if (!f.value.shareWithAll) {
       if (f.value.team && f.value.team.length == 0) {
         alert("Please select team");
         return false;
@@ -301,7 +301,7 @@ export class UploadComponent implements OnInit {
     f.value.user = this.userService.user._id;
     let teamArray = [];
     let sharedUsers = [];
-    if ((f.value.video_rights_team && !f.value.video_rights_allRoles) && (f.value.team && f.value.team.length > 0)) {
+    if ((f.value.shareWithTeams && !f.value.shareWithAll) && (f.value.team && f.value.team.length > 0)) {
       let playerlist = this.playerUserlist;
       f.value.team.forEach(function (e) {
         if (playerlist.length > 0) {
@@ -320,13 +320,13 @@ export class UploadComponent implements OnInit {
         f.value.teamArray = '';
       }
     }
-    console.log('player', f.value.player);
-    if ((f.value.video_rights_player && !f.value.video_rights_allRoles) && (f.value.player && f.value.player.length > 0)) {
+    //console.log('player', f.value.player);
+    if ((f.value.shareWithPlayers && !f.value.shareWithAll) && (f.value.player && f.value.player.length > 0)) {
       console.log('player', f.value.player);
       teamArray = teamArray.concat(f.value.player);
     }
     console.log('Viewer', f.value.viewer);
-    if ((f.value.video_rights_viewer && !f.value.video_rights_allRoles) && (f.value.viewer && f.value.viewer.length > 0)) {
+    if ((f.value.shareWithViewers && !f.value.shareWithAll) && (f.value.viewer && f.value.viewer.length > 0)) {
       console.log('Viewer', f.value.viewer);
       teamArray = teamArray.concat(f.value.viewer);
     }
@@ -731,15 +731,15 @@ export class UploadComponent implements OnInit {
   }
 
   onChangeofMatch() {
-    
+
     var matchId = this.match;
     if (this.match != null) {
       var matchData = this.matches.filter(function (element, index) {
         return (element._id === matchId);
       })[0];
 
-      if(typeof(matchData) != 'undefined'){
-        
+      if (typeof (matchData) != 'undefined') {
+
         this.date = matchData.date;
         this.clubName = matchData.club1details[0].name;
         this.clubName2 = matchData.club2details[0].name;

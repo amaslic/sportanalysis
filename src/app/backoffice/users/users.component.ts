@@ -109,20 +109,24 @@ export class UsersComponent implements OnInit {
       } else {
         element.club = '';
       }
-
-      if (this.teamsList.length > 0 && element.teams.length > 0) {
-        var teamsList = '';
-        element.teams.forEach(element1 => {
-          var userTeam = this.teamsList.filter(function (element2, index) {
-            return (element2._id == element1);
-          })[0];
-          if (typeof (userTeam) != 'undefined')
-            teamsList += userTeam.name + ',';
-        });
-        element.teams = teamsList.substr(0, teamsList.length - 1);
-      } else {
-        element.teams = '';
+      // console.log(element.teams);
+      // console.log(this.teamsList);
+      if (element.teams != null) {
+        if (this.teamsList.length > 0 && element.teams.length > 0) {
+          var teamsList = '';
+          element.teams.forEach(element1 => {
+            var userTeam = this.teamsList.filter(function (element2, index) {
+              return (element2._id == element1);
+            })[0];
+            if (typeof (userTeam) != 'undefined')
+              teamsList += userTeam.name + ',';
+          });
+          element.teams = teamsList.substr(0, teamsList.length - 1);
+        } else {
+          element.teams = '';
+        }
       }
+
 
     });
     this.onChangeofActivatedSearch();
