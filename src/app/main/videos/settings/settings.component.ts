@@ -333,7 +333,6 @@ export class VideoSettingsComponent implements OnInit {
     if (!f.valid) {
       return false;
     }
-
     if (!f.value.shareWithAll) {
       if (f.value.team && f.value.team.length == 0) {
         alert("Please select team");
@@ -386,7 +385,6 @@ export class VideoSettingsComponent implements OnInit {
     f.value.sharedWithUsers = sharedUsers;
     // console.log('submitted');
 
->>>>>>> 8cf3fddf4addc2cf196e4a7849cad84781d3bd01
     this.showProgressBar = true;
     if (f.value.type != 'Training') {
       f.value.title = '';
