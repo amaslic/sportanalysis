@@ -333,8 +333,7 @@ export class VideoSettingsComponent implements OnInit {
     if (!f.valid) {
       return false;
     }
-<<<<<<< HEAD
-=======
+
     if (!f.value.shareWithAll) {
       if (f.value.team && f.value.team.length == 0) {
         alert("Please select team");
