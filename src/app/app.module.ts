@@ -125,7 +125,7 @@ const appRoutes: Routes = [
       { path: 'teams', component: TeamsComponent },
       { path: 'matches-overview', component: MatchComponent },
       { path: '*', component: UsersComponent },
-      { path: 'videos-settings/:id', component: VideosSettingComponent },
+      { path: 'videos-settings/:id', component: VideoSettingsComponent },
       { path: 'playlist/view/:id', component: PlaylistViewComponent },
       { path: 'profile/main', component: ProfileComponent },
     ]
@@ -203,7 +203,7 @@ const appRoutes: Routes = [
     MultiselectDropdownModule,
     Ng2CompleterModule
   ],
-  providers: [UserService, VideoService, TrackingDataService, AuthGuard, AdminGuard, ClubService, PlaylistService, TeamService,MatchService],
+  providers: [UserService, VideoService, TrackingDataService, AuthGuard, AdminGuard, ClubService, PlaylistService, TeamService, MatchService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
