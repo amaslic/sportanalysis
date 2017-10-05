@@ -1225,14 +1225,17 @@ a.playlist-info:hover .message-list-content h4{
     left: 0;
     color: white;
     width: 100%;
+    font-size: 22px;
 }
-.video-club1{display: inline-block;margin-left: 15px;}
-.video-club2{display: inline-block;}
-.video-date{display: block;}
-.video-image-main{display: inline-block;width: 21%;text-align: center;}
+.video-club1{display: inline-block; max-width: 300px; width: 100%; margin: auto; text-align: right;}
+.video-club2{display: inline-block; max-width: 300px; width: 100%; margin: auto; text-align: left;}
+.video-date{display: block; max-width: 300px; width: 100%; margin: auto;}
+.video-image-main{display: inline-block;width: 100%; max-width: 300px; text-align: center;}
 .video-images{height: 60px;display: inline-block;margin: 0px auto;}
 .list-inline span{font-size: 30px;display: inline-block;vertical-align: middle;}
  span.score{margin: 0px 5px;
     vertical-align: middle;
     display: inline-block;
-    font-size: 20px;} 
+    font-size: 22px;} 
+
+  
