@@ -4,7 +4,7 @@
 	</div>
 </div>
 
-<div class="panel panel-default">
+<div [className]="my_Class">
   <div class="panel-heading">Add Match to Sportanalysis.tv</div>
   <div class="panel-body">
     <div class="row container">
@@ -15,7 +15,7 @@
 
           
             <div class="form-group col-12">
-              <label class="control-label text-left" for="title">Date of event:</label>
+              <label class="control-label text-left" for="date">Date of event:</label>
               <input [(ngModel)]="match.date" class="form-control col-12" name="date" ngui-datetime-picker date-only="true" placeholder="Date of event"
                 required>
             </div>
@@ -76,7 +76,7 @@
     </p>
   </modal-content>
   <modal-footer>
-    <button class="btn btn-primary" [routerLink]="['/matches']" (click)="SucessModal.close()">Ok</button>
+    <button class="btn btn-primary" [routerLink]="routerLink" (click)="SucessModal.close()">Ok</button>
   </modal-footer>
 </modal>
 <modal #ErrorModal class="error-modal">

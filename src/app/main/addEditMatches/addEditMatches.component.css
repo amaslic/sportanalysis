@@ -194,9 +194,13 @@ form .form-group .form-control::-ms-input-placeholder { /* Microsoft Edge */
     text-align: left;
 }
 
-
-.panel-default{
+.frontend.panel.panel-default{
     margin-top: 130px;
+    margin-bottom: 160px;
+}
+
+.backend.panel.panel-default{
+    margin-top: 20px;
     margin-bottom: 160px;
 }
 

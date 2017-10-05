@@ -98,6 +98,8 @@ export class VideoOverviewComponent implements OnInit {
   videoUrl: any;
   videoOriginalName: any;
   private baseAmazonVideoUrl = GlobalVariables.BASE_AMAZON_VIDEO_URL;
+  private sub: any;
+  private id: String;
 
   @ViewChild('assignVideoModal') assignVideoModal;
   @ViewChild('videoSucessModal') videoSucessModal;
@@ -123,7 +125,24 @@ export class VideoOverviewComponent implements OnInit {
 
   onGetAllClubsSuccess(response) {
     this.allClubList = JSON.parse(response._body);
-    this.getVideos();
+
+    this.sub = this.route.params.subscribe(params => {
+      this.id = params['id'];
+      if (typeof (this.id) == 'undefined') {
+        this.getVideos();
+      } else {
+        this.getVideosbyMatch();
+      }
+    });
+
+  }
+
+  getVideosbyMatch() {
+    this.videoService.getVideosByMatch(this.id, this.userService.token).subscribe(
+      (response) => this.onGetVideosSuccess(response),
+      (error) => this.onError(error)
+    );
+
   }
 
   getVideos() {

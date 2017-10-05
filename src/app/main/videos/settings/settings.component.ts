@@ -269,6 +269,7 @@ export class VideoSettingsComponent implements OnInit {
 
     this.onChangeofClub1(1);
     this.onChangeofClub2(1);
+    this.video.date = new Date(this.video.date);
   }
 
 

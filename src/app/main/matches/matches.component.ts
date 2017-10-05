@@ -64,37 +64,41 @@ export class MatchesComponent implements OnInit {
     var hours = time[0];
     var minutes = time[1];
 
-    if (minutes < 10)
-        minutes = "0" + minutes;
+    if (parseInt(minutes) < 10)
+      minutes = "0" + parseInt(minutes);
 
     var suffix = "AM";
     if (hours >= 12) {
-        suffix = "PM";
-        hours = hours - 12;
+      suffix = "PM";
+      hours = hours - 12;
     }
     if (hours == 0) {
-        hours = 12;
+      hours = 12;
     }
+
+    if (parseInt(hours) < 10)
+      hours = "0" + parseInt(hours);
+
     var current_time = hours + ":" + minutes + " " + suffix;
     return current_time;
-}
+  }
 
-deleteMatchById(id){
-  if (confirm("Are you sure you want to delete this match? It will delete all videos, events and playlist attached to this match.")) {
+  deleteMatchById(id) {
+    if (confirm("Are you sure you want to delete this match? It will delete all videos, events and playlist attached to this match.")) {
       this.matchService.deleteMatchById(id, this.userService.token).subscribe(
-        (response) => { this.matchDeleteSuccess(response,id) },
+        (response) => { this.matchDeleteSuccess(response, id) },
         (error) => this.onError(error)
       );
     }
-}
+  }
 
-matchDeleteSuccess(response,id) {
+  matchDeleteSuccess(response, id) {
     this.successmsg = JSON.parse(response._body).message;
     this.SucessModal.open();
-    
-     this.matches = this.matches.filter(function (element, index) {
-        return (element._id !== id);
-      });
+
+    this.matches = this.matches.filter(function (element, index) {
+      return (element._id !== id);
+    });
   }
 
 }
