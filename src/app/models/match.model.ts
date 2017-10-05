@@ -1,6 +1,6 @@
 export class Match {
   public _id: string;
-  public date: string;
+  public date: Date;
   public time: string;
   public club1: string;
   public club2: string;

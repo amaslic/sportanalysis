@@ -179,6 +179,7 @@ export class VideoSettingsComponent implements OnInit {
 
     this.onChangeofClub1(1);
     this.onChangeofClub2(1);
+    this.video.date = new Date(this.video.date);
   }
 
 
@@ -242,7 +243,6 @@ export class VideoSettingsComponent implements OnInit {
     if (!f.valid) {
       return false;
     }
-
     this.showProgressBar = true;
     if (f.value.type != 'Training') {
       f.value.title = '';

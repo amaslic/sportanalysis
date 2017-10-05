@@ -128,6 +128,9 @@ const appRoutes: Routes = [
       { path: 'videos-settings/:id', component: VideosSettingComponent },
       { path: 'playlist/view/:id', component: PlaylistViewComponent },
       { path: 'profile/main', component: ProfileComponent },
+      { path: 'match/view/:id', component: VideoOverviewComponent },
+      { path: 'match', component: addEditMatchesComponent },
+      { path: 'match/:id', component: addEditMatchesComponent },
     ]
   },
   { path: "*", redirectTo: 'videos' }
