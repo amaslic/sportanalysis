@@ -5,19 +5,20 @@
 </div>
 
 <div class="container" style="margin-top:10px;">
-  <h3>Video list</h3>
+  <div>
+    <h3>Video list</h3>
+    <button class="btn btn-default pull-right" *ngIf="isAdmin" (click)="deleteSelected()">Delete</button>
+  </div>
   <ngx-datatable class="material" [columnMode]="'force'" [rows]="videoList" [loadingIndicator]="loadingIndicator" [rowHeight]="'auto'">
 
-    <!-- <ngx-datatable-column name="title">
-
+    <ngx-datatable-column name="_id">
       <ng-template let-column="title" ngx-datatable-header-template>
-        Title
+        <!-- <md-checkbox ng-model="event" [checked] class="more-events" id="{{value}}" (change)="selectEvent($event,event)"></md-checkbox> -->
       </ng-template>
       <ng-template let-value="value" ngx-datatable-cell-template>
-
-        {{value}}
+        <md-checkbox ng-model="event" [checked] class="more-events" id="event{{value}}" (change)="selectVideo($event,value)"></md-checkbox>
       </ng-template>
-    </ngx-datatable-column> -->
+    </ngx-datatable-column>
     <ngx-datatable-column>
       <ng-template let-column="column" ngx-datatable-header-template>
         Video Details

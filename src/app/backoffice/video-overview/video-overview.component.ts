@@ -1,7 +1,7 @@
 import {
   Component,
   OnInit,
-  ViewChild, 
+  ViewChild,
   ElementRef
 } from '@angular/core';
 import {
@@ -33,9 +33,13 @@ import { PlatformLocation } from '@angular/common';
   styleUrls: ['./video-overview.css']
 })
 export class VideoOverviewComponent implements OnInit {
+  deleteVideoResponce: any;
+  isAdmin: boolean;
+  multiDelete: any = [];
   successmsg: any;
   videoId: any;
   trackUserlist: any[];
+  event: any = {};
 
   userlistOptions: IMultiSelectOption[];
   userlistModel: any[];
@@ -103,6 +107,10 @@ export class VideoOverviewComponent implements OnInit {
   }
 
   ngOnInit() {
+    var user = this.userService.loadUserFromStorage();
+    if (user['role'] = 1 || user['role'] == 2) {
+      this.isAdmin = true;
+    }
     this.getAllClubs();
   }
 
@@ -163,7 +171,7 @@ export class VideoOverviewComponent implements OnInit {
   confirmDelete(id) {
     if (confirm("Are you sure to delete this video ?")) {
       this.videoService.deleteVideoById(id, this.userService.token).subscribe(
-        (response) => { this.getVideos() },
+        (response) => { this.onDeleteVideoSuccess(response) },
         (error) => this.onError(error)
       );
     }
@@ -214,11 +222,40 @@ export class VideoOverviewComponent implements OnInit {
     e.stopPropagation();
     this.videoUrl = this.baseAmazonVideoUrl + video.path;
     this.videoOriginalName = video.original_filename;
-    const elem= this.lnkDownloadLink;
+    const elem = this.lnkDownloadLink;
     setTimeout(function () {
       elem.nativeElement.click();
       this.videoUrl = '';
     }, 1000);
+
+  }
+  selectVideo(e, event) {
+    console.log(e);
+    console.log(event);
+    // event.checked = e.checked;
+    if (e.checked) {
+      this.multiDelete.push(event);
+    } else {
+      this.multiDelete = this.multiDelete.filter(item => item !== event);
+    }
+    console.log(this.multiDelete);
+  }
+  deleteSelected() {
+    console.log(this.multiDelete);
+    if (confirm("Are you sure to delete selected videos ?")) {
+      this.videoService.deleteSelected(this.multiDelete, this.userService.token).subscribe(
+        (response) => this.onDeleteVideoSuccess(response),
+        (error) => this.onError(error)
+      );
+    }
+  }
+  onDeleteVideoSuccess(response) {
+    this.deleteVideoResponce = JSON.parse(response._body);
+
+    this.successmsg = this.deleteVideoResponce.message;
+    this.videoSucessModal.open();
+    this.multiDelete = [];
+    this.getVideos()
 
   }
 }
