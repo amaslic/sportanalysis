@@ -8,7 +8,7 @@
   <div class="container">
     <h3 *ngIf="(video.type == 'Training')">{{video.title}}</h3>
     <h3 *ngIf="(video.type != 'Training')">{{video.clubName}} vs {{video.clubName2}}</h3>
-
+    <button class="btn btn-default pull-right" *ngIf="isAdmin" [routerLink]="['/backoffice/video-overview']">Back</button>
     <md-tab-group class="video-md-settings">
 
       <md-tab label="Video Details">
@@ -25,6 +25,31 @@
                   <md-radio-button value="Telestration">Telestration</md-radio-button>
                 </md-radio-group>
               </div>
+            </div>
+            <div class="form-group margin-left-0">
+              <label class="control-label col-sm-3" for="title">Share with:</label>
+              <div class="col-sm-9" style="padding-top:2%">
+                <md-checkbox class="checkbox-margin" name="shareWithAll" [(ngModel)]="videoRights.allRoles" (ngModelChange)="selectAll($event)">All</md-checkbox>
+                <md-checkbox class="checkbox-margin" name="shareWithTeams" [(ngModel)]="videoRights.team" (ngModelChange)="selectTeam($event)">Team</md-checkbox>
+                <md-checkbox class="checkbox-margin" name="shareWithPlayers" [(ngModel)]="videoRights.player" (ngModelChange)="selectPlayer($event)">Player</md-checkbox>
+                <md-checkbox class="checkbox-margin" name="shareWithViewers" [(ngModel)]="videoRights.viewer" (ngModelChange)="selectViewer($event)">Viewer</md-checkbox>
+
+              </div>
+            </div>
+            <div class="form-group" *ngIf="(videoRights.allRoles==false && videoRights.team==true)">
+              <label class="control-label col-sm-3" for="title">Teams:</label>
+              <ss-multiselect-dropdown name="team" class="col-sm-6 drop-down-button" [options]="teamlistOptions" [texts]="teamlistTexts"
+                [settings]="teamlistSettings" [(ngModel)]="teamlistModel"></ss-multiselect-dropdown>
+            </div>
+            <div class="form-group" *ngIf="(videoRights.allRoles==false && videoRights.player==true)">
+              <label class="control-label col-sm-3" for="title">Player:</label>
+              <ss-multiselect-dropdown name="player" class="col-sm-6 drop-down-button" [options]="playerlistOptions" [texts]="playerlistTexts"
+                [settings]="playerlistSettings" [(ngModel)]="playerlistModel"></ss-multiselect-dropdown>
+            </div>
+            <div class="form-group" *ngIf="(videoRights.allRoles==false && videoRights.viewer==true)">
+              <label class="control-label col-sm-3" for="title">Viewer:</label>
+              <ss-multiselect-dropdown name="viewer" class="col-sm-6 drop-down-button" [options]="viewerlistOptions" [texts]="viewerlistTexts"
+                [settings]="viewerlistSettings" [(ngModel)]="viewerlistModel"></ss-multiselect-dropdown>
             </div>
             <div *ngIf="(video.type == 'Match')" class="form-group">
               <label class="control-label col-sm-3" for="title">Match:</label>
@@ -66,7 +91,7 @@
               <label class="control-label col-sm-3" for="title">Season:</label>
               <div class="col-sm-9">
                 <!-- <input type="text" [(ngModel)]="video.season" class="form-control" name="season" id="season" placeholder="Season"> -->
-                <select class="sportscode" name="season" required [(ngModel)]="video.season" style="font-size: 18px; font-weight: normal;">
+                <select class="sportscode form-control" name="season" required [(ngModel)]="video.season">
                         <option>2015/2016</option>
                          <option>2016/2017</option>
                   <option>2017/2018</option>
@@ -74,7 +99,6 @@
                   </select>
               </div>
             </div>
-
             <div *ngIf="(video.type != 'Training')" class="form-group">
               <label class="control-label col-sm-3" for="title">Competition:</label>
               <div class="col-sm-9">
@@ -142,6 +166,10 @@
 
               </div>
             </div>
+
+
+
+
             <div class="form-group" style="padding-bottom: 30px;">
               <div class="col-sm-offset-3 col-sm-9">
                 <button type="submit" class="btn btn-default btn-save">Save</button>
