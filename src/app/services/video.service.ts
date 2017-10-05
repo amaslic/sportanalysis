@@ -46,10 +46,10 @@ export class VideoService {
     form.append('tacticsTeam2', data.tacticsTeam2);
     form.append('team1', data.team1);
     form.append('team2', data.team2);
-    form.append('shareWithAll', data.video_rights_allRoles);
-    form.append('shareWithTeams', data.video_rights_team);
-    form.append('shareWithPlayers', data.video_rights_player);
-    form.append('shareWithViewers', data.video_rights_viewer);
+    form.append('shareWithAll', data.shareWithAll);
+    form.append('shareWithTeams', data.shareWithTeams);
+    form.append('shareWithPlayers', data.shareWithPlayers);
+    form.append('shareWithViewers', data.shareWithViewers);
     form.append('team', data.team);
     form.append('sharedWithUsers', data.sharedWithUsers);
     form.append('sharedWithTeams', data.sharedWithTeams);
@@ -80,6 +80,7 @@ export class VideoService {
   updateVideo(id, data, token) {
     const headers = new Headers({ 'Authorization': token });
     const options = new RequestOptions({ headers: headers });
+    data.sharedWithTeams = data.team;
     return this.http.put(this.baseApiUrl + 'video/edit?id=' + id, data, options);
   }
 
@@ -88,7 +89,13 @@ export class VideoService {
     const options = new RequestOptions({ headers: headers });
     return this.http.get(this.baseApiUrl + 'video/deleteById?id=' + id, options);
   }
+  deleteSelected(ids: any, token: String) {
+    console.log(ids);
+    const headers = new Headers({ 'Authorization': token });
+    const options = new RequestOptions({ headers: headers });
+    return this.http.post(this.baseApiUrl + 'video/deleteSelected', ids, options);
 
+  }
   assignVideo(token: String, id: any, user: any = []) {
     const headers = new Headers({ 'Authorization': token });
     const body = { token: token, id: id, users: user, url: this.baseUrl + 'videos/view/' + id };
