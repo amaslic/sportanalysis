@@ -225,7 +225,7 @@
                 <label for="xmlDataApplication">
                     <h3>Xml Data Application:&nbsp;</h3>
                   </label>
-                <select class="sportscode" name="xmlDataApplication" required [(ngModel)]="xmlDataApplicationTypeSelected" (ngModelChange)="xmlTypeSelected($event)"
+                <select class="sportscode data" name="xmlDataApplication" required [(ngModel)]="xmlDataApplicationTypeSelected" (ngModelChange)="xmlTypeSelected($event)"
                   style="font-size: 18px; font-weight: normal;">
                       <option *ngFor="let xmlDataType of xmlDataApplicationTypes">{{xmlDataType}}</option>
                   </select>

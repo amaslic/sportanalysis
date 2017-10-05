@@ -181,7 +181,7 @@
         
         }
 
-select.form-control {
+select.form-control, select.sportscode {
     height: 60px !important;
     width: 100%;
     max-width: 320px;
@@ -190,6 +190,11 @@ select.form-control {
     box-shadow: none;
     color: black;
 }        
+
+select.sportscode.data{
+  max-width: 220px;
+  height: 40px!important;
+}
 
 .fa-window-close{
   padding-right: 15px;
