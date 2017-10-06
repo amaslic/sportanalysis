@@ -9,7 +9,7 @@
     margin-top:20px;
     color:#b0b0b0;
     min-height: 450px;
-    max-width: 1240px;
+    max-width: 1640px;
     margin: auto;
 }
 
@@ -196,8 +196,12 @@ form .form-group .form-control::-ms-input-placeholder { /* Microsoft Edge */
 
 
 .panel-default{
-    margin-top: 130px;
-    margin-bottom: 160px;
+    margin-top: 50px;
+   
+}
+
+.panel-default .row.container{
+    width: 100%;
 }
 
 .width{width: 100%;}
