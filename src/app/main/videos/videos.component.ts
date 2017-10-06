@@ -143,17 +143,30 @@ export class VideosComponent implements OnInit {
 
   onGetVideosSuccess(response) {
     this.allVideos = JSON.parse(response._body);
+    //console.log(this.allVideos);
+
     if (this.allVideos.length > 0) {
       this.allVideos.forEach(element => {
         // console.log(element);
         element['id'] = element._id;
         element['ofilename'] = element['original_filename'];
+        if (element['club1details'] && element['club1details'].length > 0) {
+
+          var club1trim = element['club1details'][0]['name'].slice(0, 3);
+          element['club1details'][0]['name'] = club1trim.toUpperCase();
+        }
+        if (element['club2details'] && element['club2details'].length > 0) {
+
+          var club2trim = element['club2details'][0]['name'].slice(0, 3);
+          element['club2details'][0]['name'] = club2trim.toUpperCase();
+        }
 
         var videoClubName = element['user']['club'];
         element["isSelected"] = false;
       });
 
     }
+
     this.typeFilter();
     //this.videoList = JSON.parse(response._body);
     // console.log(this.videoList);

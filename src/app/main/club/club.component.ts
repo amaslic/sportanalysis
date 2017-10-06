@@ -152,6 +152,28 @@ export class ClubComponent implements OnInit {
   onGetVideosSuccess(response) {
     this.videoSucess = JSON.parse(response._body);
 
+    if (this.videoSucess.length > 0) {
+      this.videoSucess.forEach(element => {
+        // console.log(element);
+        element['id'] = element._id;
+        element['ofilename'] = element['original_filename'];
+        if (element['club1details'] && element['club1details'].length > 0) {
+
+          var club1trim = element['club1details'][0]['name'].slice(0, 3);
+          element['club1details'][0]['name'] = club1trim.toUpperCase();
+        }
+        if (element['club2details'] && element['club2details'].length > 0) {
+
+          var club2trim = element['club2details'][0]['name'].slice(0, 3);
+          element['club2details'][0]['name'] = club2trim.toUpperCase();
+        }
+
+        var videoClubName = element['user']['club'];
+        element["isSelected"] = false;
+      });
+
+    }
+
     if (this.videoSucess.message) {
       this.errormsg = this.videoSucess.message;
       this.ErrorModal.open();
@@ -328,21 +350,21 @@ export class ClubComponent implements OnInit {
     return current_time;
   }
 
-  deleteMatchById(id){
-  if (confirm("Are you sure you want to delete this match? It will delete all videos, events and playlist attached to this match.")) {
+  deleteMatchById(id) {
+    if (confirm("Are you sure you want to delete this match? It will delete all videos, events and playlist attached to this match.")) {
       this.matchService.deleteMatchById(id, this.userService.token).subscribe(
-        (response) => { this.matchDeleteSuccess(response,id) },
+        (response) => { this.matchDeleteSuccess(response, id) },
         (error) => this.onError(error)
       );
     }
-}
+  }
 
-matchDeleteSuccess(response,id) {
+  matchDeleteSuccess(response, id) {
     this.successmsg = JSON.parse(response._body).message;
     this.SucessModal.open();
-    
-     this.matches = this.matches.filter(function (element, index) {
-        return (element._id !== id);
-      });
+
+    this.matches = this.matches.filter(function (element, index) {
+      return (element._id !== id);
+    });
   }
 }

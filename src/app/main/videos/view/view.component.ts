@@ -109,7 +109,7 @@ export class ViewComponent implements OnInit {
   trackTeamCheck: any = [];
   trackEventCheck: any = [];
   api: VgAPI;
-  video: Video;
+  video: any = {};
   showEventsIngGroup: any;
   videoDuration: any;
   fancyVideoDuration: any;
@@ -520,6 +520,16 @@ export class ViewComponent implements OnInit {
 
     this.video = JSON.parse(response._body);
 
+    if (this.video.club1details) {
+
+      var club1trim = this.video.club1details[0].name.slice(0, 3);
+      this.video.club1details[0].name = club1trim.toUpperCase();
+    }
+    if (this.video.club2details) {
+
+      var club2trim = this.video.club2details[0].name.slice(0, 3);
+      this.video.club2details[0].name = club2trim.toUpperCase();
+    }
     if (this.video && this.video.path) {
       this.videoLoaded = true;
       this.playlist = [{
@@ -953,7 +963,7 @@ export class ViewComponent implements OnInit {
       this.createPlaylistModal.close()
       this.updateMessage = '';
     }, 1500);
-    
+
   }
   addPlaylist() {
 
@@ -993,7 +1003,7 @@ export class ViewComponent implements OnInit {
       this.createPlaylistModal.close()
       this.saveMessage = '';
     }, 1500);
-    
+
   }
   onChangeEvent(e) {
 
