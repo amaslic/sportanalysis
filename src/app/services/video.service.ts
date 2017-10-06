@@ -28,6 +28,11 @@ export class VideoService {
 
   upload(data: any) {
     console.log(data);
+    let fullVideo = data.fullVideo
+    if (fullVideo == undefined) {
+      fullVideo = false
+    }
+
     const form: any = new FormData();
     form.append('user', data.user);
     form.append('title', data.title);
@@ -55,6 +60,7 @@ export class VideoService {
     form.append('sharedWithTeams', data.sharedWithTeams);
     form.append('viewer', data.viewer);
     form.append('match', data.match);
+    form.append('fullVideo', fullVideo);
 
     const headers = new Headers({ 'Authorization': data.token });
     const options = new RequestOptions({ headers: headers });

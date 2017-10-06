@@ -57,6 +57,10 @@
               <option *ngFor="let m of matches" [ngValue]="m._id">{{m.club1details[0].name}} vs {{m.club2details[0].name}} ({{m.date | date: 'yyyy-MM-dd'}} {{m.time}}) </option>
             </select>
           </div>
+          <div class="form-group margin-left-0">
+            <label class="control-label text-left" for="title">Full Video:</label>
+            <md-checkbox class="checkbox-margin" name="fullVideo" [(ngModel)]="fullVideo">Full Video</md-checkbox>
+          </div>
         </div>
         <div class="row margin-bottom-10">
           <div class="form-group" *ngIf="(type == 'Training')">
