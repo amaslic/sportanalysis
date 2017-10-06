@@ -29,6 +29,9 @@ import { IMultiSelectOption, IMultiSelectSettings, IMultiSelectTexts } from 'ang
 })
 
 export class VideosComponent implements OnInit {
+  deleteVideoResponce: any;
+  multiDelete: any[];
+  isAllSelected: boolean;
   video_type: string = 'All';
   isCoach: any;
   isAdmin: any;
@@ -140,6 +143,17 @@ export class VideosComponent implements OnInit {
 
   onGetVideosSuccess(response) {
     this.allVideos = JSON.parse(response._body);
+    if (this.allVideos.length > 0) {
+      this.allVideos.forEach(element => {
+        // console.log(element);
+        element['id'] = element._id;
+        element['ofilename'] = element['original_filename'];
+
+        var videoClubName = element['user']['club'];
+        element["isSelected"] = false;
+      });
+
+    }
     this.typeFilter();
     //this.videoList = JSON.parse(response._body);
     // console.log(this.videoList);
@@ -231,6 +245,71 @@ export class VideosComponent implements OnInit {
     e.stopPropagation();
 
     this.router.navigateByUrl('/videos/settings/' + video._id);
+
+  }
+  onChangeOfcheckAll(e) {
+    this.videoList.forEach(element => {
+      element["isSelected"] = e.checked;
+
+    });
+  }
+  deleteSelected() {
+
+    this.multiDelete = [];
+    this.videoList.forEach(element => {
+      if (element["isSelected"]) {
+        this.multiDelete.push(element._id);
+      }
+    });
+
+    if (this.multiDelete.length == 0 || this.multiDelete == null) {
+      this.errormsg = "Please select videos for delete."
+      this.ErrorModal.open();
+      return;
+    }
+
+    //  console.log(this.multiDelete);
+    if (confirm("Are you sure to delete selected videos ?")) {
+      this.videoService.deleteSelected(this.multiDelete, this.userService.token).subscribe(
+        (response) => this.onDeleteVideoSuccess(response),
+        (error) => this.onError(error)
+      );
+    }
+  }
+  onDeleteVideoSuccess(response) {
+    this.deleteVideoResponce = JSON.parse(response._body);
+
+    this.successmsg = this.deleteVideoResponce.message;
+    this.videoSucessModal.open();
+    this.multiDelete = [];
+    this.getVideos()
+
+  }
+  stop(e) {
+    //e.preventDefault();
+    e.stopPropagation();
+  }
+  onChangeOfCheckbox(e, obj) {
+    console.log(obj.isSelected);
+    // e.preventDefault();
+    // e.stopPropagation();
+
+    if (!e.checked) {
+      this.isAllSelected = false;
+    } else {
+      var count = 0;
+      this.videoList.forEach(element => {
+        if (!element["isSelected"]) {
+          count++;
+          return;
+        }
+      });
+      if (count == 0) {
+        this.isAllSelected = true;
+      } else {
+        this.isAllSelected = false;
+      }
+    }
 
   }
 

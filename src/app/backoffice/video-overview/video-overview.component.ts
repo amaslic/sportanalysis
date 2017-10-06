@@ -33,6 +33,7 @@ import { PlatformLocation } from '@angular/common';
   styleUrls: ['./video-overview.css']
 })
 export class VideoOverviewComponent implements OnInit {
+  errormsg: string;
   deleteVideoResponce: any;
   isAdmin: boolean;
   multiDelete: any = [];
@@ -97,12 +98,15 @@ export class VideoOverviewComponent implements OnInit {
   private router: Router;
   videoUrl: any;
   videoOriginalName: any;
+  isAllSelected: boolean = false;
+
   private baseAmazonVideoUrl = GlobalVariables.BASE_AMAZON_VIDEO_URL;
   private sub: any;
   private id: String;
 
   @ViewChild('assignVideoModal') assignVideoModal;
   @ViewChild('videoSucessModal') videoSucessModal;
+  @ViewChild('videoErrorModal') videoErrorModal;
   @ViewChild('lnkDownloadLink') lnkDownloadLink: ElementRef;
   constructor(platformLocation: PlatformLocation, private videoService: VideoService, private userService: UserService, private clubService: ClubService, r: Router, private route: ActivatedRoute) {
     this.router = r;
@@ -113,6 +117,7 @@ export class VideoOverviewComponent implements OnInit {
     if (user['role'] = 1 || user['role'] == 2) {
       this.isAdmin = true;
     }
+
     this.getAllClubs();
   }
 
@@ -173,6 +178,8 @@ export class VideoOverviewComponent implements OnInit {
           element.club = '';
         }
 
+        element["isSelected"] = false;
+
       });
 
     }
@@ -184,8 +191,8 @@ export class VideoOverviewComponent implements OnInit {
   onError(error) {
     this.showProgressBar = false;
     const errorBody = JSON.parse(error._body);
-    console.error(errorBody);
-    alert(errorBody.msg);
+    // console.error(errorBody);
+    // alert(errorBody.msg);
   }
   confirmDelete(id) {
     if (confirm("Are you sure to delete this video ?")) {
@@ -249,18 +256,32 @@ export class VideoOverviewComponent implements OnInit {
 
   }
   selectVideo(e, event) {
-    console.log(e);
-    console.log(event);
+    // console.log(e);
+    // console.log(event);
     // event.checked = e.checked;
-    if (e.checked) {
-      this.multiDelete.push(event);
-    } else {
-      this.multiDelete = this.multiDelete.filter(item => item !== event);
-    }
+    // if (e.checked) {
+    //   this.multiDelete.push(event);
+    // } else {
+    //   this.multiDelete = this.multiDelete.filter(item => item !== event);
+    // }
     console.log(this.multiDelete);
   }
   deleteSelected() {
-    console.log(this.multiDelete);
+
+    this.multiDelete = [];
+    this.videoList.forEach(element => {
+      if (element["isSelected"]) {
+        this.multiDelete.push(element._id);
+      }
+    });
+
+    if (this.multiDelete.length == 0 || this.multiDelete == null) {
+      this.errormsg = "Please select videos for delete."
+      this.videoErrorModal.open();
+      return;
+    }
+
+    //  console.log(this.multiDelete);
     if (confirm("Are you sure to delete selected videos ?")) {
       this.videoService.deleteSelected(this.multiDelete, this.userService.token).subscribe(
         (response) => this.onDeleteVideoSuccess(response),
@@ -277,4 +298,43 @@ export class VideoOverviewComponent implements OnInit {
     this.getVideos()
 
   }
+  checkAll(ev) {
+    console.log(ev.checked);
+
+    //  this.videoList.forEach(x => x.state = ev.target.checked)
+  }
+
+  isAllChecked() {
+    // return this.videoList.every(_ => _.state);
+  }
+
+  onChangeOfcheckAll(e) {
+    this.videoList.forEach(element => {
+      element["isSelected"] = e.checked;
+
+    });
+  }
+
+  onChangeOfCheckbox(e, obj) {
+    console.log(obj.isSelected);
+
+    if (!e.checked) {
+      this.isAllSelected = false;
+    } else {
+      var count = 0;
+      this.videoList.forEach(element => {
+        if (!element["isSelected"]) {
+          count++;
+          return;
+        }
+      });
+      if (count == 0) {
+        this.isAllSelected = true;
+      } else {
+        this.isAllSelected = false;
+      }
+    }
+
+  }
+
 }

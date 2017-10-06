@@ -1,6 +1,9 @@
 :host >>> datatable-body-cell.datatable-body-cell.sort-active {
     word-break: break-all;
 }
+:host >>> .mat-checkbox-checked.mat-accent .mat-checkbox-background, .mat-checkbox-indeterminate.mat-accent .mat-checkbox-background{
+    background-color:#009cff;
+}
 
 .loginOverLay {
     display: table;
