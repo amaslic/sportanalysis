@@ -311,7 +311,7 @@ export class addEditMatchesComponent implements OnInit {
     this.match.club2 = f.value.clubName2;
     this.match.user = this.userService.user._id;
 
-    this.matchService.saveMatch(this.match)
+    this.matchService.saveMatch(this.match,this.userService.token)
       .subscribe(
       (response) => this.onSubmitMatch(response),
       (error) => this.onError(error)
