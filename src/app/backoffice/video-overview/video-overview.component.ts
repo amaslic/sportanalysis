@@ -295,6 +295,7 @@ export class VideoOverviewComponent implements OnInit {
     this.successmsg = this.deleteVideoResponce.message;
     this.videoSucessModal.open();
     this.multiDelete = [];
+    this.isAllSelected = false;
     this.getVideos()
 
   }

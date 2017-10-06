@@ -44,7 +44,7 @@
 }
 
 .video-md-settings /deep/ .mat-tab-body-content{
-  max-width: 760px;
+  max-width: 1050px;
   width: 100%;
   margin: auto;
   overflow-x: hidden;
