@@ -13,7 +13,7 @@ import {
     MatchService
 } from './../../services/match.service';
 import {
-  GlobalVariables
+    GlobalVariables
 } from './../../models/global.model';
 
 @Component({
@@ -30,6 +30,8 @@ export class MatchComponent implements OnInit {
     deleteteam: any;
     showProgressBar: boolean = false;
     private baseUrl = GlobalVariables.BASE_VIDEO_URL;
+    routerLink: any;
+    isSuperAdmin: boolean;
 
     @ViewChild('ErrorModal') errorModal;
     @ViewChild('successModal') successModal;
@@ -39,57 +41,27 @@ export class MatchComponent implements OnInit {
 
     ngOnInit() {
         this.getAllMatches();
+
+        var user = this.userService.loadUserFromStorage();
+        if (user['role'] == 1) {
+            this.isSuperAdmin = true;
+        } else {
+            this.isSuperAdmin = false;
+        }
     }
 
     getAllMatches() {
         this.matchService.getAllMatch(this.userService.token).subscribe(
             (response: any) => {
                 this.matches = JSON.parse(response._body);
+
+                this.matches.forEach((element, index) => {
+                    element.time = this.get12Time(element.time);
+                });
             },
             (error) => this.onError(error)
         );
     }
-
-    // onSubmitTeam(f) {
-    //     if (!f.valid) {
-    //         return false;
-    //     }
-    //     this.showProgressBar = true;
-
-    //     if (this.updatedId == '') {
-    //         this.teamService.createTeam({ name: f.value.teamName.trim() }, this.userService.token).subscribe(
-    //             (response) => this.OnSuccessOfCreateTeam(response),
-    //             (error) => this.onError(error)
-    //         );
-    //     } else {
-    //         this.teamService.updateTeam({ id: this.updatedId, name: f.value.teamName.trim() }, this.userService.token).subscribe(
-    //             (response: any) => {
-    //                 // alert('successfully updated team');
-    //                 this.teamsList.forEach(element => {
-    //                     if (element._id == this.updatedId) {
-    //                         element.name = f.value.teamName;
-    //                         return;
-    //                     }
-    //                 });
-    //                 this.form.nativeElement.reset();
-    //                 this.updatedId = '';
-    //                 this.successmsg = "Team updated successfully";
-    //                 this.successModal.open();
-    //                 this.showProgressBar = false;
-    //             },
-    //             (error) => this.onError(error)
-    //         );
-    //     }
-    // }
-
-    // OnSuccessOfCreateTeam(response) {
-    //     this.showProgressBar = false;
-    //     this.form.nativeElement.reset();
-    //     this.teamsList.push(JSON.parse(response._body).team);
-    //     //console.log(JSON.parse(response._body).team);
-    //     this.successmsg = "Team created successfully";
-    //     this.successModal.open();
-    // }
 
     onError(error) {
         this.showProgressBar = false;
@@ -99,45 +71,46 @@ export class MatchComponent implements OnInit {
         this.errorModal.open();
     }
 
-    // editTeam(team) {
-    //     this.teamName = team.name;
-    //     this.updatedId = team._id;
-    // }
+    deleteMatchById(id) {
+        if (confirm("Are you sure you want to delete this match? It will delete all videos, events and playlist attached to this match.")) {
+            this.matchService.deleteMatchById(id, this.userService.token).subscribe(
+                (response) => { this.matchDeleteSuccess(response, id) },
+                (error) => this.onError(error)
+            );
+        }
+    }
 
-    // deleteTeam(team) {
-    //     this.deleteteam = team;
-    //     this.confirmationModal.open();
+    matchDeleteSuccess(response, id) {
+        this.successmsg = JSON.parse(response._body).message;
+        this.successModal.open();
 
-    // }
+        this.matches = this.matches.filter(function (element, index) {
+            return (element._id !== id);
+        });
+    }
 
-    // cancelUpdate() {
-    //     this.updatedId = '';
-    //     this.teamName = '';
-    // }
+    get12Time(currentTime) {
+        var time = currentTime.split(':')
+        var hours = time[0];
+        var minutes = time[1];
 
-    // ConfirmDeleteTeam() {
-    //     this.showProgressBar = true;
-    //     this.confirmationModal.close();
-    //     this.teamService.deleteTeam(this.deleteteam._id, this.userService.token).subscribe(
-    //         (response: any) => {
-    //             //alert('successfully deleted team');
-    //             var deletedTeamId = this.deleteteam._id;
-    //             this.teamsList = this.teamsList.filter(function (element, index) {
-    //                 return (element._id != deletedTeamId);
-    //             });
-    //             this.deleteteam = {};
-    //             this.successmsg = "Team deleted successfully";
-    //             this.successModal.open();
-    //             this.showProgressBar = false;
-    //         },
-    //         (error) => this.onError(error)
-    //     );
-    // }
+        if (parseInt(minutes) < 10)
+            minutes = "0" + parseInt(minutes);
 
-    // cancelDelete() {
-    //     this.deleteteam = {};
-    //     this.confirmationModal.close();
-    // }
+        var suffix = "AM";
+        if (hours >= 12) {
+            suffix = "PM";
+            hours = hours - 12;
+        }
+        if (hours == 0) {
+            hours = 12;
+        }
 
+        if (parseInt(hours) < 10)
+            hours = "0" + parseInt(hours);
+
+        var current_time = hours + ":" + minutes + " " + suffix;
+        return current_time;
+    }
 
 }

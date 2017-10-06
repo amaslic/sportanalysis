@@ -170,8 +170,12 @@ h2.video-title{
 }
 
 .list-view h2.video-title{
-  text-align: left;
+  text-align: center;
   font-size: 14px;
+}
+
+.list-view .video-info-list i.fa{
+  padding: 0px 2px 0px 2px;
 }
 
 .list-view li.views-date{
@@ -229,7 +233,9 @@ div.date ul.list-inline li:nth-child(2) i{
  color: green;
 }
 
-
+.video-white-bg .text-success{
+  padding-left: 10px;
+}
 
 /*
 @media (max-width: 1339px) {
@@ -322,6 +328,10 @@ h3.recent{
 .list-view a img{
   max-width: 60px;
   width: 100%;
+}
+
+.list-view li{
+  text-align: center!important;
 }
 
 .list-view li.teams{

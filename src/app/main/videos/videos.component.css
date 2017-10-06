@@ -165,8 +165,12 @@ h2.video-title{
 }
 
 .list-view h2.video-title{
-  text-align: left;
+  text-align: center;
   font-size: 14px;
+}
+
+.video-white-bg .text-success{
+  padding-left: 5px;
 }
 
 .list-view li.views-date{

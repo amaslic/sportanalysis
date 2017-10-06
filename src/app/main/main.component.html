@@ -78,7 +78,7 @@
                 <div class="dropdown" dropdown [dropdownToggle]="false">
 
                   <button class="btn dropdown-toggle btn-usr" type="button" dropdown-open>
-                    <div class="profile-img"><img [src]="profile.profile_path" (error)="setDefaultPic()" class="img img-responsive img-rounded profile-picture"></div>
+                    <div class="profile-img"><img [src]="profile.profile_path" (error)="setDefaultPic()" class="img img-responsive img-circle profile-picture"></div>
                     <span class="name-profile">{{getUserDisplayName()}}</span>
 									</button>
                   <ul class="dropdown-menu profile-options">

@@ -1,0 +1,3 @@
+ss-multiselect-dropdown /deep/ .dropdown-menu{
+    max-height: 800px!important;
+}

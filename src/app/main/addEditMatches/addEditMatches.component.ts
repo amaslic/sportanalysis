@@ -48,6 +48,8 @@ export class addEditMatchesComponent implements OnInit {
   private sub: any;
   private id: String;
   matchDetails: any;
+  my_Class: any = "";
+  routerLink: any;
 
   @ViewChild('SucessModal') SucessModal;
   @ViewChild('ErrorModal') ErrorModal;
@@ -59,6 +61,15 @@ export class addEditMatchesComponent implements OnInit {
     } else {
       this.isCoach = false;
     }
+    if(route["_routerState"].snapshot.url.indexOf("backoffice") > -1){
+      this.my_Class = "backend panel panel-default";
+      this.routerLink = ['/backoffice/matches-overview'];
+    }else{
+      this.my_Class = "frontend panel panel-default";
+      this.routerLink = ['/matches'];
+    }
+    
+
   }
 
   ngOnInit() {
@@ -102,6 +113,8 @@ export class addEditMatchesComponent implements OnInit {
                   this.clubTeams2.push(element);
                 }
               });
+
+              this.match.date = new Date(this.match.date);
 
             },
             (error) => this.onError(error)
