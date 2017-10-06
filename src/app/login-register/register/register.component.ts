@@ -78,24 +78,26 @@ export class RegisterComponent implements OnInit {
 
     this.showProgressBar = true;
 
-    var clubname = this.user.club;
+    // var clubname = this.user.club;
 
-    if (typeof (this.allClubList) != 'undefined' && this.allClubList.length > 0) {
-      var userclub = this.allClubList.filter(function (element, index) {
-        return (element.name.toLowerCase() === clubname.toLowerCase());
-      })[0];
-    }
+    // if (typeof (this.allClubList) != 'undefined' && this.allClubList.length > 0) {
+    //   var userclub = this.allClubList.filter(function (element, index) {
+    //     return (element.name.toLowerCase() === clubname.toLowerCase());
+    //   })[0];
+    // }
 
-    if (typeof (userclub) == 'undefined') {
-      this.clubService.createClub({ name: clubname })
-        .subscribe(
-        (response) => this.updateClubId(response),
-        (error) => this.onError(error)
-        );
-    } else {
-      this.user.club = userclub._id;
-      this.createNewUser(this.user);
-    }
+    // if (typeof (userclub) == 'undefined') {
+    //   this.clubService.createClub({ name: clubname })
+    //     .subscribe(
+    //     (response) => this.updateClubId(response),
+    //     (error) => this.onError(error)
+    //     );
+    // } else {
+    //   this.user.club = userclub._id;
+    //   this.createNewUser(this.user);
+    // }
+
+    this.createNewUser(this.user);
 
   }
 

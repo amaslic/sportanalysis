@@ -50,6 +50,6 @@ export class MatchService {
     deleteMatchById(id: any, token: String) {
     const headers = new Headers({ 'Authorization': token });
     const options = new RequestOptions({ headers: headers });
-    return this.http.get(this.baseApiUrl + 'match/deleteById?id=' + id, options);
+    return this.http.delete(this.baseApiUrl + 'match/deleteById?id=' + id, options);
   }
 }

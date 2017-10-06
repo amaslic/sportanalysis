@@ -61,14 +61,14 @@ export class addEditMatchesComponent implements OnInit {
     } else {
       this.isCoach = false;
     }
-    if(route["_routerState"].snapshot.url.indexOf("backoffice") > -1){
+    if (route["_routerState"].snapshot.url.indexOf("backoffice") > -1) {
       this.my_Class = "backend panel panel-default";
       this.routerLink = ['/backoffice/matches-overview'];
-    }else{
+    } else {
       this.my_Class = "frontend panel panel-default";
       this.routerLink = ['/matches'];
     }
-    
+
 
   }
 
@@ -85,40 +85,42 @@ export class addEditMatchesComponent implements OnInit {
         this.sub = this.route.params.subscribe(params => {
           this.id = params['id'];
 
-          this.matchService.getMatchById(this.id, this.userService.token).subscribe(
-            (response: any) => {
-              this.match = JSON.parse(response._body);
-              this.match = this.match[0];
+          if (typeof (this.id) != "undefined") {
+            this.matchService.getMatchById(this.id, this.userService.token).subscribe(
+              (response: any) => {
+                this.match = JSON.parse(response._body);
+                this.match = this.match[0];
 
-              if (JSON.parse(response._body)[0].club1details.length > 0)
-                this.match.club1 = JSON.parse(response._body)[0].club1details[0].name;
-              else
-                this.match.club1 = '';
+                if (JSON.parse(response._body)[0].club1details.length > 0)
+                  this.match.club1 = JSON.parse(response._body)[0].club1details[0].name;
+                else
+                  this.match.club1 = '';
 
-              if (JSON.parse(response._body)[0].club2details.length > 0)
-                this.match.club2 = JSON.parse(response._body)[0].club2details[0].name;
-              else
-                this.match.club2 = '';
-              
-              this.clubTeams1 = [];
-              this.clubTeams2 = [];
-              
-              this.teamsList.forEach((element, index) => {
-               
-                if (JSON.parse(response._body)[0].club1details[0].teams.indexOf(element._id) > -1) {
-                  this.clubTeams1.push(element);
-                }
+                if (JSON.parse(response._body)[0].club2details.length > 0)
+                  this.match.club2 = JSON.parse(response._body)[0].club2details[0].name;
+                else
+                  this.match.club2 = '';
 
-                if (JSON.parse(response._body)[0].club2details[0].teams.indexOf(element._id) > -1) {
-                  this.clubTeams2.push(element);
-                }
-              });
+                this.clubTeams1 = [];
+                this.clubTeams2 = [];
 
-              this.match.date = new Date(this.match.date);
+                this.teamsList.forEach((element, index) => {
 
-            },
-            (error) => this.onError(error)
-          );
+                  if (JSON.parse(response._body)[0].club1details[0].teams.indexOf(element._id) > -1) {
+                    this.clubTeams1.push(element);
+                  }
+
+                  if (JSON.parse(response._body)[0].club2details[0].teams.indexOf(element._id) > -1) {
+                    this.clubTeams2.push(element);
+                  }
+                });
+
+                this.match.date = new Date(this.match.date);
+
+              },
+              (error) => this.onError(error)
+            );
+          }
 
         });
 
@@ -157,7 +159,7 @@ export class addEditMatchesComponent implements OnInit {
   }
 
   onError(error) {
-     this.showProgressBar = false;
+    this.showProgressBar = false;
     const errorBody = JSON.parse(error._body);
     this.form.nativeElement.reset();
     this.errormsg = errorBody.message;
@@ -230,77 +232,77 @@ export class addEditMatchesComponent implements OnInit {
 
     this.showProgressBar = true;
 
-    var clubName = f.value.clubName;
-    if (clubName != '' && clubName != null) {
-      var ClubData1 = this.allClubList.filter(function (element, index) {
-        return (element.name.toLowerCase() === clubName.toLowerCase());
-      })[0];
-    }
+    // var clubName = f.value.clubName;
+    // if (clubName != '' && clubName != null) {
+    //   var ClubData1 = this.allClubList.filter(function (element, index) {
+    //     return (element.name.toLowerCase() === clubName.toLowerCase());
+    //   })[0];
+    // }
 
-    var clubName2 = f.value.clubName2;
-    if (clubName2 != '' && clubName2 != null) {
-      var ClubData2 = this.allClubList.filter(function (element, index) {
-        return (element.name.toLowerCase() === clubName2.toLowerCase());
-      })[0];
-    }
+    // var clubName2 = f.value.clubName2;
+    // if (clubName2 != '' && clubName2 != null) {
+    //   var ClubData2 = this.allClubList.filter(function (element, index) {
+    //     return (element.name.toLowerCase() === clubName2.toLowerCase());
+    //   })[0];
+    // }
 
-    this.notExistedClub = [];
-    if (typeof (ClubData1) == 'undefined' && clubName && clubName != '' && clubName != null) {
-      this.notExistedClub.push({ name: clubName });
-    } else {
-      f.value.clubName = ClubData1._id;
-    }
+    // this.notExistedClub = [];
+    // if (typeof (ClubData1) == 'undefined' && clubName && clubName != '' && clubName != null) {
+    //   this.notExistedClub.push({ name: clubName });
+    // } else {
+    //   f.value.clubName = ClubData1._id;
+    // }
 
-    if (typeof (ClubData2) == 'undefined' && clubName2 && clubName2 != '' && clubName2 != null) {
+    // if (typeof (ClubData2) == 'undefined' && clubName2 && clubName2 != '' && clubName2 != null) {
 
-      var existclub = this.notExistedClub.filter(function (element, index) {
-        return (element.name.toLowerCase() === clubName2.toLowerCase());
-      });
+    //   var existclub = this.notExistedClub.filter(function (element, index) {
+    //     return (element.name.toLowerCase() === clubName2.toLowerCase());
+    //   });
 
-      if (typeof (existclub) == 'undefined' || existclub.length == 0)
-        this.notExistedClub.push({ name: clubName2 });
-    } else {
-      f.value.clubName2 = ClubData2._id;
-    }
+    //   if (typeof (existclub) == 'undefined' || existclub.length == 0)
+    //     this.notExistedClub.push({ name: clubName2 });
+    // } else {
+    //   f.value.clubName2 = ClubData2._id;
+    // }
 
-    if (this.notExistedClub.length > 0) {
-      var count = 0;
-      this.notExistedClub.forEach(element => {
-        this.clubService.createClub({ name: element.name })
-          .subscribe(
-          (response1: any) => {
-            count++;
+    // if (this.notExistedClub.length > 0) {
+    //   var count = 0;
+    //   this.notExistedClub.forEach(element => {
+    //     this.clubService.createClub({ name: element.name })
+    //       .subscribe(
+    //       (response1: any) => {
+    //         count++;
 
-            var response = JSON.parse(response1._body);
-            element.clubId = response.club._id;
-            this.allClubList.push(response.club);
+    //         var response = JSON.parse(response1._body);
+    //         element.clubId = response.club._id;
+    //         this.allClubList.push(response.club);
 
-            if (this.notExistedClub.length == count) {
+    //         if (this.notExistedClub.length == count) {
 
-              if (typeof (ClubData1) == 'undefined' && clubName && clubName != '' && clubName != null) {
-                var existclub = this.notExistedClub.filter(function (element, index) {
-                  return (element.name.toLowerCase() === clubName.toLowerCase());
-                })[0];
-                f.value.clubName = existclub.clubId;
-              }
+    //           if (typeof (ClubData1) == 'undefined' && clubName && clubName != '' && clubName != null) {
+    //             var existclub = this.notExistedClub.filter(function (element, index) {
+    //               return (element.name.toLowerCase() === clubName.toLowerCase());
+    //             })[0];
+    //             f.value.clubName = existclub.clubId;
+    //           }
 
-              if (typeof (ClubData2) == 'undefined' && clubName2 && clubName2 != '' && clubName2 != null) {
-                var existclub = this.notExistedClub.filter(function (element, index) {
-                  return (element.name.toLowerCase() === clubName2.toLowerCase());
-                })[0];
-                f.value.clubName2 = existclub.clubId;
-              }
-              this.saveMatch(f);
-            }
-          },
-          (error) => this.onError(error)
-          );
+    //           if (typeof (ClubData2) == 'undefined' && clubName2 && clubName2 != '' && clubName2 != null) {
+    //             var existclub = this.notExistedClub.filter(function (element, index) {
+    //               return (element.name.toLowerCase() === clubName2.toLowerCase());
+    //             })[0];
+    //             f.value.clubName2 = existclub.clubId;
+    //           }
+    //           this.saveMatch(f);
+    //         }
+    //       },
+    //       (error) => this.onError(error)
+    //       );
 
-      });
-    } else {
-      this.saveMatch(f);
-    }
-
+    //   });
+    // } else {
+    //   this.saveMatch(f);
+    // }
+    this.saveMatch(f);
   }
 
   saveMatch(f) {
