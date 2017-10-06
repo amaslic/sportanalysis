@@ -61,8 +61,9 @@
       <li [routerLinkActive]="['is-active']" class="search-option"><span><i class="fa fa-search fa-2x" aria-hidden="true"></i><br>SEARCH</span>-->
               <li *ngIf="isCoachOrAnalyst" [routerLink]="['/players']" [routerLinkActive]="['is-active']"><span><i class="fa fa-users fa-2x" aria-hidden="true"></i><br>PLAYERS</span></li>
               <li *ngIf="isCoachOrAnalyst" [routerLink]="['/matches']" [routerLinkActive]="['is-active']"><span><i class="fa fa-futbol-o fa-2x" aria-hidden="true"></i><br>MATCHES</span></li>
-              <li *ngIf="isCoachOrAnalyst" [routerLink]="['/videos/upload']" [routerLinkActive]="['is-active']" class="search-option"><span><i class="fa fa-upload fa-2x" aria-hidden="true"></i><br>UPLOAD</span>
+              <li *ngIf="isCoachOrAnalyst" [routerLink]="['/videos/upload']" [routerLinkActive]="['is-active']"><span><i class="fa fa-upload fa-2x" aria-hidden="true"></i><br>UPLOAD</span>
               </li>
+             
               <!-- <li [routerLinkActive]="['is-active']"><span><i class="fa fa-comment fa-2x" aria-hidden="true"></i><br>Help</span></li> -->
               <!--  <li (click)="logout()"><span><i class="fa fa-sign-out fa-2x" aria-hidden="true"></i><br>LOGOUT</span></li>-->
             </ul>

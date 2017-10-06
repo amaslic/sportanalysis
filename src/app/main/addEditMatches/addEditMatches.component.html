@@ -24,32 +24,32 @@
             <input type="time" [(ngModel)]="match.time" class="form-control col-12" name="time" id="time" placeholder="Time" required>
           </div>
             <div class="form-group col-12" *ngIf="(type != 'Training')">
-              <label class="control-label text-left" for="title">Club 1:</label>
+              <label class="control-label text-left" for="title">Home Club:</label>
               <ng2-completer #club="ngModel" id="selectClub" [(ngModel)]="match.club1" (ngModelChange)="onChangeofClub1()" name="clubName"
-                placeholder="Club 1" [datasource]="clubData" [minSearchLength]="3" required></ng2-completer>
+                placeholder="Home Club" [datasource]="clubData" [minSearchLength]="3" required></ng2-completer>
 
             </div>
             <div class="form-group col-12" *ngIf="(type != 'Training')">
-              <label class="control-label text-left" for="title">Club 2:</label>
+              <label class="control-label text-left" for="title">Away Club:</label>
               <ng2-completer #club="ngModel" id="selectClub2" [(ngModel)]="match.club2" (ngModelChange)="onChangeofClub2()" name="clubName2"
-                placeholder="Club 2" [datasource]="clubData" [minSearchLength]="3" required></ng2-completer>
+                placeholder="Away Club" [datasource]="clubData" [minSearchLength]="3" required></ng2-completer>
 
             </div>
             <div class="form-group col-12">
-              <label class="control-label text-left" for="title">Team 1:</label>
+              <label class="control-label text-left" for="title">Home Team:</label>
               <!--<ng2-completer id="selectTeam1" #club="ngModel" [(ngModel)]="team1" name="team1" placeholder="Team 1" [datasource]="clubData"
               [minSearchLength]="3"></ng2-completer>-->
               <select name="team1" #team class="form-control" [(ngModel)]="match.team1">
-              <option value="null">Select Team 1</option>
+              <option value="null">Select Home team</option>
               <option *ngFor="let team of clubTeams1" [ngValue]="team._id">{{team.name}}</option>
             </select>
             </div>
             <div class="form-group col-12">
-              <label class="control-label text-left" for="title">Team 2:</label>
+              <label class="control-label text-left" for="title">Away Team:</label>
               <!--<ng2-completer #club="ngModel" id="selectTeam2" [(ngModel)]="team2" name="team2" placeholder="Team 2" [datasource]="clubData"
               [minSearchLength]="3"></ng2-completer>-->
               <select name="team2" #team class="form-control" [(ngModel)]="match.team2">
-              <option value="null">Select Team 2</option>
+              <option value="null">Select Away team</option>
               <option *ngFor="let team of clubTeams2" [ngValue]="team._id">{{team.name}}</option>
             </select>
             </div>
