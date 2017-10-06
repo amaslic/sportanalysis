@@ -93,6 +93,7 @@ export class AdminAddUserComponent implements OnInit {
       this.isAdmin = true;
     } else {
       this.isAdmin = false;
+
       this.user.club = user['club'];
       this.user.team = user['team'];
     }
@@ -140,27 +141,27 @@ export class AdminAddUserComponent implements OnInit {
 
     this.showProgressBar = true;
 
-    var clubname = this.user.club;
+    // var clubname = this.user.club;
 
-    var userclub = this.allClubList.filter(function (element, index) {
-      return (element.name.toLowerCase() === clubname.toLowerCase());
-    })[0];
+    // var userclub = this.allClubList.filter(function (element, index) {
+    //   return (element.name.toLowerCase() === clubname.toLowerCase());
+    // })[0];
 
-    if (typeof (userclub) == 'undefined' && this.isAdmin) {
-      this.clubService.createClub({ name: clubname })
-        .subscribe(
-        (response) => this.updateClubId(response),
-        (error) => this.onError(error)
-        );
-    } else {
+    // if (typeof (userclub) == 'undefined' && this.isAdmin) {
+    //   this.clubService.createClub({ name: clubname })
+    //     .subscribe(
+    //     (response) => this.updateClubId(response),
+    //     (error) => this.onError(error)
+    //     );
+    // } else {
 
-      if (this.isAdmin) {
-        this.user.club = userclub._id;
-      }
+    //   if (this.isAdmin) {
+    //     this.user.club = userclub._id;
+    //   }
 
-      this.createNewUser(this.user);
-    }
-
+    //   this.createNewUser(this.user);
+    // }
+    this.createNewUser(this.user);
 
   }
 
@@ -250,6 +251,15 @@ export class AdminAddUserComponent implements OnInit {
 
   onGetAllClubsSuccess(response) {
     this.allClubList = JSON.parse(response._body);
+
+    if (!this.isAdmin) {
+      var club = this.user.club;
+      var userclub = this.allClubList.filter(function (element, index) {
+        return (element._id === club);
+      })[0];
+
+      this.user.club = userclub.name;
+    }
   }
 
   onChangeofClub() {

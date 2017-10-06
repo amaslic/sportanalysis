@@ -25,8 +25,10 @@ export class MatchService {
         this.progressSubject = new Subject<number>();
         this.progress$ = this.progressSubject.asObservable();
     }
-    saveMatch(match: Match) {
-        return this.http.post(this.baseApiUrl + 'match/save', match);
+    saveMatch(match: Match,token: String) {
+        const headers = new Headers({ 'Authorization': token });
+        const options = new RequestOptions({ headers: headers });
+        return this.http.post(this.baseApiUrl + 'match/save', match,options);
     }
 
     getAllMatch(token: String) {
@@ -50,6 +52,6 @@ export class MatchService {
     deleteMatchById(id: any, token: String) {
     const headers = new Headers({ 'Authorization': token });
     const options = new RequestOptions({ headers: headers });
-    return this.http.get(this.baseApiUrl + 'match/deleteById?id=' + id, options);
+    return this.http.delete(this.baseApiUrl + 'match/deleteById?id=' + id, options);
   }
 }
