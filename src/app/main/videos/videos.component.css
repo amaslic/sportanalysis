@@ -171,6 +171,7 @@ h2.video-title{
 
 .list-view li.views-date{
   font-size: 12px;
+ 
 }
 
 .list-view li.views-date i{
@@ -224,6 +225,7 @@ div.date ul.list-inline li:nth-child(2) i{
 .viewbtns i.active{
  color: green;
 }
+
 
 
 
@@ -355,22 +357,43 @@ h3.recent{
   text-align: center;
 }
 
-.list-view .list-inline.video-list-details > li:first-child, .list-view .list-inline.video-list-details > li:last-child{
-  max-width: 100px;
+ /* .list-view .list-inline.video-list-details > li:first-child{
+  max-width: 150px;
+} */
+.checkbox{
+  max-width: 60px !important;
 }
 
 .list-view .list-inline.video-list-details > li:nth-child(2){
   max-width: 150px;
 }
-
-.list-view .list-inline.video-list-details > li:nth-child(4), .list-view .list-inline.video-list-details > li:nth-child(5){
-  max-width: 150px;
+/* .list-view .list-inline.video-list-details > li:nth-child(3){
+  max-width: 100px;
+} */
+/* .list-view .list-inline.video-list-details > li:nth-child(4){
+  max-width: 250px;
+} */
+.hometeam{
+  max-width: 100px !important;
 }
-
+.awayteam{
+  max-width: 100px !important;
+}
+.result{
+  max-width: 250px;
+}
+.list-view .list-inline.video-list-details > li:nth-child(5){
+   max-width: 100px;
+}
 .list-view .list-inline.video-list-details > li:nth-child(6){
-  max-width: 150px;
+  max-width: 100px;
 }
-
+.list-view .list-inline.video-list-details > li:nth-child(7){
+  max-width: 100px;
+}
+ .list-view .list-inline.video-list-details > li:last-child{
+  max-width: 200px;
+} 
 .list-view .video-info-list i:first-child, .list-view .video-info-list i:nth-child(2){
   padding-right: 8px;
 }
@@ -415,6 +438,12 @@ h3.recent{
 .grid-delete-btn {
     font-size: 16px !important;
     margin-bottom: -2px;
+}
+perfect-scrollbar{
+  clear: both;
+}
+:host >>> .mat-checkbox-checked.mat-accent .mat-checkbox-background, .mat-checkbox-indeterminate.mat-accent .mat-checkbox-background{
+    background-color:#009cff;
 }
 @media (max-width: 1333px) {
     div.teams{
