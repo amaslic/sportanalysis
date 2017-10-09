@@ -17,8 +17,12 @@ export class SearchVideoTimelineTeamPipe implements PipeTransform {
         // console.log('search', search);
 
         let fData = (value || []).filter((tItem) => {
-            if (search)
-                return tItem.team.toLowerCase().indexOf(search.toLowerCase()) != -1
+            if (search) {
+                if (typeof (tItem.team) != 'undefined' && tItem.team != null)
+                    return tItem.team.toLowerCase().indexOf(search.toLowerCase()) != -1
+                else
+                    return true;
+            }
             else if (team && team.length > 0)
                 return team.indexOf(tItem.team) > -1;
             else return true
