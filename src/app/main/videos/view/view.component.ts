@@ -520,12 +520,12 @@ export class ViewComponent implements OnInit {
 
     this.video = JSON.parse(response._body);
 
-    if (this.video.club1details) {
+    if (this.video.club1details && this.video.club1details.length > 0) {
 
       var club1trim = this.video.club1details[0].name.replace(/ /g, '').slice(0, 3);
       this.video.club1details[0].name = club1trim.toUpperCase();
     }
-    if (this.video.club2details) {
+    if (this.video.club2details && this.video.club2details.length > 0) {
 
       var club2trim = this.video.club2details[0].name.replace(/ /g, '').slice(0, 3);
       this.video.club2details[0].name = club2trim.toUpperCase();
