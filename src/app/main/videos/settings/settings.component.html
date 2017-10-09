@@ -16,163 +16,169 @@
           <form class="form-horizontal" id="video-metadata-form" #videoEditForm="ngForm" (ngSubmit)="onVideoEditSubmit(videoEditForm)"
             novalidate [ngClass]="{'submited' : videoEditForm._submitted}">
             <div class="col-md-6">
-            <div class="form-group">
-              <label class="control-label col-sm-5" for="type">Type:</label>
-              <div class="col-sm-7" style="margin-top: 24px;">
-                <md-radio-group required [(ngModel)]="video.type" id="type" name="type">
-                  <md-radio-button value="Match">Match</md-radio-button>
-                  <md-radio-button value="Event">Event</md-radio-button>
-                  <md-radio-button value="Training">Training</md-radio-button>
-                  <md-radio-button value="Telestration">Telestration</md-radio-button>
-                </md-radio-group>
+              <div class="form-group">
+                <label class="control-label col-sm-5" for="type">Type:</label>
+                <div class="col-sm-7" style="margin-top: 24px;">
+                  <md-radio-group required [(ngModel)]="video.type" id="type" name="type">
+                    <md-radio-button value="Match">Match</md-radio-button>
+                    <md-radio-button value="Event">Event</md-radio-button>
+                    <md-radio-button value="Training">Training</md-radio-button>
+                    <md-radio-button value="Telestration">Telestration</md-radio-button>
+                  </md-radio-group>
+                </div>
               </div>
-            </div>
-            <div class="form-group margin-left-0">
-              <label class="control-label col-sm-5" for="title">Share with:</label>
-              <div class="col-sm-7" style="padding-top:2%">
-                <md-checkbox class="checkbox-margin" name="shareWithAll" [(ngModel)]="videoRights.allRoles" (ngModelChange)="selectAll($event)">All</md-checkbox>
-                <md-checkbox class="checkbox-margin" name="shareWithTeams" [(ngModel)]="videoRights.team" (ngModelChange)="selectTeam($event)">Team</md-checkbox>
-                <md-checkbox class="checkbox-margin" name="shareWithPlayers" [(ngModel)]="videoRights.player" (ngModelChange)="selectPlayer($event)">Player</md-checkbox>
-                <md-checkbox class="checkbox-margin" name="shareWithViewers" [(ngModel)]="videoRights.viewer" (ngModelChange)="selectViewer($event)">Viewer</md-checkbox>
+              <div class="form-group margin-left-0">
+                <label class="control-label col-sm-5" for="title">Share with:</label>
+                <div class="col-sm-7" style="padding-top:2%">
+                  <md-checkbox class="checkbox-margin" name="shareWithAll" [(ngModel)]="videoRights.allRoles" (ngModelChange)="selectAll($event)">All</md-checkbox>
+                  <md-checkbox class="checkbox-margin" name="shareWithTeams" [(ngModel)]="videoRights.team" (ngModelChange)="selectTeam($event)">Team</md-checkbox>
+                  <md-checkbox class="checkbox-margin" name="shareWithPlayers" [(ngModel)]="videoRights.player" (ngModelChange)="selectPlayer($event)">Player</md-checkbox>
+                  <md-checkbox class="checkbox-margin" name="shareWithViewers" [(ngModel)]="videoRights.viewer" (ngModelChange)="selectViewer($event)">Viewer</md-checkbox>
 
+                </div>
               </div>
-            </div>
-            <div class="form-group" *ngIf="(videoRights.allRoles==false && videoRights.team==true)">
-              <label class="control-label col-sm-5" for="title">Teams:</label>
-              <ss-multiselect-dropdown name="team" class="col-sm-7 drop-down-button" [options]="teamlistOptions" [texts]="teamlistTexts"
-                [settings]="teamlistSettings" [(ngModel)]="teamlistModel"></ss-multiselect-dropdown>
-            </div>
-            <div class="form-group" *ngIf="(videoRights.allRoles==false && videoRights.player==true)">
-              <label class="control-label col-sm-5" for="title">Player:</label>
-              <ss-multiselect-dropdown name="player" class="col-sm-7 drop-down-button" [options]="playerlistOptions" [texts]="playerlistTexts"
-                [settings]="playerlistSettings" [(ngModel)]="playerlistModel"></ss-multiselect-dropdown>
-            </div>
-            <div class="form-group" *ngIf="(videoRights.allRoles==false && videoRights.viewer==true)">
-              <label class="control-label col-sm-5" for="title">Viewer:</label>
-              <ss-multiselect-dropdown name="viewer" class="col-sm-7 drop-down-button" [options]="viewerlistOptions" [texts]="viewerlistTexts"
-                [settings]="viewerlistSettings" [(ngModel)]="viewerlistModel"></ss-multiselect-dropdown>
-            </div>
-            <div *ngIf="(video.type == 'Match')" class="form-group">
-              <label class="control-label col-sm-5" for="title">Match:</label>
-              <div class="col-sm-7">
-                <select name="match" #team class="form-control" [(ngModel)]="video.match" (ngModelChange)="onChangeofMatch()">
+              <div class="form-group" *ngIf="(videoRights.allRoles==false && videoRights.team==true)">
+                <label class="control-label col-sm-5" for="title">Teams:</label>
+                <ss-multiselect-dropdown name="team" class="col-sm-7 drop-down-button" [options]="teamlistOptions" [texts]="teamlistTexts"
+                  [settings]="teamlistSettings" [(ngModel)]="teamlistModel"></ss-multiselect-dropdown>
+              </div>
+              <div class="form-group" *ngIf="(videoRights.allRoles==false && videoRights.player==true)">
+                <label class="control-label col-sm-5" for="title">Player:</label>
+                <ss-multiselect-dropdown name="player" class="col-sm-7 drop-down-button" [options]="playerlistOptions" [texts]="playerlistTexts"
+                  [settings]="playerlistSettings" [(ngModel)]="playerlistModel"></ss-multiselect-dropdown>
+              </div>
+              <div class="form-group" *ngIf="(videoRights.allRoles==false && videoRights.viewer==true)">
+                <label class="control-label col-sm-5" for="title">Viewer:</label>
+                <ss-multiselect-dropdown name="viewer" class="col-sm-7 drop-down-button" [options]="viewerlistOptions" [texts]="viewerlistTexts"
+                  [settings]="viewerlistSettings" [(ngModel)]="viewerlistModel"></ss-multiselect-dropdown>
+              </div>
+              <div *ngIf="(video.type == 'Match')" class="form-group">
+                <label class="control-label col-sm-5" for="title">Match:</label>
+                <div class="col-sm-7">
+                  <select name="match" #team class="form-control" [(ngModel)]="video.match" (ngModelChange)="onChangeofMatch()">
                   <option value="null">Select Match</option>
                   <option *ngFor="let m of matches" [ngValue]="m._id">{{m.club1details[0].name}} vs {{m.club2details[0].name}} ({{m.date | date: 'yyyy-MM-dd'}} {{m.time}}) </option>
                 </select>
+                </div>
               </div>
-            </div>
-            <div *ngIf="(video.type == 'Training')" class="form-group">
-              <label class="control-label col-sm-5" for="title">Video Title:</label>
-              <div class="col-sm-7">
-                <input type="text" class="form-control" id="title" name="title" [ngModel]="video.title" placeholder="Enter Title" required>
+              <div class="form-group" *ngIf="(video.type == 'Match') && (video.match!=null && video.match != 'null')">
+                <label class="control-label col-sm-5" for="title">Full Video:</label>
+                <div class="col-sm-7" style="margin-top: 4%;">
+                  <md-checkbox class="checkbox-margin" name="fullVideo" [(ngModel)]="video.fullVideo">Full Video</md-checkbox>
+                </div>
               </div>
-            </div>
-            <div class="form-group">
-              <label class="control-label col-sm-5" for="date">Date:</label>
-              <div class="col-sm-7">
-                <input [(ngModel)]="video.date" class="form-control" name="date" ngui-datetime-picker date-only="true" placeholder="Date of event"
-                  required>
+              <div *ngIf="(video.type == 'Training')" class="form-group">
+                <label class="control-label col-sm-5" for="title">Video Title:</label>
+                <div class="col-sm-7">
+                  <input type="text" class="form-control" id="title" name="title" [ngModel]="video.title" placeholder="Enter Title" required>
+                </div>
               </div>
-            </div>
-            <div *ngIf="(video.type != 'Training')" class="form-group">
-              <label class="control-label col-sm-5">Home Club:</label>
-              <div class="col-sm-7">
-                <ng2-completer #club="ngModel" id="selectClub" [(ngModel)]="video.clubName" (ngModelChange)="onChangeofClub1()" name="clubName"
-                  placeholder="Home Club" [datasource]="clubData" [minSearchLength]="3" required></ng2-completer>
+              <div class="form-group">
+                <label class="control-label col-sm-5" for="date">Date:</label>
+                <div class="col-sm-7">
+                  <input [(ngModel)]="video.date" class="form-control" name="date" ngui-datetime-picker date-only="true" placeholder="Date of event"
+                    required>
+                </div>
               </div>
-            </div>
-            <div *ngIf="(video.type != 'Training')" class="form-group">
-              <label class="control-label col-sm-5">Away Club:</label>
-              <div class="col-sm-7">
-                <ng2-completer #club="ngModel" id="selectClub2" [(ngModel)]="video.clubName2" (ngModelChange)="onChangeofClub2()" name="clubName2"
-                  placeholder="Away Club" [datasource]="clubData" [minSearchLength]="3" required></ng2-completer>
+              <div *ngIf="(video.type != 'Training')" class="form-group">
+                <label class="control-label col-sm-5">Home Club:</label>
+                <div class="col-sm-7">
+                  <ng2-completer #club="ngModel" id="selectClub" [(ngModel)]="video.clubName" (ngModelChange)="onChangeofClub1()" name="clubName"
+                    placeholder="Home Club" [datasource]="clubData" [minSearchLength]="3" required></ng2-completer>
+                </div>
               </div>
-            </div>
-            <div class="form-group">
-              <label class="control-label col-sm-5" for="title">Season:</label>
-              <div class="col-sm-7">
-                <!-- <input type="text" [(ngModel)]="video.season" class="form-control" name="season" id="season" placeholder="Season"> -->
-                <select class="sportscode form-control" name="season" required [(ngModel)]="video.season">
+              <div *ngIf="(video.type != 'Training')" class="form-group">
+                <label class="control-label col-sm-5">Away Club:</label>
+                <div class="col-sm-7">
+                  <ng2-completer #club="ngModel" id="selectClub2" [(ngModel)]="video.clubName2" (ngModelChange)="onChangeofClub2()" name="clubName2"
+                    placeholder="Away Club" [datasource]="clubData" [minSearchLength]="3" required></ng2-completer>
+                </div>
+              </div>
+              <div class="form-group">
+                <label class="control-label col-sm-5" for="title">Season:</label>
+                <div class="col-sm-7">
+                  <!-- <input type="text" [(ngModel)]="video.season" class="form-control" name="season" id="season" placeholder="Season"> -->
+                  <select class="sportscode form-control" name="season" required [(ngModel)]="video.season">
                         <option>2015/2016</option>
                          <option>2016/2017</option>
                   <option>2017/2018</option>
                   <option>2018/2019</option>
                   </select>
+                </div>
               </div>
-            </div>
 
-          </div>
-          <div class="col-md-6">
-            <div *ngIf="(video.type != 'Training')" class="form-group">
-              <label class="control-label col-sm-5" for="title">Competition:</label>
-              <div class="col-sm-7">
-                <input type="text" [(ngModel)]="video.competition" class="form-control" name="competition" id="competition" placeholder="Competition">
-              </div>
             </div>
-            <div *ngIf="(video.type != 'Training')" class="form-group">
-              <label class="control-label col-sm-5" for="title">Description:</label>
-              <div class="col-sm-7">
-                <input type="text" [(ngModel)]="video.description" class="form-control" name="description" id="description" placeholder="Description">
+            <div class="col-md-6">
+              <div *ngIf="(video.type != 'Training')" class="form-group">
+                <label class="control-label col-sm-5" for="title">Competition:</label>
+                <div class="col-sm-7">
+                  <input type="text" [(ngModel)]="video.competition" class="form-control" name="competition" id="competition" placeholder="Competition">
+                </div>
               </div>
-            </div>
-            <div *ngIf="(video.type != 'Training')" class="form-group">
-              <label class="control-label col-sm-5">Tactics of home team:</label>
-              <div class="col-sm-7">
-                <input type="text" [(ngModel)]="video.tacticsTeam1" class="form-control" name="tacticsTeam1" id="tacticsTeam1" placeholder="Tactics of home team">
+              <div *ngIf="(video.type != 'Training')" class="form-group">
+                <label class="control-label col-sm-5" for="title">Description:</label>
+                <div class="col-sm-7">
+                  <input type="text" [(ngModel)]="video.description" class="form-control" name="description" id="description" placeholder="Description">
+                </div>
               </div>
-            </div>
-            <div *ngIf="(video.type != 'Training')" class="form-group">
-              <label class="control-label col-sm-5">Tactics of away team:</label>
-              <div class="col-sm-7">
-                <input type="text" [(ngModel)]="video.tacticsTeam2" class="form-control" name="tacticsTeam2" id="tacticsTeam2" placeholder="Tactics of away team">
+              <div *ngIf="(video.type != 'Training')" class="form-group">
+                <label class="control-label col-sm-5">Tactics of home team:</label>
+                <div class="col-sm-7">
+                  <input type="text" [(ngModel)]="video.tacticsTeam1" class="form-control" name="tacticsTeam1" id="tacticsTeam1" placeholder="Tactics of home team">
+                </div>
               </div>
-            </div>
-            <div *ngIf="(video.type != 'Training')" class="form-group">
-              <label class="control-label col-sm-5">Score of home team:</label>
-              <div class="col-sm-7">
-                <input type="text" [(ngModel)]="video.scoreTeam1" class="form-control" name="scoreTeam1" id="scoreTeam1" placeholder="Score of home team">
+              <div *ngIf="(video.type != 'Training')" class="form-group">
+                <label class="control-label col-sm-5">Tactics of away team:</label>
+                <div class="col-sm-7">
+                  <input type="text" [(ngModel)]="video.tacticsTeam2" class="form-control" name="tacticsTeam2" id="tacticsTeam2" placeholder="Tactics of away team">
+                </div>
               </div>
-            </div>
-            <div *ngIf="(video.type != 'Training')" class="form-group">
-              <label class="control-label col-sm-5">Score of away team:</label>
-              <div class="col-sm-7">
-                <input type="text" [(ngModel)]="video.scoreTeam2" class="form-control" name="scoreTeam2" id="scoreTeam2" placeholder="Score of away team">
+              <div *ngIf="(video.type != 'Training')" class="form-group">
+                <label class="control-label col-sm-5">Score of home team:</label>
+                <div class="col-sm-7">
+                  <input type="text" [(ngModel)]="video.scoreTeam1" class="form-control" name="scoreTeam1" id="scoreTeam1" placeholder="Score of home team">
+                </div>
               </div>
-            </div>
+              <div *ngIf="(video.type != 'Training')" class="form-group">
+                <label class="control-label col-sm-5">Score of away team:</label>
+                <div class="col-sm-7">
+                  <input type="text" [(ngModel)]="video.scoreTeam2" class="form-control" name="scoreTeam2" id="scoreTeam2" placeholder="Score of away team">
+                </div>
+              </div>
 
 
 
-            <div class="form-group" *ngIf="(video.type != 'Training')">
-              <label class="control-label col-sm-5" for="team1">Home team:</label>
-              <div class="col-sm-7">
-                <!--<input type="text" class="form-control" id="team1" name="team1" [ngModel]="video.team1" placeholder="Enter Name">-->
+              <div class="form-group" *ngIf="(video.type != 'Training')">
+                <label class="control-label col-sm-5" for="team1">Home team:</label>
+                <div class="col-sm-7">
+                  <!--<input type="text" class="form-control" id="team1" name="team1" [ngModel]="video.team1" placeholder="Enter Name">-->
 
-                <!--<ng2-completer id="team1" #club="ngModel" [(ngModel)]="video.team1" name="team1" [inputClass]="['autocompleteInput']" class="autocompleteControl"
+                  <!--<ng2-completer id="team1" #club="ngModel" [(ngModel)]="video.team1" name="team1" [inputClass]="['autocompleteInput']" class="autocompleteControl"
                   placeholder="Enter Name" [datasource]="clubData" [minSearchLength]="3"></ng2-completer>-->
-                <select name="team1" #team class="form-control" [(ngModel)]="video.team1">
+                  <select name="team1" #team class="form-control" [(ngModel)]="video.team1">
                   <option value="null">Select Home team</option>
                   <option *ngFor="let team of clubTeams1" [ngValue]="team._id">{{team.name}}</option>
                 </select>
 
+                </div>
               </div>
-            </div>
-            <div class="form-group" *ngIf="(video.type != 'Training')">
-              <label class="control-label col-sm-5" for="team2">Away team:</label>
-              <div class="col-sm-7">
-                <!--<input type="text" class="form-control" id="team2" name="team2" [ngModel]="video.team2" placeholder="Enter Name">-->
+              <div class="form-group" *ngIf="(video.type != 'Training')">
+                <label class="control-label col-sm-5" for="team2">Away team:</label>
+                <div class="col-sm-7">
+                  <!--<input type="text" class="form-control" id="team2" name="team2" [ngModel]="video.team2" placeholder="Enter Name">-->
 
-                <!--<ng2-completer id="team2" #club="ngModel" [(ngModel)]="video.team2" name="team2" [inputClass]="['autocompleteInput']" class="autocompleteControl"
+                  <!--<ng2-completer id="team2" #club="ngModel" [(ngModel)]="video.team2" name="team2" [inputClass]="['autocompleteInput']" class="autocompleteControl"
                   placeholder="Enter Name" [datasource]="clubData" [minSearchLength]="3"></ng2-completer>-->
-                <select name="team2" #team class="form-control" [(ngModel)]="video.team2">
+                  <select name="team2" #team class="form-control" [(ngModel)]="video.team2">
                   <option value="null">Select Away team</option>
                   <option *ngFor="let team of clubTeams2" [ngValue]="team._id">{{team.name}}</option>
                 </select>
 
+                </div>
               </div>
+
+
             </div>
-
-
-          </div>
 
             <div class="form-group" style="padding-bottom: 30px; tect-align: center">
               <div class="col-sm-9" style="text-align: right">
@@ -180,7 +186,7 @@
               </div>
             </div>
 
-         
+
           </form>
         </perfect-scrollbar>
       </md-tab>
