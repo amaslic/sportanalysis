@@ -5,17 +5,18 @@
     <!--<p>Girone A</p>-->
   </div>
   <ul class="list-inline matches header">
-    <li>Club 1</li>
-    <li>Club 2</li>
-    <li>Team 1</li>
-    <li>Team 2</li>
     <li>Date</li>
+    <li>Home Club</li>
+    <li>Away Club</li>
+    <li>Home Team</li>
+    <li>Away Team</li>
     <li>Action</li>
   </ul>
   <perfect-scrollbar>
     <div class="scroll-matches">
       <div *ngIf="matches.length > 0">
         <ul class="list-inline matches" *ngFor="let match of matches">
+          <li>{{match.date | date: 'yyyy-MM-dd'}} {{match.time}}</li>
           <li>
             <img *ngIf=" match.club1details[0].logo != ''" [src]="baseUrl + match.club1details[0].logo" alt="Home team">
             <img *ngIf=" match.club1details[0].logo == ''" src="assets/images/default-clublogo.png" alt="Home team">
@@ -30,7 +31,7 @@
           <li *ngIf="match.team1details.length == 0">&nbsp;</li>
           <li *ngIf="match.team2details.length > 0">{{match.team2details[0].name}}</li>
           <li *ngIf="match.team2details.length == 0">&nbsp;</li>
-          <li>{{match.date | date: 'yyyy-MM-dd'}} {{match.time}}</li>
+          
           <li>
             <button class="btn btn-default" [routerLink]="['/match/',match._id]"><i class="fa fa-pencil-square-o text-info" aria-hidden="true"></i></button>
             <button type="button" [routerLink]="['/match/view/',match._id]" class="btn btn-default" aria-label="Left Align">

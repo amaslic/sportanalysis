@@ -26,16 +26,22 @@ export class SearchVideoTimelinePipe implements PipeTransform {
                     return true
                 } else return false
             } else if (search) {
-                if (item['key'].toLowerCase().indexOf(search.toLowerCase()) != -1)
+                if (typeof (item['key']) != 'undefined' && item['key'] != null) {
+                    if (item['key'].toLowerCase().indexOf(search.toLowerCase()) != -1)
+                        return true
+                    else {
+                        let valF = false;
+                        item['values'].filter((val) => {
+                            if (typeof (val.team) != 'undefined' && val.team != null) {
+                                if (val.team.toLowerCase().indexOf(search.toLowerCase()) != -1) {
+                                    valF = true;
+                                }
+                            }
+                        })
+                        return valF;
+                    }
+                } else {
                     return true
-                else {
-                    let valF = false;
-                    item['values'].filter((val) => {
-                        if (val.team.toLowerCase().indexOf(search.toLowerCase()) != -1) {
-                            valF = true;
-                        }
-                    })
-                    return valF;
                 }
             }
             else return true

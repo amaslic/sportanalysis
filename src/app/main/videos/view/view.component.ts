@@ -387,8 +387,9 @@ export class ViewComponent implements OnInit {
             let cuePoint = JSON.parse(cueData[i].text)
             let z = document.createAttribute('data-tooltip');
             z.value = cuePoint.title + " - " + cuePoint.team;
+            try{
             container_child[i].setAttributeNode(z);
-
+            }catch(e){}
           }
           clearInterval(intId);
         }

@@ -1,61 +1,62 @@
 <div class="loginOverLay" *ngIf="showProgressBar">
-		<div>
-			<img src="../../assets/images/default.gif" />
-		</div>
-	</div>
-    
+    <div>
+        <img src="../../assets/images/default.gif" />
+    </div>
+</div>
+
 <div class="container" style="margin-top:10px;">
 
     <div class="main-part">
-  <div class="heading">
-    <h2>Matches</h2>
-    <div *ngIf="!isSuperAdmin" class="pull-right"><button [routerLink]="['/backoffice/match']">Add Matches</button></div>
-  </div>
-  <ul class="list-inline matches header">
-    <li>Home Club</li>
-    <li>Away Club</li>
-    <li>Home Team</li>
-    <li>Away Team</li>
-    <li>Date</li>
-    <li>Action</li>
-  </ul>
-  <perfect-scrollbar>
-    <div class="scroll-matches">
-      <div *ngIf="matches.length > 0">
-        <ul class="list-inline matches" *ngFor="let match of matches">
-          <li>
-            <img *ngIf=" match.club1details[0].logo != ''" [src]="baseUrl + match.club1details[0].logo" alt="Home team">
-            <img *ngIf=" match.club1details[0].logo == ''" src="assets/images/default-clublogo.png" alt="Home team">
-            <span>{{match.club1details[0].name}}</span>
-          </li>
-          <li>
-            <img *ngIf=" match.club2details[0].logo != ''" [src]="baseUrl + match.club2details[0].logo" alt="Away team">
-            <img *ngIf=" match.club2details[0].logo == ''" src="assets/images/default-clublogo.png" alt="Home team">
-            <span>{{match.club2details[0].name}}</span>
-          </li>
-          <li *ngIf="match.team1details.length > 0">{{match.team1details[0].name}}</li>
-          <li *ngIf="match.team1details.length == 0">&nbsp;</li>
-          <li *ngIf="match.team2details.length > 0">{{match.team2details[0].name}}</li>
-          <li *ngIf="match.team2details.length == 0">&nbsp;</li>
-          <li>{{match.date | date: 'yyyy-MM-dd'}} {{match.time}}</li>
-          <li>
-            <button class="btn btn-default" [routerLink]="['/backoffice/match/',match._id]"><i class="fa fa-pencil-square-o text-info" aria-hidden="true"></i></button>
-            <button type="button" [routerLink]="['/backoffice/match/view/',match._id]" class="btn btn-default" aria-label="Left Align">
-            <i class="fa fa-eye text-success" aria-hidden="true"></i>
-          </button>
-            <button type="button" (click)="deleteMatchById(match._id)" class="btn btn-default" aria-label="Left Align">
-               <i class="fa fa-trash text-danger" aria-hidden="true"></i>
-            </button>
-          </li>
+        <div class="heading">
+            <h2>Matches</h2>
+            <div *ngIf="!isSuperAdmin" class="pull-right"><button [routerLink]="['/backoffice/match']">Add Matches</button></div>
+        </div>
+        <ul class="list-inline matches header">
+            <li>Date</li>
+            <li>Home Club</li>
+            <li>Away Club</li>
+            <li>Home Team</li>
+            <li>Away Team</li>
+            <li>Action</li>
         </ul>
-      </div>
+        <perfect-scrollbar>
+            <div class="scroll-matches">
+                <div *ngIf="matches.length > 0">
+                    <ul class="list-inline matches" *ngFor="let match of matches">
+                        <li>{{match.date | date: 'yyyy-MM-dd'}} {{match.time}}</li>
+                        <li>
+                            <img *ngIf=" match.club1details[0].logo != ''" [src]="baseUrl + match.club1details[0].logo" alt="Home team">
+                            <img *ngIf=" match.club1details[0].logo == ''" src="assets/images/default-clublogo.png" alt="Home team">
+                            <span>{{match.club1details[0].name}}</span>
+                        </li>
+                        <li>
+                            <img *ngIf=" match.club2details[0].logo != ''" [src]="baseUrl + match.club2details[0].logo" alt="Away team">
+                            <img *ngIf=" match.club2details[0].logo == ''" src="assets/images/default-clublogo.png" alt="Home team">
+                            <span>{{match.club2details[0].name}}</span>
+                        </li>
+                        <li *ngIf="match.team1details.length > 0">{{match.team1details[0].name}}</li>
+                        <li *ngIf="match.team1details.length == 0">&nbsp;</li>
+                        <li *ngIf="match.team2details.length > 0">{{match.team2details[0].name}}</li>
+                        <li *ngIf="match.team2details.length == 0">&nbsp;</li>
 
-      <ul *ngIf="matches.length == 0" class="list-inline matches">
-        <li>No Matches Found</li>
-      </ul>
+                        <li>
+                            <button class="btn btn-default" [routerLink]="['/backoffice/match/',match._id]"><i class="fa fa-pencil-square-o text-info" aria-hidden="true"></i></button>
+                            <button type="button" [routerLink]="['/backoffice/match/view/',match._id]" class="btn btn-default" aria-label="Left Align">
+                              <i class="fa fa-eye text-success" aria-hidden="true"></i>
+                            </button>
+                            <button type="button" (click)="deleteMatchById(match._id)" class="btn btn-default" aria-label="Left Align">
+                               <i class="fa fa-trash text-danger" aria-hidden="true"></i>
+                            </button>
+                        </li>
+                    </ul>
+                </div>
+
+                <ul *ngIf="matches.length == 0" class="list-inline matches">
+                    <li>No Matches Found</li>
+                </ul>
+            </div>
+        </perfect-scrollbar>
     </div>
-  </perfect-scrollbar>
-</div>
 
     <modal #confirmationModal class="confirmation-modal">
         <modal-header>
