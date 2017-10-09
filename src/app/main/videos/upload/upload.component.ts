@@ -731,7 +731,7 @@ export class UploadComponent implements OnInit {
   }
 
   onChangeofMatch() {
-
+    console.log(this.match);
     var matchId = this.match;
     if (this.match != null) {
       var matchData = this.matches.filter(function (element, index) {
