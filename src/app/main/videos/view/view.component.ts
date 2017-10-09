@@ -522,12 +522,12 @@ export class ViewComponent implements OnInit {
 
     if (this.video.club1details) {
 
-      var club1trim = this.video.club1details[0].name.slice(0, 3);
+      var club1trim = this.video.club1details[0].name.replace(/ /g, '').slice(0, 3);
       this.video.club1details[0].name = club1trim.toUpperCase();
     }
     if (this.video.club2details) {
 
-      var club2trim = this.video.club2details[0].name.slice(0, 3);
+      var club2trim = this.video.club2details[0].name.replace(/ /g, '').slice(0, 3);
       this.video.club2details[0].name = club2trim.toUpperCase();
     }
     if (this.video && this.video.path) {
