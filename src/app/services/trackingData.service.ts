@@ -54,6 +54,7 @@ export class TrackingDataService {
     form.append('title', data.title);
     form.append('trackingDataFile', data.trackingDataFile);
     form.append('video', data.video);
+    form.append('match', data.match);
     form.append('default', data.default);
     form.append('xmlDataAppType', data.xmlDataAppType);
     return this.p_http.withUploadProgressListener(progress => {
