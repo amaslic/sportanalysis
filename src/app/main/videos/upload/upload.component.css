@@ -204,6 +204,13 @@ form .form-group .form-control::-ms-input-placeholder { /* Microsoft Edge */
     width: 100%;
 }
 
+.select-match-option{
+    max-width: 220px;
+    width: 100%;
+    float: left;
+    margin-right: 30px;
+}
+
 .width{width: 100%;}
 .margin-left-0{margin-left:0px !important;}
 
