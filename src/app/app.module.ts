@@ -131,6 +131,7 @@ const appRoutes: Routes = [
       { path: 'match/view/:id', component: VideoOverviewComponent },
       { path: 'match', component: addEditMatchesComponent },
       { path: 'match/:id', component: addEditMatchesComponent },
+      { path: 'videos/view/:id', component: ViewComponent },
     ]
   },
   { path: "*", redirectTo: 'videos' }
