@@ -26,6 +26,7 @@ import {
 import {
   MatchService
 } from './../../../services/match.service';
+
 import { IMultiSelectOption, IMultiSelectSettings, IMultiSelectTexts } from 'angular-2-dropdown-multiselect';
 @Component({
   selector: 'app-settings',
@@ -33,6 +34,16 @@ import { IMultiSelectOption, IMultiSelectSettings, IMultiSelectTexts } from 'ang
   styleUrls: ['./settings.component.css']
 })
 export class VideoSettingsComponent implements OnInit {
+  eventDataId: any;
+  event: any = {};
+  eid: any;
+  eventend: any;
+  eventstart: any;
+  eend: any;
+  estart: any;
+  eteam: any;
+  ename: any;
+  events: any;
   successmsg: any;
   xmlDelete: any;
   errormsg: any;
@@ -137,11 +148,13 @@ export class VideoSettingsComponent implements OnInit {
   xmlUrl: any;
   xmlOriginalName: any;
   matches: any = [];
+  trackingJsonData: any[];
 
 
   @ViewChild('form') form;
   @ViewChild('SucessModal') SucessModal;
   @ViewChild('ErrorModal') ErrorModal;
+  @ViewChild('updateEventlistModal') updateEventlistModal;
   @ViewChild('lnkDownloadLink') lnkDownloadLink: ElementRef;
   constructor(private route: ActivatedRoute, private trackingDataService: TrackingDataService, private userService: UserService, private videoService: VideoService, private clubService: ClubService, private teamService: TeamService, private matchService: MatchService) { }
 
@@ -208,6 +221,7 @@ export class VideoSettingsComponent implements OnInit {
       this.videoId = params['id'];
       this.getVideoTrackingDataItems(this.videoId);
       this.getVideo(this.videoId);
+      this.getVideoEventsData(this.videoId);
     });
   }
 
@@ -809,6 +823,163 @@ export class VideoSettingsComponent implements OnInit {
       arr.push(key);
     }
     return arr;
+  }
+  getVideoEventsData(id: String) {
+    this.trackingDataService.getEventsByVideo(id, this.userService.token).subscribe(
+      (response) => this.ongetVideoEventsDataSuccess(response),
+      (error) => this.onError(error)
+    );
+  }
+  ongetVideoEventsDataSuccess(response) {
+    this.events = JSON.parse(response._body);
+
+    this.trackingJsonData = [];
+    var count = 1;
+    this.events.forEach((element, index) => {
+      element.eventData.forEach((event, index) => {
+
+        event.eid = element._id;
+
+        if (typeof (event.id) != 'undefined') {
+          event.id = event.id[0];
+        }
+        if (typeof (event.active) != 'undefined') {
+          event.active = event.active;
+        } else {
+          event.active = false;
+        }
+        if (typeof (event.name) != 'undefined') {
+          event.name = event.name[0];
+        }
+        if (typeof (event.team) != 'undefined') {
+          event.team = event.team[0];
+        }
+        if (typeof (event.start) != 'undefined' && event.start[0] !== "NaN") {
+          event.start = this.fancyTimeFormat(event.start[0]);
+        } else {
+          event.start = event.start[0];
+        }
+        if (typeof (event.end) != 'undefined' && event.end[0] !== "NaN") {
+          event.end = this.fancyTimeFormat(event.end[0]);
+        }
+        else {
+          event.end = event.end[0];
+        }
+        event.rowId = count;
+        event.eventDataId = element._id;
+        this.trackingJsonData.push(event);
+        count++;
+      });
+    });
+
+
+    console.log(this.trackingJsonData);
+
+
+
+
+
+  }
+  fancyTimeFormat(time) {
+    // Hours, minutes and seconds
+    var hrs = ~~(time / 3600);
+    var mins = ~~((time % 3600) / 60);
+    var secs = time % 60;
+
+    // Output like "1:01" or "4:03:59" or "123:03:59"
+    var ret = "";
+
+    if (hrs > 0 && hrs > 9) {
+      ret += "" + hrs + ":" + (mins < 10 ? "0" : "");
+    } else {
+      if (mins > 9) {
+        ret += "" + "0" + hrs + ":" + mins + ":" + (secs < 10 ? "0" : "");
+      }
+      else {
+        ret += "" + "0" + hrs + ":" + "0" + mins + ":" + (secs < 10 ? "0" : "");
+      }
+    }
+
+
+    ret += "" + secs;
+    return ret;
+
+  }
+  deactivateEvent(e) {
+    this.trackingDataService.deactivateEvent(e.id, e.eid, this.userService.token).subscribe(
+      (response) => this.onActivateOrDeactivateEventSuccess(response, e),
+      (error) => this.onError(error)
+    );
+  }
+  activateEvent(e) {
+
+    this.trackingDataService.activateEvent(e.id, e.eid, this.userService.token).subscribe(
+      (response) => this.onActivateOrDeactivateEventSuccess(response, e),
+      (error) => this.onError(error)
+    );
+  }
+  deleteEvent(e) {
+    if (confirm("Are you sure to delete this event ?")) {
+      this.trackingDataService.deleteEvent(e.id, e.eid, this.userService.token).subscribe(
+        (response) => this.onDeleteEventSuccess(response),
+        (error) => this.onError(error)
+      );
+    }
+  }
+  onActivateOrDeactivateEventSuccess(response, e) {
+    this.trackingJsonData.forEach((element, index) => {
+      if (e.eid == element['eid'] && e.id == element['id']) {
+        if (e.active) {
+          element['active'] = false;
+          this.successmsg = "Event deactivated Successfully."
+        } else {
+          this.successmsg = "Event activated Successfully."
+          element['active'] = true;
+        }
+      }
+    });
+    this.SucessModal.open();
+  }
+  onDeleteEventSuccess(response) {
+
+    const responseBody = JSON.parse(response._body);
+    this.successmsg = responseBody.message;
+    this.SucessModal.open();
+    this.getVideoEventsData(this.videoId);
+  }
+  editEvent(e) {
+    this.ename = e.name;
+    this.eteam = e.team;
+    this.eid = e.id;
+    this.eventstart = e.start;
+    this.eventend = e.end;
+    this.eventDataId = e.eid
+    console.log(e);
+
+    // this.estart = e.start.split(':').reverse().reduce((prev, curr, i) => prev + curr * Math.pow(60, i), 0);
+    // this.eend = e.end.split(':').reverse().reduce((prev, curr, i) => prev + curr * Math.pow(60, i), 0);
+    this.updateEventlistModal.open()
+  }
+  updateEvent() {
+    this.event.name = this.ename;
+    this.event.team = this.eteam;
+    this.event.start = this.eventstart.split(':').reverse().reduce((prev, curr, i) => prev + curr * Math.pow(60, i), 0);
+    this.event.end = this.eventend.split(':').reverse().reduce((prev, curr, i) => prev + curr * Math.pow(60, i), 0);
+    this.event.id = this.eid;
+    this.event.eventDataId = this.eventDataId;
+    this.trackingDataService.updateEvent(this.userService.token, this.event).subscribe(
+      (response) => this.updateEventSuccess(response),
+      (error) => this.onError(error)
+    );
+
+
+  }
+  updateEventSuccess(response) {
+    this.updateEventlistModal.close();
+    const responseBody = JSON.parse(response._body);
+    this.successmsg = responseBody.message;
+    this.SucessModal.open();
+    this.getVideoEventsData(this.videoId);
   }
 
 }

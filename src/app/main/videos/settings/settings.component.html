@@ -261,6 +261,28 @@
           </div>
         </div>
       </md-tab>
+      <md-tab label="Eventlist">
+        <ngx-datatable #activetable class="material" [limit]="10" [headerHeight]="50" [footerHeight]="50" [columnMode]="'standard'"
+          [rows]="trackingJsonData">
+          <!-- <ngx-datatable-column [flexGrow]="3" name="Id" prop="eid"> </ngx-datatable-column> -->
+          <ngx-datatable-column name="Name" prop="name"> </ngx-datatable-column>
+          <ngx-datatable-column name="Start" prop="start"> </ngx-datatable-column>
+          <ngx-datatable-column name="End" prop="end"> </ngx-datatable-column>
+          <ngx-datatable-column name="Team" prop="team"> </ngx-datatable-column>
+          <ngx-datatable-column name="Approved" prop="active"> </ngx-datatable-column>
+
+          <ngx-datatable-column name="Action">
+            <ng-template let-row="row" ngx-datatable-cell-template>
+
+              <i *ngIf=row.active class="fa fa-ban deactive fa-lg text-muted" aria-hidden="true" (click)="deactivateEvent(row)"></i>
+              <i *ngIf=!row.active class="fa fa-check-square fa-lg text-success" aria-hidden="true" (click)="activateEvent(row)"></i>
+              <i class="fa fa-pencil fa-lg edit text-info" aria-hidden="true" (click)="editEvent(row)"></i>
+              <i class="fa fa-trash fa-lg delete text-danger" aria-hidden="true" (click)="deleteEvent(row)"></i>
+            </ng-template>
+          </ngx-datatable-column>
+
+        </ngx-datatable>
+      </md-tab>
 
     </md-tab-group>
 
@@ -300,4 +322,46 @@
     <modal-footer>
       <button class="btn btn-primary" (click)="ErrorModal.close()">Ok</button>
     </modal-footer>
+  </modal>
+  <modal #updateEventlistModal>
+    <modal-header>
+    </modal-header>
+    <modal-content>
+      <p>
+        Update Event
+      </p>
+      <form (ngSubmit)="updateEvent()" #documentEditForm="ngForm">
+        <div class="col-md-12">
+          <div class="form-group">
+            <label class="col-md-4 control-label">Name</label>
+            <input type="text" name="eventName" [(ngModel)]="ename" #eName="ngModel" class="form-control col-md-6" placeholder="Name"
+              required>
+          </div>
+          <div class="form-group">
+            <label class="col-md-4 control-label">Team</label>
+            <input type="text" name="eventTeam" [(ngModel)]="eteam" #eTeam="ngModel" class="form-control col-md-6" placeholder="Team"
+              required>
+          </div>
+          <div class="form-group">
+            <label class="col-md-6 control-label">Start (HH:MM:SS)</label>
+            <input type="time" name="eventStart" step="1" min="00:00:00" max="23:59:59" [(ngModel)]="eventstart" class="form-control col-md-6"
+              placeholder="Start" required>
+          </div>
+          <div class="form-group">
+            <label class="col-md-6 control-label">End (HH:MM:SS)</label>
+            <input type="time" name="eventEnd" step="1" min="00:00:00" max="23:59:59" [(ngModel)]="eventend" class="form-control col-md-6"
+              placeholder="End" required>
+          </div>
+        </div>
+        <div class="col-md-12">
+          <div class="form-group pull-left" style="margin-top: 5%" *ngIf="saveMessage">
+            <span class="col-md-12">{{saveMessage}}</span>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button class="btn btn-primary" [disabled]="!documentEditForm.form.valid">Update</button>
+          <button class="btn btn-primary" (click)="updateEventlistModal.close()">Cancel</button>
+        </div>
+      </form>
+    </modal-content>
   </modal>

@@ -151,4 +151,55 @@ export class TrackingDataService {
     });
     return this.http.post(this.baseApiUrl + 'eventData/getEventsByVideo', body, options);
   }
+  activateEvent(eventId: any, eid: any, token: String) {
+    const headers = new Headers({
+      'Authorization': token
+    });
+    const body = { token: token, eId: eid, eventId: eventId };
+    const options = new RequestOptions({
+      headers: headers
+    });
+    return this.http.post(this.baseApiUrl + 'eventData/activateEvent', body, options);
+  }
+  deactivateEvent(eventId: any, eid: any, token: String) {
+    const headers = new Headers({
+      'Authorization': token
+    });
+    const body = { token: token, eId: eid, eventId: eventId };
+    const options = new RequestOptions({
+      headers: headers
+    });
+    return this.http.post(this.baseApiUrl + 'eventData/deactivateEvent', body, options);
+  }
+  deleteEvent(eventId: any, eid: any, token: String) {
+    const headers = new Headers({
+      'Authorization': token
+    });
+    const body = { token: token, eId: eid, eventId: eventId };
+    const options = new RequestOptions({
+      headers: headers
+    });
+    return this.http.post(this.baseApiUrl + 'eventData/deleteEvent', body, options);
+  }
+  getEventsFront(videoId: any, token: String) {
+    const headers = new Headers({
+      'Authorization': token
+    });
+    const body = { token: token, videoId: videoId };
+    const options = new RequestOptions({
+      headers: headers
+    });
+    return this.http.post(this.baseApiUrl + 'eventData/getEventsFront', body, options);
+  }
+  updateEvent(token: String, event: any) {
+    console.log(event);
+    const headers = new Headers({
+      'Authorization': token
+    });
+    const body = { token: token, event: event };
+    const options = new RequestOptions({
+      headers: headers
+    });
+    return this.http.post(this.baseApiUrl + 'eventData/updateEvent', body, options);
+  }
 }
