@@ -261,6 +261,28 @@
           </div>
         </div>
       </md-tab>
+      <md-tab label="Eventlist">
+        <ngx-datatable #activetable class="material" [limit]="10" [headerHeight]="50" [footerHeight]="50" [columnMode]="'standard'"
+          [rows]="trackingJsonData">
+          <!-- <ngx-datatable-column [flexGrow]="3" name="Id" prop="eid"> </ngx-datatable-column> -->
+          <ngx-datatable-column name="Name" prop="name"> </ngx-datatable-column>
+          <ngx-datatable-column name="Start" prop="start"> </ngx-datatable-column>
+          <ngx-datatable-column name="End" prop="end"> </ngx-datatable-column>
+          <ngx-datatable-column name="Team" prop="team"> </ngx-datatable-column>
+          <ngx-datatable-column name="Approved" prop="active"> </ngx-datatable-column>
+
+          <ngx-datatable-column name="Action">
+            <ng-template let-row="row" ngx-datatable-cell-template>
+
+              <i *ngIf=row.active class="fa fa-ban deactive fa-lg text-muted" aria-hidden="true" (click)="deactivateEvent(row)"></i>
+              <i *ngIf=!row.active class="fa fa-check-square fa-lg text-success" aria-hidden="true" (click)="activateEvent(row)"></i>
+              <!-- <i class="fa fa-pencil fa-lg edit text-info" aria-hidden="true" (click)="editEvent(row.id)"></i> -->
+              <i class="fa fa-trash fa-lg delete text-danger" aria-hidden="true" (click)="deleteEvent(row)"></i>
+            </ng-template>
+          </ngx-datatable-column>
+
+        </ngx-datatable>
+      </md-tab>
 
     </md-tab-group>
 
