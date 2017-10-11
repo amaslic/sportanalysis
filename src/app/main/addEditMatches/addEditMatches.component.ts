@@ -105,13 +105,20 @@ export class addEditMatchesComponent implements OnInit {
                 this.clubTeams2 = [];
 
                 this.teamsList.forEach((element, index) => {
-
-                  if (JSON.parse(response._body)[0].club1details[0].teams.indexOf(element._id) > -1) {
-                    this.clubTeams1.push(element);
+                  if (JSON.parse(response._body)[0].club1details[0].teams != null) {
+                    if (JSON.parse(response._body)[0].club1details[0].teams.indexOf(element._id) > -1) {
+                      this.clubTeams1.push(element);
+                    }
+                  }else{
+                    this.match.team1 = null;
                   }
 
-                  if (JSON.parse(response._body)[0].club2details[0].teams.indexOf(element._id) > -1) {
-                    this.clubTeams2.push(element);
+                  if (JSON.parse(response._body)[0].club1details[0].teams != null) {
+                    if (JSON.parse(response._body)[0].club2details[0].teams.indexOf(element._id) > -1) {
+                      this.clubTeams2.push(element);
+                    }
+                  }else{
+                    this.match.team2 = null;
                   }
                 });
 
@@ -311,7 +318,7 @@ export class addEditMatchesComponent implements OnInit {
     this.match.club2 = f.value.clubName2;
     this.match.user = this.userService.user._id;
 
-    this.matchService.saveMatch(this.match,this.userService.token)
+    this.matchService.saveMatch(this.match, this.userService.token)
       .subscribe(
       (response) => this.onSubmitMatch(response),
       (error) => this.onError(error)

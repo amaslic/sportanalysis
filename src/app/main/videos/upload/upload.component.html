@@ -49,8 +49,8 @@
             </md-radio-group>
           </div>
         </div>
-        <div class="row margin-bottom-10" *ngIf="(type == 'Match')">
-          <div class="form-group">
+        <div class="row margin-bottom-10 width" *ngIf="(type == 'Match')">
+          <div class="form-group margin-left-0">
             <label class="control-label text-left" for="title">Match:</label>
             <select name="match" #team class="form-control" [(ngModel)]="match" (ngModelChange)="onChangeofMatch()">
               <option value=null>Select Match</option>
