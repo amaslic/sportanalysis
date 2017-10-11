@@ -34,6 +34,15 @@ import { IMultiSelectOption, IMultiSelectSettings, IMultiSelectTexts } from 'ang
   styleUrls: ['./settings.component.css']
 })
 export class VideoSettingsComponent implements OnInit {
+  eventDataId: any;
+  event: any = {};
+  eid: any;
+  eventend: any;
+  eventstart: any;
+  eend: any;
+  estart: any;
+  eteam: any;
+  ename: any;
   events: any;
   successmsg: any;
   xmlDelete: any;
@@ -145,6 +154,7 @@ export class VideoSettingsComponent implements OnInit {
   @ViewChild('form') form;
   @ViewChild('SucessModal') SucessModal;
   @ViewChild('ErrorModal') ErrorModal;
+  @ViewChild('updateEventlistModal') updateEventlistModal;
   @ViewChild('lnkDownloadLink') lnkDownloadLink: ElementRef;
   constructor(private route: ActivatedRoute, private trackingDataService: TrackingDataService, private userService: UserService, private videoService: VideoService, private clubService: ClubService, private teamService: TeamService, private matchService: MatchService) { }
 
@@ -879,13 +889,21 @@ export class VideoSettingsComponent implements OnInit {
     // Output like "1:01" or "4:03:59" or "123:03:59"
     var ret = "";
 
-    if (hrs > 0) {
+    if (hrs > 0 && hrs > 9) {
       ret += "" + hrs + ":" + (mins < 10 ? "0" : "");
+    } else {
+      if (mins > 9) {
+        ret += "" + "0" + hrs + ":" + mins + ":" + (secs < 10 ? "0" : "");
+      }
+      else {
+        ret += "" + "0" + hrs + ":" + "0" + mins + ":" + (secs < 10 ? "0" : "");
+      }
     }
 
-    ret += "" + mins + ":" + (secs < 10 ? "0" : "");
+
     ret += "" + secs;
     return ret;
+
   }
   deactivateEvent(e) {
     this.trackingDataService.deactivateEvent(e.id, e.eid, this.userService.token).subscribe(
@@ -923,16 +941,45 @@ export class VideoSettingsComponent implements OnInit {
     this.SucessModal.open();
   }
   onDeleteEventSuccess(response) {
+
     const responseBody = JSON.parse(response._body);
     this.successmsg = responseBody.message;
     this.SucessModal.open();
     this.getVideoEventsData(this.videoId);
   }
-  // setPage(pageInfo) {
-  //   this.page.pageNumber = pageInfo.offset;
-  //   this.serverResultsService.getResults(this.page).subscribe(pagedData => {
-  //     this.page = pagedData.page;
-  //     this.rows = pagedData.data;
-  //   });
-  // }
+  editEvent(e) {
+    this.ename = e.name;
+    this.eteam = e.team;
+    this.eid = e.id;
+    this.eventstart = e.start;
+    this.eventend = e.end;
+    this.eventDataId = e.eid
+    console.log(e);
+
+    // this.estart = e.start.split(':').reverse().reduce((prev, curr, i) => prev + curr * Math.pow(60, i), 0);
+    // this.eend = e.end.split(':').reverse().reduce((prev, curr, i) => prev + curr * Math.pow(60, i), 0);
+    this.updateEventlistModal.open()
+  }
+  updateEvent() {
+    this.event.name = this.ename;
+    this.event.team = this.eteam;
+    this.event.start = this.eventstart.split(':').reverse().reduce((prev, curr, i) => prev + curr * Math.pow(60, i), 0);
+    this.event.end = this.eventend.split(':').reverse().reduce((prev, curr, i) => prev + curr * Math.pow(60, i), 0);
+    this.event.id = this.eid;
+    this.event.eventDataId = this.eventDataId;
+    this.trackingDataService.updateEvent(this.userService.token, this.event).subscribe(
+      (response) => this.updateEventSuccess(response),
+      (error) => this.onError(error)
+    );
+
+
+  }
+  updateEventSuccess(response) {
+    this.updateEventlistModal.close();
+    const responseBody = JSON.parse(response._body);
+    this.successmsg = responseBody.message;
+    this.SucessModal.open();
+    this.getVideoEventsData(this.videoId);
+  }
+
 }

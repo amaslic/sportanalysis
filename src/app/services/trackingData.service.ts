@@ -191,4 +191,15 @@ export class TrackingDataService {
     });
     return this.http.post(this.baseApiUrl + 'eventData/getEventsFront', body, options);
   }
+  updateEvent(token: String, event: any) {
+    console.log(event);
+    const headers = new Headers({
+      'Authorization': token
+    });
+    const body = { token: token, event: event };
+    const options = new RequestOptions({
+      headers: headers
+    });
+    return this.http.post(this.baseApiUrl + 'eventData/updateEvent', body, options);
+  }
 }
