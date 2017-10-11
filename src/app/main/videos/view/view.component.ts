@@ -287,7 +287,7 @@ export class ViewComponent implements OnInit {
   }
 
   getVideoEventsData(id: String) {
-    this.trackingDataService.getEventsByVideo(id, this.userService.token).subscribe(
+    this.trackingDataService.getEventsFront(id, this.userService.token).subscribe(
       (response) => this.ongetVideoEventsDataSuccess(response),
       (error) => this.onError(error)
     );
@@ -499,9 +499,6 @@ export class ViewComponent implements OnInit {
 
 
             }
-
-
-
           });
       },
       (error) => this.onError(error)
