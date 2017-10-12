@@ -9,7 +9,7 @@ import { ProgressHttpModule } from 'angular-progress-http';
 // import { VgControlsModule } from 'videogular2/controls';
 // import { VgOverlayPlayModule } from 'videogular2/overlay-play';
 // import { VgBufferingModule } from 'videogular2/buffering';
-import { NgxDatatableModule } from '@swimlane/ngx-datatable';
+// import { NgxDatatableModule } from '@swimlane/ngx-datatable';
 
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MdButtonModule, MdCheckboxModule, MdRadioModule, MdTabsModule, MdAutocompleteModule, MdInputModule } from '@angular/material';
@@ -19,7 +19,7 @@ import { MdButtonModule, MdCheckboxModule, MdRadioModule, MdTabsModule, MdAutoco
 // import { PerfectScrollbarModule } from 'ngx-perfect-scrollbar';
 // import { PerfectScrollbarConfigInterface } from 'ngx-perfect-scrollbar';
 
-import { NguiDatetimePickerModule } from '@ngui/datetime-picker';
+// import { NguiDatetimePickerModule } from '@ngui/datetime-picker';
 import { AppComponent } from './app.component';
 import { LoginRegisterComponent } from './login-register/login-register.component';
 import { LoginComponent } from './login-register/login/login.component';
@@ -188,13 +188,14 @@ const appRoutes: Routes = [
     BrowserModule,
     FormsModule, ReactiveFormsModule,
     HttpModule, ProgressHttpModule,
-    BrowserAnimationsModule, MdButtonModule, MdCheckboxModule, MdRadioModule, MdTabsModule,
+    BrowserAnimationsModule, 
+    MdButtonModule, MdCheckboxModule, MdRadioModule, MdTabsModule,
     MdAutocompleteModule,
     MdInputModule,
     RouterModule.forRoot(appRoutes),
     SidebarModule.forRoot(),
     // PerfectScrollbarModule.forRoot(PERFECT_SCROLLBAR_CONFIG),
-    NguiDatetimePickerModule,
+    // NguiDatetimePickerModule,
     LocalStorageModule.withConfig({
       prefix: 'sportanalysis',
       storageType: 'localStorage'
@@ -203,7 +204,7 @@ const appRoutes: Routes = [
     // VgControlsModule,
     // VgOverlayPlayModule,
     // VgBufferingModule,
-    NgxDatatableModule,
+    // NgxDatatableModule,
     DropdownModule,
     ModalModule,
     // MultiselectDropdownModule,

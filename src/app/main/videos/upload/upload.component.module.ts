@@ -9,6 +9,7 @@ import { UploadComponentRoutes } from './upload.component.routing';
 import { MdModule } from '../../../md.module';
 import { Ng2CompleterModule } from "ng2-completer";
 import { MultiselectDropdownModule } from 'angular-2-dropdown-multiselect';
+import { NguiDatetimePickerModule } from '@ngui/datetime-picker';
 
 @NgModule({
     imports: [
@@ -19,7 +20,8 @@ import { MultiselectDropdownModule } from 'angular-2-dropdown-multiselect';
         MdModule,
         Ng2CompleterModule,
         MultiselectDropdownModule,
-        
+        ReactiveFormsModule,
+        NguiDatetimePickerModule
     ],
     declarations: [UploadComponent]
 })

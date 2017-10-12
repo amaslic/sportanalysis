@@ -114,7 +114,7 @@ export class VideoOverviewComponent implements OnInit {
 
   ngOnInit() {
     var user = this.userService.loadUserFromStorage();
-    if (user['role'] = 1 || user['role'] == 2) {
+    if (user['role'] == 1 || user['role'] == 2) {
       this.isAdmin = true;
     }
 

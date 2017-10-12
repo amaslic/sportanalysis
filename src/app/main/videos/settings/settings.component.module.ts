@@ -11,6 +11,7 @@ import { Ng2CompleterModule } from "ng2-completer";
 import { MultiselectDropdownModule } from 'angular-2-dropdown-multiselect';
 import { PerfectScrollbarModule } from 'ngx-perfect-scrollbar';
 import { PerfectScrollbarConfigInterface } from 'ngx-perfect-scrollbar';
+import { NguiDatetimePickerModule } from '@ngui/datetime-picker';
 
 const PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {};
 
@@ -24,6 +25,7 @@ const PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {};
         Ng2CompleterModule,
         MultiselectDropdownModule,
         PerfectScrollbarModule.forRoot(PERFECT_SCROLLBAR_CONFIG),
+        NguiDatetimePickerModule
     ],
     declarations: [VideoSettingsComponent]
 })

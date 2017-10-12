@@ -218,6 +218,7 @@ export class ViewComponent implements OnInit {
   multiPlaylist: any = [];
   events: any = [];
   eventDataId: any;
+  VideoTiming: any;
 
   // @HostListener('window:keypress', ['$event'])
   // handleKeyboardEvent(event: KeyboardEvent) {
@@ -611,6 +612,7 @@ export class ViewComponent implements OnInit {
 
   }
   shareEventSuccess(response) {
+    this.userlistModel = [];
     const eventRes = JSON.parse(response._body);
     this.successmsg = eventRes.message;
     this.assignEventModal.close();
@@ -630,7 +632,7 @@ export class ViewComponent implements OnInit {
       () => {
         // Set the video to the beginning
 
-        this.multiPlaylist = [];
+        // this.multiPlaylist = [];
         //console.log("Ended");
         //this.api.getDefaultMedia().currentTime = 0;
         // this.api.pause();
@@ -789,9 +791,12 @@ export class ViewComponent implements OnInit {
 
   public oldSliderTime = 0;
   onChangeTimelineSlider(e) {
-
-    this.api.getDefaultMedia().currentTime = e.from / 100;
-
+    //  console.log(e.from);
+    console.log(e.from);
+    if(this.api.getDefaultMedia().currentTime != (e.form / 100)){
+      this.api.getDefaultMedia().currentTime = e.from / 100;
+      
+     }
 
   }
 
@@ -955,6 +960,7 @@ export class ViewComponent implements OnInit {
 
   }
   onGetUpdatePlaylistSuccess(response) {
+    this.playlistModel = [];
     this.deselectAll();
     const updateMsg = JSON.parse(response._body);
     // console.log(updateMsg.message);

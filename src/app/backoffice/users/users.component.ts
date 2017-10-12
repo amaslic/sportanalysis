@@ -49,6 +49,7 @@ export class UsersComponent implements OnInit {
 
   search: any = { ActivatedClub: null, ActivatedTeam: null, DeactivatedClub: null, DeactivatedTeam: null };
   errormsg: string;
+  isSuperAdmin:boolean;
 
   @ViewChild('activetable') activetable;
   @ViewChild('deactivetable') deactivetable;
@@ -57,6 +58,14 @@ export class UsersComponent implements OnInit {
   constructor(private userService: UserService, private clubService: ClubService, private teamService: TeamService) { }
 
   ngOnInit() {
+    var user = this.userService.loadUserFromStorage();
+        if (user['role'] == 1) {
+            this.isSuperAdmin = true;
+        } else {
+            this.isSuperAdmin = false;
+        }
+
+
     this.clubService.getAllClubs(this.userService.token).subscribe(
       (response) => this.OnSuccessOfGetAllClubs(response),
       (error) => this.onError(error)

@@ -9,6 +9,7 @@ import { addEditMatchesComponentRoutes } from './addEditMatches.component.routin
 import { MdModule } from '../../md.module';
 import { Ng2CompleterModule } from "ng2-completer";
 import { MultiselectDropdownModule } from 'angular-2-dropdown-multiselect';
+import { NguiDatetimePickerModule } from '@ngui/datetime-picker';
 
 @NgModule({
     imports: [
@@ -18,7 +19,8 @@ import { MultiselectDropdownModule } from 'angular-2-dropdown-multiselect';
         NgxDatatableModule,
         MdModule,
         Ng2CompleterModule,
-        MultiselectDropdownModule
+        MultiselectDropdownModule,
+        NguiDatetimePickerModule
     ],
     declarations: [addEditMatchesComponent]
 })
