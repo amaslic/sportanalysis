@@ -321,7 +321,7 @@
       </div>
       <div class="modal-footer">
         <button class="btn btn-primary" [disabled]="!documentEditForm.form.valid">Create playlist</button>
-        <button class="btn btn-primary" (click)="create = false;">Back</button>
+        <button *ngIf="!multiplay" class="btn btn-primary" (click)="create = false;">Back</button>
         <button class="btn btn-primary" (click)="createPlaylistModal.close()">Cancel</button>
       </div>
     </form>

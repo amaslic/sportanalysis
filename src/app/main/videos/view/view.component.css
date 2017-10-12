@@ -729,6 +729,7 @@ ss-multiselect-dropdown /deep/ .btn{
 .range-slider /deep/ .irs {
   /* max-width: calc(100% - 140px);*/
   margin-top: 9px;
+  cursor: pointer;
 }
 
 .range-slider /deep/ .irs-min,
