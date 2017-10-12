@@ -56,9 +56,10 @@
                 <label class="control-label col-sm-5" for="title">Match:</label>
                 <div class="col-sm-7">
                   <select name="match" #team class="form-control" [(ngModel)]="video.match" (ngModelChange)="onChangeofMatch()">
-                  <option value="null">Select Match</option>
-                  <option *ngFor="let m of matches" [ngValue]="m._id">{{m.club1details[0].name}} vs {{m.club2details[0].name}} ({{m.date | date: 'yyyy-MM-dd'}} {{m.time}}) </option>
-                </select>
+                    <option value="null">Select Match</option>
+                    <option *ngFor="let m of matches" [ngValue]="m._id">{{m.club1details[0].name}} vs {{m.club2details[0].name}} ({{m.date | date: 'yyyy-MM-dd'}} {{m.time}})
+                    </option>
+                  </select>
                 </div>
               </div>
               <div class="form-group" *ngIf="(video.type == 'Match') && (video.match!=null && video.match != 'null')">
@@ -99,10 +100,10 @@
                 <div class="col-sm-7">
                   <!-- <input type="text" [(ngModel)]="video.season" class="form-control" name="season" id="season" placeholder="Season"> -->
                   <select class="sportscode form-control" name="season" required [(ngModel)]="video.season">
-                        <option>2015/2016</option>
-                         <option>2016/2017</option>
-                  <option>2017/2018</option>
-                  <option>2018/2019</option>
+                    <option>2015/2016</option>
+                    <option>2016/2017</option>
+                    <option>2017/2018</option>
+                    <option>2018/2019</option>
                   </select>
                 </div>
               </div>
@@ -156,9 +157,9 @@
                   <!--<ng2-completer id="team1" #club="ngModel" [(ngModel)]="video.team1" name="team1" [inputClass]="['autocompleteInput']" class="autocompleteControl"
                   placeholder="Enter Name" [datasource]="clubData" [minSearchLength]="3"></ng2-completer>-->
                   <select name="team1" #team class="form-control" [(ngModel)]="video.team1">
-                  <option value="null">Select Home team</option>
-                  <option *ngFor="let team of clubTeams1" [ngValue]="team._id">{{team.name}}</option>
-                </select>
+                    <option value="null">Select Home team</option>
+                    <option *ngFor="let team of clubTeams1" [ngValue]="team._id">{{team.name}}</option>
+                  </select>
 
                 </div>
               </div>
@@ -170,9 +171,9 @@
                   <!--<ng2-completer id="team2" #club="ngModel" [(ngModel)]="video.team2" name="team2" [inputClass]="['autocompleteInput']" class="autocompleteControl"
                   placeholder="Enter Name" [datasource]="clubData" [minSearchLength]="3"></ng2-completer>-->
                   <select name="team2" #team class="form-control" [(ngModel)]="video.team2">
-                  <option value="null">Select Away team</option>
-                  <option *ngFor="let team of clubTeams2" [ngValue]="team._id">{{team.name}}</option>
-                </select>
+                    <option value="null">Select Away team</option>
+                    <option *ngFor="let team of clubTeams2" [ngValue]="team._id">{{team.name}}</option>
+                  </select>
 
                 </div>
               </div>
@@ -197,11 +198,11 @@
             <h3>Data Files:</h3>
             <div class="list-group">
               <a class="list-group-item clearfix" *ngFor="let data of videoTrackingData">
-            {{data.title}} ({{data.original_filename}})
-            <span class="pull-right">
-                <i (click)="confirmDelete(data._id,$event)" class="fa fa-window-close text-danger" aria-hidden="true"></i>
-                <i (click)="downloadVideo(data,$event)" class="fa fa-download text-info"></i>
-            </span>
+                {{data.title}} ({{data.original_filename}})
+                <span class="pull-right">
+                  <i (click)="confirmDelete(data._id,$event)" class="fa fa-window-close text-danger" aria-hidden="true"></i>
+                  <i (click)="downloadVideo(data,$event)" class="fa fa-download text-info"></i>
+                </span>
               </a>
             </div>
           </div>
@@ -210,8 +211,9 @@
             <form #form #f="ngForm" (ngSubmit)="onSubmit(f)" novalidate [ngClass]="{'submited' : f._submitted}">
               <label class="input-group-btn add-files">
                 <span class="btn btn-primary tracking-data">
-                  Upload data file <input type="file" (change)="onSelectFile($event)" id="trackingData" style="display: none;" #fileInput>
-                  </span>
+                  Upload data file
+                  <input type="file" (change)="onSelectFile($event)" id="trackingData" style="display: none;" #fileInput>
+                </span>
               </label>
 
               <!--<div class="form-group">
@@ -235,22 +237,22 @@
 
               <div class="form-group">
                 <label for="xmlDataApplication">
-                    <h3>Xml Data Application:&nbsp;</h3>
-                  </label>
+                  <h3>Xml Data Application:&nbsp;</h3>
+                </label>
                 <select class="sportscode data" name="xmlDataApplication" required [(ngModel)]="xmlDataApplicationTypeSelected" (ngModelChange)="xmlTypeSelected($event)"
                   style="font-size: 18px; font-weight: normal;">
-                      <option *ngFor="let xmlDataType of xmlDataApplicationTypes">{{xmlDataType}}</option>
-                  </select>
+                  <option *ngFor="let xmlDataType of xmlDataApplicationTypes">{{xmlDataType}}</option>
+                </select>
               </div>
 
               <div class="form-group" style="width:100%">
                 <div class="input-group">
 
                   <label class="input-group-btn">
-              <span class="btn btn-primary tracking-data">
-                <button class="btn btn-default  btn-add-tracking" type="submit" [disabled]="!f.form.valid && f._submitted">Add data file</button>
-                </span>
-            </label>
+                    <span class="btn btn-primary tracking-data">
+                      <button class="btn btn-default  btn-add-tracking" type="submit" [disabled]="!f.form.valid && f._submitted">Add data file</button>
+                    </span>
+                  </label>
                   <input type="text" class="form-control file-name-tracking" readonly (click)="fileInput.click()" [value]="selectedFile.name">
                   <input type="hidden" class="form-control" [(ngModel)]="selectedFile._file" name="trackingDataFile" readonly (click)="fileInput.click()"
                     [value]="selectedFile.name">
@@ -269,7 +271,10 @@
           <ngx-datatable-column name="Start" prop="start"> </ngx-datatable-column>
           <ngx-datatable-column name="End" prop="end"> </ngx-datatable-column>
           <ngx-datatable-column name="Team" prop="team"> </ngx-datatable-column>
+          <ngx-datatable-column name="Created By" prop="createdBy"> </ngx-datatable-column>
+
           <ngx-datatable-column name="Approved" prop="active"> </ngx-datatable-column>
+
 
           <ngx-datatable-column name="Action">
             <ng-template let-row="row" ngx-datatable-cell-template>

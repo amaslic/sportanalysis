@@ -9,8 +9,9 @@
         alt="" class="img-responsive video-images team1-logo">
       <img *ngIf="video.club1details.length <= 0 || !video.club1details[0].logo || video.club1details[0].logo == ''" src="assets/images/default-clublogo.png"
         class="img-responsive video-images team2-logo">
-      <span class="video-score"><span *ngIf="video.scoreTeam1" class="score">{{video.scoreTeam1}}</span>:
-      <span *ngIf="video.scoreTeam2" class="score">{{video.scoreTeam2}}</span>
+      <span class="video-score">
+        <span *ngIf="video.scoreTeam1" class="score">{{video.scoreTeam1}}</span>:
+        <span *ngIf="video.scoreTeam2" class="score">{{video.scoreTeam2}}</span>
       </span>
       <img *ngIf="video.club2details.length > 0 && video.club2details[0].logo" [src]="baseVideoUrl + video.club2details[0].logo"
         alt="" class="img-responsive video-images team1-logo">
@@ -67,15 +68,33 @@
     <div class="clearfix ">
       <div class="pull-left video-controls-custom ">
         <ul>
-          <li><i class="fa fa-step-forward " aria-hidden="true "></i></li>
-          <li><i class="fa fa-forward " aria-hidden="true "></i></li>
-          <li><i class="fa fa-play " aria-hidden="true "></i></li>
-          <li><i class="fa fa-backward " aria-hidden="true "></i></li>
-          <li><i class="fa fa-step-backward " aria-hidden="true "></i></li>
-          <li class="info "><i class="fa fa-info " aria-hidden="true "></i></li>
-          <li class="setting-icon "><i class="fa fa-cog " aria-hidden="true "></i></li>
-          <li class="trash-icon "><i class="fa fa-trash-o " aria-hidden="true "></i></li>
-          <li><i class="fa fa-list-ul " aria-hidden="true "></i></li>
+          <li>
+            <i class="fa fa-step-forward " aria-hidden="true "></i>
+          </li>
+          <li>
+            <i class="fa fa-forward " aria-hidden="true "></i>
+          </li>
+          <li>
+            <i class="fa fa-play " aria-hidden="true "></i>
+          </li>
+          <li>
+            <i class="fa fa-backward " aria-hidden="true "></i>
+          </li>
+          <li>
+            <i class="fa fa-step-backward " aria-hidden="true "></i>
+          </li>
+          <li class="info ">
+            <i class="fa fa-info " aria-hidden="true "></i>
+          </li>
+          <li class="setting-icon ">
+            <i class="fa fa-cog " aria-hidden="true "></i>
+          </li>
+          <li class="trash-icon ">
+            <i class="fa fa-trash-o " aria-hidden="true "></i>
+          </li>
+          <li>
+            <i class="fa fa-list-ul " aria-hidden="true "></i>
+          </li>
         </ul>
       </div>
       <div class="pull-right ">
@@ -107,7 +126,9 @@
               <div class="dropdown" dropdown [dropdownToggle]="false">
                 <button class="btn btn-primary dropdown-toggle" type="button" dropdown-open></button>
                 <ul class="dropdown-menu">
-                  <li *ngFor="let evt of evtGroup.values | searchVideoTimelineTeam:'team,name':[teamModel,eventModel,searchQuery]"><a href="#" (click)="goToEvent($event, evt)">{{evt.team}} ({{evt.start}}s-{{evt.end}}s)</a></li>
+                  <li *ngFor="let evt of evtGroup.values | searchVideoTimelineTeam:'team,name':[teamModel,eventModel,searchQuery]">
+                    <a href="#" (click)="goToEvent($event, evt)">{{evt.team}} ({{evt.start}}s-{{evt.end}}s)</a>
+                  </li>
                 </ul>
               </div>
             </div>
@@ -172,7 +193,9 @@
       <ss-multiselect-dropdown [options]="myOptions1" [texts]="eventTexts" [settings]="eventSettings" [(ngModel)]="eventModel"
         (ngModelChange)="onChange($event)"></ss-multiselect-dropdown>
     </div>
-    <span class="settings"><a *ngIf="video && isCoachOrAnalyst" [routerLink]="['/videos/settings', video._id]">Settings</a></span>
+    <span class="settings">
+      <a *ngIf="video && isCoachOrAnalyst" [routerLink]="['/videos/settings', video._id]">Settings</a>
+    </span>
 
 
 
@@ -180,7 +203,9 @@
       <div class="form-group">
         <label class="control-label" for="inputSuccess4"></label>
         <input type="text" class="form-control" placeholder="Search" [(ngModel)]="searchQuery">
-        <span *ngIf="false"><img src="assets/images/search.png" alt="Search"></span>
+        <span *ngIf="false">
+          <img src="assets/images/search.png" alt="Search">
+        </span>
       </div>
       <br>
 
@@ -204,8 +229,8 @@
                   {{fancyTimeFormat(event.start)}}
                 </div>
                 <div class="message-list-content">
-                  <h4><img [src]="getEventIcon(event.name)" alt="Event Icon" width="38" height="38" style="visibility: hidden">{{event.name}}
-                    ({{event.team}})
+                  <h4>
+                    <img [src]="getEventIcon(event.name)" alt="Event Icon" width="38" height="38" style="visibility: hidden">{{event.name}} ({{event.team}})
                   </h4>
                   <!-- <p>Friday, 9 June 2017</p> -->
                   <!--  <div class="dots dropdown"><i class="dropbtn fa fa-ellipsis-h" aria-hidden="true"></i>
@@ -217,12 +242,14 @@
                   </div>-->
 
                   <div class="dots dropdown" dropdown [dropdownToggle]="false">
-                    <button class="btn dropdown-toggle" type="button" dropdown-open><i class="dropbtn fa fa-ellipsis-h" aria-hidden="true"></i>
+                    <button class="btn dropdown-toggle" type="button" dropdown-open>
+                      <i class="dropbtn fa fa-ellipsis-h" aria-hidden="true"></i>
                     </button>
                     <ul class="dropdown-menu multi-level" role="menu" aria-labelledby="dropdownMenu">
                       <!--<li (click)="createPlaylist(video._id,event,false)">Create Playlist</li>-->
                       <li id="addtoplay" (click)="addToPlaylist(video._id,event,false)">Add to playlist</li>
                       <li id="event" *ngIf="isCoachOrAnalyst" (click)="shareEventlist(video._id,event)">Share Event</li>
+                      <li id="eventDelete" *ngIf="isCoachOrAnalyst" (click)="deleteEvent(event)">Delete Event</li>
                       <!--<li class="dropdown-submenu">
 
                         <a id="event" *ngIf="isAdmin"  (click)="shareEventlist(video._id,event.id)">Share Event</a>
@@ -343,7 +370,7 @@
 <modal #assignEventModal>
   <modal-header>
   </modal-header>
-  <modal-content> 
+  <modal-content>
     <p>
       Share Event
     </p>

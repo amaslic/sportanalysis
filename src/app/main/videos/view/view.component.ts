@@ -94,6 +94,7 @@ export class ViewComponent implements OnInit {
   eId: any;
   vId: any;
   timer: NodeJS.Timer;
+  timerEvent: NodeJS.Timer;
   starttime: number;
   eventPause: boolean;
   private sub: any;
@@ -388,9 +389,9 @@ export class ViewComponent implements OnInit {
             let cuePoint = JSON.parse(cueData[i].text)
             let z = document.createAttribute('data-tooltip');
             z.value = cuePoint.title + " - " + cuePoint.team;
-            try{
-            container_child[i].setAttributeNode(z);
-            }catch(e){}
+            try {
+              container_child[i].setAttributeNode(z);
+            } catch (e) { }
           }
           clearInterval(intId);
         }
@@ -673,7 +674,11 @@ export class ViewComponent implements OnInit {
         // console.log(this.fancyVideoDuration);
 
         // this.getVideoTrackingDataItems(this.videoId);
-        this.getVideoEventsData(this.videoId);
+
+        this.timerEvent = setInterval(() => {
+          this.getVideoEventsData(this.videoId);
+          // this.cleartimer();
+        }, 10000);
 
 
         //}
@@ -766,8 +771,13 @@ export class ViewComponent implements OnInit {
 
   }
   cleartimer() {
-    if (this.timer)
+    if (this.timer) {
       clearInterval(this.timer);
+    }
+    if (this.timerEvent) {
+      clearInterval(this.timerEvent);
+    }
+
   }
 
   fancyTimeFormat(time) {
@@ -1063,6 +1073,21 @@ export class ViewComponent implements OnInit {
         this.api.seekTime(this.api.currentTime - frameTime, false);
       }
     }
+  }
+  deleteEvent(e) {
+    if (confirm("Are you sure to delete this event ?")) {
+      this.trackingDataService.deleteEvent(e.id, e.eventDataId, this.userService.token).subscribe(
+        (response) => this.onDeleteEventSuccess(response),
+        (error) => this.onError(error)
+      );
+    }
+  }
+  onDeleteEventSuccess(response) {
+
+    const responseBody = JSON.parse(response._body);
+    this.successmsg = responseBody.message;
+    this.SucessModal.open();
+    this.getVideoEventsData(this.videoId);
   }
 
 }
