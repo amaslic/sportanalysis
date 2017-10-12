@@ -307,6 +307,7 @@ export class ClubComponent implements OnInit {
     );
   }
   usersToVideoSuccess(response) {
+    this.userlistModel = [];
     this.showProgressBar = false;
     const responseBody = JSON.parse(response._body);
     this.successmsg = responseBody.message;
