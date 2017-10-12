@@ -34,6 +34,7 @@ import { IMultiSelectOption, IMultiSelectSettings, IMultiSelectTexts } from 'ang
   styleUrls: ['./settings.component.css']
 })
 export class VideoSettingsComponent implements OnInit {
+  isAllSelected: boolean = false;
   eventDataId: any;
   event: any = {};
   eid: any;
@@ -872,6 +873,7 @@ export class VideoSettingsComponent implements OnInit {
         }
         event.rowId = count;
         event.eventDataId = element._id;
+        event.isSelected = false;
         this.trackingJsonData.push(event);
         count++;
       });
@@ -986,5 +988,32 @@ export class VideoSettingsComponent implements OnInit {
     this.SucessModal.open();
     this.getVideoEventsData(this.videoId);
   }
+  onChangeOfcheckAll(e) {
+    this.trackingJsonData.forEach(element => {
+      element["isSelected"] = e.checked;
 
+    });
+  }
+
+  onChangeOfCheckbox(e, obj) {
+    console.log(obj.isSelected);
+
+    if (!e.checked) {
+      this.isAllSelected = false;
+    } else {
+      var count = 0;
+      this.trackingJsonData.forEach(element => {
+        if (!element["isSelected"]) {
+          count++;
+          return;
+        }
+      });
+      if (count == 0) {
+        this.isAllSelected = true;
+      } else {
+        this.isAllSelected = false;
+      }
+    }
+
+  }
 }
