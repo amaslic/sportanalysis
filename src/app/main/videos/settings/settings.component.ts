@@ -839,6 +839,11 @@ export class VideoSettingsComponent implements OnInit {
       element.eventData.forEach((event, index) => {
 
         event.eid = element._id;
+        if (element.createduser.length > 0) {
+          event.createdBy = element.createduser[0]['firstName'] + ' ' + element.createduser[0]['lastName'];
+        } else {
+          event.createdBy = '';
+        }
 
         if (typeof (event.id) != 'undefined') {
           event.id = event.id[0];
