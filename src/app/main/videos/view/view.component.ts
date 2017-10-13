@@ -646,10 +646,10 @@ export class ViewComponent implements OnInit {
     this.api.getDefaultMedia().subscriptions.timeUpdate.subscribe(
       () => {
         //console.log(this.api.getDefaultMedia().currentTime)
-        try{
-        this.currentVideoTime = this.api.getDefaultMedia().currentTime;
-        this.playNextFromQueue(this.currentVideoTime);
-        }catch(e){}
+        try {
+          this.currentVideoTime = this.api.getDefaultMedia().currentTime;
+          this.playNextFromQueue(this.currentVideoTime);
+        } catch (e) { }
         //console.log(this.eventTimelineScrollbar);
         // if( this.eventTimelineScrollbar && document.getElementsByClassName("ps--active-x")[0]){
         //   this.playNextFromQueue(this.currentVideoTime);
@@ -675,10 +675,11 @@ export class ViewComponent implements OnInit {
 
         // this.getVideoTrackingDataItems(this.videoId);
 
-        this.timerEvent = setInterval(() => {
-          this.getVideoEventsData(this.videoId);
-          // this.cleartimer();
-        }, 10000);
+        // this.timerEvent = setInterval(() => {
+        //   this.getVideoEventsData(this.videoId);
+        //   // this.cleartimer();
+        // }, 10000);
+        this.getVideoEventsData(this.videoId);
 
 
         //}
@@ -803,10 +804,10 @@ export class ViewComponent implements OnInit {
   onChangeTimelineSlider(e) {
     //  console.log(e.from);
     console.log(e.from);
-    if(this.api.getDefaultMedia().currentTime != (e.form / 100)){
+    if (this.api.getDefaultMedia().currentTime != (e.form / 100)) {
       this.api.getDefaultMedia().currentTime = e.from / 100;
-      
-     }
+
+    }
 
   }
 

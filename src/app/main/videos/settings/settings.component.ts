@@ -34,6 +34,7 @@ import { IMultiSelectOption, IMultiSelectSettings, IMultiSelectTexts } from 'ang
   styleUrls: ['./settings.component.css']
 })
 export class VideoSettingsComponent implements OnInit {
+  timerEvent: NodeJS.Timer;
   isCoachOrAnalyst: boolean;
   tabIndex: any;
   deleteVideoResponce: any;
@@ -230,7 +231,11 @@ export class VideoSettingsComponent implements OnInit {
       this.videoId = params['id'];
       this.getVideoTrackingDataItems(this.videoId);
       this.getVideo(this.videoId);
-      this.getVideoEventsData(this.videoId);
+      this.timerEvent = setInterval(() => {
+        this.getVideoEventsData(this.videoId);
+        // this.cleartimer();
+      }, 5000);
+      // this.getVideoEventsData(this.videoId);
     });
   }
 
@@ -1096,5 +1101,13 @@ export class VideoSettingsComponent implements OnInit {
   }
   onSelectTab(e) {
     this.tabIndex = e.index;
+  }
+  cleartimer() {
+    if (this.timerEvent) {
+      clearInterval(this.timerEvent);
+    }
+  }
+  ngOnDestroy() {
+    this.cleartimer();
   }
 }
