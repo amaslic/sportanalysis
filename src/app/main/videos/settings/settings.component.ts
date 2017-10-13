@@ -34,6 +34,11 @@ import { IMultiSelectOption, IMultiSelectSettings, IMultiSelectTexts } from 'ang
   styleUrls: ['./settings.component.css']
 })
 export class VideoSettingsComponent implements OnInit {
+  isCoachOrAnalyst: boolean;
+  tabIndex: any;
+  deleteVideoResponce: any;
+  multiId: any[];
+  multiEid: any[];
   isAllSelected: boolean = false;
   eventDataId: any;
   event: any = {};
@@ -163,6 +168,9 @@ export class VideoSettingsComponent implements OnInit {
     var user = this.userService.loadUserFromStorage();
     if (user['role'] == 1 || user['role'] == 2) {
       this.isAdmin = true;
+    }
+    if (user['role'] == 3 || user['role'] == 4) {
+      this.isCoachOrAnalyst = true;
     }
     this.video.title = '';
     this.teamService.getAllTeams(this.userService.token).subscribe(
@@ -880,12 +888,6 @@ export class VideoSettingsComponent implements OnInit {
     });
 
 
-    console.log(this.trackingJsonData);
-
-
-
-
-
   }
   fancyTimeFormat(time) {
     // Hours, minutes and seconds
@@ -1015,5 +1017,84 @@ export class VideoSettingsComponent implements OnInit {
       }
     }
 
+  }
+  deleteSelected() {
+
+    this.multiId = [];
+
+    this.trackingJsonData.forEach(element => {
+      if (element["isSelected"]) {
+        this.multiId.push({ 'Id': element.id, 'Eid': element.eid });
+        //this.multiEid.push(element.eid);
+      }
+    });
+    if (this.multiId.length == 0 || this.multiId == null) {
+      this.errormsg = "Please select videos for delete."
+      this.ErrorModal.open();
+      return;
+    }
+    if (confirm("Are you sure to delete selected Events ?")) {
+      this.trackingDataService.deleteSelected(this.userService.token, this.multiId).subscribe(
+        (response) => this.onMultipleSuccess(response),
+        (error) => this.onError(error)
+      );
+    }
+  }
+  approveSelected() {
+
+    this.multiId = [];
+
+    this.trackingJsonData.forEach(element => {
+      if (element["isSelected"]) {
+        this.multiId.push({ 'Id': element.id, 'Eid': element.eid });
+        //this.multiEid.push(element.eid);
+      }
+    });
+    if (this.multiId.length == 0 || this.multiId == null) {
+      this.errormsg = "Please select events for approve."
+      this.ErrorModal.open();
+      return;
+    }
+    if (confirm("Are you sure to approve selected Events ?")) {
+      this.trackingDataService.approveSelected(this.userService.token, this.multiId).subscribe(
+        (response) => this.onMultipleSuccess(response),
+        (error) => this.onError(error)
+      );
+    }
+  }
+  disapproveSelected() {
+
+    this.multiId = [];
+
+    this.trackingJsonData.forEach(element => {
+      if (element["isSelected"]) {
+        this.multiId.push({ 'Id': element.id, 'Eid': element.eid });
+        //this.multiEid.push(element.eid);
+      }
+    });
+    if (this.multiId.length == 0 || this.multiId == null) {
+      this.errormsg = "Please select events for disapprove."
+      this.ErrorModal.open();
+      return;
+    }
+    if (confirm("Are you sure to disapprove selected Events ?")) {
+      this.trackingDataService.disapproveSelected(this.userService.token, this.multiId).subscribe(
+        (response) => this.onMultipleSuccess(response),
+        (error) => this.onError(error)
+      );
+    }
+  }
+  onMultipleSuccess(response) {
+    this.deleteVideoResponce = JSON.parse(response._body);
+
+    this.successmsg = this.deleteVideoResponce.message;
+    this.SucessModal.open();
+    this.multiId = [];
+
+    this.isAllSelected = false;
+    this.getVideoEventsData(this.videoId);
+  }
+  onSelectTab(e) {
+    this.tabIndex = e.index;
   }
 }

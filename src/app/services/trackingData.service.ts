@@ -192,7 +192,6 @@ export class TrackingDataService {
     return this.http.post(this.baseApiUrl + 'eventData/getEventsFront', body, options);
   }
   updateEvent(token: String, event: any) {
-    console.log(event);
     const headers = new Headers({
       'Authorization': token
     });
@@ -202,4 +201,35 @@ export class TrackingDataService {
     });
     return this.http.post(this.baseApiUrl + 'eventData/updateEvent', body, options);
   }
+  deleteSelected(token: String, ids: any) {
+    const headers = new Headers({
+      'Authorization': token
+    });
+    const body = { token: token, ids: ids };
+    const options = new RequestOptions({
+      headers: headers
+    });
+    return this.http.post(this.baseApiUrl + 'eventData/deleteSelected', body, options);
+  }
+  approveSelected(token: String, ids: any) {
+    const headers = new Headers({
+      'Authorization': token
+    });
+    const body = { token: token, ids: ids };
+    const options = new RequestOptions({
+      headers: headers
+    });
+    return this.http.post(this.baseApiUrl + 'eventData/approveSelected', body, options);
+  }
+  disapproveSelected(token: String, ids: any) {
+    const headers = new Headers({
+      'Authorization': token
+    });
+    const body = { token: token, ids: ids };
+    const options = new RequestOptions({
+      headers: headers
+    });
+    return this.http.post(this.baseApiUrl + 'eventData/disapproveSelected', body, options);
+  }
+
 }

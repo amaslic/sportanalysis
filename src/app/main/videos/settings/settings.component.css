@@ -69,7 +69,11 @@
   padding: 40px!important;
 }
 
-
+.action-button{margin: 0px 5px;}
+.video-title{display: initial !important;}
+.video-md-settings{width: 100%;}
+.mat-tab-header{width: 92.3%;display: block !important;margin: 0px auto;}
+:host >>> .video-md-settings[_ngcontent-c4] .mat-tab-body-content{max-width: 100% !important;}
 
 :host >>> input.completer-input{
     height: 34px;
