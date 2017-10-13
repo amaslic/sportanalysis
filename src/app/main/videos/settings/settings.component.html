@@ -5,11 +5,15 @@
 </div>
 
 <div class="content add-margin">
+
   <div class="container">
-    <h3 *ngIf="(video.type == 'Training')">{{video.title}}</h3>
-    <h3 *ngIf="(video.type != 'Training')">{{video.clubName}} vs {{video.clubName2}}</h3>
-    <button class="btn btn-default pull-right" *ngIf="isAdmin" [routerLink]="['/backoffice/video-overview']">Back</button>
-    <md-tab-group class="video-md-settings">
+    <h3 *ngIf="(video.type == 'Training')" class="video-title">{{video.title}}</h3>
+    <h3 *ngIf="(video.type != 'Training')" class="video-title">{{video.clubName}} vs {{video.clubName2}}</h3>
+    <button class="btn btn-default pull-right action-button" *ngIf="isAdmin" [routerLink]="['/backoffice/video-overview']">Back</button>
+    <button class="btn btn-default pull-right action-button" *ngIf="(tabIndex==2)" (click)="deleteSelected()">Delete Selected</button>
+    <button class="btn btn-default pull-right action-button" *ngIf="(tabIndex==2)" (click)="approveSelected()">Approve Selected</button>
+    <button class="btn btn-default pull-right action-button" *ngIf="(tabIndex==2)" (click)="disapproveSelected()">Disaprove Selected</button>
+    <md-tab-group class="video-md-settings" (selectChange)="onSelectTab($event)">
 
       <md-tab label="Video Details">
         <perfect-scrollbar>
@@ -264,9 +268,17 @@
         </div>
       </md-tab>
       <md-tab label="Eventlist">
-        <ngx-datatable #activetable class="material" [limit]="10" [headerHeight]="50" [footerHeight]="50" [columnMode]="'standard'"
+        <ngx-datatable #activetable class="material" [limit]="10" [headerHeight]="50" [footerHeight]="50" [columnMode]="'force'"
           [rows]="trackingJsonData">
           <!-- <ngx-datatable-column [flexGrow]="3" name="Id" prop="eid"> </ngx-datatable-column> -->
+          <ngx-datatable-column>
+            <ng-template let-column="column" ngx-datatable-header-template>
+              <md-checkbox [(ngModel)]="isAllSelected" (change)="onChangeOfcheckAll($event)">All </md-checkbox>
+            </ng-template>
+            <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
+              <md-checkbox [(ngModel)]="row.isSelected" (change)="onChangeOfCheckbox($event,row)"> </md-checkbox>
+            </ng-template>
+          </ngx-datatable-column>
           <ngx-datatable-column name="Name" prop="name"> </ngx-datatable-column>
           <ngx-datatable-column name="Start" prop="start"> </ngx-datatable-column>
           <ngx-datatable-column name="End" prop="end"> </ngx-datatable-column>
@@ -312,7 +324,7 @@
       <button class="btn btn-primary" (click)="SucessModal.close()">Ok</button>
     </modal-footer>
   </modal>
-  <modal #userErrorModal class="error-modal">
+  <modal #ErrorModal class="error-modal">
     <modal-header>
 
     </modal-header>
