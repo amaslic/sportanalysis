@@ -89,27 +89,42 @@ export class MatchComponent implements OnInit {
         });
     }
 
+    // get12Time(currentTime) {
+    //     var time = currentTime.split(':')
+    //     var hours = time[0];
+    //     var minutes = time[1];
+
+    //     if (parseInt(minutes) < 10)
+    //         minutes = "0" + parseInt(minutes);
+
+    //     var suffix = "AM";
+    //     if (hours >= 12) {
+    //         suffix = "PM";
+    //         hours = hours - 12;
+    //     }
+    //     if (hours == 0) {
+    //         hours = 12;
+    //     }
+
+    //     if (parseInt(hours) < 10)
+    //         hours = "0" + parseInt(hours);
+
+    //     var current_time = hours + ":" + minutes + " " + suffix;
+    //     return current_time;
+    // }
+
     get12Time(currentTime) {
         var time = currentTime.split(':')
         var hours = time[0];
         var minutes = time[1];
 
-        if (parseInt(minutes) < 10)
+        if (parseInt(minutes) < 10 && minutes.length == 1)
             minutes = "0" + parseInt(minutes);
 
-        var suffix = "AM";
-        if (hours >= 12) {
-            suffix = "PM";
-            hours = hours - 12;
-        }
-        if (hours == 0) {
-            hours = 12;
-        }
-
-        if (parseInt(hours) < 10)
+        if (parseInt(hours) < 10 && hours.length == 1)
             hours = "0" + parseInt(hours);
 
-        var current_time = hours + ":" + minutes + " " + suffix;
+        var current_time = hours + ":" + minutes ;
         return current_time;
     }
 

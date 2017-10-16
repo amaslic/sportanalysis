@@ -221,6 +221,7 @@ export class ViewComponent implements OnInit {
   events: any = [];
   eventDataId: any;
   VideoTiming: any;
+  errormsg: any;
 
   // @HostListener('window:keypress', ['$event'])
   // handleKeyboardEvent(event: KeyboardEvent) {
@@ -239,6 +240,7 @@ export class ViewComponent implements OnInit {
   @ViewChild('updatePlaylistModal') updatePlaylistModal;
   @ViewChild('assignEventModal') assignEventModal;
   @ViewChild('SucessModal') SucessModal;
+  @ViewChild('ErrorModal') ErrorModal;
 
   //@ViewChild('eventTimelineScrollbar') eventTimelineScrollbar;
 
@@ -365,14 +367,15 @@ export class ViewComponent implements OnInit {
       let start = parseInt(event.start);
       let end = start + 0.5;
       if (event.start !== "NaN" &&
-        (event.name === "Goal" ||
-          event.name === "Kick Off" ||
-          event.name === "Red Card" ||
-          event.name === "Yellow Card" ||
-          event.name === "Change" ||
-          event.name === "Free Kick"
-        ) &&
+        // (event.name === "Goal" ||
+        //   event.name === "Kick Off" ||
+        //   event.name === "Red Card" ||
+        //   event.name === "Yellow Card" ||
+        //   event.name === "Change" ||
+        //   event.name === "Free Kick"
+        // ) &&
         this.api.getDefaultMedia().duration > event.start) {
+          console.log('add cue');
         this.track.addCue(
           new VTTCue(start, end, JSON.stringify({
             title: event.name,
@@ -403,15 +406,16 @@ export class ViewComponent implements OnInit {
             let cuePoint = JSON.parse(cueData[i].text)
             let z = document.createAttribute('data-tooltip');
             z.value = cuePoint.title + " - " + cuePoint.team;
-            try {
-              container_child[i].setAttributeNode(z);
-            } catch (e) { }
+            container_child[i].setAttributeNode(z);
+            // try {
+            //   container_child[i].setAttributeNode(z);
+            // } catch (e) { }
           }
           clearInterval(intId);
         }
       }
 
-    }, 1000);
+    }, 3000);
 
   }
 
@@ -583,19 +587,23 @@ export class ViewComponent implements OnInit {
   currentItem: IMedia;
 
   shareEventlist(vid, e) {
-    // console.log(vid, eid)
-    // console.log(e);
-    this.userService.getUsers(this.userService.token).subscribe(
-      (response) => this.onGetUsersSuccess(response),
-      (error) => this.onError(error)
-    );
-    // this.trackingDataService.getEventDetails(vid, e.id, this.userService.token).subscribe(
-    //   (response) => this.getEventDetailsSuccess(response, e.id),
-    //   (error) => this.onError(error)
-    // )
-    this.eventsDetails = e;
-    this.assignEventModal.open();
-
+    if(e.start <= this.videoDuration && this.videoDuration >= e.end){
+      // console.log(vid, eid)
+      // console.log(e);
+      this.userService.getUsers(this.userService.token).subscribe(
+        (response) => this.onGetUsersSuccess(response),
+        (error) => this.onError(error)
+      );
+      // this.trackingDataService.getEventDetails(vid, e.id, this.userService.token).subscribe(
+      //   (response) => this.getEventDetailsSuccess(response, e.id),
+      //   (error) => this.onError(error)
+      // )
+      this.eventsDetails = e;
+      this.assignEventModal.open();
+    }else{
+        this.errormsg = "This event is not valid for share.";
+        this.ErrorModal.open();
+    }
   }
   getEventDetailsSuccess(response, eid) {
     const eventsdata = JSON.parse(response._body);

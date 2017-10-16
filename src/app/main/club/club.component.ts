@@ -281,7 +281,7 @@ export class ClubComponent implements OnInit {
     e.preventDefault();
     e.stopPropagation();
     this.videoId = id;
-    this.userService.getAllUsersByClubId(this.userDetails['club'], this.userService.token).subscribe(
+    this.userService.getUsers(this.userService.token).subscribe(
       (response) => this.onAssignUsersSuccess(response),
       (error) => this.onError(error)
     );
@@ -293,7 +293,7 @@ export class ClubComponent implements OnInit {
     userlist.forEach((usr, index) => {
       this.trackUserlist.push({
         'id': usr._id,
-        'name': usr.firstName + ' ' + usr.lastName
+        'name': usr.firstName
       });
     });
     this.userlistOptions = this.trackUserlist;
@@ -331,25 +331,40 @@ export class ClubComponent implements OnInit {
     this.getVideos();
   }
 
+  // get12Time(currentTime) {
+  //   var time = currentTime.split(':')
+  //   var hours = time[0];
+  //   var minutes = time[1];
+
+  //   if (minutes < 10)
+  //     minutes = "0" + minutes;
+
+  //   var suffix = "AM";
+  //   if (hours >= 12) {
+  //     suffix = "PM";
+  //     hours = hours - 12;
+  //   }
+  //   if (hours == 0) {
+  //     hours = 12;
+  //   }
+  //   var current_time = hours + ":" + minutes + " " + suffix;
+  //   return current_time;
+  // }
+
   get12Time(currentTime) {
-    var time = currentTime.split(':')
-    var hours = time[0];
-    var minutes = time[1];
+        var time = currentTime.split(':')
+        var hours = time[0];
+        var minutes = time[1];
 
-    if (minutes < 10)
-      minutes = "0" + minutes;
+        if (parseInt(minutes) < 10 && minutes.length == 1)
+            minutes = "0" + parseInt(minutes);
 
-    var suffix = "AM";
-    if (hours >= 12) {
-      suffix = "PM";
-      hours = hours - 12;
+        if (parseInt(hours) < 10 && hours.length == 1)
+            hours = "0" + parseInt(hours);
+
+        var current_time = hours + ":" + minutes ;
+        return current_time;
     }
-    if (hours == 0) {
-      hours = 12;
-    }
-    var current_time = hours + ":" + minutes + " " + suffix;
-    return current_time;
-  }
 
   deleteMatchById(id) {
     if (confirm("Are you sure you want to delete this match? It will delete all videos, events and playlist attached to this match.")) {
