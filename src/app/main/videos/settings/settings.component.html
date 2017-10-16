@@ -12,7 +12,7 @@
     <button class="btn btn-default pull-right action-button" *ngIf="isAdmin" [routerLink]="['/backoffice/video-overview']">Back</button>
     <button class="btn btn-default pull-right action-button" *ngIf="(tabIndex==2)" (click)="deleteSelected()">Delete Selected</button>
     <button class="btn btn-default pull-right action-button" *ngIf="(tabIndex==2)" (click)="approveSelected()">Approve Selected</button>
-    <button class="btn btn-default pull-right action-button" *ngIf="(tabIndex==2)" (click)="disapproveSelected()">Disaprove Selected</button>
+    <button class="btn btn-default pull-right action-button" *ngIf="(tabIndex==2)" (click)="disapproveSelected()">Disapprove Selected</button>
     <md-tab-group class="video-md-settings" (selectChange)="onSelectTab($event)">
 
       <md-tab label="Video Details">
@@ -290,11 +290,12 @@
 
           <ngx-datatable-column name="Action">
             <ng-template let-row="row" ngx-datatable-cell-template>
-
+              <i class="fa fa-eye text-info" (click)="viewEvent(row)" aria-hidden="true"></i>
               <i *ngIf=row.active class="fa fa-ban deactive fa-lg text-muted" aria-hidden="true" (click)="deactivateEvent(row)"></i>
               <i *ngIf=!row.active class="fa fa-check-square fa-lg text-success" aria-hidden="true" (click)="activateEvent(row)"></i>
               <i class="fa fa-pencil fa-lg edit text-info" aria-hidden="true" (click)="editEvent(row)"></i>
               <i class="fa fa-trash fa-lg delete text-danger" aria-hidden="true" (click)="deleteEvent(row)"></i>
+
             </ng-template>
           </ngx-datatable-column>
 
@@ -381,4 +382,53 @@
         </div>
       </form>
     </modal-content>
+  </modal>
+  <modal #VideoModal>
+    <modal-header>
+
+    </modal-header>
+    <modal-content>
+      <div class="video-box" #Container>
+
+        <vg-player *ngIf="video && playlist" (onPlayerReady)="onPlayerReady($event)">
+          <vg-overlay-play></vg-overlay-play>
+          <vg-buffering></vg-buffering>
+
+          <vg-scrub-bar>
+            <vg-scrub-bar-current-time></vg-scrub-bar-current-time>
+            <vg-scrub-bar-buffering-time></vg-scrub-bar-buffering-time>
+
+          </vg-scrub-bar>
+
+          <vg-controls [vgAutohide]="true" [vgAutohideTime]="1.5">
+            <vg-play-pause></vg-play-pause>
+            <vg-playback-button></vg-playback-button>
+
+            <vg-time-display vgProperty="current" vgFormat="mm:ss"></vg-time-display>
+
+            <vg-scrub-bar></vg-scrub-bar>
+
+            <vg-time-display vgProperty="left" vgFormat="mm:ss"></vg-time-display>
+            <vg-time-display vgProperty="total" vgFormat="mm:ss"></vg-time-display>
+
+            <!--<vg-track-selector></vg-track-selector>-->
+            <vg-mute></vg-mute>
+            <vg-volume></vg-volume>
+
+            <vg-fullscreen></vg-fullscreen>
+          </vg-controls>
+
+          <video width="320" height="420" (keypress)="eventHandler($event)" [vgMedia]="media " #media id="sportanalysis-video " preload="auto "
+            crossorigin [src]="currentItem.src ">
+            <!-- <source [src]="currentItem.src " [type]="currentItem.type "> -->
+
+          </video>
+        </vg-player>
+
+      </div>
+
+    </modal-content>
+    <modal-footer>
+      <button class="btn btn-primary" (click)="VideoModal.close()">Ok</button>
+    </modal-footer>
   </modal>

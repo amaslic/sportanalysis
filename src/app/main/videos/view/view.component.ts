@@ -72,8 +72,9 @@ export interface IMedia {
   styleUrls: ['./view.component.css']
 })
 export class ViewComponent implements OnInit {
+  timerOn: boolean;
   keyCode: any;
-
+  multiEid: any = [];
   globalListenFunc: Function;
   create: boolean;
   multiplay: Boolean;
@@ -302,6 +303,8 @@ export class ViewComponent implements OnInit {
     var count = 1;
     this.events.forEach((element, index) => {
       element.eventData.forEach((event, index) => {
+        let elObj = { id: event.id[0], eid: element._id };
+
         if (typeof (event.id) != 'undefined') {
           event.id = event.id[0];
         }
@@ -317,6 +320,17 @@ export class ViewComponent implements OnInit {
         if (typeof (event.end) != 'undefined') {
           event.end = event.end[0];
         }
+        let eindex = this.multiEid.indexOf(elObj);
+        event.checked = this.multiEid.filter(function (eData) {
+          return (eData.id == elObj.id && eData.eid == elObj.eid);
+        })[0];
+        // console.log(event.isSelected);
+        // if (eindex > -1) {
+        //   event.isSelected = true;
+        // } else {
+        //   event.isSelected = false;
+        // }
+
         event.rowId = count;
         event.eventDataId = element._id;
         this.trackingJsonData.push(event);
@@ -673,16 +687,13 @@ export class ViewComponent implements OnInit {
         // console.log(this.videoDuration);
         // console.log(this.fancyVideoDuration);
 
-        // this.getVideoTrackingDataItems(this.videoId);
+        //  this.getVideoTrackingDataItems(this.videoId);
 
-        // this.timerEvent = setInterval(() => {
-        //   this.getVideoEventsData(this.videoId);
-        //   // this.cleartimer();
-        // }, 10000);
         this.getVideoEventsData(this.videoId);
+        this.timerEvent = setInterval(() => {
+          this.getVideoEventsData(this.videoId);
+        }, 10000);
 
-
-        //}
         if (this.currentIndex <= 2) {
           if (this.eventId) {
             this.showEvent = false;
@@ -690,7 +701,6 @@ export class ViewComponent implements OnInit {
           }
           this.playVideo();
         }
-
       }
     );
   }
@@ -1033,12 +1043,34 @@ export class ViewComponent implements OnInit {
 
   selectEvent(e, event) {
 
-    event.checked = e.checked;
-    if (e.checked) {
-      this.multiPlaylist.push(event);
-    } else {
+    if (!e.checked) {
+      event['checked'] = false;
+      let elObj = { id: event.id, eid: event.eventDataId };
+      console.log(elObj);
+      let index = this.multiEid.indexOf(elObj);
+      // if (index > -1) {
+      //   this.multiEid.splice(index, 1);
+      // } else {
+      //   this.multiEid.push({ id: event.id, eid: event.eventDataId });
+      // }
+      this.multiEid = this.multiEid.filter((element, index) => {
+        return !(element.id == String(event.id) && element.eid == String(event.eventDataId));
+      });
       this.multiPlaylist = this.multiPlaylist.filter(item => item !== event);
+    } else {
+      event['checked'] = true;
+      this.multiEid.push({ id: event.id, eid: event.eventDataId });
+      this.multiPlaylist.push(event);
     }
+
+
+
+    // event.checked = e.checked;
+    // if (e.checked) {
+    //   this.multiPlaylist.push(event);
+    // } else {
+    //   this.multiPlaylist = this.multiPlaylist.filter(item => item !== event);
+    // }
   }
   deselectAll() {
     this.multiplay = false;

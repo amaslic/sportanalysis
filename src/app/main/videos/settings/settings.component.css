@@ -85,6 +85,7 @@
     box-shadow: none;
 }
 
+.video-box{height: 320px;}
 :host >>> ng2-completer.ng-invalid {
     display: block;
 }

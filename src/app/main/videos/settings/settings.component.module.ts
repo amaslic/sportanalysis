@@ -12,6 +12,10 @@ import { MultiselectDropdownModule } from 'angular-2-dropdown-multiselect';
 import { PerfectScrollbarModule } from 'ngx-perfect-scrollbar';
 import { PerfectScrollbarConfigInterface } from 'ngx-perfect-scrollbar';
 import { NguiDatetimePickerModule } from '@ngui/datetime-picker';
+import { VgCoreModule } from 'videogular2/core';
+import { VgControlsModule } from 'videogular2/controls';
+import { VgOverlayPlayModule } from 'videogular2/overlay-play';
+import { VgBufferingModule } from 'videogular2/buffering';
 
 const PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {};
 
@@ -25,7 +29,11 @@ const PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {};
         Ng2CompleterModule,
         MultiselectDropdownModule,
         PerfectScrollbarModule.forRoot(PERFECT_SCROLLBAR_CONFIG),
-        NguiDatetimePickerModule
+        NguiDatetimePickerModule,
+        VgCoreModule,
+        VgControlsModule,
+        VgOverlayPlayModule,
+        VgBufferingModule
     ],
     declarations: [VideoSettingsComponent]
 })

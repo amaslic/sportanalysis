@@ -26,20 +26,59 @@ import {
 import {
   MatchService
 } from './../../../services/match.service';
-
+import {
+  VgAPI
+} from 'videogular2/core';
+import { Playlist } from "app/models/playlist.model";
 import { IMultiSelectOption, IMultiSelectSettings, IMultiSelectTexts } from 'angular-2-dropdown-multiselect';
+
+declare var document: any;
+declare var VTTCue;
+
+export interface ICuePoint {
+  title: string;
+  description: string;
+  src: string;
+  href: string;
+}
+
+export interface IWikiCue {
+  startTime: number;
+  endTime: number;
+  title: string;
+  description: string;
+  src: string;
+  href: string;
+}
+
+export interface IMedia {
+  title: string;
+  src: string;
+  type: string;
+}
 @Component({
   selector: 'app-settings',
   templateUrl: './settings.component.html',
   styleUrls: ['./settings.component.css']
 })
 export class VideoSettingsComponent implements OnInit {
+  timer: NodeJS.Timer;
+  track: any;
+  fancyVideoDuration: string;
+  roundedDuration: number;
+  videoDuration: any;
+  currentVideoTime: number;
+
+
+  private baseVideoUrl = GlobalVariables.BASE_VIDEO_URL;
+  private baseAmazonVideoUrl = GlobalVariables.BASE_AMAZON_VIDEO_URL;
+  playlist: Array<IMedia>;
   timerEvent: NodeJS.Timer;
   isCoachOrAnalyst: boolean;
   tabIndex: any;
   deleteVideoResponce: any;
   multiId: any[];
-  multiEid: any[];
+  multiEid: any = [];
   isAllSelected: boolean = false;
   eventDataId: any;
   event: any = {};
@@ -80,6 +119,9 @@ export class VideoSettingsComponent implements OnInit {
   clubTeams1: any;
   clubTeams2: any;
   videoRights: any = { allRoles: true, team: true, player: true, viewer: true };
+  api: VgAPI;
+  videoLoaded: boolean;
+  //public playlists: Playlist = new Playlist();
 
   teamlistOptions: IMultiSelectOption[];
   teamlistSettings: IMultiSelectSettings = {
@@ -161,11 +203,13 @@ export class VideoSettingsComponent implements OnInit {
   @ViewChild('form') form;
   @ViewChild('SucessModal') SucessModal;
   @ViewChild('ErrorModal') ErrorModal;
+  @ViewChild('VideoModal') VideoModal;
   @ViewChild('updateEventlistModal') updateEventlistModal;
   @ViewChild('lnkDownloadLink') lnkDownloadLink: ElementRef;
   constructor(private route: ActivatedRoute, private trackingDataService: TrackingDataService, private userService: UserService, private videoService: VideoService, private clubService: ClubService, private teamService: TeamService, private matchService: MatchService) { }
 
   ngOnInit() {
+
     var user = this.userService.loadUserFromStorage();
     if (user['role'] == 1 || user['role'] == 2) {
       this.isAdmin = true;
@@ -231,6 +275,7 @@ export class VideoSettingsComponent implements OnInit {
       this.videoId = params['id'];
       this.getVideoTrackingDataItems(this.videoId);
       this.getVideo(this.videoId);
+      this.getVideoEventsData(this.videoId);
       this.timerEvent = setInterval(() => {
         this.getVideoEventsData(this.videoId);
         // this.cleartimer();
@@ -298,8 +343,46 @@ export class VideoSettingsComponent implements OnInit {
     this.onChangeofClub1(1);
     this.onChangeofClub2(1);
     this.video.date = new Date(this.video.date);
+
+    if (this.video.club1details && this.video.club1details.length > 0) {
+
+      var club1trim = this.video.club1details[0].name.replace(/ /g, '').slice(0, 3);
+      this.video.club1details[0].name = club1trim.toUpperCase();
+    }
+    if (this.video.club2details && this.video.club2details.length > 0) {
+
+      var club2trim = this.video.club2details[0].name.replace(/ /g, '').slice(0, 3);
+      this.video.club2details[0].name = club2trim.toUpperCase();
+    }
+    console.log(this.video);
+    console.log(this.video.path);
+    if (this.video && this.video.path) {
+      this.videoLoaded = true;
+      this.playlist = [{
+        title: 'Intro Video',
+        src: 'assets/videos/intro.mp4',
+        type: 'video/mp4'
+      },
+      {
+        title: this.video.title,
+        src: this.baseAmazonVideoUrl + this.video.path,
+        type: this.video.mimetype
+      },
+      {
+        title: 'Outro Video',
+        src: 'assets/videos/outro.mp4',
+        type: 'video/mp4'
+      }
+      ];
+
+      this.currentItem = this.playlist[this.currentIndex];
+
+      console.log(this.playlist);
+    }
   }
 
+  currentIndex = 1; //Set this to 0 to enable Intro video;
+  currentItem: IMedia;
 
   getVideoTrackingDataItems(id: String) {
     this.trackingDataService.getDataTrackingForVideo(id, this.userService.token).subscribe(
@@ -851,7 +934,7 @@ export class VideoSettingsComponent implements OnInit {
     var count = 1;
     this.events.forEach((element, index) => {
       element.eventData.forEach((event, index) => {
-
+        let elObj = { id: event.id[0], eid: element._id };
         event.eid = element._id;
         if (element.createduser.length > 0) {
           event.createdBy = element.createduser[0]['firstName'] + ' ' + element.createduser[0]['lastName'];
@@ -886,7 +969,20 @@ export class VideoSettingsComponent implements OnInit {
         }
         event.rowId = count;
         event.eventDataId = element._id;
-        event.isSelected = false;
+
+
+        // console.log(elObj);
+        // console.log(this.multiEid);
+        // let eindex = this.multiEid.indexOf(elObj);
+        event.isSelected = this.multiEid.filter(function (eData) {
+          return (eData.id == elObj.id && eData.eid == elObj.eid);
+        })[0];
+        // console.log(event.isSelected);
+        // if (eindex > -1) {
+        //   event.isSelected = true;
+        // } else {
+        //   event.isSelected = false;
+        // }
         this.trackingJsonData.push(event);
         count++;
       });
@@ -996,26 +1092,43 @@ export class VideoSettingsComponent implements OnInit {
     this.getVideoEventsData(this.videoId);
   }
   onChangeOfcheckAll(e) {
+    this.multiEid = [];
     this.trackingJsonData.forEach(element => {
       element["isSelected"] = e.checked;
+      if (e.checked) {
+        this.multiEid.push({ id: element.id, eid: element.eventDataId });
+      }
 
     });
   }
 
-  onChangeOfCheckbox(e, obj) {
-    console.log(obj.isSelected);
+  checkIfSelected(eid, eventDataId) {
+    let elObj = { id: eid, eid: eventDataId };
+    return this.multiEid.indexOf(elObj) > -1;
+  }
 
+  onChangeOfCheckbox(e, obj) {
     if (!e.checked) {
-      this.isAllSelected = false;
-    } else {
-      var count = 0;
-      this.trackingJsonData.forEach(element => {
-        if (!element["isSelected"]) {
-          count++;
-          return;
-        }
+      obj['isSelected'] = false;
+      let elObj = { id: obj.eid, eid: obj.eventDataId };
+      // let index = this.multiEid.indexOf(elObj);
+      // console.log("elObj ", elObj);
+      // console.log("index ", index);
+      // if (index > -1) {
+      //   this.multiEid.splice(index, 1);
+      // }
+      // else {
+      //   this.multiEid.push({ id: obj.id, eid: obj.eventDataId });
+      // }
+      console.log(this.multiEid);
+      this.multiEid = this.multiEid.filter((element, index) => {
+        return !(element.id == String(obj.id) && element.eid == String(obj.eventDataId));
       });
-      if (count == 0) {
+      console.log(this.multiEid);
+    } else {
+      obj['isSelected'] = true;
+      this.multiEid.push({ id: obj.id, eid: obj.eventDataId });
+      if (this.trackingJsonData.length == this.multiEid.length) {
         this.isAllSelected = true;
       } else {
         this.isAllSelected = false;
@@ -1106,8 +1219,101 @@ export class VideoSettingsComponent implements OnInit {
     if (this.timerEvent) {
       clearInterval(this.timerEvent);
     }
+    if (this.timer)
+      clearInterval(this.timer);
+  }
+  viewEvent(e) {
+    var a = e.start.split(':'); // split it at the colons
+    var b = e.end.split(':'); // split it at the colons
+
+    // minutes are worth 60 seconds. Hours are worth 60 minutes.
+    console.log(a);
+    var startseconds = (+a[0]) * 60 * 60 + (+a[1]) * 60 + (+a[2]);
+    var endseconds = (+b[0]) * 60 * 60 + (+b[1]) * 60 + (+b[2]);
+
+    console.log(endseconds);
+
+    if (String(startseconds) == "NaN" || String(endseconds) == "NaN") {
+      alert("No Preview Avaliable.")
+    }
+    else {
+      this.api.getDefaultMedia().currentTime = startseconds;
+      this.api.play();
+      this.cleartimer();
+      this.timer = setInterval(() => {
+        if (this.api.getDefaultMedia().currentTime >= endseconds) {
+          this.api.pause();
+          this.cleartimer();
+        }
+      }, 1000);
+      this.VideoModal.open();
+    }
+
+    console.log(e);
   }
   ngOnDestroy() {
     this.cleartimer();
   }
+  onPlayerReady(api: VgAPI) {
+    this.api = api;
+    this.track = this.api.textTracks[0];
+
+    //this.api.getDefaultMedia().subscriptions.loadedMetadata.subscribe(this.playVideo.bind(this));
+
+    this.api.getDefaultMedia().subscriptions.ended.subscribe(
+      () => {
+        // Set the video to the beginning
+
+        // this.multiPlaylist = [];
+        //console.log("Ended");
+        //this.api.getDefaultMedia().currentTime = 0;
+        // this.api.pause();
+        // this.nextVideo();
+
+
+      }
+    );
+
+    this.api.getDefaultMedia().subscriptions.timeUpdate.subscribe(
+      () => {
+        //console.log(this.api.getDefaultMedia().currentTime)
+        try {
+          this.currentVideoTime = this.api.getDefaultMedia().currentTime;
+          //this.playNextFromQueue(this.currentVideoTime);
+        } catch (e) { }
+        //console.log(this.eventTimelineScrollbar);
+        // if( this.eventTimelineScrollbar && document.getElementsByClassName("ps--active-x")[0]){
+        //   this.playNextFromQueue(this.currentVideoTime);
+        //   this.eventTimelineScrollbar.elementRef.nativeElement.childNodes[0].scrollLeft += 1;
+        //   if (document.getElementsByClassName("irs-slider")[0].offsetLeft > document.getElementsByClassName("ps--active-x")[0].offsetWidth / 2) {
+        //     document.getElementsByClassName("ps--active-x")[0].scrollLeft = document.getElementsByClassName("irs-slider")[0].offsetLeft - (document.getElementsByClassName("ps--active-x")[0].offsetWidth / 2)
+        //   }
+        // }
+
+      }
+    );
+
+    this.api.getDefaultMedia().subscriptions.loadedData.subscribe(
+      () => {
+        // console.log("Loaded data");
+
+        // if (this.currentIndex == 1) {
+        this.videoDuration = this.api.getDefaultMedia().duration;
+        this.roundedDuration = parseInt(this.videoDuration);
+        this.fancyVideoDuration = this.fancyTimeFormat(this.videoDuration);
+        // console.log(this.videoDuration);
+        // console.log(this.fancyVideoDuration);
+
+        //  this.getVideoTrackingDataItems(this.videoId);
+
+        this.getVideoEventsData(this.videoId);
+        this.timerEvent = setInterval(() => {
+          this.getVideoEventsData(this.videoId);
+        }, 10000);
+
+
+      }
+    );
+  }
+
 }
