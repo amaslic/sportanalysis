@@ -199,7 +199,8 @@ export class VideosComponent implements OnInit {
     e.preventDefault();
     e.stopPropagation();
     this.videoId = id;
-    this.userService.getAllUsersByClubId(this.userDetails['club'], this.userService.token).subscribe(
+    console.log('dssd');
+    this.userService.getUsers(this.userService.token).subscribe(
       (response) => this.onGetUsersSuccess(response),
       (error) => this.onError(error)
     );
@@ -212,7 +213,7 @@ export class VideosComponent implements OnInit {
     userlist.forEach((usr, index) => {
       this.trackUserlist.push({
         'id': usr._id,
-        'name': usr.firstName + ' ' + usr.lastName
+        'name': usr.firstName
       });
     });
     this.userlistOptions = this.trackUserlist;

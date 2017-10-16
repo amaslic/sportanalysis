@@ -50,6 +50,7 @@ export class addEditMatchesComponent implements OnInit {
   matchDetails: any;
   my_Class: any = "";
   routerLink: any;
+  buttonName: any;
 
   @ViewChild('SucessModal') SucessModal;
   @ViewChild('ErrorModal') ErrorModal;
@@ -73,6 +74,7 @@ export class addEditMatchesComponent implements OnInit {
   }
 
   ngOnInit() {
+  
     this.match.team1 = null;
     this.match.team2 = null;
     this.teamService.getAllTeams(this.userService.token).subscribe(
@@ -86,6 +88,7 @@ export class addEditMatchesComponent implements OnInit {
           this.id = params['id'];
 
           if (typeof (this.id) != "undefined") {
+            this.buttonName = "Edit Match";
             this.matchService.getMatchById(this.id, this.userService.token).subscribe(
               (response: any) => {
                 this.match = JSON.parse(response._body);
@@ -127,6 +130,8 @@ export class addEditMatchesComponent implements OnInit {
               },
               (error) => this.onError(error)
             );
+          }else{
+            this.buttonName = "Add Match";
           }
 
         });

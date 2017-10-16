@@ -10,6 +10,7 @@ import { MdModule } from '../../../md.module';
 import { Ng2CompleterModule } from "ng2-completer";
 import { MultiselectDropdownModule } from 'angular-2-dropdown-multiselect';
 import { NguiDatetimePickerModule } from '@ngui/datetime-picker';
+import { PipeModule } from '../../../pipe.module';
 
 @NgModule({
     imports: [
@@ -21,7 +22,8 @@ import { NguiDatetimePickerModule } from '@ngui/datetime-picker';
         Ng2CompleterModule,
         MultiselectDropdownModule,
         ReactiveFormsModule,
-        NguiDatetimePickerModule
+        NguiDatetimePickerModule,
+        PipeModule
     ],
     declarations: [UploadComponent]
 })

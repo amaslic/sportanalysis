@@ -55,8 +55,7 @@
       <video (keypress)="eventHandler($event)" [vgMedia]="media " #media id="sportanalysis-video " preload="auto " crossorigin
         [src]="currentItem.src ">
         <!-- <source [src]="currentItem.src " [type]="currentItem.type "> -->
-        <track src="assets/data/cue-points.vtt " kind="metadata " label="Cue Points
-      " default #metadataTrack vgCuePoints (onEnterCuePoint)="onEnterCuePoint($event) " (onExitCuePoint)="onExitCuePoint($event) ">
+        <track src="assets/data/cue-points.vtt " kind="metadata " label="Cue Points" default #metadataTrack vgCuePoints (onEnterCuePoint)="onEnterCuePoint($event) " (onExitCuePoint)="onExitCuePoint($event) ">
       </video>
     </vg-player>
 
@@ -402,5 +401,22 @@
   </modal-content>
   <modal-footer>
     <button class="btn btn-primary" (click)="SucessModal.close()">Ok</button>
+  </modal-footer>
+</modal>
+
+<modal #ErrorModal class="error-modal">
+  <modal-header>
+
+  </modal-header>
+  <modal-content>
+    <p>
+      <i class="fa fa-close" aria-hidden="true"></i>
+    </p>
+    <p>
+      {{errormsg}}
+    </p>
+  </modal-content>
+  <modal-footer>
+    <button class="btn btn-primary" (click)="ErrorModal.close()">Ok</button>
   </modal-footer>
 </modal>
