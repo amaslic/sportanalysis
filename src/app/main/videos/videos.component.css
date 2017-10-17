@@ -30,7 +30,7 @@
 }
 
 .list-view .list-inline>li{
-  max-width: 250px;
+  max-width: 200px;
   width: 100%;
 }
 
@@ -369,7 +369,7 @@ h3.recent{
 }
 
 .list-view .list-inline.video-list-details > li:nth-child(2){
-  max-width: 150px;
+  max-width: 100px;
 }
 /* .list-view .list-inline.video-list-details > li:nth-child(3){
   max-width: 100px;

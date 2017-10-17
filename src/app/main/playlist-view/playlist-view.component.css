@@ -553,7 +553,7 @@
 
 .stats ul li:first-child {
 
-  border-bottom: 0;
+ /* border-bottom: 0; */
 }
 
 .stats ul li {
