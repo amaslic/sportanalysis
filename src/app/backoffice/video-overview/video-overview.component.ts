@@ -33,6 +33,7 @@ import { PlatformLocation } from '@angular/common';
   styleUrls: ['./video-overview.css']
 })
 export class VideoOverviewComponent implements OnInit {
+  isClub: boolean;
   videoListData: User[];
   search: any = { ActivatedClub: null };
   clubList: any = [];
@@ -118,6 +119,9 @@ export class VideoOverviewComponent implements OnInit {
   ngOnInit() {
     var user = this.userService.loadUserFromStorage();
     if (user['role'] == 1 || user['role'] == 2) {
+      if (user['role'] == 2) {
+        this.isClub = true;
+      }
       this.isAdmin = true;
     }
 
