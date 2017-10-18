@@ -333,8 +333,8 @@ export class VideoSettingsComponent implements OnInit {
     this.playerlistModel = this.video.sharedWithUsers;
 
     this.viewerlistModel = this.video.sharedWithUsers;
-    console.log(this.viewerlistOptions);
-    console.log(this.viewerlistModel);
+    // console.log(this.viewerlistOptions);
+    // console.log(this.viewerlistModel);
     this.videoRights.allRoles = this.video.shareWithAll;
     this.videoRights.team = this.video.shareWithTeams;
     this.videoRights.player = this.video.shareWithPlayers;
@@ -499,7 +499,7 @@ export class VideoSettingsComponent implements OnInit {
 
     this.showProgressBar = true;
     if (f.value.type != 'Training') {
-      f.value.title = '';
+      //f.value.title = '';
       var clubName = f.value.clubName;
       if (clubName != '' && clubName != null) {
         var ClubData1 = this.allClubList.filter(function (element, index) {
@@ -529,24 +529,26 @@ export class VideoSettingsComponent implements OnInit {
       // }
 
       this.notExistedClub = [];
-      if (typeof (ClubData1) == 'undefined' && clubName && clubName != '' && clubName != null) {
-        this.notExistedClub.push({ name: clubName });
-      } else {
-        f.value.clubName = ClubData1._id;
+      if (clubName != '' && clubName != null) {
+        if (typeof (ClubData1) == 'undefined' && clubName && clubName != '' && clubName != null) {
+          this.notExistedClub.push({ name: clubName });
+        } else {
+          f.value.clubName = ClubData1._id;
+        }
       }
+      if (clubName2 != '' && clubName2 != null) {
+        if (typeof (ClubData2) == 'undefined' && clubName2 && clubName2 != '' && clubName2 != null) {
 
-      if (typeof (ClubData2) == 'undefined' && clubName2 && clubName2 != '' && clubName2 != null) {
+          var existclub = this.notExistedClub.filter(function (element, index) {
+            return (element.name.toLowerCase() === clubName2.toLowerCase());
+          });
 
-        var existclub = this.notExistedClub.filter(function (element, index) {
-          return (element.name.toLowerCase() === clubName2.toLowerCase());
-        });
-
-        if (typeof (existclub) == 'undefined' || existclub.length == 0)
-          this.notExistedClub.push({ name: clubName2 });
-      } else {
-        f.value.clubName2 = ClubData2._id;
+          if (typeof (existclub) == 'undefined' || existclub.length == 0)
+            this.notExistedClub.push({ name: clubName2 });
+        } else {
+          f.value.clubName2 = ClubData2._id;
+        }
       }
-
       // if (typeof (TeamData1) == 'undefined' && teamName1 && teamName1 != '' && teamName1 != null) {
       //   var existclub = this.notExistedClub.filter(function (element, index) {
       //     return (element.name.toLowerCase() === teamName1.toLowerCase());
@@ -663,8 +665,10 @@ export class VideoSettingsComponent implements OnInit {
       f.value.team2 = '';
 
     if (f.value.type != 'Training') {
-      f.value.club = f.value.clubName;
-      f.value.club2 = f.value.clubName2;
+      if (f.value.clubName != '')
+        f.value.club = f.value.clubName;
+      if (f.value.clubName2 != '')
+        f.value.club2 = f.value.clubName2;
     } else {
       f.value.club = '';
       f.value.club2 = '';
@@ -810,19 +814,19 @@ export class VideoSettingsComponent implements OnInit {
   // }
 
   get12Time(currentTime) {
-        var time = currentTime.split(':')
-        var hours = time[0];
-        var minutes = time[1];
+    var time = currentTime.split(':')
+    var hours = time[0];
+    var minutes = time[1];
 
-        if (parseInt(minutes) < 10 && minutes.length == 1)
-            minutes = "0" + parseInt(minutes);
+    if (parseInt(minutes) < 10 && minutes.length == 1)
+      minutes = "0" + parseInt(minutes);
 
-        if (parseInt(hours) < 10 && hours.length == 1)
-            hours = "0" + parseInt(hours);
+    if (parseInt(hours) < 10 && hours.length == 1)
+      hours = "0" + parseInt(hours);
 
-        var current_time = hours + ":" + minutes ;
-        return current_time;
-    }
+    var current_time = hours + ":" + minutes;
+    return current_time;
+  }
 
 
   onChangeofMatch() {
@@ -1247,10 +1251,13 @@ export class VideoSettingsComponent implements OnInit {
     var startseconds = (+a[0]) * 60 * 60 + (+a[1]) * 60 + (+a[2]);
     var endseconds = (+b[0]) * 60 * 60 + (+b[1]) * 60 + (+b[2]);
 
-    console.log(endseconds);
+
 
     if (String(startseconds) == "NaN" || String(endseconds) == "NaN") {
       alert("No Preview Avaliable.")
+    }
+    else if (startseconds > this.api.duration) {
+      alert("Not a valid start time");
     }
     else {
       this.api.getDefaultMedia().currentTime = startseconds;

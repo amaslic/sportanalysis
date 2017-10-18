@@ -367,24 +367,26 @@ export class UploadComponent implements OnInit {
       // }
 
       this.notExistedClub = [];
-      if (typeof (ClubData1) == 'undefined' && clubName && clubName != '' && clubName != null) {
-        this.notExistedClub.push({ name: clubName });
-      } else {
-        f.value.clubName = ClubData1._id;
+      if (clubName != '' && clubName != null) {
+        if (typeof (ClubData1) == 'undefined' && clubName && clubName != '' && clubName != null) {
+          this.notExistedClub.push({ name: clubName });
+        } else {
+          f.value.clubName = ClubData1._id;
+        }
       }
+      if (clubName2 != '' && clubName2 != null) {
+        if (typeof (ClubData2) == 'undefined' && clubName2 && clubName2 != '' && clubName2 != null) {
 
-      if (typeof (ClubData2) == 'undefined' && clubName2 && clubName2 != '' && clubName2 != null) {
+          var existclub = this.notExistedClub.filter(function (element, index) {
+            return (element.name.toLowerCase() === clubName2.toLowerCase());
+          });
 
-        var existclub = this.notExistedClub.filter(function (element, index) {
-          return (element.name.toLowerCase() === clubName2.toLowerCase());
-        });
-
-        if (typeof (existclub) == 'undefined' || existclub.length == 0)
-          this.notExistedClub.push({ name: clubName2 });
-      } else {
-        f.value.clubName2 = ClubData2._id;
+          if (typeof (existclub) == 'undefined' || existclub.length == 0)
+            this.notExistedClub.push({ name: clubName2 });
+        } else {
+          f.value.clubName2 = ClubData2._id;
+        }
       }
-
       // if (typeof (TeamData1) == 'undefined' && teamName1 && teamName1 != '' && teamName1 != null) {
       //   var existclub = this.notExistedClub.filter(function (element, index) {
       //     return (element.name.toLowerCase() === teamName1.toLowerCase());
@@ -642,20 +644,20 @@ export class UploadComponent implements OnInit {
   //   return current_time;
   // }
 
-    get12Time(currentTime) {
-        var time = currentTime.split(':')
-        var hours = time[0];
-        var minutes = time[1];
+  get12Time(currentTime) {
+    var time = currentTime.split(':')
+    var hours = time[0];
+    var minutes = time[1];
 
-        if (parseInt(minutes) < 10 && minutes.length == 1)
-            minutes = "0" + parseInt(minutes);
+    if (parseInt(minutes) < 10 && minutes.length == 1)
+      minutes = "0" + parseInt(minutes);
 
-        if (parseInt(hours) < 10 && hours.length == 1)
-            hours = "0" + parseInt(hours);
+    if (parseInt(hours) < 10 && hours.length == 1)
+      hours = "0" + parseInt(hours);
 
-        var current_time = hours + ":" + minutes ;
-        return current_time;
-    }
+    var current_time = hours + ":" + minutes;
+    return current_time;
+  }
 
   selectAll(e) {
     if (this.videoRights.allRoles) {

@@ -72,7 +72,7 @@
                   <md-checkbox class="checkbox-margin" name="fullVideo" [(ngModel)]="video.fullVideo">Full Video</md-checkbox>
                 </div>
               </div>
-              <div *ngIf="(video.type == 'Training')" class="form-group">
+              <div *ngIf="(video.type != 'Match')" class="form-group">
                 <label class="control-label col-sm-5" for="title">Video Title:</label>
                 <div class="col-sm-7">
                   <input type="text" class="form-control" id="title" name="title" [ngModel]="video.title" placeholder="Enter Title" required>
@@ -89,14 +89,14 @@
                 <label class="control-label col-sm-5">Home Club:</label>
                 <div class="col-sm-7">
                   <ng2-completer #club="ngModel" id="selectClub" [(ngModel)]="video.clubName" (ngModelChange)="onChangeofClub1()" name="clubName"
-                    placeholder="Home Club" [datasource]="clubData" [minSearchLength]="3" required></ng2-completer>
+                    placeholder="Home Club" [datasource]="clubData" [minSearchLength]="3" [required]="(video.type == 'Match') ? true : null"></ng2-completer>
                 </div>
               </div>
               <div *ngIf="(video.type != 'Training')" class="form-group">
                 <label class="control-label col-sm-5">Away Club:</label>
                 <div class="col-sm-7">
                   <ng2-completer #club="ngModel" id="selectClub2" [(ngModel)]="video.clubName2" (ngModelChange)="onChangeofClub2()" name="clubName2"
-                    placeholder="Away Club" [datasource]="clubData" [minSearchLength]="3" required></ng2-completer>
+                    placeholder="Away Club" [datasource]="clubData" [minSearchLength]="3" [required]="(video.type == 'Match') ? true : null"></ng2-completer>
                 </div>
               </div>
               <div class="form-group">
