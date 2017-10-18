@@ -265,14 +265,14 @@ export class ViewComponent implements OnInit {
     this.showEvent = true;
     this.sub = this.route.params.subscribe(params => {
       this.videoId = params['id'];
-      if (params['eid'] && params['edid']) {
+      // if (params['eid'] && params['edid']) {
 
-        this.eventId = params['eid'];
-        this.trackingDataService.getEventDetails(this.videoId, params['edid'], this.userService.token).subscribe(
-          (response) => this.getEventDetailsSuccess(response, params['eid']),
-          (error) => this.onError(error)
-        )
-      }
+      //   this.eventId = params['eid'];
+      //   this.trackingDataService.getEventDetails(this.videoId, params['edid'], this.userService.token).subscribe(
+      //     (response) => this.getEventDetailsSuccess(response, params['eid']),
+      //     (error) => this.onError(error)
+      //   )
+      // }
       this.getVideo(this.videoId);
     });
 
@@ -569,7 +569,15 @@ export class ViewComponent implements OnInit {
 
       this.currentItem = this.playlist[this.currentIndex];
 
-
+      this.sub = this.route.params.subscribe(params => {
+        if (params['eid'] && params['edid']) {
+          this.eventId = params['eid'];
+          this.trackingDataService.getEventDetails(this.videoId, params['edid'], this.userService.token).subscribe(
+            (response) => this.getEventDetailsSuccess(response, params['eid']),
+            (error) => this.onError(error)
+          )
+        }
+      });
     }
     else {
       this.r.navigateByUrl('/videos');
