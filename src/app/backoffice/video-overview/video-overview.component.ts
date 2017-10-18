@@ -33,6 +33,10 @@ import { PlatformLocation } from '@angular/common';
   styleUrls: ['./video-overview.css']
 })
 export class VideoOverviewComponent implements OnInit {
+  isClub: boolean;
+  videoListData: User[];
+  search: any = { ActivatedClub: null };
+  clubList: any = [];
   errormsg: string;
   deleteVideoResponce: any;
   isAdmin: boolean;
@@ -115,6 +119,9 @@ export class VideoOverviewComponent implements OnInit {
   ngOnInit() {
     var user = this.userService.loadUserFromStorage();
     if (user['role'] == 1 || user['role'] == 2) {
+      if (user['role'] == 2) {
+        this.isClub = true;
+      }
       this.isAdmin = true;
     }
 
@@ -163,6 +170,7 @@ export class VideoOverviewComponent implements OnInit {
 
     if (this.videoList.length > 0) {
       this.videoList.forEach(element => {
+
         // console.log(element);
         element['id'] = element._id;
         element['ofilename'] = element['original_filename'];
@@ -173,7 +181,13 @@ export class VideoOverviewComponent implements OnInit {
         })[0];
 
         if (typeof (videoClub) != 'undefined') {
+          var id = element['user']['club'];
           element.club = videoClub.name;
+
+
+
+          this.clubList.push({ _id: id, name: element.club });
+
         } else {
           element.club = '';
         }
@@ -181,10 +195,12 @@ export class VideoOverviewComponent implements OnInit {
         element["isSelected"] = false;
 
       });
+      this.clubList = this.clubList.filter((thing, index, self) => self.findIndex((t) => { return t._id === thing._id && t.name === thing.name; }) === index)
 
     }
 
     // console.log(this.videoList);
+    this.onChangeofActivatedSearch();
     this.loadingIndicator = false;
   }
 
@@ -310,7 +326,7 @@ export class VideoOverviewComponent implements OnInit {
   }
 
   onChangeOfcheckAll(e) {
-    this.videoList.forEach(element => {
+    this.videoListData.forEach(element => {
       element["isSelected"] = e.checked;
 
     });
@@ -323,7 +339,7 @@ export class VideoOverviewComponent implements OnInit {
       this.isAllSelected = false;
     } else {
       var count = 0;
-      this.videoList.forEach(element => {
+      this.videoListData.forEach(element => {
         if (!element["isSelected"]) {
           count++;
           return;
@@ -336,6 +352,12 @@ export class VideoOverviewComponent implements OnInit {
       }
     }
 
+  }
+  onChangeofActivatedSearch() {
+
+    this.videoListData = this.videoList.filter((element, index) => {
+      return ((this.search.ActivatedClub == null || this.search.ActivatedClub == "null") || element['user']['club'] == this.search.ActivatedClub) && ((this.search.ActivatedTeam == null || this.search.ActivatedTeam == "null"));
+    });
   }
 
 }

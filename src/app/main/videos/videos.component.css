@@ -367,7 +367,7 @@ h3.recent{
 .checkbox{
   max-width: 60px !important;
 }
-
+li.title-grid{display: block !important;margin-bottom: 5px;}
 .list-view .list-inline.video-list-details > li:nth-child(2){
   max-width: 100px;
 }
@@ -377,15 +377,19 @@ h3.recent{
 /* .list-view .list-inline.video-list-details > li:nth-child(4){
   max-width: 250px;
 } */
-.hometeam{
+.title{
   max-width: 100px !important;
+}
+.hometeam{
+  max-width: 90px !important;
 }
 .awayteam{
-  max-width: 100px !important;
+  max-width: 90px !important;
 }
 .result{
-  max-width: 250px;
+  max-width: 200px !important;
 }
+.type{width: 120px !important;}
 .list-view .list-inline.video-list-details > li:nth-child(5){
    max-width: 100px;
 }

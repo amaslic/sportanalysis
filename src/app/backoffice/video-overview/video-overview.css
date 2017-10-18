@@ -4,6 +4,10 @@
 :host >>> .mat-checkbox-checked.mat-accent .mat-checkbox-background, .mat-checkbox-indeterminate.mat-accent .mat-checkbox-background{
     background-color:#009cff;
 }
+select.form-control{
+    height: auto !important;
+}
+
 
 .loginOverLay {
     display: table;

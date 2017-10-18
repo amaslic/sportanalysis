@@ -1,7 +1,9 @@
 <div class="inner" *ngIf="uploading">
   <div class="center-all">
 
-    <div class="uploading">Uploading.. {{progress}}% <i class="fa fa-spinner fa-spin" aria-hidden="true"></i></div>
+    <div class="uploading">Uploading.. {{progress}}%
+      <i class="fa fa-spinner fa-spin" aria-hidden="true"></i>
+    </div>
     <div class="bar">
       <div class="progress">
         <div class="progress-bar" role="progressbar" [attr.aria-valuenow]="progress" aria-valuemin="0" aria-valuemax="100" [style.width]="progress + '%'">
@@ -21,20 +23,20 @@
 
       <div class="form-group col-sm-12 text-center" id="upload-area">
         <label for="attachments" style="width:100%">
-            <div class="dropzone_cont" id="dropzone" (drop)="onDrop($event)" (dragover)="onDragOver($event)" (dragenter)="onDragEnter($event)">
-              <img src="/assets/icons/upload.svg" alt="upload" class="image-responsive upload-icon">
-              <h4>Select the file to upload</h4>
-              <p class="or">or</p>
-              <p class="drag-file">
-                <img src="assets/images/drag.png" alt="Drag file" /> Drag file here
-              </p>
-              <span *ngIf="selectedFile.name">{{selectedFile.name}} - {{getSizeInMB(selectedFile.size)}}</span>
-              <span *ngIf="!selectedFile.name">&nbsp;
-                <span *ngIf="!f.form.valid && f._submitted" style="color:red">Please select Video file</span>
-              </span>
-            </div>
-            <input type="file" (change)="onSelectFile($event)" name="attachments" [(ngModel)]="attachments" id="attachments" style="display:none">
-          </label>
+          <div class="dropzone_cont" id="dropzone" (drop)="onDrop($event)" (dragover)="onDragOver($event)" (dragenter)="onDragEnter($event)">
+            <img src="/assets/icons/upload.svg" alt="upload" class="image-responsive upload-icon">
+            <h4>Select the file to upload</h4>
+            <p class="or">or</p>
+            <p class="drag-file">
+              <img src="assets/images/drag.png" alt="Drag file" /> Drag file here
+            </p>
+            <span *ngIf="selectedFile.name">{{selectedFile.name}} - {{getSizeInMB(selectedFile.size)}}</span>
+            <span *ngIf="!selectedFile.name">&nbsp;
+              <span *ngIf="!f.form.valid && f._submitted" style="color:red">Please select Video file</span>
+            </span>
+          </div>
+          <input type="file" (change)="onSelectFile($event)" name="attachments" [(ngModel)]="attachments" id="attachments" style="display:none">
+        </label>
       </div>
       <form #form class="form-inline upload-inputs col-xs-12  col-sm-8 text-center" id="video-metadata" #f="ngForm" (ngSubmit)="onSubmit(f)"
         novalidate [ngClass]="{'submited' : f._submitted}">
@@ -61,12 +63,23 @@
             <label class="control-label text-left" for="title">Full Video:</label>
             <md-checkbox class="checkbox-margin" name="fullVideo" [(ngModel)]="fullVideo">Full Video</md-checkbox>
           </div>
-        </div>
-        <div class="row margin-bottom-10">
-          <div class="form-group" *ngIf="(type == 'Training')">
+          <div class="form-group" *ngIf="(type != 'Match')">
             <label class="control-label text-left" for="title">Title:</label>
             <input type="title" [(ngModel)]="name" class="form-control" name="title" id="video-name" placeholder="Video Name" required>
           </div>
+        </div>
+        <div class="row margin-bottom-10 width" *ngIf="(type != 'Match')">
+          <div class="form-group margin-left-0">
+            <label class="control-label text-left" for="title">Title:</label>
+            <input type="title" [(ngModel)]="name" class="form-control" name="title" id="video-name" placeholder="Video Name" required>
+          </div>
+
+        </div>
+        <div class="row margin-bottom-10">
+          <!-- <div class="form-group" *ngIf="(type != 'Match')">
+            <label class="control-label text-left" for="title">Title:</label>
+            <input type="title" [(ngModel)]="name" class="form-control" name="title" id="video-name" placeholder="Video Name" required>
+          </div> -->
           <div class="form-group">
             <label class="control-label text-left" for="title">Date of event:</label>
             <input [(ngModel)]="date" class="form-control" name="date" ngui-datetime-picker date-only="true" placeholder="Date of event"
@@ -75,13 +88,13 @@
           <div class="form-group" *ngIf="(type != 'Training')">
             <label class="control-label text-left" for="title">Club 1:</label>
             <ng2-completer #club="ngModel" id="selectClub" [(ngModel)]="clubName" (ngModelChange)="onChangeofClub1()" name="clubName"
-              placeholder="Club 1" [datasource]="clubData" [minSearchLength]="3" required></ng2-completer>
+              placeholder="Club 1" [datasource]="clubData" [minSearchLength]="3" [required]="(type == 'Match') ? true : null"></ng2-completer>
 
           </div>
           <div class="form-group" *ngIf="(type != 'Training')">
             <label class="control-label text-left" for="title">Club 2:</label>
             <ng2-completer #club="ngModel" id="selectClub2" [(ngModel)]="clubName2" (ngModelChange)="onChangeofClub2()" name="clubName2"
-              placeholder="Club 2" [datasource]="clubData" [minSearchLength]="3" required></ng2-completer>
+              placeholder="Club 2" [datasource]="clubData" [minSearchLength]="3" [required]="(type == 'Match') ? true : null"></ng2-completer>
 
           </div>
           <div class="form-group">
@@ -222,17 +235,17 @@
     <div class="col-md-6">
       <div class="video-name">
         <select class="select-box">
-                <option>Video name</option>
-                <option>1</option>
-              </select>
+          <option>Video name</option>
+          <option>1</option>
+        </select>
       </div>
     </div>
     <div class="col-md-6">
       <div class="event-date">
         <select class="select-box">
-                <option>Date of event</option>
-                <option>1</option>
-            </select>
+          <option>Date of event</option>
+          <option>1</option>
+        </select>
       </div>
     </div>
   </div>
@@ -244,7 +257,8 @@
         <h4> First goal </h4>
       </div>
       <div class="col-md-4 col-sm-12">
-        <h4> Thursday, 15 June 2017 </h4> <i class="fa fa-trash-o" aria-hidden="true"></i>
+        <h4> Thursday, 15 June 2017 </h4>
+        <i class="fa fa-trash-o" aria-hidden="true"></i>
       </div>
     </div>
     <div class="events">
@@ -254,7 +268,8 @@
       </div>
 
       <div class="col-md-4 col-sm-12">
-        <h4> Thursday, 15 June 2017 </h4> <i class="fa fa-trash-o" aria-hidden="true"></i>
+        <h4> Thursday, 15 June 2017 </h4>
+        <i class="fa fa-trash-o" aria-hidden="true"></i>
       </div>
     </div>
     <div class="events">
@@ -263,7 +278,8 @@
         <h4> First goal </h4>
       </div>
       <div class="col-md-4 col-sm-12">
-        <h4> Thursday, 15 June 2017 </h4> <i class="fa fa-trash-o" aria-hidden="true"></i>
+        <h4> Thursday, 15 June 2017 </h4>
+        <i class="fa fa-trash-o" aria-hidden="true"></i>
       </div>
     </div>
   </div>

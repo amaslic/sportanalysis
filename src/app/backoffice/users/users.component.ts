@@ -22,6 +22,7 @@ import {
   styleUrls: ['./users.component.css']
 })
 export class UsersComponent implements OnInit {
+  allApprovedClubrList: any;
   successmsg: any;
   deactivateUserResponce: any;
   activateUserResponce: any;
@@ -49,7 +50,7 @@ export class UsersComponent implements OnInit {
 
   search: any = { ActivatedClub: null, ActivatedTeam: null, DeactivatedClub: null, DeactivatedTeam: null };
   errormsg: string;
-  isSuperAdmin:boolean;
+  isSuperAdmin: boolean;
 
   @ViewChild('activetable') activetable;
   @ViewChild('deactivetable') deactivetable;
@@ -59,11 +60,11 @@ export class UsersComponent implements OnInit {
 
   ngOnInit() {
     var user = this.userService.loadUserFromStorage();
-        if (user['role'] == 1) {
-            this.isSuperAdmin = true;
-        } else {
-            this.isSuperAdmin = false;
-        }
+    if (user['role'] == 1) {
+      this.isSuperAdmin = true;
+    } else {
+      this.isSuperAdmin = false;
+    }
 
 
     this.clubService.getAllClubs(this.userService.token).subscribe(
@@ -108,6 +109,7 @@ export class UsersComponent implements OnInit {
 
       if (this.AllClubList.length > 0) {
         var userclub = this.AllClubList.filter(function (element1, index) {
+
           return (element1._id === element.club);
         })[0];
 
@@ -120,6 +122,7 @@ export class UsersComponent implements OnInit {
       }
       // console.log(element.teams);
       // console.log(this.teamsList);
+
       if (element.teams != null) {
         if (this.teamsList.length > 0 && element.teams.length > 0) {
           var teamsList = '';
@@ -250,6 +253,7 @@ export class UsersComponent implements OnInit {
   }
 
   onChangeofActivatedSearch() {
+
 
     this.usersList = this.allApprovedUserList.filter((element, index) => {
       return ((this.search.ActivatedClub == null || this.search.ActivatedClub == "null") || element.clubId == this.search.ActivatedClub) && ((this.search.ActivatedTeam == null || this.search.ActivatedTeam == "null") || element.teamId == this.search.ActivatedTeam);
