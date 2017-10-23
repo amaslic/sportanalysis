@@ -10,6 +10,7 @@
     <li>Away Club</li>
     <li>Home Team</li>
     <li>Away Team</li>
+    <li>Created By</li>
     <li>Action</li>
   </ul>
   <perfect-scrollbar>
@@ -31,7 +32,7 @@
           <li *ngIf="match.team1details.length == 0">&nbsp;</li>
           <li *ngIf="match.team2details.length > 0">{{match.team2details[0].name}}</li>
           <li *ngIf="match.team2details.length == 0">&nbsp;</li>
-          
+          <li>{{match.createduser.firstName}} {{match.createduser.lastName}}</li>
           <li>
             <button class="btn btn-default" [routerLink]="['/match/',match._id]"><i class="fa fa-pencil-square-o text-info" aria-hidden="true"></i></button>
             <button type="button" [routerLink]="['/match/view/',match._id]" class="btn btn-default" aria-label="Left Align">
