@@ -1,27 +1,26 @@
 <div class="main-content">
   <div class="video-white-bg" id="text-overlay" *ngIf="enableOverlay && videoLoaded">
-    <span class="video-date">{{video.date | date:"dd.MM.yyyy"}}</span>
-    <h3 class="video-title" *ngIf="(video.type=='Training')">{{video.title}}</h3>
-    <h3 class="video-club1" *ngIf="video.club1details.length > 0 && video.club1details[0].name && (video.type!='Training')">{{video.club1details[0].name}}</h3>
-    <div *ngIf="(video.type!='Training')" class="video-image-main">
-      <img *ngIf="video.club1details.length > 0 && video.club1details[0].logo" [src]="baseVideoUrl + video.club1details[0].logo"
-        alt="" class="img-responsive video-images team1-logo">
-      <img *ngIf="video.club1details.length <= 0 || !video.club1details[0].logo || video.club1details[0].logo == ''" src="assets/images/default-clublogo.png"
-        class="img-responsive video-images team2-logo">
+
+    <span class="video-date" *ngIf="(videoDate)">{{videoDate | date:"dd.MM.yyyy"}}</span>
+    <h3 class="video-title" *ngIf="(videoType =='Training')"> {{videoType}}</h3>
+
+    <h3 class="video-club1" *ngIf="club1trim && (videoType!='Training')">{{club1trim}}</h3>
+    <div *ngIf="(videoType!='Training')" class="video-image-main">
+      <img *ngIf="club1Detailslogo" [src]="baseVideoUrl + club1Detailslogo" alt="" class="img-responsive video-images team1-logo">
+      <img *ngIf="!club2Detailslogo || club2Detailslogo == ''" src="assets/images/default-clublogo.png" class="img-responsive video-images team2-logo">
       <span class="video-score">
-        <span *ngIf="video.scoreTeam1" class="score">{{video.scoreTeam1}}</span>:
-        <span *ngIf="video.scoreTeam2" class="score">{{video.scoreTeam2}}</span>
+        <span *ngIf="scoreTeam1" class="score">{{scoreTeam1}}</span>:
+        <span *ngIf="scoreTeam2" class="score">{{scoreTeam2}}</span>
       </span>
-      <img *ngIf="video.club2details.length > 0 && video.club2details[0].logo" [src]="baseVideoUrl + video.club2details[0].logo"
-        alt="" class="img-responsive video-images team1-logo">
-      <img *ngIf="video.club2details.length <= 0 || !video.club2details[0].logo || video.club2details[0].logo == ''" src="assets/images/default-clublogo.png"
-        class="img-responsive video-images team2-logo">
+      <img *ngIf="club2Detailslogo" [src]="baseVideoUrl + club2Detailslogo" alt="" class="img-responsive video-images team1-logo">
+      <img *ngIf="!club2Detailslogo || club2Detailslogo == ''" src="assets/images/default-clublogo.png" class="img-responsive video-images team2-logo">
     </div>
-    <h3 class="video-club2" *ngIf="video.club2details.length > 0 && video.club1details[0].name && (video.type!='Training')">{{video.club2details[0].name}}</h3>
+    <h3 class="video-club2" *ngIf="club2trim && (videoType!='Training')">{{club2trim}}</h3>
   </div>
   <div *ngIf="videoLoaded" class="video-box" #Container>
 
-    <vg-player (onPlayerReady)="onPlayerReady($event)">
+    <vg-player (onPlayerReady)="onPlayerReady($event)" (mousemove)="onmouseenter()
+    " (mouseover)="onmouseenter() " (mouseleave)="onmouseleave() ">
       <vg-overlay-play></vg-overlay-play>
       <vg-buffering></vg-buffering>
 

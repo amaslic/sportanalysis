@@ -272,10 +272,10 @@ export class ViewComponent implements OnInit {
           (response) => this.getEventDetailsSuccess(response, params['eid']),
           (error) => this.onError(error)
         )
-      }else{
+      } else {
         this.getVideo(this.videoId);
       }
-      
+
     });
 
   }
@@ -377,7 +377,7 @@ export class ViewComponent implements OnInit {
         //   event.name === "Free Kick"
         // ) &&
         this.api.getDefaultMedia().duration > event.start) {
-          console.log('add cue');
+        console.log('add cue');
         this.track.addCue(
           new VTTCue(start, end, JSON.stringify({
             title: event.name,
@@ -413,7 +413,7 @@ export class ViewComponent implements OnInit {
               container_child[i].setAttributeNode(z);
             } catch (e) { }
           }
-          
+
         }
       }
 
@@ -587,7 +587,7 @@ export class ViewComponent implements OnInit {
   currentItem: IMedia;
 
   shareEventlist(vid, e) {
-    if(e.start <= this.videoDuration && this.videoDuration >= e.end){
+    if (e.start <= this.videoDuration && this.videoDuration >= e.end) {
       // console.log(vid, eid)
       // console.log(e);
       this.userService.getUsers(this.userService.token).subscribe(
@@ -600,9 +600,9 @@ export class ViewComponent implements OnInit {
       // )
       this.eventsDetails = e;
       this.assignEventModal.open();
-    }else{
-        this.errormsg = "This event is not valid for share.";
-        this.ErrorModal.open();
+    } else {
+      this.errormsg = "This event is not valid for share.";
+      this.ErrorModal.open();
     }
   }
   getEventDetailsSuccess(response, eid) {
@@ -688,7 +688,7 @@ export class ViewComponent implements OnInit {
 
     this.api.getDefaultMedia().subscriptions.loadedData.subscribe(
       () => {
-         console.log("Loaded data");
+        console.log("Loaded data");
 
         // if (this.currentIndex == 1) {
         this.videoDuration = this.api.getDefaultMedia().duration;
@@ -832,6 +832,7 @@ export class ViewComponent implements OnInit {
   }
 
   onmouseenter($event) {
+
     this.enableOverlay = true;
     setTimeout(() => {
       this.enableOverlay = true;
