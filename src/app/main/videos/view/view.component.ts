@@ -75,6 +75,7 @@ export class ViewComponent implements OnInit {
   timerOn: boolean;
   keyCode: any;
   multiEid: any = [];
+  multiId: any = [];
   globalListenFunc: Function;
   create: boolean;
   multiplay: Boolean;
@@ -702,7 +703,7 @@ export class ViewComponent implements OnInit {
         this.getVideoEventsData(this.videoId);
         this.timerEvent = setInterval(() => {
           this.getVideoEventsData(this.videoId);
-        }, 10000);
+        }, 15000);
 
         if (this.currentIndex <= 2) {
           if (this.eventId) {
@@ -1070,6 +1071,8 @@ export class ViewComponent implements OnInit {
       this.multiPlaylist = this.multiPlaylist.filter(item => item !== event);
     } else {
       event['checked'] = true;
+
+      this.multiId.push({ 'Id': event.id, 'Eid': event.eventDataId });
       this.multiEid.push({ id: event.id, eid: event.eventDataId });
       this.multiPlaylist.push(event);
     }
@@ -1086,7 +1089,7 @@ export class ViewComponent implements OnInit {
   deselectAll() {
     this.multiplay = false;
     this.multiPlaylist = [];
-
+    this.multiId = [];
     this.trackingJsonData.forEach((event, index) => {
       event.checked = false;
     });
@@ -1132,6 +1135,21 @@ export class ViewComponent implements OnInit {
     this.successmsg = responseBody.message;
     this.SucessModal.open();
     this.getVideoEventsData(this.videoId);
+  }
+  deleteSelected() {
+
+    console.log(this.multiId);
+    if (this.multiId.length == 0 || this.multiId == null) {
+      this.errormsg = "Please select videos for delete."
+      this.ErrorModal.open();
+      return;
+    }
+    if (confirm("Are you sure to delete selected Events ?")) {
+      this.trackingDataService.deleteSelected(this.userService.token, this.multiId).subscribe(
+        (response) => this.onDeleteEventSuccess(response),
+        (error) => this.onError(error)
+      );
+    }
   }
 
 }
