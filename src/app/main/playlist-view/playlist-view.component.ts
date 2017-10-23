@@ -125,10 +125,10 @@ export class PlaylistViewComponent implements OnInit {
   fetchPlaylistSuccess(response) {
     //console.log("test", response._body)
     this.playList = JSON.parse(response._body);
-    this.playlisName = this.playList['playlists'][0]['name'];
+    this.playlisName = this.playList['playlists']['name'];
 
-    if (this.playList['playlists'] && this.playList['playlists'][0]['playdata'].length > 0) {
-      this.playList = this.playList['playlists'][0]['playdata'];
+    if (this.playList['playlists'] && this.playList['playlists']['playdata'].length > 0) {
+      this.playList = this.playList['playlists']['playdata'];
     }
     else {
       this.errormsg = "Events not avalible to show";

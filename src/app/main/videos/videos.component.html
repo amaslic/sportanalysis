@@ -45,9 +45,8 @@
       <div class="col-lg-4 col-md-4 col-sm-6 col-xs-12" *ngFor="let video of videoList | search:'title,type,team1,team2,clubname1,clubname2':searchQuery">
         <a [routerLink]="['/videos/view', video._id]">
           <img [src]="baseVideoUrl + video.screenshot_path" alt="video-screenshot" class="img-responsive video-ss" height="130px" />
-
           <span class="glyphicon glyphicon-play-circle play-btn"></span>
-          <span class="duration">{{video.type}}</span>
+          <span class="duration">{{video.type}}ss</span>
 
           <!-- <span class="durationn">02:11:16</span> -->
           <div class="teams">

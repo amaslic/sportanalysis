@@ -7,5 +7,5 @@ export class Video {
   public mimetype: string;
   public path: string;
 
-  constructor() {}
+  constructor() { }
 }
