@@ -808,7 +808,7 @@ ss-multiselect-dropdown /deep/ .btn{
 
 .dots ul.dropdown-menu{
   left: -115px;
-  top: 35px;
+  top: -100px;
 }
 
 .dots i{

@@ -272,8 +272,10 @@ export class ViewComponent implements OnInit {
           (response) => this.getEventDetailsSuccess(response, params['eid']),
           (error) => this.onError(error)
         )
+      }else{
+        this.getVideo(this.videoId);
       }
-      this.getVideo(this.videoId);
+      
     });
 
   }
@@ -406,12 +408,12 @@ export class ViewComponent implements OnInit {
             let cuePoint = JSON.parse(cueData[i].text)
             let z = document.createAttribute('data-tooltip');
             z.value = cuePoint.title + " - " + cuePoint.team;
-            container_child[i].setAttributeNode(z);
-            // try {
-            //   container_child[i].setAttributeNode(z);
-            // } catch (e) { }
+            //container_child[i].setAttributeNode(z);
+            try {
+              container_child[i].setAttributeNode(z);
+            } catch (e) { }
           }
-          clearInterval(intId);
+          
         }
       }
 
@@ -568,8 +570,6 @@ export class ViewComponent implements OnInit {
       ];
 
       this.currentItem = this.playlist[this.currentIndex];
-
-
     }
     else {
       this.r.navigateByUrl('/videos');
@@ -611,6 +611,8 @@ export class ViewComponent implements OnInit {
     this.eventsDetails = eventsdata.eventData.filter(function (element, index) {
       return (element.id[0] === eid);
     })[0];
+
+    this.getVideo(this.videoId);
 
   }
   onGetUsersSuccess(response) {
@@ -686,7 +688,7 @@ export class ViewComponent implements OnInit {
 
     this.api.getDefaultMedia().subscriptions.loadedData.subscribe(
       () => {
-        // console.log("Loaded data");
+         console.log("Loaded data");
 
         // if (this.currentIndex == 1) {
         this.videoDuration = this.api.getDefaultMedia().duration;

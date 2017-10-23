@@ -173,13 +173,13 @@
             </li>
 
             <li class="hometeam">
-              <h2 class="video-title" *ngIf="(video.type=='Training')">{{video.title}}</h2>
+             <!-- <h2 class="video-title" *ngIf="(video.type=='Training')">{{video.title}}</h2> -->
               <h2 class="video-title" *ngIf="(video.type!='Training')">
                 <span *ngIf="video.club1details.length > 0 && video.club1details[0].name">{{video.club1details[0].name}}</span>
               </h2>
             </li>
             <li class="awayteam">
-              <h2 class="video-title" *ngIf="(video.type=='Training')">{{video.title}}</h2>
+             <!-- <h2 class="video-title" *ngIf="(video.type=='Training')">{{video.title}}</h2> -->
               <h2 class="video-title" *ngIf="(video.type!='Training')">
                 <span *ngIf="video.club2details.length > 0 && video.club2details[0].name">{{video.club2details[0].name}}</span>
               </h2>
