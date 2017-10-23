@@ -45,7 +45,6 @@
       <div class="col-lg-4 col-md-4 col-sm-6 col-xs-12" *ngFor="let video of videoList | search:'title,type,team1,team2,clubname1,clubname2':searchQuery">
         <a [routerLink]="['/videos/view', video._id]">
           <img [src]="baseVideoUrl + video.screenshot_path" alt="video-screenshot" class="img-responsive video-ss" height="130px" />
-
           <span class="glyphicon glyphicon-play-circle play-btn"></span>
           <span class="duration">{{video.type}}</span>
 
@@ -90,7 +89,7 @@
             <div class="date">
               <ul class="list-inline">
                 <!-- <li> 2414 views </li> -->
-                <li class="title-grid" *ngIf="(video.title != 'undefined')">{{video.title}}</li>
+                <li class="title-grid" *ngIf="(video.title != 'undefined' && video.type!='Training')">{{video.title}}</li>
                 <li>{{video.date | date:"dd.MM.yyyy"}}</li>
                 <li *ngIf="isCoach || isAdmin" class="video-delete">
                   <i (click)="confirmDelete(video._id,$event)" title="Delete Video" class="fa fa-trash grid-delete-btn" aria-hidden="true"></i>
@@ -174,13 +173,13 @@
             </li>
 
             <li class="hometeam">
-             <!-- <h2 class="video-title" *ngIf="(video.type=='Training')">{{video.title}}</h2> -->
+              <!-- <h2 class="video-title" *ngIf="(video.type=='Training')">{{video.title}}</h2> -->
               <h2 class="video-title" *ngIf="(video.type!='Training')">
                 <span *ngIf="video.club1details.length > 0 && video.club1details[0].name">{{video.club1details[0].name}}</span>
               </h2>
             </li>
             <li class="awayteam">
-             <!-- <h2 class="video-title" *ngIf="(video.type=='Training')">{{video.title}}</h2> -->
+              <!-- <h2 class="video-title" *ngIf="(video.type=='Training')">{{video.title}}</h2> -->
               <h2 class="video-title" *ngIf="(video.type!='Training')">
                 <span *ngIf="video.club2details.length > 0 && video.club2details[0].name">{{video.club2details[0].name}}</span>
               </h2>

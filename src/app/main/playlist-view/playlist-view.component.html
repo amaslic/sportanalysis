@@ -1,7 +1,26 @@
 <div class="main-content">
+  <div class="video-white-bg" id="text-overlay" *ngIf="enableOverlay && videoLoaded">
+
+    <span class="video-date" *ngIf="(videoDate)">{{videoDate | date:"dd.MM.yyyy"}}</span>
+    <h3 class="video-title" *ngIf="(videoType =='Training')"> {{videoType}}</h3>
+
+    <h3 class="video-club1" *ngIf="club1trim && (videoType!='Training')">{{club1trim}}</h3>
+    <div *ngIf="(videoType!='Training')" class="video-image-main">
+      <img *ngIf="club1Detailslogo" [src]="baseVideoUrl + club1Detailslogo" alt="" class="img-responsive video-images team1-logo">
+      <img *ngIf="!club2Detailslogo || club2Detailslogo == ''" src="assets/images/default-clublogo.png" class="img-responsive video-images team2-logo">
+      <span class="video-score">
+        <span *ngIf="scoreTeam1" class="score">{{scoreTeam1}}</span>:
+        <span *ngIf="scoreTeam2" class="score">{{scoreTeam2}}</span>
+      </span>
+      <img *ngIf="club2Detailslogo" [src]="baseVideoUrl + club2Detailslogo" alt="" class="img-responsive video-images team1-logo">
+      <img *ngIf="!club2Detailslogo || club2Detailslogo == ''" src="assets/images/default-clublogo.png" class="img-responsive video-images team2-logo">
+    </div>
+    <h3 class="video-club2" *ngIf="club2trim && (videoType!='Training')">{{club2trim}}</h3>
+  </div>
   <div *ngIf="videoLoaded" class="video-box" #Container>
 
-    <vg-player (onPlayerReady)="onPlayerReady($event)">
+    <vg-player (onPlayerReady)="onPlayerReady($event)" (mousemove)="onmouseenter()
+    " (mouseover)="onmouseenter() " (mouseleave)="onmouseleave() ">
       <vg-overlay-play></vg-overlay-play>
       <vg-buffering></vg-buffering>
 
@@ -64,8 +83,8 @@
                 </div>
 
                 <div class="message-list-content">
-                  <h4><img style="visibility: hidden" [src]="getEventIcon(event.eventName)" alt="Event Icon" width="38" height="38"> {{event.eventName}}
-                    ({{event.eventTeam}})
+                  <h4>
+                    <img style="visibility: hidden" [src]="getEventIcon(event.eventName)" alt="Event Icon" width="38" height="38"> {{event.eventName}} ({{event.eventTeam}})
                   </h4>
 
 

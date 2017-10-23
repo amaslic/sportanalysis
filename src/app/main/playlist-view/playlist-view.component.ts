@@ -47,6 +47,16 @@ export interface IMedia {
   styleUrls: ['./playlist-view.component.css']
 })
 export class PlaylistViewComponent implements OnInit {
+  copyEvents: any;
+  club2trim: any;
+  club1trim: any;
+  scoreTeam2: any;
+  scoreTeam1: any;
+  videoType: any;
+  videoDate: any;
+  enableOverlay: boolean;
+  club2Detailslogo: any;
+  club1Detailslogo: any;
   errormsg: string;
   videoLoaded: boolean;
   playlisName: any;
@@ -94,6 +104,8 @@ export class PlaylistViewComponent implements OnInit {
 
   currentIndex = 0; //Set this to 0 to enable Intro video;
   currentItem: IMedia;
+  copy: any;
+
   private router: Router;
   @ViewChild('ErrorModal') ErrorModal;
   constructor(private playlistService: PlaylistService, private videoService: VideoService, private userService: UserService, private trackingDataService: TrackingDataService, r: Router, private route: ActivatedRoute) {
@@ -108,14 +120,6 @@ export class PlaylistViewComponent implements OnInit {
   }
 
 
-  onmouseenter($event) {
-
-  }
-
-  onmouseleave($event) {
-
-  }
-
   getPlaylistDetail(id) {
     this.playlistService.fetchPlaylistData(this.userService.token, this.playId).subscribe(
       (response) => this.fetchPlaylistSuccess(response),
@@ -125,10 +129,10 @@ export class PlaylistViewComponent implements OnInit {
   fetchPlaylistSuccess(response) {
     //console.log("test", response._body)
     this.playList = JSON.parse(response._body);
-    this.playlisName = this.playList['playlists'][0]['name'];
+    this.playlisName = this.playList['playlists']['name'];
 
-    if (this.playList['playlists'] && this.playList['playlists'][0]['playdata'].length > 0) {
-      this.playList = this.playList['playlists'][0]['playdata'];
+    if (this.playList['playlists'] && this.playList['playlists']['playdata'].length > 0) {
+      this.playList = this.playList['playlists']['playdata'];
     }
     else {
       this.errormsg = "Events not avalible to show";
@@ -152,6 +156,7 @@ export class PlaylistViewComponent implements OnInit {
     this.currentItem = this.playlist[this.currentIndex];
 
     this.videoLoaded = true;
+    console.log(this.playList);
     // this.playlist = [{
     //   title: 'Intro Video',
     //   src: 'assets/videos/intro.mp4',
@@ -222,28 +227,70 @@ export class PlaylistViewComponent implements OnInit {
 
 
   goToEvent(e, idx) {
-
+    console.log(e);
     var lastVideoSrc = this.playlist[this.currentIndex].src;
     var lastIndex = this.currentIndex;
 
     this.currentIndex = idx;
+    console.log(this.playList);
+    console.log(idx);
+
     var event: any = this.playList[idx];
-    console.log(event);
+    console.log(event.club1Details);
+
+    this.copyEvents = Object.assign({}, this.playList[idx]);
+    console.log(this.copyEvents);
+    console.log(this.copyEvents.club1Details);
+    console.log(this.copyEvents.club1Details.length);
 
     if (e) {
       e.preventDefault();
       e.stopPropagation();
     }
-    console.log(this.playlist);
+
 
     var data = this.playlist;
     var index = -1;
     var val = event.video._id;
 
 
+
+
+
+
+    if (this.copyEvents.club1Details.length > 0) {
+
+
+      this.club1Detailslogo = this.copyEvents.club1Details[0].logo;
+      var club1trim = this.copyEvents.club1Details[0].name.replace(/ /g, '').slice(0, 3);
+      this.club1trim = club1trim.toUpperCase();
+
+    }
+
+    if (this.copyEvents.club2Details.length > 0) {
+      this.club2Detailslogo = event.club2Details[0].logo;
+      var club2trim = this.copyEvents.club2Details[0].name.replace(/ /g, '').slice(0, 3);
+      this.club2trim = club2trim.toUpperCase();
+    }
+    if (this.copyEvents.video.date) {
+      this.videoDate = event.video.date;
+    }
+    if (this.copyEvents.video.type) {
+      this.videoType = event.video.type;
+    }
+    if (this.copyEvents.video.scoreTeam1) {
+      this.scoreTeam1 = event.video.scoreTeam1;
+    }
+    if (this.copyEvents.video.scoreTeam2) {
+      this.scoreTeam2 = event.video.scoreTeam2;
+    }
+
+
+
     this.currentItem = this.playlist[idx];
 
     this.api.getDefaultMedia().currentTime = event.eventStart;
+
 
     if (lastIndex != idx && lastVideoSrc == this.currentItem.src)
       this.playVideo();
@@ -330,6 +377,43 @@ export class PlaylistViewComponent implements OnInit {
   playVideo() {
     // console.log('Next video current ' + this.currentIndex);
     var event: any = this.playList[this.currentIndex];
+
+    if (event.club1Details.length > 0) {
+      this.club1Detailslogo = event.club1Details[0].logo;
+      var club1trim = event.club1Details[0].name.replace(/ /g, '').slice(0, 3);
+      this.club1trim = club1trim.toUpperCase();
+    }
+
+    if (event.club2Details.length > 0) {
+      this.club2Detailslogo = event.club2Details[0].logo;
+    }
+    if (event.video.date) {
+      this.videoDate = event.video.date;
+    }
+    if (event.video.type) {
+      this.videoType = event.video.type;
+    }
+    if (event.video.scoreTeam1) {
+      this.scoreTeam1 = event.video.scoreTeam1;
+    }
+    if (event.video.scoreTeam2) {
+      this.scoreTeam2 = event.video.scoreTeam2;
+    }
+
+    // console.log("L: ", typeof (event.club1details));
+    // console.log("L: ", event.club1Details);
+    // console.log("L: ", typeof (event.club1details));
+    // setTimeout(function () {
+    //   console.log("L: ", event.club1Details);
+    //   console.log("L: ", typeof (event.club1details));
+
+    // }, 1000);
+
+    if (event.club2Details && event.club2Details.length > 0) {
+
+      var club2trim = event.club2Details[0].name.replace(/ /g, '').slice(0, 3);
+      this.club2trim = club2trim.toUpperCase();
+    }
     if (this.api.getDefaultMedia())
       this.api.getDefaultMedia().currentTime = event.eventStart;
     this.api.play();
@@ -362,5 +446,18 @@ export class PlaylistViewComponent implements OnInit {
   }
   closeModal() {
     this.router.navigateByUrl('/playlist');
+  }
+  onmouseenter() {
+    this.enableOverlay = true;
+    setTimeout(() => {
+      this.enableOverlay = true;
+    }, 1500);
+
+  }
+
+  onmouseleave() {
+    setTimeout(() => {
+      this.enableOverlay = false;
+    }, 1500);
   }
 }

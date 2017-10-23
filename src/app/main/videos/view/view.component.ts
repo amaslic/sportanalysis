@@ -75,6 +75,7 @@ export class ViewComponent implements OnInit {
   timerOn: boolean;
   keyCode: any;
   multiEid: any = [];
+  multiId: any = [];
   globalListenFunc: Function;
   create: boolean;
   multiplay: Boolean;
@@ -272,10 +273,10 @@ export class ViewComponent implements OnInit {
           (response) => this.getEventDetailsSuccess(response, params['eid']),
           (error) => this.onError(error)
         )
-      }else{
+      } else {
         this.getVideo(this.videoId);
       }
-      
+
     });
 
   }
@@ -377,7 +378,7 @@ export class ViewComponent implements OnInit {
         //   event.name === "Free Kick"
         // ) &&
         this.api.getDefaultMedia().duration > event.start) {
-          console.log('add cue');
+        console.log('add cue');
         this.track.addCue(
           new VTTCue(start, end, JSON.stringify({
             title: event.name,
@@ -413,7 +414,7 @@ export class ViewComponent implements OnInit {
               container_child[i].setAttributeNode(z);
             } catch (e) { }
           }
-          
+
         }
       }
 
@@ -587,7 +588,7 @@ export class ViewComponent implements OnInit {
   currentItem: IMedia;
 
   shareEventlist(vid, e) {
-    if(e.start <= this.videoDuration && this.videoDuration >= e.end){
+    if (e.start <= this.videoDuration && this.videoDuration >= e.end) {
       // console.log(vid, eid)
       // console.log(e);
       this.userService.getUsers(this.userService.token).subscribe(
@@ -600,9 +601,9 @@ export class ViewComponent implements OnInit {
       // )
       this.eventsDetails = e;
       this.assignEventModal.open();
-    }else{
-        this.errormsg = "This event is not valid for share.";
-        this.ErrorModal.open();
+    } else {
+      this.errormsg = "This event is not valid for share.";
+      this.ErrorModal.open();
     }
   }
   getEventDetailsSuccess(response, eid) {
@@ -688,7 +689,7 @@ export class ViewComponent implements OnInit {
 
     this.api.getDefaultMedia().subscriptions.loadedData.subscribe(
       () => {
-         console.log("Loaded data");
+        console.log("Loaded data");
 
         // if (this.currentIndex == 1) {
         this.videoDuration = this.api.getDefaultMedia().duration;
@@ -702,7 +703,7 @@ export class ViewComponent implements OnInit {
         this.getVideoEventsData(this.videoId);
         this.timerEvent = setInterval(() => {
           this.getVideoEventsData(this.videoId);
-        }, 10000);
+        }, 15000);
 
         if (this.currentIndex <= 2) {
           if (this.eventId) {
@@ -832,6 +833,7 @@ export class ViewComponent implements OnInit {
   }
 
   onmouseenter($event) {
+
     this.enableOverlay = true;
     setTimeout(() => {
       this.enableOverlay = true;
@@ -1069,6 +1071,8 @@ export class ViewComponent implements OnInit {
       this.multiPlaylist = this.multiPlaylist.filter(item => item !== event);
     } else {
       event['checked'] = true;
+
+      this.multiId.push({ 'Id': event.id, 'Eid': event.eventDataId });
       this.multiEid.push({ id: event.id, eid: event.eventDataId });
       this.multiPlaylist.push(event);
     }
@@ -1085,7 +1089,7 @@ export class ViewComponent implements OnInit {
   deselectAll() {
     this.multiplay = false;
     this.multiPlaylist = [];
-
+    this.multiId = [];
     this.trackingJsonData.forEach((event, index) => {
       event.checked = false;
     });
@@ -1131,6 +1135,21 @@ export class ViewComponent implements OnInit {
     this.successmsg = responseBody.message;
     this.SucessModal.open();
     this.getVideoEventsData(this.videoId);
+  }
+  deleteSelected() {
+
+    console.log(this.multiId);
+    if (this.multiId.length == 0 || this.multiId == null) {
+      this.errormsg = "Please select videos for delete."
+      this.ErrorModal.open();
+      return;
+    }
+    if (confirm("Are you sure to delete selected Events ?")) {
+      this.trackingDataService.deleteSelected(this.userService.token, this.multiId).subscribe(
+        (response) => this.onDeleteEventSuccess(response),
+        (error) => this.onError(error)
+      );
+    }
   }
 
 }

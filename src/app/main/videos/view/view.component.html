@@ -55,7 +55,8 @@
       <video (keypress)="eventHandler($event)" [vgMedia]="media " #media id="sportanalysis-video " preload="auto " crossorigin
         [src]="currentItem.src ">
         <!-- <source [src]="currentItem.src " [type]="currentItem.type "> -->
-        <track src="assets/data/cue-points.vtt " kind="metadata " label="Cue Points" default #metadataTrack vgCuePoints (onEnterCuePoint)="onEnterCuePoint($event) " (onExitCuePoint)="onExitCuePoint($event) ">
+        <track src="assets/data/cue-points.vtt " kind="metadata " label="Cue Points" default #metadataTrack vgCuePoints (onEnterCuePoint)="onEnterCuePoint($event) "
+          (onExitCuePoint)="onExitCuePoint($event) ">
       </video>
     </vg-player>
 
@@ -178,6 +179,7 @@
 <div class="right-sidebar" *ngIf="showEvent">
   <button *ngIf="multiPlaylist?.length > 0" (click)="createPlaylist(video._id,multiPlaylist,true)">Create Playlist</button>
   <button *ngIf="multiPlaylist?.length > 0" (click)="addToPlaylist(video._id,multiPlaylist,true)">Add to Playlist</button>
+  <button *ngIf="multiPlaylist?.length > 0" (click)="deleteSelected()">Delete Selected</button>
   <div class="events-list match-status col-xs-12">
     <h2 class="title">Event list</h2>
     <i class="fa fa-search show-filters" aria-hidden="true" (click)="showFilters = !showFilters"></i>
