@@ -476,6 +476,9 @@ export class UploadComponent implements OnInit {
   uploadVideo(f) {
     this.getAllClubs();
 
+    if (typeof (f.value.title) == 'undefined')
+      f.value.title = '';
+
     if (typeof (f.value.season) == 'undefined')
       f.value.season = '';
 

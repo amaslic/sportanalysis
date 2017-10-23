@@ -383,9 +383,7 @@ export class PlaylistViewComponent implements OnInit {
       var club1trim = event.club1Details[0].name.replace(/ /g, '').slice(0, 3);
       this.club1trim = club1trim.toUpperCase();
     }
-    else {
-      alert("helo")
-    }
+
     if (event.club2Details.length > 0) {
       this.club2Detailslogo = event.club2Details[0].logo;
     }
