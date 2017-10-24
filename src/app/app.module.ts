@@ -32,6 +32,10 @@ import { ClubService } from './services/club.service';
 import { PlaylistService } from './services/playlist.service';
 import { TeamService } from './services/team.service';
 import { MatchService } from './services/match.service';
+import { LocationService } from './services/location.service';
+import { SeasonService } from './services/season.service';
+import { CompetitionService } from './services/competition.service';
+import { TacticService } from './services/tactic.service';
 
 import { MainComponent } from './main/main.component';
 import { AdminGuard } from './admin-guard.service';
@@ -125,7 +129,7 @@ const appRoutes: Routes = [
       { path: 'video-overview', loadChildren: './backoffice/video-overview/video-overview.component.module#VideoOverviewComponentModule' },
       { path: 'add-user', loadChildren: './backoffice/admin-add-user/admin-add-user.component.module#AdminAddUserComponentModule' },
       { path: 'edit-user/:id', loadChildren: './backoffice/admin-edit-user/admin-edit-user.component.module#AdminEditUserComponentModule' },
-      { path: 'teams', loadChildren: './backoffice/teams/teams.component.module#TeamsComponentModule' },
+      // { path: 'teams', loadChildren: './backoffice/teams/teams.component.module#TeamsComponentModule' },
       { path: 'matches-overview', loadChildren: './backoffice/matches/matches.component.module#MatchComponentModule' },
       { path: '', loadChildren: './backoffice/users/users.component.module#UsersComponentModule' },
       { path: 'videos-settings/:id', loadChildren: './main/videos/settings/settings.component.module#VideoSettingsComponentModule' },
@@ -134,6 +138,7 @@ const appRoutes: Routes = [
       { path: 'match/view/:id', loadChildren: './backoffice/video-overview/video-overview.component.module#VideoOverviewComponentModule' },
       { path: 'match', loadChildren: './main/addEditMatches/addEditMatches.component.module#addEditMatchesComponentModule' },
       { path: 'match/:id', loadChildren: './main/addEditMatches/addEditMatches.component.module#addEditMatchesComponentModule' },
+      { path: 'settings', loadChildren: './backoffice/settings/settings.component.module#SettingsComponentModule' },
     ]
   },
   { path: "*", redirectTo: 'videos' }
@@ -211,7 +216,7 @@ const appRoutes: Routes = [
     Ng2CompleterModule,
     PipeModule
   ],
-  providers: [UserService,VideoService, TrackingDataService, AuthGuard, AdminGuard, ClubService, PlaylistService, TeamService, MatchService],
+  providers: [UserService,VideoService, TrackingDataService, AuthGuard, AdminGuard, ClubService, PlaylistService, TeamService, MatchService,LocationService,SeasonService,CompetitionService,TacticService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
