@@ -190,7 +190,7 @@ export class VideoSettingsComponent implements OnInit {
     allSelected: 'All Player ',
   };
 
-  xmlDataApplicationTypes = ["tagapp", "ortec", "sportscode", "telestrator", "instat_deep", "instat_simple", 'easytag'];
+  xmlDataApplicationTypes = ["tagapp", "ortec", "sportscode", "telestrator", "instat_deep", "instat_simple", 'easytag', 'calibration'];
   xmlDataApplicationTypeSelected = '';
 
   private baseTrackingDataUrl = GlobalVariables.BASE_TRACKINGDATA_URL;
@@ -250,7 +250,7 @@ export class VideoSettingsComponent implements OnInit {
   }
 
   xmlTypeSelected(xmlType) {
-    // console.log(this.xmlDataApplicationTypeSelected);
+    console.log(this.xmlDataApplicationTypeSelected);
   }
 
   onIsAdminClubsSuccess(response) {
@@ -279,7 +279,7 @@ export class VideoSettingsComponent implements OnInit {
       this.timerEvent = setInterval(() => {
         this.getVideoEventsData(this.videoId);
         // this.cleartimer();
-      }, 5000);
+      }, 10000);
       // this.getVideoEventsData(this.videoId);
     });
   }
@@ -407,14 +407,22 @@ export class VideoSettingsComponent implements OnInit {
   }
 
   onSelectFile(e) {
-    // console.log(e);
+
     const files = e.target.files;
     for (let i = 0; i < files.length; i++) {
-      this.selectedFile = {
-        name: files[i].name,
-        size: files[i].size,
-        _file: files[i]
-      };
+      var myFile = files[i].name;
+      var ext = myFile.substring(myFile.lastIndexOf(".") + 1);
+
+      if (ext.toLowerCase() == 'xml') {
+        this.selectedFile = {
+          name: files[i].name,
+          size: files[i].size,
+          _file: files[i]
+        };
+      } else {
+        alert("Please select valid xml file")
+      }
+
     }
     e.target.files = null;
   }
@@ -1237,6 +1245,7 @@ export class VideoSettingsComponent implements OnInit {
   }
   cleartimer() {
     if (this.timerEvent) {
+
       clearInterval(this.timerEvent);
     }
     if (this.timer)
@@ -1275,6 +1284,7 @@ export class VideoSettingsComponent implements OnInit {
     console.log(e);
   }
   ngOnDestroy() {
+
     this.cleartimer();
   }
   onPlayerReady(api: VgAPI) {
@@ -1330,9 +1340,9 @@ export class VideoSettingsComponent implements OnInit {
         //  this.getVideoTrackingDataItems(this.videoId);
 
         this.getVideoEventsData(this.videoId);
-        this.timerEvent = setInterval(() => {
-          this.getVideoEventsData(this.videoId);
-        }, 10000);
+        // this.timerEvent = setInterval(() => {
+        //   this.getVideoEventsData(this.videoId);
+        // }, 10000);
 
 
       }

@@ -911,6 +911,7 @@ export class ViewComponent implements OnInit {
     }
   }
   ngOnDestroy() {
+
     this.cleartimer();
   }
   createPlaylist(vId, event, multiplay: Boolean) {

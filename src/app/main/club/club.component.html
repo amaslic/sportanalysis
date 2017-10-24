@@ -6,7 +6,7 @@
         <span class=viewbtns>
           <i (click)="gridView()" [ngClass]="{'active':grid}" class="fa fa-table" aria-hidden="true"></i>
           <i (click)="listView()" [ngClass]="{'active':list}" class="fa fa-list" aria-hidden="true"></i>
-          </span>
+        </span>
         <input type="text" class="form-control search-btn" placeholder="Search" [(ngModel)]="searchQuery" />
 
         <!-- <md-radio-group id="type" [(ngModel)]="video_type" name="type" (change)="typeFilter()">
@@ -57,7 +57,10 @@
               </div>
               <div class="video-white-bg">
                 <h2 class="video-title" *ngIf="(video.type=='Training')">{{video.title}}</h2>
-                <h2 class="video-title" *ngIf="(video.type!='Training')"><span *ngIf="video.club1details.length > 0 && video.club1details[0].name">{{video.club1details[0].name}}</span>                  - <span *ngIf="video.club2details.length > 0 && video.club2details[0].name">{{video.club2details[0].name}}</span></h2>
+                <h2 class="video-title" *ngIf="(video.type!='Training')">
+                  <span *ngIf="video.club1details.length > 0 && video.club1details[0].name">{{video.club1details[0].name}}</span> -
+                  <span *ngIf="video.club2details.length > 0 && video.club2details[0].name">{{video.club2details[0].name}}</span>
+                </h2>
                 <div class="date">
                   <ul class="list-inline">
 
@@ -118,23 +121,33 @@
                                 <li>1 : 2</li>
                                 <li><img src="assets/images/img2.png" class="img-responsive"></li>
                             </ul>-->
-                  <span class="first-team"><img *ngIf="(video.club1details.length > 0 && video.club1details[0].logo) && (video.type!='Training')" [src]="baseVideoUrl + video.club1details[0].logo" alt="" class="img-responsive">
-                          <img *ngIf="(video.club1details.length <= 0 || !video.club1details[0].logo || video.club1details[0].logo == '') && (video.type!='Training')" src="assets/images/default-clublogo.png"  class="img-responsive"></span>
+                  <span class="first-team">
+                    <img *ngIf="(video.club1details.length > 0 && video.club1details[0].logo) && (video.type!='Training')" [src]="baseVideoUrl + video.club1details[0].logo"
+                      alt="" class="img-responsive">
+                    <img *ngIf="(video.club1details.length <= 0 || !video.club1details[0].logo || video.club1details[0].logo == '') && (video.type!='Training')"
+                      src="assets/images/default-clublogo.png" class="img-responsive">
+                  </span>
                   <span *ngIf="(video.scoreTeam1 && video.scoreTeam2) && (video.type!='Training')">{{video.scoreTeam1}} : {{video.scoreTeam2}}</span>
                   <span *ngIf="(!video.scoreTeam1 || !video.scoreTeam2) && (video.type!='Training')">0 : 0</span>
                   <span class="second-team">
-                            <img *ngIf="(video.club2details.length > 0 && video.club2details[0].logo) && (video.type!='Training')"  [src]="baseVideoUrl + video.club2details[0].logo" alt="" class="img-responsive">
-                            <img *ngIf="(video.club2details.length <= 0 || !video.club2details[0].logo || video.club2details[0].logo == '') && (video.type!='Training')" src="assets/images/default-clublogo.png"  class="img-responsive">
-                          </span>
+                    <img *ngIf="(video.club2details.length > 0 && video.club2details[0].logo) && (video.type!='Training')" [src]="baseVideoUrl + video.club2details[0].logo"
+                      alt="" class="img-responsive">
+                    <img *ngIf="(video.club2details.length <= 0 || !video.club2details[0].logo || video.club2details[0].logo == '') && (video.type!='Training')"
+                      src="assets/images/default-clublogo.png" class="img-responsive">
+                  </span>
                 </li>
 
                 <li>
-                  <h2 class="video-title" *ngIf="(video.type=='Training')">{{video.title}}</h2>
-                  <h2 class="video-title" *ngIf="(video.type!='Training')"><span *ngIf="video.club1details.length > 0 && video.club1details[0].name">{{video.club1details[0].name}}</span></h2>
+                  <!-- <h2 class="video-title" *ngIf="(video.type=='Training')">{{video.title}}</h2> -->
+                  <h2 class="video-title" *ngIf="(video.type!='Training')">
+                    <span *ngIf="video.club1details.length > 0 && video.club1details[0].name">{{video.club1details[0].name}}</span>
+                  </h2>
                 </li>
                 <li>
-                  <h2 class="video-title" *ngIf="(video.type=='Training')">{{video.title}}</h2>
-                  <h2 class="video-title" *ngIf="(video.type!='Training')"><span *ngIf="video.club2details.length > 0 && video.club2details[0].name">{{video.club2details[0].name}}</span></h2>
+                  <!-- <h2 class="video-title" *ngIf="(video.type=='Training')">{{video.title}}</h2> -->
+                  <h2 class="video-title" *ngIf="(video.type!='Training')">
+                    <span *ngIf="video.club2details.length > 0 && video.club2details[0].name">{{video.club2details[0].name}}</span>
+                  </h2>
                 </li>
                 <li>{{video.type}}</li>
                 <li *ngIf="isCoach" class="video-info-list">
@@ -209,13 +222,15 @@
                 <li *ngIf="match.team2details.length == 0">&nbsp;</li>
                 <li>{{match.date | date: 'yyyy-MM-dd'}} {{match.time}}</li>
                 <li>
-                  <button *ngIf="userService.user._id == match.user" class="btn btn-default" [routerLink]="['/match/',match._id]"><i class="fa fa-pencil-square-o text-info" aria-hidden="true"></i></button>
+                  <button *ngIf="userService.user._id == match.user" class="btn btn-default" [routerLink]="['/match/',match._id]">
+                    <i class="fa fa-pencil-square-o text-info" aria-hidden="true"></i>
+                  </button>
                   <button type="button" [routerLink]="['/match/view/',match._id]" class="btn btn-default" aria-label="Left Align">
-                  <i class="fa fa-eye text-success" aria-hidden="true"></i>
-                </button>
+                    <i class="fa fa-eye text-success" aria-hidden="true"></i>
+                  </button>
                   <button *ngIf="userService.user._id == match.user" type="button" (click)="deleteMatchById(match._id)" class="btn btn-default"
                     aria-label="Left Align">
-                     <i class="fa fa-trash text-danger" aria-hidden="true"></i>
+                    <i class="fa fa-trash text-danger" aria-hidden="true"></i>
                   </button>
                 </li>
               </ul>
