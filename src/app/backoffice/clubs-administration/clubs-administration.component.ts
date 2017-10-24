@@ -70,6 +70,28 @@ export class ClubsAdministrationComponent implements OnInit {
     allSelected: 'All Teams ',
   };
 
+  clubsList: IMultiSelectOption[];
+  clubslistOptions: IMultiSelectOption[];
+  clubslistSettings: IMultiSelectSettings = {
+    enableSearch: true,
+    checkedStyle: 'fontawesome',
+    containerClasses: 'no-button-arrow',
+    buttonClasses: 'btn btn-default btn-block',
+    fixedTitle: false,
+    maxHeight: '100px',
+    dynamicTitleMaxItems: 2,
+    closeOnClickOutside: true
+  };
+  clubslistTexts: IMultiSelectTexts = {
+    checkAll: 'Select all',
+    uncheckAll: 'Unselect all',
+    checked: 'Club selected',
+    checkedPlural: 'Clubs selected',
+    searchPlaceholder: 'Find',
+    defaultTitle: ' Select Club  ',
+    allSelected: 'All Clubs ',
+  };
+
   // columns = [
   //   { prop: 'ClubName' }
   // ];
@@ -95,6 +117,8 @@ export class ClubsAdministrationComponent implements OnInit {
       this.clubId = user['club'];
     }
 
+    this.getAllClubs();
+
     this.teamService.getAllTeams(this.userService.token).subscribe(
       (response: any) => {
         const teamslLst = JSON.parse(response._body);
@@ -112,6 +136,23 @@ export class ClubsAdministrationComponent implements OnInit {
       },
       (error) => this.onError(error)
     );
+  }
+
+  getAllClubs(){
+    this.clubService.getAllClubs(this.userService.token)
+        .subscribe(
+        (response: any) => {
+        const clubslLst = JSON.parse(response._body);
+        this.clubsList = [];
+        clubslLst.forEach((obj, index) => {
+          this.clubsList.push({
+            'id': obj._id,
+            'name': obj.name
+          });
+        });
+      },
+      (error) => this.onError(error)
+      );
   }
 
   getClubs() {
@@ -159,7 +200,12 @@ export class ClubsAdministrationComponent implements OnInit {
   }
 
   onRowSelected(e) {
-    // console.log(this.selectedClub);
+     console.log(this.selectedClub);
+     var clubId = this.selectedClub[0]._id;
+    this.clubslistOptions = this.clubsList.filter(function (element, index) {
+          return (element.id != clubId);
+        });
+
     this.generateNiceLinkName();
   }
 
@@ -214,7 +260,7 @@ export class ClubsAdministrationComponent implements OnInit {
           this.showProgressBar = false;
         }
       } else {
-        this.clubService.updateClubwithoutLogo(this.userService.token, { id: this.selectedClub[0]._id, name: f.value.name, slug: f.value.slug, location: null, activate: acivate, teams: f.value.teams }).subscribe(
+        this.clubService.updateClubwithoutLogo(this.userService.token, { id: this.selectedClub[0]._id, name: f.value.name, slug: f.value.slug, location: null, activate: acivate, teams: f.value.teams, clubs: f.value.clubs }).subscribe(
           (response) => this.onApproveClubSuccess(response),
           (error) => this.onError(error)
         );
@@ -279,6 +325,7 @@ export class ClubsAdministrationComponent implements OnInit {
           data.id = this.editClub.Id;
           data.updatelogo = this.editClub.updateLogo;
           data.teams = this.editClub.teams;
+          data.clubs = this.editClub.clubs;
           this.clubService.editClub(data, this.userService.token).subscribe(
             (response) => this.oneditClubSuccess(response),
             (error) => this.onError(error)
@@ -290,7 +337,7 @@ export class ClubsAdministrationComponent implements OnInit {
           this.showProgressBar = false;
         }
       } else {
-        this.clubService.updateClubwithoutLogo(this.userService.token, { id: this.editClub.Id, name: this.editClub.name, slug: this.editClub.NiceLinkName, location: null, activate: true, teams: this.editClub.teams }).subscribe(
+        this.clubService.updateClubwithoutLogo(this.userService.token, { id: this.editClub.Id, name: this.editClub.name, slug: this.editClub.NiceLinkName, location: null, activate: true, teams: this.editClub.teams, clubs: this.editClub.clubs }).subscribe(
           (response) => this.oneditClubSuccess(response),
           (error) => this.onError(error)
         );
@@ -305,6 +352,7 @@ export class ClubsAdministrationComponent implements OnInit {
   onApproveClubSuccess(response) {
     this.showProgressBar = false;
     // console.log(response);
+    this.getAllClubs();
     this.getClubs();
     this.getActivatedClubs();
 
@@ -317,6 +365,7 @@ export class ClubsAdministrationComponent implements OnInit {
     this.showProgressBar = false;
     this.showEditForm = false;
     //this.getClubs();
+    this.getAllClubs();
     this.getActivatedClubs();
     // alert("Club Updated Successfully");
     this.successmsg = "Club Updated Successfully.";
@@ -334,6 +383,7 @@ export class ClubsAdministrationComponent implements OnInit {
     this.form.nativeElement.reset();
     // console.log(this.newClub);
     //this.getClubs();
+    this.getAllClubs();
     this.getActivatedClubs();
     this.getClubs();
     // alert("Club Approved");
@@ -427,6 +477,7 @@ export class ClubsAdministrationComponent implements OnInit {
             });
             this.selectedClub = [];
           }
+          this.getAllClubs();
           //this.getActivatedClubs();
           //this.getClubs();
           this.showProgressBar = false;
@@ -442,6 +493,10 @@ export class ClubsAdministrationComponent implements OnInit {
 
   editClubDetails(club) {
 
+    this.clubslistOptions = this.clubsList.filter(function (element, index) {
+          return (element.id != club._id);
+        });
+
     this.showEditForm = true;
     this.editClub.Id = club._id;
     this.editClub.name = club.name;
@@ -449,6 +504,7 @@ export class ClubsAdministrationComponent implements OnInit {
     this.editClub.logo = club.logo;
     this.editClub.updateLogo = false;
     this.editClub.teams = club.teams;
+    this.editClub.clubs = club.clubs;
   }
 
   updateLogo(club) {

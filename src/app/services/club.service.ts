@@ -60,6 +60,7 @@ export class ClubService {
     form.append('id', data.id);
     form.append('activate', data.activate);
     form.append('teams', data.teams);
+    form.append('clubs', data.clubs);
     return this.p_http.withUploadProgressListener(progress => {
       // console.log(`Uploading ${progress.percentage}%`);
       this.progressSubject.next(progress.percentage);
@@ -126,6 +127,7 @@ export class ClubService {
     form.append('logoFile', data.logo._file);
     form.append('activate', data.activate);
     form.append('teams', data.teams);
+    form.append('clubs', data.clubs);
     return this.p_http.withUploadProgressListener(progress => {
       // console.log(`Uploading ${progress.percentage}%`);
       this.progressSubject.next(progress.percentage);
@@ -149,6 +151,7 @@ export class ClubService {
     form.append('updateLogo', data.updatelogo);
     form.append('activate', true);
     form.append('teams', data.teams);
+    form.append('clubs', data.clubs);
     return this.p_http.withUploadProgressListener(progress => {
       // console.log(`Uploading ${progress.percentage}%`);
       this.progressSubject.next(progress.percentage);

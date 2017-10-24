@@ -55,6 +55,13 @@
                 [(ngModel)]="editClub.teams"></ss-multiselect-dropdown>
             </div>
           </div>
+          <div class="form-group">
+            <label class="control-label col-sm-3" for="slug">Share With:</label>
+            <div class="col-sm-9">
+              <ss-multiselect-dropdown class="all-teams" style="padding:0 !important;" name="clubs" [options]="clubslistOptions" [texts]="clubslistTexts" [settings]="clubslistSettings"
+                [(ngModel)]="editClub.clubs"></ss-multiselect-dropdown>
+            </div>
+          </div>
           <div class="form-group" *ngIf="editClub.updateLogo">
             <label class="control-label col-sm-3" for="logoFile">Logo:</label>
             <div class="col-sm-6">
@@ -119,6 +126,13 @@
                 [(ngModel)]="selectedClub[0].teams"></ss-multiselect-dropdown>
             </div>
           </div>
+          <div class="form-group">
+            <label class="control-label col-sm-2" for="slug">Share With:</label>
+            <div class="col-sm-10">
+              <ss-multiselect-dropdown class="all-teams" style="padding:0 !important;" name="clubs" [options]="clubslistOptions" [texts]="clubslistTexts" [settings]="clubslistSettings"
+                [(ngModel)]="selectedClub[0].clubs"></ss-multiselect-dropdown>
+            </div>
+          </div>
           <div class="form-group" *ngIf="selectedClub[0].logo == '' || selectedClub[0].updateLogo">
             <label class="control-label col-sm-2" for="logoFile">Logo:</label>
             <div class="col-sm-10">
@@ -170,6 +184,13 @@
             <div class="col-sm-10">
               <ss-multiselect-dropdown style="padding:0 !important;" name="teams" [options]="teamslistOptions" [texts]="teamslistTexts" [settings]="teamslistSettings"
                 [(ngModel)]="newClub.teams"></ss-multiselect-dropdown>
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="control-label col-sm-2" for="slug">Share With:</label>
+            <div class="col-sm-10">
+              <ss-multiselect-dropdown class="all-teams" style="padding:0 !important;" name="clubs" [options]="clubsList" [texts]="clubslistTexts" [settings]="clubslistSettings"
+                [(ngModel)]="newClub.clubs"></ss-multiselect-dropdown>
             </div>
           </div>
           <div class="form-group">
