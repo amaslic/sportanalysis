@@ -10,8 +10,13 @@ import {
   User
 } from './../../models/user.model';
 import {
-  Router
+  Router,
+  ActivatedRoute
 } from '@angular/router';
+import {
+  Injectable, Inject
+} from '@angular/core'; 
+import { DOCUMENT } from '@angular/common';
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
@@ -23,17 +28,19 @@ export class LoginComponent implements OnInit {
   private router: Router;
   errormsg: string;
   @ViewChild('loginErrorModal') loginErrorModal;
-  constructor(private userService: UserService, r: Router) {
+  constructor(private userService: UserService, r: Router, private route: ActivatedRoute, @Inject(DOCUMENT) private document: Document) {
     this.router = r;
   }
 
-  ngOnInit() { }
+  ngOnInit() {
+    
+   }
 
   onSubmit(f) {
     if (!f.valid) {
       return false;
     }
-    console.log(this.user);
+    // console.log(this.user);
     this.userService.login(f.value)
       .subscribe(
       (response) => this.onLoginSuccess(response),
@@ -48,15 +55,25 @@ export class LoginComponent implements OnInit {
     this.userService.setUser(responseBody.user);
     this.userService.setToken(responseBody.token);
     this.userService.saveUserToStorage();
-    if (responseBody.user.role == 1 || responseBody.user.role == 2) {
-      this.router.navigateByUrl('/backoffice/users');
-    }
-    else if (responseBody.user.role == 6) {
-      this.router.navigateByUrl('/videos');
-    }
-    else {
-      this.router.navigateByUrl('/club/' + responseBody.user.club);
-    }
+
+    this.route.queryParams.subscribe(params => {
+      if (params['redirectUrl']) {
+        this.document.location.href = params['redirectUrl'];
+      } else {
+        if (responseBody.user.role == 1 || responseBody.user.role == 2) {
+          this.router.navigateByUrl('/backoffice/users');
+        }
+        else if (responseBody.user.role == 6) {
+          this.router.navigateByUrl('/videos');
+        }
+        else {
+          this.router.navigateByUrl('/club/' + responseBody.user.club);
+        }
+      }
+
+    });
+
+
 
   }
 

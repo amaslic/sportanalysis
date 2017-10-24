@@ -75,7 +75,7 @@ export class MainComponent implements OnInit {
     Global.profile_path = this.baseImageUrl + '/profile/' + user['_id'] + '.png';
     // console.log('Global', this.profile.profile_path)
 
-    console.log(this.profile_path);
+    // console.log(this.profile_path);
     if (user['role'] == 3 || user['role'] == 4) {
       this.isCoachOrAnalyst = true;
     }
