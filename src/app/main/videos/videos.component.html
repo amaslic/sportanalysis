@@ -210,6 +210,8 @@
               <i (click)="assignVideo(video._id,$event)" class="fa fa-share-alt text-success"></i>
               <i (click)="downloadVideo(video,$event)" class="fa fa-download text-info"></i>
               <i class="fa fa-cog text-info" (click)="settingsVideo(video,$event)" aria-hidden="true"></i>
+              <i class="fa fa fa-sliders text-info" (click)="addToPlaylist(video._id,$event,false)"></i>
+
             </li>
 
           </ul>
