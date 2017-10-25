@@ -918,12 +918,12 @@ export class ViewComponent implements OnInit {
     this.create = true;
     this.multiplay = multiplay;
     this.vId = vId;
-    // this.eId = event.id;
-    // this.eStrat = event.start;
-    // this.eEnd = event.end;
-    // this.eName = event.name;
-    // this.eTeam = event.team;
-    // this.eventDataId = event.eventDataId;
+    this.eId = event.id;
+    this.eStrat = event.start;
+    this.eEnd = event.end;
+    this.eName = event.name;
+    this.eTeam = event.team;
+    this.eventDataId = event.eventDataId;
     //  console.log(this.eventDataId);
     this.playlistName = '';
     // console.log(this.multiplay);

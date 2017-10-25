@@ -1281,7 +1281,7 @@ export class VideoSettingsComponent implements OnInit {
       this.VideoModal.open();
     }
 
-    console.log(e);
+
   }
   ngOnDestroy() {
 

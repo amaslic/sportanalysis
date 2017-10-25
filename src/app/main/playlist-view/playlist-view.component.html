@@ -83,8 +83,11 @@
                 </div>
 
                 <div class="message-list-content">
-                  <h4>
+                  <h4 *ngIf="event.eventName">
                     <img style="visibility: hidden" [src]="getEventIcon(event.eventName)" alt="Event Icon" width="38" height="38"> {{event.eventName}} ({{event.eventTeam}})
+                  </h4>
+                  <h4 *ngIf="!event.eventName">
+                    <img style="visibility: hidden" [src]="getEventIcon(event.eventName)" alt="Event Icon" width="38" height="38"> {{event.video.title}}
                   </h4>
 
 

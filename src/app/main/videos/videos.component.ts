@@ -17,6 +17,10 @@ import {
   ClubService
 } from './../../services/club.service';
 import {
+  PlaylistService
+} from './../../services/playlist.service';
+import { Playlist } from "app/models/playlist.model";
+import {
   Router, ActivatedRoute
 } from '@angular/router';
 
@@ -29,6 +33,15 @@ import { IMultiSelectOption, IMultiSelectSettings, IMultiSelectTexts } from 'ang
 })
 
 export class VideosComponent implements OnInit {
+  updateMessage: any;
+  saveClass: any;
+  saveMessage: any;
+  multiPlaylist: any = [];
+  playlistName: any;
+  vId: any;
+  public playlists: Playlist = new Playlist();
+  create: boolean;
+  multiplay: Boolean;
   deleteVideoResponce: any;
   multiDelete: any[];
   isAllSelected: boolean;
@@ -69,13 +82,26 @@ export class VideosComponent implements OnInit {
     closeOnClickOutside: true
   };
 
+  playlistOptions: IMultiSelectOption[];
+  playlistModel: any[];
+  playlistSettings: IMultiSelectSettings = {
+    enableSearch: false,
+    checkedStyle: 'fontawesome',
+    containerClasses: 'no-button-arrow',
+    buttonClasses: 'btn btn-default btn-block',
+    selectionLimit: 1,
+    autoUnselect: true,
+    closeOnSelect: true,
+    // fixedTitle: true
+  };
+  trackPlaylist: any = [];
   @ViewChild('SucessModal') SucessModal;
   @ViewChild('ErrorModal') ErrorModal;
   @ViewChild('assignVideoModal') assignVideoModal;
   @ViewChild('videoSucessModal') videoSucessModal;
   @ViewChild('lnkDownloadLink') lnkDownloadLink: ElementRef;
-
-  constructor(private clubService: ClubService, private videoService: VideoService, private userService: UserService, r: Router, private route: ActivatedRoute) {
+  @ViewChild('createPlaylistModal') createPlaylistModal;
+  constructor(private clubService: ClubService, private videoService: VideoService, private userService: UserService, r: Router, private route: ActivatedRoute, private playlistService: PlaylistService) {
     this.router = r;
   }
 
@@ -326,6 +352,137 @@ export class VideosComponent implements OnInit {
         this.isAllSelected = false;
       }
     }
+
+  }
+  addToPlaylist(vId, e, multiplay: Boolean) {
+    e.preventDefault();
+    e.stopPropagation();
+
+    this.create = false;
+    this.multiplay = multiplay;
+    this.vId = vId;
+    console.log(vId);
+
+    this.playlistService.getPlaylists(this.userService.token).subscribe(
+      (response) => this.onGetPlaylistsSuccess(response),
+      (error) => this.onError(error)
+    );
+  }
+  onGetPlaylistsSuccess(response) {
+    this.playlistOptions = [];
+    this.playlistModel = [];
+    this.trackPlaylist = [];
+    const play = JSON.parse(response._body);
+    play.playlists.forEach((play, index) => {
+      this.trackPlaylist.push({
+        'id': play._id,
+        'name': play.name
+      });
+
+    });
+    this.playlistOptions = this.trackPlaylist;
+    this.createPlaylistModal.open();
+
+  }
+  addPlaylist() {
+
+    this.playlists['vid'] = this.vId;
+    // this.playlists['eId'] = this.eId;
+    // this.playlists['eStrat'] = this.eStrat;
+    // this.playlists['eEnd'] = this.eEnd;
+    // this.playlists['eName'] = this.eName;
+    // this.playlists['eTeam'] = this.eTeam;
+    this.playlists['playlistName'] = this.playlistName;
+    this.playlists['user'] = this.userService.user._id;
+    this.playlists['token'] = this.userService.token;
+    // this.playlists['eventDataId'] = this.eventDataId;
+    // console.log(this.multiplay);
+    // console.log('playlist', this.multiPlaylist);
+
+    if (this.multiPlaylist.length > 0 && this.multiplay) {
+      this.playlistService.createPlaylistsEvents(this.multiPlaylist, this.playlists).subscribe(
+        (response) => this.onAddPlaylistSuccess(response),
+        (error) => this.onError(error)
+      );
+    } else {
+      this.playlistService.createPlaylists(this.playlists).subscribe(
+        (response) => this.onAddPlaylistSuccess(response),
+        (error) => this.onError(error)
+      );
+    }
+  }
+  onAddPlaylistSuccess(response) {
+    // this.deselectAll();
+    const saveMsg = JSON.parse(response._body);
+
+    this.saveMessage = saveMsg.message;
+    this.saveClass = saveMsg.success;
+    setTimeout(() => {
+      this.createPlaylistModal.close()
+      this.saveMessage = '';
+    }, 1500);
+
+  }
+  createPlaylist(vdo, event, multiplay: Boolean) {
+    console.log(vdo);
+    this.create = true;
+    this.multiplay = multiplay;
+    console.log('this.vId', this.vId)
+    // this.eId = event.id;
+    // this.eStrat = event.start;
+    // this.eEnd = event.end;
+    // this.eName = event.name;
+    // this.eTeam = event.team;
+    // this.eventDataId = event.eventDataId;
+    //  console.log(this.eventDataId);
+    this.playlistName = '';
+    // console.log(this.multiplay);
+    // console.log(this.multiPlaylist);
+    this.createPlaylistModal.open();
+  }
+  onChangeEvent(e) {
+
+  }
+  updatePlaylist() {
+    this.playlists['vid'] = this.vId;
+    // this.playlists['eId'] = this.eId;
+    // this.playlists['eStrat'] = this.eStrat;
+    // this.playlists['eEnd'] = this.eEnd;
+    // this.playlists['eName'] = this.eName;
+    // this.playlists['eTeam'] = this.eTeam;
+    this.playlists['playlistId'] = this.playlistModel;
+    this.playlists['user'] = this.userService.user._id;
+    this.playlists['token'] = this.userService.token;
+    // this.playlists['eventDataId'] = this.eventDataId;
+
+    // console.log(this.multiplay);
+    // console.log(this.multiPlaylist.length);
+    // console.log(this.multiPlaylist);
+
+    if (this.multiPlaylist.length > 0 && this.multiplay) {
+      this.playlistService.updatePlaylistsEvents(this.multiPlaylist, this.playlists).subscribe(
+        (response) => this.onGetUpdatePlaylistSuccess(response),
+        (error) => this.onError(error)
+      );
+    } else {
+      this.playlistService.updatePlaylists(this.playlists).subscribe(
+        (response) => this.onGetUpdatePlaylistSuccess(response),
+        (error) => this.onError(error)
+      );
+    }
+
+
+  }
+  onGetUpdatePlaylistSuccess(response) {
+    this.playlistModel = [];
+    //this.deselectAll();
+    const updateMsg = JSON.parse(response._body);
+    // console.log(updateMsg.message);
+    this.updateMessage = updateMsg.message;
+    setTimeout(() => {
+      this.createPlaylistModal.close()
+      this.updateMessage = '';
+    }, 1500);
 
   }
 
