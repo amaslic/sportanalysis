@@ -92,6 +92,38 @@
 
     </ngx-datatable-column>
 
+    <ngx-datatable-column name="calculatedSize">
+
+      <ng-template let-column="calculatedSize" ngx-datatable-header-template>
+        Size 
+      </ng-template>
+      <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
+        {{value}}
+      </ng-template>
+
+    </ngx-datatable-column>
+
+    <!--<ngx-datatable-column *ngIf="isClub" name="startTime">
+
+      <ng-template let-column="startTime" ngx-datatable-header-template>
+        Upload Start Time 
+      </ng-template>
+      <ng-template let-value="value" ngx-datatable-cell-template>
+        {{value | date:'yyyy-MM-dd HH:mm:ss'}}
+      </ng-template>
+
+    </ngx-datatable-column>-->
+
+    <ngx-datatable-column *ngIf="isClub" name="endTime">
+
+      <ng-template let-column="endTime" ngx-datatable-header-template>
+        Upload End Time 
+      </ng-template>
+      <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
+        {{value | date:'yyyy-MM-dd HH:mm:ss'}}
+      </ng-template>
+
+    </ngx-datatable-column>
 
     <ngx-datatable-column name="id" sortable="false">
       <ng-template let-column="column" let-sort="sortFn" ngx-datatable-header-template>
