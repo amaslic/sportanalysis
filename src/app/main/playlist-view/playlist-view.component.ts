@@ -132,7 +132,9 @@ export class PlaylistViewComponent implements OnInit {
     this.playlisName = this.playList['playlists']['name'];
 
     if (this.playList['playlists'] && this.playList['playlists']['playdata'].length > 0) {
+
       this.playList = this.playList['playlists']['playdata'];
+      console.log(this.playList);
     }
     else {
       this.errormsg = "Events not avalible to show";
@@ -289,7 +291,13 @@ export class PlaylistViewComponent implements OnInit {
 
     this.currentItem = this.playlist[idx];
 
-    this.api.getDefaultMedia().currentTime = event.eventStart;
+    if (event.eventStart) {
+
+      this.api.getDefaultMedia().currentTime = event.eventStart;
+    } else {
+      this.api.getDefaultMedia().currentTime = 0;
+    }
+
 
 
     if (lastIndex != idx && lastVideoSrc == this.currentItem.src)
@@ -310,13 +318,15 @@ export class PlaylistViewComponent implements OnInit {
     this.cleartimer();
     var event: any = this.playList[this.currentIndex];
     this.timer = setInterval(() => {
-      if (this.api.getDefaultMedia() && this.api.getDefaultMedia().currentTime >= parseInt(event.eventEnd)) {
-        this.api.pause();
-        this.cleartimer();
+      if (event.eventEnd) {
+        if (this.api.getDefaultMedia() && this.api.getDefaultMedia().currentTime >= parseInt(event.eventEnd)) {
+          this.api.pause();
+          this.cleartimer();
 
-        setTimeout(() => {
-          this.nextVideo();
-        }, 1000);
+          setTimeout(() => {
+            this.nextVideo();
+          }, 1000);
+        }
       }
     }, 1000);
   }
@@ -415,7 +425,12 @@ export class PlaylistViewComponent implements OnInit {
       this.club2trim = club2trim.toUpperCase();
     }
     if (this.api.getDefaultMedia())
-      this.api.getDefaultMedia().currentTime = event.eventStart;
+      if (event.eventStart) {
+        this.api.getDefaultMedia().currentTime = event.eventStart;
+      } else {
+        this.api.getDefaultMedia().currentTime = 0;
+      }
+
     this.api.play();
     this.startEventTimer();
   }
