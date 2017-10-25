@@ -38,6 +38,7 @@ export class PlaylistComponent implements OnInit {
   successmsg: any;
   isCoachOrAnalyst: Boolean = false;
   errormsg: string;
+  errorMsgForPlaylist: string;
   clubActive: any;
   playList: Playlist[];
   trackPlaylist: any = [];
@@ -87,6 +88,7 @@ export class PlaylistComponent implements OnInit {
   };
   @ViewChild('SucessModal') SucessModal;
   @ViewChild('ErrorModal') ErrorModal;
+  @ViewChild('ErrorModalForPlaylist') ErrorModalForPlaylist;
   @ViewChild('updatePlaylistModal') updatePlaylistModal;
   constructor(router: Router, private userService: UserService, private playlistService: PlaylistService, private clubService: ClubService, private localStorageService: LocalStorageService) { }
 
@@ -168,8 +170,8 @@ export class PlaylistComponent implements OnInit {
   }
   onError(error) {
     const errorBody = JSON.parse(error._body);
-    this.errormsg = errorBody.message;
-    this.ErrorModal.open()
+    this.errorMsgForPlaylist = errorBody.message || errorBody.msg;
+    this.ErrorModalForPlaylist.open()
 
   }
   deletePlaylist(id) {

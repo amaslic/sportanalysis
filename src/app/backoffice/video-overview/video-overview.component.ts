@@ -22,6 +22,7 @@ import {
 import {
   Router, ActivatedRoute
 } from '@angular/router';
+import { DatePipe } from '@angular/common';
 
 import { IMultiSelectOption, IMultiSelectSettings, IMultiSelectTexts } from 'angular-2-dropdown-multiselect';
 import { GlobalVariables } from "app/models/global.model";
@@ -169,6 +170,7 @@ export class VideoOverviewComponent implements OnInit {
     // console.log(this.videoList);
 
     if (this.videoList.length > 0) {
+      var fSExt = new Array('Bytes', 'KB', 'MB', 'GB');
       this.videoList.forEach(element => {
 
         // console.log(element);
@@ -183,18 +185,20 @@ export class VideoOverviewComponent implements OnInit {
         if (typeof (videoClub) != 'undefined') {
           var id = element['user']['club'];
           element.club = videoClub.name;
-
-
-
           this.clubList.push({ _id: id, name: element.club });
 
         } else {
           element.club = '';
         }
 
+        var i = 0;
+        while (element['size'] > 900) { element['size'] /= 1024; i++; }
+        element['calculatedSize'] = ((Math.round(element['size'] * 100) / 100) - 0.01).toFixed(2) + ' ' + fSExt[i];
+
         element["isSelected"] = false;
 
       });
+      
       this.clubList = this.clubList.filter((thing, index, self) => self.findIndex((t) => { return t._id === thing._id && t.name === thing.name; }) === index)
 
     }

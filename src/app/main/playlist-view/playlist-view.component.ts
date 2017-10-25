@@ -158,7 +158,7 @@ export class PlaylistViewComponent implements OnInit {
     this.currentItem = this.playlist[this.currentIndex];
 
     this.videoLoaded = true;
-    console.log(this.playList);
+    // console.log(this.playList);
     // this.playlist = [{
     //   title: 'Intro Video',
     //   src: 'assets/videos/intro.mp4',

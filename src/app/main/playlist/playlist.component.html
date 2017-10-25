@@ -55,6 +55,24 @@
     <button class="btn btn-primary" [routerLink]="['/home']" (click)="ErrorModal.close()">Ok</button>
   </modal-footer>
 </modal>
+
+<modal #ErrorModalForPlaylist class="error-modal">
+  <modal-header>
+
+  </modal-header>
+  <modal-content>
+    <p>
+      <i class="fa fa-close" aria-hidden="true"></i>
+    </p>
+    <p>
+      {{errorMsgForPlaylist}}
+    </p>
+  </modal-content>
+  <modal-footer>
+    <button class="btn btn-primary" (click)="ErrorModalForPlaylist.close()">Ok</button>
+  </modal-footer>
+</modal>
+
 <modal #updatePlaylistModal class="error-modal">
   <modal-header>
   </modal-header>
