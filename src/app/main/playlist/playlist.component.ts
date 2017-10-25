@@ -18,6 +18,9 @@ import {
 import {
   ClubService
 } from './../../services/club.service';
+import {
+  Page
+} from './../../models/page.model';
 
 import { IMultiSelectOption, IMultiSelectSettings, IMultiSelectTexts } from 'angular-2-dropdown-multiselect';
 import { RouterLink, Router } from '@angular/router';
@@ -47,6 +50,7 @@ export class PlaylistComponent implements OnInit {
   playlistModel: any[];
   allClubList: any;
   userlistOptions: IMultiSelectOption[];
+  page = new Page();
 
   playlistSettings: IMultiSelectSettings = {
     enableSearch: false,
@@ -112,12 +116,53 @@ export class PlaylistComponent implements OnInit {
 
   onGetAllClubsSuccess(response) {
     this.allClubList = JSON.parse(response._body);
-    this.getPlaylist();
+    // this.getPlaylist();
+    this.setPage({ offset: 0 });
+  }
 
+  setPage(pageInfo) {
+    this.page.pageNumber = pageInfo.offset;
+    this.playlistService.getPlaylists(this.userService.token, this.page).subscribe((response: any) => {
+
+      this.playList = JSON.parse(response._body);
+      this.playList = this.playList['playlists'];
+      this.playdata = this.playList['playdata'];
+
+      this.playList.forEach(element => {
+
+        var videoClubName = element['user'].club;
+        var videoClub = this.allClubList.filter(function (element1, index) {
+          return (element1._id === videoClubName);
+        })[0];
+
+        if (typeof (videoClub) != 'undefined') {
+          element['user'].club = videoClub.name;
+        } else {
+          element['user'].club = '';
+        }
+      });
+
+      this.playList.forEach((play, index) => {
+        this.trackPlaylist.push({
+          'id': play._id,
+          'name': play.name
+        });
+
+      });
+      this.playlistOptions = this.trackPlaylist;
+
+      this.loadingIndicator = false;
+
+      this.page.totalElements = JSON.parse(response._body).total;
+      this.page.totalPages = this.page.totalElements / this.page.limit;
+      let start = this.page.pageNumber * this.page.limit;
+      let end = Math.min((start + this.page.limit), this.page.totalElements);
+
+    });
   }
 
   getPlaylist() {
-    this.playlistService.getPlaylists(this.userService.token).subscribe(
+    this.playlistService.getPlaylists(this.userService.token, this.page).subscribe(
       (response) => this.onGetPlaylistSuccess(response),
       (error) => this.onError(error)
     );
