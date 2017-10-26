@@ -413,15 +413,15 @@ export class VideoSettingsComponent implements OnInit {
       var myFile = files[i].name;
       var ext = myFile.substring(myFile.lastIndexOf(".") + 1);
 
-      if (ext.toLowerCase() == 'xml') {
+      // if (ext.toLowerCase() == 'xml') {
         this.selectedFile = {
           name: files[i].name,
           size: files[i].size,
           _file: files[i]
         };
-      } else {
-        alert("Please select valid xml file")
-      }
+      // } else {
+      //   alert("Please select valid xml file")
+      // }
 
     }
     e.target.files = null;

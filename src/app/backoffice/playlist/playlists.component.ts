@@ -21,6 +21,9 @@ import {
 import {
   LocalStorageService
 } from 'angular-2-local-storage';
+import {
+  Page
+} from './../../models/page.model';
 import { IMultiSelectOption, IMultiSelectSettings, IMultiSelectTexts } from 'angular-2-dropdown-multiselect';
 
 @Component({
@@ -39,6 +42,7 @@ export class PlaylistsComponent implements OnInit {
   userlistModel: any[];
   allClubList: any;
   showProgressBar: boolean = false;
+  page = new Page();
 
   userlistSettings: IMultiSelectSettings = {
     enableSearch: false,
@@ -72,6 +76,7 @@ export class PlaylistsComponent implements OnInit {
     }
 
   ];
+
   @ViewChild('updatePlaylistModal') updatePlaylistModal;
   @ViewChild('SucessModal') SucessModal;
   constructor(private localStorageService: LocalStorageService, private userService: UserService, private playlistService: PlaylistService, private clubService: ClubService) { }
@@ -89,11 +94,50 @@ export class PlaylistsComponent implements OnInit {
 
   onGetAllClubsSuccess(response) {
     this.allClubList = JSON.parse(response._body);
-    this.getPlaylist();
+    // this.getPlaylist();
+    this.page.sort = '_id';
+    this.page.sortDir = 'asc';
+    this.setPage({ offset: 0 });
+  }
+
+  onSort(event) {
+    const sort = event.sorts[0];
+    this.page.sort = sort.prop;
+    this.page.sortDir = sort.dir;
+    this.setPage({ offset: this.page.pageNumber });
+  }
+
+  setPage(pageInfo) {
+    this.page.pageNumber = pageInfo.offset;
+    this.playlistService.getPlaylists(this.userService.token, this.page).subscribe((response: any) => {
+
+      this.playList = JSON.parse(response._body);
+      this.playList = this.playList['playlists'];
+      this.playList.forEach(element => {
+
+        var videoClubName = element['user'].club;
+        var videoClub = this.allClubList.filter(function (element1, index) {
+          return (element1._id === videoClubName);
+        })[0];
+
+        if (typeof (videoClub) != 'undefined') {
+          element['user'].club = videoClub.name;
+        } else {
+          element['user'].club = '';
+        }
+      });
+      this.loadingIndicator = false;
+
+      this.page.totalElements = JSON.parse(response._body).total;
+      this.page.totalPages = this.page.totalElements / this.page.limit;
+      let start = this.page.pageNumber * this.page.limit;
+      let end = Math.min((start + this.page.limit), this.page.totalElements);
+
+    });
   }
 
   getPlaylist() {
-    this.playlistService.getPlaylists(this.userService.token).subscribe(
+    this.playlistService.getPlaylists(this.userService.token, this.page).subscribe(
       (response) => this.onGetPlaylistSuccess(response),
       (error) => this.onError(error)
     );

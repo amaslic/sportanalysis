@@ -23,6 +23,9 @@ import { Playlist } from "app/models/playlist.model";
 import {
   Router, ActivatedRoute
 } from '@angular/router';
+import {
+  Page
+} from './../../models/page.model';
 
 import { IMultiSelectOption, IMultiSelectSettings, IMultiSelectTexts } from 'angular-2-dropdown-multiselect';
 
@@ -67,6 +70,7 @@ export class VideosComponent implements OnInit {
   videoUrl: any;
   videoOriginalName: any;
   private router: Router;
+  page = new Page();
 
   private sub: any;
   private id: String;
@@ -363,7 +367,10 @@ export class VideosComponent implements OnInit {
     this.vId = vId;
     console.log(vId);
 
-    this.playlistService.getPlaylists(this.userService.token).subscribe(
+    this.page.pageNumber = 0;
+    this.page.limit = 0;
+
+    this.playlistService.getPlaylists(this.userService.token,this.page).subscribe(
       (response) => this.onGetPlaylistsSuccess(response),
       (error) => this.onError(error)
     );

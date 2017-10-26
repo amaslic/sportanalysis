@@ -19,7 +19,7 @@
       </div>
     </div>
   </div>
-  <ngx-datatable class="material" [columnMode]="'force'" [rows]="videoListData" [loadingIndicator]="loadingIndicator" [rowHeight]="'auto'">
+  <ngx-datatable class="material" [limit]="10" [headerHeight]="50" [footerHeight]="50"  [columnMode]="'force'" [rows]="videoListData" [loadingIndicator]="loadingIndicator" [rowHeight]="'auto'">
 
     <!-- <ngx-datatable-column name="_id">
       <ng-template let-column="title" ngx-datatable-header-template>

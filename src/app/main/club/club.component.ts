@@ -39,6 +39,10 @@ import {
   PlaylistService
 } from './../../services/playlist.service';
 import { Playlist } from "app/models/playlist.model";
+import {
+  Page
+} from './../../models/page.model';
+
 @Component({
   selector: 'app-club',
   templateUrl: './club.component.html',
@@ -85,6 +89,7 @@ export class ClubComponent implements OnInit {
   userlistOptions: IMultiSelectOption[];
   userlistModel: any[];
   matches: any = [];
+  page = new Page();
 
 
   userlistSettings: IMultiSelectSettings = {
@@ -139,7 +144,9 @@ export class ClubComponent implements OnInit {
       this.teamService.getAllTeams(this.userService.token).subscribe(
         (response: any) => {
           this.teamsList = JSON.parse(response._body);
-          this.getUsers();
+          this.page.sort = '_id';
+          this.page.sortDir = 'asc';
+          this.getUsers({ offset: 0 });
         },
         (error) => this.onError(error)
       );
@@ -248,15 +255,23 @@ export class ClubComponent implements OnInit {
     this.ErrorModal.open();
   }
 
-  getUsers() {
-    this.userService.getAllUsersByClubId(this.id, this.userService.token).subscribe(
+  onSort(event) {
+    const sort = event.sorts[0];
+    this.page.sort = sort.prop;
+    this.page.sortDir = sort.dir;
+    this.getUsers({ offset: this.page.pageNumber });
+  }
+
+  getUsers(pageInfo) {
+    this.page.pageNumber = pageInfo.offset;
+    this.userService.getAllUsersByClubId(this.id, this.userService.token, this.page).subscribe(
       (response) => this.onGetUsersSuccess(response),
       (error) => this.onError(error)
     );
   }
 
   onGetUsersSuccess(response) {
-    this.usersList = JSON.parse(response._body);
+    this.usersList = JSON.parse(response._body).users;
 
     this.usersList.forEach(element => {
       if (this.teamsList.length > 0) {
@@ -274,6 +289,9 @@ export class ClubComponent implements OnInit {
     });
 
     this.loadingIndicator = false;
+    this.page.totalElements = JSON.parse(response._body).total;
+    this.page.totalPages = this.page.totalElements / this.page.limit;
+    let start = this.page.pageNumber * this.page.limit;
   }
   typeFilter() {
 
@@ -417,8 +435,9 @@ export class ClubComponent implements OnInit {
     this.multiplay = multiplay;
     this.vId = vId;
     console.log(vId);
-
-    this.playlistService.getPlaylists(this.userService.token).subscribe(
+    this.page.limit = 0;
+    this.page.pageNumber = 0;
+    this.playlistService.getPlaylists(this.userService.token, this.page).subscribe(
       (response) => this.onGetPlaylistsSuccess(response),
       (error) => this.onError(error)
     );

@@ -1,6 +1,7 @@
 <div class="container" style="margin-top:10px;">
   <h3>Players</h3>
-  <ngx-datatable #activetable class="material" [columnMode]="'force'" [rows]="usersList">
+  <ngx-datatable #activetable class="material" [limit]="page.limit" [headerHeight]="35" [footerHeight]="50" [columnMode]="'force'" [rows]="usersList" [externalPaging]="true"
+        [count]="page.totalElements" [offset]="page.pageNumber" (page)='getUsers($event)' [externalSorting]="true" (sort)="onSort($event)">
     <ngx-datatable-column name="Email" prop="email"> </ngx-datatable-column>
     <ngx-datatable-column name="First Name" prop="firstName"> </ngx-datatable-column>
     <ngx-datatable-column name="Last Name" prop="lastName"> </ngx-datatable-column>

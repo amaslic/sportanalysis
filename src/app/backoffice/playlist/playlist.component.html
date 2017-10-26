@@ -6,7 +6,29 @@
 
 <div class="container" style="margin-top:10px;">
   <h3>Playlist</h3>
-  <ngx-datatable class="material" [columnMode]="'force'" [rows]="playList" [rowHeight]="40">
+  <!--<ngx-datatable class="material" [limit]="10" [headerHeight]="35" [footerHeight]="50" [columnMode]="'force'" [rows]="playList" [rowHeight]="40">
+    <ngx-datatable-column name="Name">
+    </ngx-datatable-column>
+    <ngx-datatable-column name="Club" prop="user.club">
+    </ngx-datatable-column>
+    <ngx-datatable-column name="Created By">
+      <ng-template let-row="row" ngx-datatable-cell-template>
+        {{row.user.firstName}} {{row.user.lastName}}
+      </ng-template>
+    </ngx-datatable-column>
+    <ngx-datatable-column name="Action">
+      <ng-template let-row="row" ngx-datatable-cell-template>
+        <i class="fa fa-eye text-info btn btn-default" *ngIf="row.playdata.length > 0" [routerLink]="['/backoffice/playlist/view',row._id]"
+          aria-hidden="true"></i>
+        <i class="btn btn-default fa fa-share-alt fa-lg text-success" aria-hidden="true" (click)="assignUser(row._id)"></i>
+        <i class="btn btn-default fa fa-trash fa-lg text-danger" aria-hidden="true" (click)="deletePlaylist(row._id)"></i>
+
+      </ng-template>
+    </ngx-datatable-column>
+  </ngx-datatable>-->
+
+  <ngx-datatable class="material" [limit]="page.limit" [headerHeight]="35" [footerHeight]="50" [columnMode]="'force'" [rows]="playList" [rowHeight]="40" [externalPaging]="true"
+        [count]="page.totalElements" [offset]="page.pageNumber" (page)='setPage($event)' [externalSorting]="true" (sort)="onSort($event)">
     <ngx-datatable-column name="Name">
     </ngx-datatable-column>
     <ngx-datatable-column name="Club" prop="user.club">
@@ -26,6 +48,8 @@
       </ng-template>
     </ngx-datatable-column>
   </ngx-datatable>
+
+
 </div>
 
 <modal #updatePlaylistModal class="error-modal">
