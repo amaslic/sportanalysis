@@ -28,7 +28,8 @@ export class LoginComponent implements OnInit {
   private router: Router;
   errormsg: string;
   @ViewChild('loginErrorModal') loginErrorModal;
-  constructor(private userService: UserService, r: Router, private route: ActivatedRoute, @Inject(DOCUMENT) private document: Document) {
+ constructor(private userService: UserService, r: Router, private route: ActivatedRoute, @Inject(DOCUMENT) private document: Document) {
+    //constructor(private userService: UserService, r: Router, private route: ActivatedRoute) {
     this.router = r;
   }
 

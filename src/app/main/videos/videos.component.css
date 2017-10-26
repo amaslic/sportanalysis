@@ -53,6 +53,7 @@
 .video-white-bg{
   padding: 1px;
   background: white;
+  padding-bottom: 50px;
 }
 
 .video-list-thumbs .glyphicon-play-circle {
@@ -138,7 +139,7 @@
 div.teams{
     position: absolute;
     left: 22%;
-    bottom: 53%;
+    bottom: 59%;
     font-size: 28px;
     color: white;
 }
