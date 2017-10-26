@@ -11,5 +11,8 @@ export class Page {
     //The current page number
     public pageNumber: number = 0;
 
+    public sort: String = '';
+    public sortDir: String = '';
+
     constructor() {}
 }

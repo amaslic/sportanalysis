@@ -28,7 +28,7 @@
   </ngx-datatable>-->
 
   <ngx-datatable class="material" [limit]="page.limit" [headerHeight]="35" [footerHeight]="50" [columnMode]="'force'" [rows]="playList" [rowHeight]="40" [externalPaging]="true"
-        [count]="page.totalElements" [offset]="page.pageNumber" (page)='setPage($event)'>
+        [count]="page.totalElements" [offset]="page.pageNumber" (page)='setPage($event)' [externalSorting]="true" (sort)="onSort($event)">
     <ngx-datatable-column name="Name">
     </ngx-datatable-column>
     <ngx-datatable-column name="Club" prop="user.club">

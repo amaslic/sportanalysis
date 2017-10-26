@@ -95,7 +95,16 @@ export class PlaylistsComponent implements OnInit {
   onGetAllClubsSuccess(response) {
     this.allClubList = JSON.parse(response._body);
     // this.getPlaylist();
+    this.page.sort = '_id';
+    this.page.sortDir = 'asc';
     this.setPage({ offset: 0 });
+  }
+
+  onSort(event) {
+    const sort = event.sorts[0];
+    this.page.sort = sort.prop;
+    this.page.sortDir = sort.dir;
+    this.setPage({ offset: this.page.pageNumber });
   }
 
   setPage(pageInfo) {

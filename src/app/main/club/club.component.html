@@ -166,7 +166,7 @@
     </md-tab>
     <md-tab label="Players" *ngIf="isCoach">
       <ngx-datatable #activetable class="material" [limit]="page.limit" [headerHeight]="35" [footerHeight]="50" [columnMode]="'force'" [rows]="usersList" [externalPaging]="true"
-        [count]="page.totalElements" [offset]="page.pageNumber" (page)='getUsers($event)'>
+        [count]="page.totalElements" [offset]="page.pageNumber" (page)='getUsers($event)' [externalSorting]="true" (sort)="onSort($event)">
         <ngx-datatable-column name="Email" prop="email"> </ngx-datatable-column>
         <ngx-datatable-column name="First Name" prop="firstName"> </ngx-datatable-column>
         <ngx-datatable-column name="Last Name" prop="lastName"> </ngx-datatable-column>

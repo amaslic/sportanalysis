@@ -39,7 +39,7 @@ export class PlaylistService {
         const headers = new Headers({ 'Authorization': token });
         const options = new RequestOptions({ headers: headers });
 
-        return this.http.get(this.baseApiUrl + 'playlist/fetchAll?page='+page.pageNumber+'&limit='+page.limit, options);
+        return this.http.get(this.baseApiUrl + 'playlist/fetchAll?page='+page.pageNumber+'&limit='+page.limit+'&sort='+page.sort+'&sortDir='+page.sortDir, options);
     }
     createPlaylists(plist: Playlist) {
         // console.log('plist' + plist);

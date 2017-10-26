@@ -136,6 +136,6 @@ export class UserService {
   getAllUsersByClubId(clubId, token: String,page) {
     const headers = new Headers({ 'Authorization': token });
     const options = new RequestOptions({ headers: headers, params: { clubId: clubId } });
-    return this.http.get(this.baseApiUrl + 'user/fetchallbyclub?page='+page.pageNumber+'&limit='+page.limit, options);
+    return this.http.get(this.baseApiUrl + 'user/fetchallbyclub?page='+page.pageNumber+'&limit='+page.limit+'&sort='+page.sort+'&sortDir='+page.sortDir, options);
   }
 }

@@ -117,6 +117,8 @@ export class ClubComponent implements OnInit {
       this.teamService.getAllTeams(this.userService.token).subscribe(
         (response: any) => {
           this.teamsList = JSON.parse(response._body);
+          this.page.sort = '_id';
+          this.page.sortDir = 'asc';
           this.getUsers({ offset: 0 });
         },
         (error) => this.onError(error)
@@ -226,9 +228,16 @@ export class ClubComponent implements OnInit {
     this.ErrorModal.open();
   }
 
+  onSort(event) {
+    const sort = event.sorts[0];
+    this.page.sort = sort.prop;
+    this.page.sortDir = sort.dir;
+    this.getUsers({ offset: this.page.pageNumber });
+  }
+
   getUsers(pageInfo) {
     this.page.pageNumber = pageInfo.offset;
-    this.userService.getAllUsersByClubId(this.id, this.userService.token,this.page).subscribe(
+    this.userService.getAllUsersByClubId(this.id, this.userService.token, this.page).subscribe(
       (response) => this.onGetUsersSuccess(response),
       (error) => this.onError(error)
     );
