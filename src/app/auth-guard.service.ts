@@ -18,6 +18,7 @@ import { DOCUMENT } from '@angular/common';
 @Injectable()
 export class AuthGuard implements CanActivate {
   constructor(private userService: UserService, private router: Router, @Inject(DOCUMENT) private document: Document) { }
+ //constructor(private userService: UserService, private router: Router) { }
   canActivate(route: ActivatedRouteSnapshot,
     state: RouterStateSnapshot): Observable<boolean> | Promise<boolean> | boolean {
     return this.userService.isAuthenticated()
@@ -30,10 +31,10 @@ export class AuthGuard implements CanActivate {
           if ((user && user['role'] == 1) || (user && user['role'] == 2)) {
             this.router.navigateByUrl('/backoffice/users');
           } else {
-            // console.log(this.document.location.href);
+             console.log(this.document.location.href);
             if (this.document.location.href == '')
               this.router.navigateByUrl('/auth/login');
-            else
+           else
               this.router.navigateByUrl('/auth/login?redirectUrl='+this.document.location.href);
           }
 
