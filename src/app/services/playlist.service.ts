@@ -70,4 +70,18 @@ export class PlaylistService {
 
         return this.http.post(this.baseApiUrl + 'playlist/deletePlaylist', body, options);
     }
+    deletePlaylistItem(id: any, playid: any, token: String) {
+        const headers = new Headers({ 'Authorization': token });
+        const body = { token: token, id: id, playid: playid };
+        const options = new RequestOptions({ headers: headers });
+
+        return this.http.post(this.baseApiUrl + 'playlist/deletePlaylistItem', body, options);
+    }
+    deleteSelected(id: any, playid: any, token: String) {
+        const headers = new Headers({ 'Authorization': token });
+        const body = { token: token, id: id, playid: playid };
+        const options = new RequestOptions({ headers: headers });
+
+        return this.http.post(this.baseApiUrl + 'playlist/deleteSelected', body, options);
+    }
 }

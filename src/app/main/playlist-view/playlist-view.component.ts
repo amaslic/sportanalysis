@@ -47,6 +47,13 @@ export interface IMedia {
   styleUrls: ['./playlist-view.component.css']
 })
 export class PlaylistViewComponent implements OnInit {
+  multiDeleteIds: any;
+  playEventId: any;
+  multiEid: any = [];
+  multiPlaylist: any = [];
+  multiId: any = [];
+  multiplay: boolean;
+  successmsg: any;
   copyEvents: any;
   club2trim: any;
   club1trim: any;
@@ -108,6 +115,8 @@ export class PlaylistViewComponent implements OnInit {
 
   private router: Router;
   @ViewChild('ErrorModal') ErrorModal;
+  @ViewChild('SucessModal') SucessModal;
+
   constructor(private playlistService: PlaylistService, private videoService: VideoService, private userService: UserService, private trackingDataService: TrackingDataService, r: Router, private route: ActivatedRoute) {
     this.router = r;
   }
@@ -145,7 +154,7 @@ export class PlaylistViewComponent implements OnInit {
       var filteredObj = this.playlist.find(function (item, i) {
         return (item.id == element['video']['_id']);
       });
-
+      element['checked'] = false;
       //if (!filteredObj || filteredObj.length == 0)
       this.playlist.push({
         'title': element['video']['title'],
@@ -475,4 +484,80 @@ export class PlaylistViewComponent implements OnInit {
       this.enableOverlay = false;
     }, 1500);
   }
+  deletePlaylistItem(e) {
+    if (confirm("Are you sure to delete this event ?")) {
+      this.playEventId = e._id;
+      this.playlistService.deletePlaylistItem(e._id, this.playId, this.userService.token).subscribe(
+        (response) => this.ondeletePlaylistItemSuccess(response),
+        (error) => this.onError(error)
+      );
+    }
+  }
+  ondeletePlaylistItemSuccess(response) {
+    if (this.multiDeleteIds.length > 0) {
+      this.multiDeleteIds.forEach((playitemid, index) => {
+
+        this.playList = this.playList.filter(item => item._id !== playitemid);
+      });
+    } else {
+      this.playList = this.playList.filter(item => item._id !== this.playEventId);
+    }
+
+
+
+    const responseBody = JSON.parse(response._body);
+    this.successmsg = responseBody.message;
+    this.SucessModal.open();
+    //this.getVideoEventsData(this.videoId);
+  }
+  deselectAll() {
+    this.multiplay = false;
+    // this.multiPlaylist = [];
+    this.multiEid = [];
+    // this.trackingJsonData.forEach((event, index) => {
+    //   event.checked = false;
+    // });
+    // console.log(this.multiPlaylist);
+  }
+  selectEvent(e, event) {
+
+    if (!e.checked) {
+      event['checked'] = false;
+      let elObj = event._id;
+      console.log(elObj);
+      let index = this.multiEid.indexOf(elObj);
+
+      this.multiEid = this.multiEid.filter((element, index) => {
+        return !(element == String(event._id));
+      });
+      console.log('event', event._id)
+      // this.multiPlaylist = this.multiPlaylist.filter(item => item !== event._id);
+    } else {
+      event['checked'] = true;
+
+      // this.multiId.push({ 'Id': event._id });
+      this.multiEid.push(event._id);
+      // this.multiPlaylist.push(this.multiEid);
+    }
+    console.log('event', this.multiEid)
+    //console.log('multiPlaylist', this.multiPlaylist)
+
+  }
+  deleteSelected() {
+
+    this.multiDeleteIds = this.multiEid;
+    if (this.multiEid.length == 0 || this.multiEid == null) {
+      this.errormsg = "Please select items for delete."
+      this.ErrorModal.open();
+      return;
+    }
+    if (confirm("Are you sure to delete selected Events ?")) {
+      this.playlistService.deleteSelected(this.multiEid, this.playId, this.userService.token).subscribe(
+        (response) => this.ondeletePlaylistItemSuccess(response),
+        (error) => this.onError(error)
+      );
+    }
+  }
+
+
 }

@@ -1052,3 +1052,93 @@ a.playlist-info:hover .message-list-content h4{
     vertical-align: middle;
     display: inline-block;
     font-size: 22px;} 
+    
+    .dropbtn {    
+      border: none;
+      cursor: pointer;
+  }
+  
+  .dropdown {
+      position: relative;
+      display: inline-block;
+  }
+  
+  .dropdown-content {
+      position: absolute;
+      background-color: #f9f9f9;
+      min-width: 120px;
+      box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+      z-index: 1;
+      right: -10px; 
+      bottom: 0;
+  }
+  
+  .dots a:hover{
+    color: #59719a!important;
+  }
+  
+  .dots .dropdown-toggle.btn{
+    background: transparent;
+  }
+  
+  .dots ul.dropdown-menu{
+    left: -115px;
+    top: -22px;
+  }
+  .dots ul.dropdown-menu:first-child{
+    top: 0px !important;
+  }
+  .dots i{
+    font-size: 22px;
+  }
+  
+  .dots .dropdown-toggle::after{
+    border: 0;
+  }
+  .dots .dropdown-menu>li {
+    display: block;
+    padding: 5px 30px 5px 30px;
+    clear: both;
+    font-weight: 400;
+    line-height: 2;
+    color: #333;
+    white-space: nowrap;
+    max-width: 100%;
+    color: #59719a;
+    display: block;
+    font-size: 12px;
+    font-weight: bold;
+  }
+  md-checkbox.mat-checkbox-checked.more-events /deep/ .mat-checkbox-background {
+    background-color: #0EE999;
+   }
+   .more-events{
+    position: absolute;
+    left: 5px;
+    top: 14px;
+   }
+   .more-events /deep/ .mat-checkbox-inner-container{
+    width: 15px;
+    height: 15px;
+  }
+  .stats ul li .message-img {
+    position: absolute;
+    top: 15px;
+    left: 25px;
+  
+  }
+  .stats ul li .message-list-content {
+    
+    padding-bottom:5px;
+    padding-top: 5px;
+    padding-left: 7px;
+  }  
+  .playlist li img{
+    margin-right: -25px;
+  }
+.dots {
+    position: absolute;
+    right: 12px;
+    top: 6px;
+    font-size: 20px;
+  }

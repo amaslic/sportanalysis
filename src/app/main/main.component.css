@@ -21,7 +21,8 @@ html {
 .demo-contents{
   background: #f2f1f6;
   padding-top: 100px;
-  min-height: calc(100vh - 100px);
+  /* min-height: calc(100vh - 100px); */
+  min-height: 86.5vh;
   overflow: auto;
 }
 

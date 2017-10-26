@@ -797,7 +797,9 @@ ss-multiselect-dropdown /deep/ .btn{
     right: -10px; 
     bottom: 0;
 }
-
+.playlist ul{
+  max-height: 400px !important;
+}
 .dots a:hover{
   color: #59719a!important;
 }
@@ -808,7 +810,7 @@ ss-multiselect-dropdown /deep/ .btn{
 
 .dots ul.dropdown-menu{
   left: -115px;
-  top: -100px;
+  top: -17px;
 }
 
 .dots i{

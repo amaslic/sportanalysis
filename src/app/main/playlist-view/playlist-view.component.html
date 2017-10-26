@@ -60,6 +60,8 @@
   </div>
 </div>
 <div class="right-sidebar">
+  <br>
+  <button *ngIf="multiEid?.length > 0" class="pull-right" (click)="deleteSelected()">Delete Selected</button>
   <div class="match-info filters col-xs-12">
     <h2 class="title">
       <span class="title-span">Playlist</span>
@@ -75,7 +77,8 @@
           <ng-container *ngFor="let event of playList  | search:searchQuery ; let idx=index">
 
             <li>
-
+              <md-checkbox ng-model="event.checked" [checked]="event.checked" class="more-events" id="{{event._id}}" name="{{event._id}}"
+                (change)="selectEvent($event,event)"></md-checkbox>
               <a style="display:block" class="playlist-info" href="#" id="{{event._id}}{{event.id}}" (click)="goToEvent($event,   idx)"
                 *ngIf="event.eventStart !== 'NaN'">
                 <div class="message-img">
@@ -86,11 +89,40 @@
                   <h4 *ngIf="event.eventName">
                     <img style="visibility: hidden" [src]="getEventIcon(event.eventName)" alt="Event Icon" width="38" height="38"> {{event.eventName}} ({{event.eventTeam}})
                   </h4>
-                  <h4 *ngIf="!event.eventName">
+                  <h4 *ngIf="(event.club1Details.length > 0 && event.club2Details.length > 0 && !event.eventName)">
+                    <img style="visibility: hidden" [src]="getEventIcon(event.eventName)" alt="Event Icon" width="38" height="38"> {{event.club1Details[0].name}} - {{event.club2Details[0].name}}
+                  </h4>
+                  <h4 *ngIf="(event.video.type == 'Training' && !event.eventName)">
                     <img style="visibility: hidden" [src]="getEventIcon(event.eventName)" alt="Event Icon" width="38" height="38"> {{event.video.title}}
                   </h4>
 
 
+                </div>
+                <div class="dots dropdown" dropdown [dropdownToggle]="false">
+                  <button class="btn dropdown-toggle" type="button" dropdown-open>
+                    <i class="dropbtn fa fa-ellipsis-h" aria-hidden="true"></i>
+                  </button>
+                  <ul class="dropdown-menu multi-level" role="menu" aria-labelledby="dropdownMenu">
+                    <!--<li (click)="createPlaylist(video._id,event,false)">Create Playlist</li>-->
+                    <li id="event">Share</li>
+                    <li id="eventDelete" (click)="deletePlaylistItem(event)">Delete</li>
+                    <!--<li class="dropdown-submenu">
+
+                        <a id="event" *ngIf="isAdmin"  (click)="shareEventlist(video._id,event.id)">Share Event</a>
+                        <a id="addtoplay"  (click)="addToPlaylist(video._id,event)">Add to playlist</a>
+                        <a (click)="createPlaylist(video._id,event)">Create Playlist</a>
+                        <a id="addtoplay" tabindex="-1" href="#">Add to playlist</a>
+                        <ul class="dropdown-menu">
+                          <li (click)="createPlaylist(video._id,event)">Create Playlist</li>
+                          <li (click)="addToPlaylist(video._id,event)">Add to playlist</li>
+
+                        </ul>
+                      </li>-->
+                  </ul>
+                  <!-- <ul class="dropdown-menu">
+                      <li (click)="createPlaylist(video._id,event.id)">Create Playlist</li>
+                      <li (click)="addToPlaylist(video._id,event.id)">Add to playlist</li>
+                    </ul>-->
                 </div>
               </a>
             </li>
@@ -116,5 +148,21 @@
   </modal-content>
   <modal-footer>
     <button class="btn btn-primary" (click)="closeModal()">Ok</button>
+  </modal-footer>
+</modal>
+<modal #SucessModal>
+  <modal-header>
+
+  </modal-header>
+  <modal-content>
+    <p>
+      <i class="fa fa-info" aria-hidden="true"></i>
+    </p>
+    <p>
+      {{successmsg}}
+    </p>
+  </modal-content>
+  <modal-footer>
+    <button class="btn btn-primary" (click)="SucessModal.close()">Ok</button>
   </modal-footer>
 </modal>

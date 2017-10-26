@@ -77,6 +77,9 @@
                     <li *ngIf="isCoach">
                       <i class="fa fa-cog text-info" (click)="settingsVideo(video,$event)"></i>
                     </li>
+                    <li id="addtoplay" title="AddToPlaylist">
+                      <i class="fa fa fa-sliders text-info" (click)="addToPlaylist(video._id,$event,false)"></i>
+                    </li>
                   </ul>
                 </div>
               </div>
@@ -155,6 +158,7 @@
                   <i (click)="assignVideo(video._id,$event)" class="fa fa-share-alt text-success"></i>
                   <i (click)="downloadVideo(video,$event)" class="fa fa-download text-info"></i>
                   <i class="fa fa-cog text-info" (click)="settingsVideo(video,$event)" aria-hidden="true"></i>
+                  <i class="fa fa fa-sliders text-info" title="AddToPlaylist" (click)="addToPlaylist(video._id,$event,false)"></i>
                 </li>
 
               </ul>
@@ -324,4 +328,51 @@
   <modal-footer>
     <button class="btn btn-primary" (click)="videoSucessModal.close()">Ok</button>
   </modal-footer>
+</modal>
+<modal #createPlaylistModal class="error-modal">
+  <modal-header>
+  </modal-header>
+  <modal-content *ngIf="create">
+    <p>
+      Create Playlist
+    </p>
+    <form (ngSubmit)="addPlaylist()" #documentEditForm="ngForm">
+      <div class="col-md-12">
+        <div class="form-group">
+          <label class="col-md-4 control-label">Name</label>
+          <input type="text" name="playlistName" [(ngModel)]="playlistName" #playlist="ngModel" class="form-control col-md-6" placeholder="Playlist Name"
+            required>
+        </div>
+      </div>
+      <div class="col-md-12">
+        <div class="form-group pull-left" style="margin-top: 5%" *ngIf="saveMessage">
+          <span class="col-md-12">{{saveMessage}}</span>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-primary" [disabled]="!documentEditForm.form.valid">Create playlist</button>
+        <button *ngIf="!multiplay" class="btn btn-primary" (click)="create = false;">Back</button>
+        <button class="btn btn-primary" (click)="createPlaylistModal.close()">Cancel</button>
+      </div>
+    </form>
+  </modal-content>
+  <modal-content *ngIf="!create">
+    <p>
+      Add To Playlist
+    </p>
+    <div class="form-group">
+      <label class="col-md-4 control-label">Select Playlist</label>
+      <ss-multiselect-dropdown class="col-md-5" [options]="playlistOptions" [texts]="playlistTexts" [settings]="playlistSettings"
+        [(ngModel)]="playlistModel" (ngModelChange)="onChangeEvent($event)"></ss-multiselect-dropdown>
+    </div>
+    <div class="form-group pull-left" style="margin-top: 5%" *ngIf="updateMessage">
+      <span class="col-md-12">{{updateMessage}}</span>
+    </div>
+  </modal-content>
+  <modal-footer *ngIf="!create">
+    <button class=" btn btn-primary " [disabled]="!playlistModel || playlistModel?.length==0 " (click)="updatePlaylist() ">Add</button>
+    <button class="btn btn-primary" *ngIf="!multiplay" (click)="createPlaylist(video,event,false)">Create playlist</button>
+    <button class="btn btn-primary " (click)="createPlaylistModal.close() ">Cancel</button>
+  </modal-footer>
+
 </modal>
