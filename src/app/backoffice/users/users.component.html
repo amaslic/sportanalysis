@@ -27,7 +27,7 @@
             </div>
             <div>
 
-                <ngx-datatable #activetable class="material" [columnMode]="'standard'" [rows]="usersList" (onRowsUpdate)='updateRows()'>
+                <ngx-datatable #activetable class="material" [limit]="10" [headerHeight]="50" [footerHeight]="50" [columnMode]="'standard'" [rows]="usersList" (onRowsUpdate)='updateRows()'>
                     <ngx-datatable-column [flexGrow]="3" [width]="210" name="Email" prop="email"> </ngx-datatable-column>
                     <ngx-datatable-column name="First Name" [width]="90" prop="firstName"> </ngx-datatable-column>
                     <ngx-datatable-column name="Last Name" [width]="130" prop="lastName"> </ngx-datatable-column>
@@ -75,7 +75,7 @@
                 </div>
             </div>
             <div>
-                <ngx-datatable #deactivetable class="material" [columnMode]="'standard'" [rows]="unApprovedUsers">
+                <ngx-datatable #deactivetable class="material" [limit]="10" [headerHeight]="50" [footerHeight]="50" [columnMode]="'standard'" [rows]="unApprovedUsers">
                     <ngx-datatable-column [flexGrow]="3" [width]="210" name="Email" prop="email"> </ngx-datatable-column>
                     <ngx-datatable-column name="First Name" [width]="90" prop="firstName"> </ngx-datatable-column>
                     <ngx-datatable-column name="Last Name" [width]="130" prop="lastName"> </ngx-datatable-column>
