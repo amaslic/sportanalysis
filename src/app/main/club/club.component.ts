@@ -35,6 +35,9 @@ import { IMultiSelectOption, IMultiSelectSettings, IMultiSelectTexts } from 'ang
 import {
   MatchService
 } from './../../services/match.service';
+import {
+  Page
+} from './../../models/page.model';
 
 @Component({
   selector: 'app-club',
@@ -73,6 +76,7 @@ export class ClubComponent implements OnInit {
   userlistOptions: IMultiSelectOption[];
   userlistModel: any[];
   matches: any = [];
+  page = new Page();
 
 
   userlistSettings: IMultiSelectSettings = {
@@ -113,7 +117,7 @@ export class ClubComponent implements OnInit {
       this.teamService.getAllTeams(this.userService.token).subscribe(
         (response: any) => {
           this.teamsList = JSON.parse(response._body);
-          this.getUsers();
+          this.getUsers({ offset: 0 });
         },
         (error) => this.onError(error)
       );
@@ -222,15 +226,16 @@ export class ClubComponent implements OnInit {
     this.ErrorModal.open();
   }
 
-  getUsers() {
-    this.userService.getAllUsersByClubId(this.id, this.userService.token).subscribe(
+  getUsers(pageInfo) {
+    this.page.pageNumber = pageInfo.offset;
+    this.userService.getAllUsersByClubId(this.id, this.userService.token,this.page).subscribe(
       (response) => this.onGetUsersSuccess(response),
       (error) => this.onError(error)
     );
   }
 
   onGetUsersSuccess(response) {
-    this.usersList = JSON.parse(response._body);
+    this.usersList = JSON.parse(response._body).users;
 
     this.usersList.forEach(element => {
       if (this.teamsList.length > 0) {
@@ -248,6 +253,9 @@ export class ClubComponent implements OnInit {
     });
 
     this.loadingIndicator = false;
+    this.page.totalElements = JSON.parse(response._body).total;
+    this.page.totalPages = this.page.totalElements / this.page.limit;
+    let start = this.page.pageNumber * this.page.limit;
   }
   typeFilter() {
 
@@ -352,19 +360,19 @@ export class ClubComponent implements OnInit {
   // }
 
   get12Time(currentTime) {
-        var time = currentTime.split(':')
-        var hours = time[0];
-        var minutes = time[1];
+    var time = currentTime.split(':')
+    var hours = time[0];
+    var minutes = time[1];
 
-        if (parseInt(minutes) < 10 && minutes.length == 1)
-            minutes = "0" + parseInt(minutes);
+    if (parseInt(minutes) < 10 && minutes.length == 1)
+      minutes = "0" + parseInt(minutes);
 
-        if (parseInt(hours) < 10 && hours.length == 1)
-            hours = "0" + parseInt(hours);
+    if (parseInt(hours) < 10 && hours.length == 1)
+      hours = "0" + parseInt(hours);
 
-        var current_time = hours + ":" + minutes ;
-        return current_time;
-    }
+    var current_time = hours + ":" + minutes;
+    return current_time;
+  }
 
   deleteMatchById(id) {
     if (confirm("Are you sure you want to delete this match? It will delete all videos, events and playlist attached to this match.")) {

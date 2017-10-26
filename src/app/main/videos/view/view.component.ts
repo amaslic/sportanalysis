@@ -40,6 +40,9 @@ import {
 } from 'ngx-perfect-scrollbar';
 import { IMultiSelectOption, IMultiSelectSettings, IMultiSelectTexts } from 'angular-2-dropdown-multiselect';
 import { Playlist } from "app/models/playlist.model";
+import {
+  Page
+} from './../../../models/page.model';
 
 declare var document: any;
 declare var VTTCue;
@@ -125,6 +128,7 @@ export class ViewComponent implements OnInit {
   videoLoaded: boolean;
   isCoachOrAnalyst: boolean = false;
   public playlists: Playlist = new Playlist();
+  page = new Page();
 
   eventPlayQueue: any = [];
 
@@ -942,7 +946,10 @@ export class ViewComponent implements OnInit {
     this.eTeam = event.team;
     this.eventDataId = event.eventDataId;
 
-    this.playlistService.getPlaylists(this.userService.token).subscribe(
+    this.page.pageNumber = 0;
+    this.page.limit = 0;
+
+    this.playlistService.getPlaylists(this.userService.token,this.page).subscribe(
       (response) => this.onGetPlaylistsSuccess(response),
       (error) => this.onError(error)
     );

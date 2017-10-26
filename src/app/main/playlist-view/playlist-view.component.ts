@@ -27,6 +27,9 @@ import {
 import {
   TrackingDataService
 } from './../../services/trackingData.service';
+import {
+  Page
+} from './../../models/page.model';
 
 import { IMultiSelectOption, IMultiSelectSettings, IMultiSelectTexts } from 'angular-2-dropdown-multiselect';
 
@@ -101,6 +104,7 @@ export class PlaylistViewComponent implements OnInit {
     defaultTitle: ' Select Playlist ',
     allSelected: 'All Playlist ',
   };
+  page = new Page();
 
   currentIndex = 0; //Set this to 0 to enable Intro video;
   currentItem: IMedia;
@@ -188,7 +192,9 @@ export class PlaylistViewComponent implements OnInit {
 
   }
   getPlaylist() {
-    this.playlistService.getPlaylists(this.userService.token).subscribe(
+    this.page.pageNumber = 0;
+    this.page.limit = 0;
+    this.playlistService.getPlaylists(this.userService.token,this.page).subscribe(
       (response) => this.onGetPlaylistSuccess(response),
       (error) => this.onError(error)
     );
