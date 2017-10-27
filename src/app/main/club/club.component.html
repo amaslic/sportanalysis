@@ -97,11 +97,12 @@
             <ul class="list-inline video-list-details">
               <li></li>
               <!-- <li>Video type / Duration</li> -->
-              <li>Date</li>
+              <li class="title">Date</li>
               <li class="result">Result</li>
-              <li>Home Team</li>
-              <li>Away Team</li>
-              <li>Type</li>
+              <li class="hometeam">Home Team</li>
+              <li class="awayteam">Away Team</li>
+              <li class="title">Title</li>
+              <li class="type">Type</li>
               <li *ngIf="isCoach">Action</li>
             </ul>
           </div>
@@ -116,7 +117,7 @@
                           <span>{{video.type}} 02:11:16</span> 
                         </li>-->
                 <!-- <div class="list-view-sideidetail">-->
-                <li class="views-date"> {{video.date | date:"dd.MM.yyyy"}}</li>
+                <li class="views-date title"> {{video.date | date:"dd.MM.yyyy"}}</li>
 
                 <li class="teams-result">
                   <!-- <ul class="list-inline">
@@ -140,24 +141,27 @@
                   </span>
                 </li>
 
-                <li>
+                <li class="hometeam">
                   <!-- <h2 class="video-title" *ngIf="(video.type=='Training')">{{video.title}}</h2> -->
                   <h2 class="video-title" *ngIf="(video.type!='Training')">
                     <span *ngIf="video.club1details.length > 0 && video.club1details[0].name">{{video.club1details[0].name}}</span>
                   </h2>
                 </li>
-                <li>
+                <li class="awayteam">
                   <!-- <h2 class="video-title" *ngIf="(video.type=='Training')">{{video.title}}</h2> -->
                   <h2 class="video-title" *ngIf="(video.type!='Training')">
                     <span *ngIf="video.club2details.length > 0 && video.club2details[0].name">{{video.club2details[0].name}}</span>
                   </h2>
                 </li>
-                <li>{{video.type}}</li>
+                <li class="title">
+                  <span *ngIf="(video.title != 'undefined')">{{video.title}}</span>
+                </li>
+                <li class="type">{{video.type}}</li>
                 <li *ngIf="isCoach" class="video-info-list">
-                  <i (click)="confirmDelete(video._id,$event)" title="Delete Video" class="fa fa-trash video-delete" aria-hidden="true"></i>
-                  <i (click)="assignVideo(video._id,$event)" class="fa fa-share-alt text-success"></i>
-                  <i (click)="downloadVideo(video,$event)" class="fa fa-download text-info"></i>
-                  <i class="fa fa-cog text-info" (click)="settingsVideo(video,$event)" aria-hidden="true"></i>
+                  <i (click)="confirmDelete(video._id,$event)" title="Delete" class="fa fa-trash video-delete" aria-hidden="true"></i>
+                  <i (click)="assignVideo(video._id,$event)" title="Share" class="fa fa-share-alt text-success"></i>
+                  <i (click)="downloadVideo(video,$event)" title="Download" class="fa fa-download text-info"></i>
+                  <i class="fa fa-cog text-info" title="Settings" (click)="settingsVideo(video,$event)" aria-hidden="true"></i>
                   <i class="fa fa fa-sliders text-info" title="AddToPlaylist" (click)="addToPlaylist(video._id,$event,false)"></i>
                 </li>
 
@@ -169,8 +173,9 @@
       </perfect-scrollbar>
     </md-tab>
     <md-tab label="Players" *ngIf="isCoach">
-      <ngx-datatable #activetable class="material" [limit]="page.limit" [headerHeight]="35" [footerHeight]="50" [columnMode]="'force'" [rows]="usersList" [externalPaging]="true"
-        [count]="page.totalElements" [offset]="page.pageNumber" (page)='getUsers($event)' [externalSorting]="true" (sort)="onSort($event)">
+      <ngx-datatable #activetable class="material" [limit]="page.limit" [headerHeight]="35" [footerHeight]="50" [columnMode]="'force'"
+        [rows]="usersList" [externalPaging]="true" [count]="page.totalElements" [offset]="page.pageNumber" (page)='getUsers($event)'
+        [externalSorting]="true" (sort)="onSort($event)">
         <ngx-datatable-column name="Email" prop="email"> </ngx-datatable-column>
         <ngx-datatable-column name="First Name" prop="firstName"> </ngx-datatable-column>
         <ngx-datatable-column name="Last Name" prop="lastName"> </ngx-datatable-column>
