@@ -104,7 +104,7 @@
                   </button>
                   <ul class="dropdown-menu multi-level" role="menu" aria-labelledby="dropdownMenu">
                     <!--<li (click)="createPlaylist(video._id,event,false)">Create Playlist</li>-->
-                    <li id="event">Share</li>
+                    <li id="event" (click)="shareEventlist(event)">Share</li>
                     <li id="eventDelete" (click)="deletePlaylistItem(event)">Delete</li>
                     <!--<li class="dropdown-submenu">
 
@@ -164,5 +164,26 @@
   </modal-content>
   <modal-footer>
     <button class="btn btn-primary" (click)="SucessModal.close()">Ok</button>
+  </modal-footer>
+</modal>
+<modal #assignEventModal>
+  <modal-header>
+  </modal-header>
+  <modal-content>
+    <p>
+      Share with user
+    </p>
+    <div class="col-md-12">
+      <label class="col-md-3 control-label"> Users: </label>
+      <ss-multiselect-dropdown class="col-md-6" [options]="userlistOptions" [texts]="userlistTexts" [settings]="userlistSettings"
+        [(ngModel)]="userlistModel"></ss-multiselect-dropdown>
+    </div>
+    <div class="form-group pull-left" style="margin-top: 5%" *ngIf="updateMessage">
+      <span class="col-md-12">{{updateMessage}}</span>
+    </div>
+  </modal-content>
+  <modal-footer>
+    <button class=" btn btn-primary " [disabled]="!userlistModel || userlistModel?.length==0 " (click)="usersToEvent() ">Share</button>
+    <button class="btn btn-primary " (click)="assignEventModal.close() ">Cancel</button>
   </modal-footer>
 </modal>

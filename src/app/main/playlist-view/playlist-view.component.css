@@ -564,7 +564,7 @@
 }
 
 .stats ul li:first-child:hover{
-  background: transparent;
+  /* background: transparent; */
 
 }
 

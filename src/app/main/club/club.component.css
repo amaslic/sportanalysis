@@ -392,8 +392,11 @@ h3.recent{
   margin-left: 50px;
 }
 
-.list-view .list-inline.video-list-details > li:first-child, .list-view .list-inline.video-list-details > li:last-child{
+.list-view .list-inline.video-list-details > li:first-child{
   max-width: 100px;
+}
+.list-view .list-inline.video-list-details > li:last-child{
+  max-width: 200px;
 }
 
 .list-view .list-inline.video-list-details > li:nth-child(2){
@@ -414,7 +417,19 @@ h3.recent{
     font-size: 16px !important;
     margin-bottom: -2px;
 }
-
+.title{
+  max-width: 100px !important;
+}
+.hometeam{
+  max-width: 90px !important;
+}
+.awayteam{
+  max-width: 90px !important;
+}
+/* .result{
+  max-width: 200px !important;
+} */
+.type{width: 120px !important;}
 
 
 @media (max-width: 1333px) {

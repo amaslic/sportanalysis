@@ -77,7 +77,13 @@ export class TrackingDataService {
       'Authorization': token
     });
     // console.log(event);
-    const body = { token: token, videoId: videoId, event: event, users: user, url: this.baseUrl + 'videos/view/' + videoId + '/' + event.eventDataId + '/' + event.id };
+    if (event.id) {
+      var url = this.baseUrl + 'videos/view/' + videoId + '/' + event.eventDataId + '/' + event.id;
+    } else {
+      var url = this.baseUrl + 'videos/view/' + videoId + '/' + event.eventDataId + '/' + event.eventId;
+    }
+
+    const body = { token: token, videoId: videoId, event: event, users: user, url: url };
     const options = new RequestOptions({
       headers: headers
     });

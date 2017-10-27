@@ -50,6 +50,9 @@ export interface IMedia {
   styleUrls: ['./playlist-view.component.css']
 })
 export class PlaylistViewComponent implements OnInit {
+  videoId: any;
+  eventsDetails: any;
+  trackUserlist: any[];
   multiDeleteIds: any;
   playEventId: any;
   multiEid: any = [];
@@ -111,6 +114,18 @@ export class PlaylistViewComponent implements OnInit {
     defaultTitle: ' Select Playlist ',
     allSelected: 'All Playlist ',
   };
+  userlistOptions: IMultiSelectOption[];
+  userlistModel: any[];
+  userlistSettings: IMultiSelectSettings = {
+    enableSearch: true,
+    checkedStyle: 'fontawesome',
+    containerClasses: 'no-button-arrow',
+    buttonClasses: 'btn btn-default btn-block',
+    fixedTitle: false,
+    maxHeight: '400px',
+    dynamicTitleMaxItems: 2,
+    closeOnClickOutside: true
+  };
   page = new Page();
 
   currentIndex = 0; //Set this to 0 to enable Intro video;
@@ -120,6 +135,8 @@ export class PlaylistViewComponent implements OnInit {
   private router: Router;
   @ViewChild('ErrorModal') ErrorModal;
   @ViewChild('SucessModal') SucessModal;
+  @ViewChild('assignEventModal') assignEventModal;
+
 
   constructor(private playlistService: PlaylistService, private videoService: VideoService, private userService: UserService, private trackingDataService: TrackingDataService, r: Router, private route: ActivatedRoute) {
     this.router = r;
@@ -147,7 +164,7 @@ export class PlaylistViewComponent implements OnInit {
     if (this.playList['playlists'] && this.playList['playlists']['playdata'].length > 0) {
 
       this.playList = this.playList['playlists']['playdata'];
-      console.log(this.playList);
+      //console.log(this.playList);
     }
     else {
       this.errormsg = "Events not avalible to show";
@@ -203,7 +220,7 @@ export class PlaylistViewComponent implements OnInit {
   getPlaylist() {
     this.page.pageNumber = 0;
     this.page.limit = 0;
-    this.playlistService.getPlaylists(this.userService.token,this.page).subscribe(
+    this.playlistService.getPlaylists(this.userService.token, this.page).subscribe(
       (response) => this.onGetPlaylistSuccess(response),
       (error) => this.onError(error)
     );
@@ -244,21 +261,13 @@ export class PlaylistViewComponent implements OnInit {
 
 
   goToEvent(e, idx) {
-    console.log(e);
     var lastVideoSrc = this.playlist[this.currentIndex].src;
     var lastIndex = this.currentIndex;
 
     this.currentIndex = idx;
-    console.log(this.playList);
-    console.log(idx);
-
     var event: any = this.playList[idx];
-    console.log(event.club1Details);
 
     this.copyEvents = Object.assign({}, this.playList[idx]);
-    console.log(this.copyEvents);
-    console.log(this.copyEvents.club1Details);
-    console.log(this.copyEvents.club1Details.length);
 
     if (e) {
       e.preventDefault();
@@ -564,6 +573,52 @@ export class PlaylistViewComponent implements OnInit {
       );
     }
   }
+  shareEventlist(e) {
+    this.userService.getUsers(this.userService.token).subscribe(
+      (response) => this.onGetUsersSuccess(response),
+      (error) => this.onError(error)
+    );
+    this.eventsDetails = e;
+    this.assignEventModal.open();
+    console.log(e);
+  }
+  onGetUsersSuccess(response) {
+    const userlist = JSON.parse(response._body);
+    this.trackUserlist = [];
+    userlist.forEach((usr, index) => {
+      this.trackUserlist.push({
+        'id': usr._id,
+        'name': usr.firstName
+      });
+    });
+    this.userlistOptions = this.trackUserlist;
+  }
+  usersToEvent() {
+    console.log(this.eventsDetails);
+    if (this.eventsDetails.video._id) {
+      this.videoId = this.eventsDetails.video._id;
+    }
+    if (this.eventsDetails.eventDataId) {
+      this.trackingDataService.shareEvent(this.videoId, this.eventsDetails, this.userlistModel, this.userService.token).subscribe(
+        (response) => this.shareEventSuccess(response),
+        (error) => this.onError(error)
+      )
+    } else {
+      this.videoService.assignVideo(this.userService.token, this.videoId, this.userlistModel).subscribe(
+        (response) => this.shareEventSuccess(response),
+        (error) => this.onError(error)
+      );
+    }
 
 
+
+
+  }
+  shareEventSuccess(response) {
+    this.userlistModel = [];
+    const eventRes = JSON.parse(response._body);
+    this.successmsg = eventRes.message;
+    this.assignEventModal.close();
+    this.SucessModal.open();
+  }
 }
