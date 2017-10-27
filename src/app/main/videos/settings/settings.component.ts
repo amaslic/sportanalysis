@@ -402,7 +402,7 @@ export class VideoSettingsComponent implements OnInit {
     this.showProgressBar = false;
     const errorBody = JSON.parse(error._body);
     // console.error(errorBody);
-    this.errormsg = errorBody.message;
+    this.errormsg = errorBody.message || errorBody.msg;
     this.ErrorModal.open();
   }
 
@@ -414,11 +414,11 @@ export class VideoSettingsComponent implements OnInit {
       var ext = myFile.substring(myFile.lastIndexOf(".") + 1);
 
       // if (ext.toLowerCase() == 'xml') {
-        this.selectedFile = {
-          name: files[i].name,
-          size: files[i].size,
-          _file: files[i]
-        };
+      this.selectedFile = {
+        name: files[i].name,
+        size: files[i].size,
+        _file: files[i]
+      };
       // } else {
       //   alert("Please select valid xml file")
       // }
