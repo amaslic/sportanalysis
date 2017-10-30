@@ -575,3 +575,16 @@ ul.list-inline.matches{
 }
 
 /* Match Design - End */
+
+
+:host >>> .matchesdatatable datatable-header.datatable-header,:host >>>  .videosdatatable datatable-header.datatable-header {
+  display: none !important;
+}
+
+:host >>> .ngx-datatable.matchesdatatable .datatable-body .datatable-scroll,:host >>> .ngx-datatable.videosdatatable .datatable-body .datatable-scroll {
+  display: none;
+}
+
+:host >>> .matchesdatatable datatable-body.datatable-body,:host >>> .videosdatatable datatable-body.datatable-body {
+  display: none !important;
+}

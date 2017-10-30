@@ -40,3 +40,15 @@ ul.list-inline.matches{
     padding-left: 30px;
     padding-bottom: 30px;
 }
+
+:host >>> datatable-header.datatable-header {
+    display: none !important;
+  }
+  
+  :host >>> .ngx-datatable .datatable-body .datatable-scroll {
+    display: none;
+  }
+  
+  :host >>> datatable-body.datatable-body {
+    display: none !important;
+  }

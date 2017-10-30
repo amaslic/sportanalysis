@@ -51,6 +51,7 @@ export class PlaylistComponent implements OnInit {
   allClubList: any;
   userlistOptions: IMultiSelectOption[];
   page = new Page();
+  page1 = new Page();
 
   playlistSettings: IMultiSelectSettings = {
     enableSearch: false,
@@ -167,6 +168,10 @@ export class PlaylistComponent implements OnInit {
       let start = this.page.pageNumber * this.page.limit;
       let end = Math.min((start + this.page.limit), this.page.totalElements);
 
+      if (this.playList.length == 0 && this.page.pageNumber > 0) {
+        this.setPage({ offset: (this.page.pageNumber - 1) });
+      }
+
     });
   }
 
@@ -240,16 +245,19 @@ export class PlaylistComponent implements OnInit {
     const deleteMsgBody = JSON.parse(response._body);
     this.successmsg = deleteMsgBody.message;
     this.SucessModal.open();
-    this.getPlaylist();
+    //this.getPlaylist();
+    this.setPage({ offset: this.page.pageNumber });
   }
   assignUser(id) {
     this.playListId = id;
+    this.page1.limit = 0;
+    this.page1.pageNumber = 0;
 
     this.playlistService.fetchPlaylistData(this.userService.token, this.playListId).subscribe(
       (response) => this.fetchPlaylistSuccess(response),
       (error) => this.onError(error)
     );
-    this.userService.getUsers(this.userService.token).subscribe(
+    this.userService.getUsers(this.userService.token, this.page1).subscribe(
       (response) => this.onGetUsersSuccess(response),
       (error) => this.onError(error)
     );
@@ -270,7 +278,7 @@ export class PlaylistComponent implements OnInit {
     this.updatePlaylistModal.open();
   }
   onGetUsersSuccess(response) {
-    const userlist = JSON.parse(response._body);
+    const userlist = JSON.parse(response._body).users;
     this.trackUserlist = [];
 
     userlist.forEach((usr, index) => {

@@ -220,6 +220,25 @@
       </div>
     </div>
   </perfect-scrollbar>
+
+  <ngx-datatable class="material" [limit]="page.limit" [headerHeight]="35" [footerHeight]="50" [columnMode]="'force'" [rows]="videoList"
+    [loadingIndicator]="loadingIndicator" [rowHeight]="'auto'" [externalPaging]="true" [count]="page.totalElements" [offset]="page.pageNumber"
+    (page)='setPage($event)' [externalSorting]="true" (sort)="onSort($event)">
+
+    <ngx-datatable-column name="_id">
+
+      <ng-template let-column="_id" ngx-datatable-header-template>
+        Type
+      </ng-template>
+      <ng-template let-value="value" ngx-datatable-cell-template>
+
+        {{value}}
+      </ng-template>
+    </ngx-datatable-column>
+
+  </ngx-datatable>
+
+
   <div #htmldiv>
     <a #lnkDownloadLink style="display: none;" target="_self" href="{{videoUrl}}" download="{{videoOriginalName}}">downlaod</a>
   </div>

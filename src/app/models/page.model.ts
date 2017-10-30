@@ -3,7 +3,7 @@
  */
 export class Page {
     //The number of elements in the page
-    public limit: number = 10;
+    public limit: number = 20;
     //The total number of elements
     public totalElements: number = 0;
     //The total number of pages
@@ -14,5 +14,5 @@ export class Page {
     public sort: String = '';
     public sortDir: String = '';
 
-    constructor() {}
+    constructor() { }
 }

@@ -24,6 +24,9 @@ import {
 import {
   MatchService
 } from './../../../services/match.service';
+import {
+  Page
+} from './../../../models/page.model';
 
 import { FormControl } from "@angular/forms";
 import 'rxjs/add/operator/startWith';
@@ -147,6 +150,7 @@ export class UploadComponent implements OnInit {
   match: any = null;
 
   date: any;
+  matchesPage = new Page();
 
   @ViewChild('uploadSucessModal') uploadSucessModal;
   @ViewChild('uploadErrorModal') uploadErrorModal;
@@ -173,9 +177,12 @@ export class UploadComponent implements OnInit {
         this.getAllClubs();
         this.getActivatedClubs();
 
-        this.matchService.getMatchesByClub(this.userService.token).subscribe(
+        this.matchesPage.limit = 0;
+        this.matchesPage.pageNumber = 0;
+
+        this.matchService.getMatchesByClub(this.userService.token, this.matchesPage).subscribe(
           (response: any) => {
-            this.matches = JSON.parse(response._body);
+            this.matches = JSON.parse(response._body).matches;
 
             this.matches.forEach((element, index) => {
               element.time = this.get12Time(element.time);

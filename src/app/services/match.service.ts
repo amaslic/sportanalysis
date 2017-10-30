@@ -25,16 +25,16 @@ export class MatchService {
         this.progressSubject = new Subject<number>();
         this.progress$ = this.progressSubject.asObservable();
     }
-    saveMatch(match: Match,token: String) {
+    saveMatch(match: Match, token: String) {
         const headers = new Headers({ 'Authorization': token });
         const options = new RequestOptions({ headers: headers });
-        return this.http.post(this.baseApiUrl + 'match/save', match,options);
+        return this.http.post(this.baseApiUrl + 'match/save', match, options);
     }
 
-    getAllMatch(token: String) {
+    getAllMatch(token: String, page) {
         const headers = new Headers({ 'Authorization': token });
         const options = new RequestOptions({ headers: headers });
-        return this.http.get(this.baseApiUrl + 'match/fetchAll', options);
+        return this.http.get(this.baseApiUrl + 'match/fetchAll?page=' + page.pageNumber + '&limit=' + page.limit + '&sort=' + page.sort + '&sortDir=' + page.sortDir, options);
     }
 
     getMatchById(id: any, token: String) {
@@ -43,15 +43,15 @@ export class MatchService {
         return this.http.get(this.baseApiUrl + 'match/getById?id=' + id, options);
     }
 
-    getMatchesByClub(token: String) {
+    getMatchesByClub(token: String, page) {
         const headers = new Headers({ 'Authorization': token });
         const options = new RequestOptions({ headers: headers });
-        return this.http.get(this.baseApiUrl + 'match/getByClub', options);
+        return this.http.get(this.baseApiUrl + 'match/getByClub?page=' + page.pageNumber + '&limit=' + page.limit + '&sort=' + page.sort + '&sortDir=' + page.sortDir, options);
     }
 
     deleteMatchById(id: any, token: String) {
-    const headers = new Headers({ 'Authorization': token });
-    const options = new RequestOptions({ headers: headers });
-    return this.http.delete(this.baseApiUrl + 'match/deleteById?id=' + id, options);
-  }
+        const headers = new Headers({ 'Authorization': token });
+        const options = new RequestOptions({ headers: headers });
+        return this.http.delete(this.baseApiUrl + 'match/deleteById?id=' + id, options);
+    }
 }

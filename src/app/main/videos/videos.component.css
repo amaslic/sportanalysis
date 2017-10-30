@@ -550,3 +550,15 @@ perfect-scrollbar{
     margin: 8px 0 0;
   }
 }
+
+:host >>> datatable-header.datatable-header {
+  display: none !important;
+}
+
+:host >>> .ngx-datatable .datatable-body .datatable-scroll {
+  display: none;
+}
+
+:host >>> datatable-body.datatable-body {
+  display: none !important;
+}

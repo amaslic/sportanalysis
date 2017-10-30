@@ -83,11 +83,11 @@ export class UserService {
     return this.http.get(this.baseApiUrl + 'user/permissions', options);
   }
 
-  getUsers(token: String) {
+  getUsers(token: String, page) {
     const headers = new Headers({ 'Authorization': token });
     var loggedInUserId = this.localStorageService.get('user')['_id'];
     const options = new RequestOptions({ headers: headers, params: { loggedInUserId: loggedInUserId } });
-    return this.http.get(this.baseApiUrl + 'user/fetchAll', options);
+    return this.http.get(this.baseApiUrl + 'user/fetchAll?page=' + page.pageNumber + '&limit=' + page.limit + '&sort=' + page.sort + '&sortDir=' + page.sortDir, options);
   }
   getVideoUsers(token: String) {
     const headers = new Headers({ 'Authorization': token });
@@ -96,11 +96,11 @@ export class UserService {
     return this.http.get(this.baseApiUrl + 'user/getVideoUsers', options);
   }
 
-  getUnApprovedUsers(token: String) {
+  getUnApprovedUsers(token: String, page) {
     const headers = new Headers({ 'Authorization': token });
     var loggedInUserId = this.localStorageService.get('user')['_id'];
     const options = new RequestOptions({ headers: headers, params: { loggedInUserId: loggedInUserId } });
-    return this.http.get(this.baseApiUrl + 'user/fetchUnApprovedUsers', options);
+    return this.http.get(this.baseApiUrl + 'user/fetchUnApprovedUsers?page=' + page.pageNumber + '&limit=' + page.limit + '&sort=' + page.sort + '&sortDir=' + page.sortDir, options);
   }
 
   deleteUser(token: String, userId) {
@@ -133,9 +133,9 @@ export class UserService {
     return this.http.post(this.baseApiUrl + 'user/changePassword', user);
   }
 
-  getAllUsersByClubId(clubId, token: String,page) {
+  getAllUsersByClubId(clubId, token: String, page) {
     const headers = new Headers({ 'Authorization': token });
     const options = new RequestOptions({ headers: headers, params: { clubId: clubId } });
-    return this.http.get(this.baseApiUrl + 'user/fetchallbyclub?page='+page.pageNumber+'&limit='+page.limit+'&sort='+page.sort+'&sortDir='+page.sortDir, options);
+    return this.http.get(this.baseApiUrl + 'user/fetchallbyclub?page=' + page.pageNumber + '&limit=' + page.limit + '&sort=' + page.sort + '&sortDir=' + page.sortDir, options);
   }
 }

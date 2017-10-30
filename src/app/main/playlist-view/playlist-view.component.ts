@@ -127,6 +127,7 @@ export class PlaylistViewComponent implements OnInit {
     closeOnClickOutside: true
   };
   page = new Page();
+  page1 = new Page();
 
   currentIndex = 0; //Set this to 0 to enable Intro video;
   currentItem: IMedia;
@@ -574,7 +575,9 @@ export class PlaylistViewComponent implements OnInit {
     }
   }
   shareEventlist(e) {
-    this.userService.getUsers(this.userService.token).subscribe(
+    this.page1.limit = 0;
+    this.page1.pageNumber = 0;
+    this.userService.getUsers(this.userService.token, this.page1).subscribe(
       (response) => this.onGetUsersSuccess(response),
       (error) => this.onError(error)
     );
@@ -583,7 +586,7 @@ export class PlaylistViewComponent implements OnInit {
     console.log(e);
   }
   onGetUsersSuccess(response) {
-    const userlist = JSON.parse(response._body);
+    const userlist = JSON.parse(response._body).users;
     this.trackUserlist = [];
     userlist.forEach((usr, index) => {
       this.trackUserlist.push({

@@ -15,6 +15,9 @@ import {
 import {
     GlobalVariables
 } from './../../models/global.model';
+import {
+    Page
+} from './../../models/page.model';
 
 @Component({
     selector: 'app-matches',
@@ -32,6 +35,7 @@ export class MatchComponent implements OnInit {
     private baseUrl = GlobalVariables.BASE_VIDEO_URL;
     routerLink: any;
     isSuperAdmin: boolean;
+    page = new Page();
 
     @ViewChild('ErrorModal') errorModal;
     @ViewChild('successModal') successModal;
@@ -40,7 +44,9 @@ export class MatchComponent implements OnInit {
     constructor(private userService: UserService, private matchService: MatchService) { }
 
     ngOnInit() {
-        this.getAllMatches();
+        this.page.sort = '_id';
+        this.page.sortDir = 'asc';
+        this.getAllMatches({ offset: 0 });
 
         var user = this.userService.loadUserFromStorage();
         if (user['role'] == 1) {
@@ -50,14 +56,24 @@ export class MatchComponent implements OnInit {
         }
     }
 
-    getAllMatches() {
-        this.matchService.getAllMatch(this.userService.token).subscribe(
+    getAllMatches(pageInfo) {
+        this.page.pageNumber = pageInfo.offset;
+        this.matchService.getAllMatch(this.userService.token, this.page).subscribe(
             (response: any) => {
-                this.matches = JSON.parse(response._body);
+                this.matches = JSON.parse(response._body).matches;
 
                 this.matches.forEach((element, index) => {
                     element.time = this.get12Time(element.time);
                 });
+
+                this.page.totalElements = JSON.parse(response._body).total;
+                this.page.totalPages = this.page.totalElements / this.page.limit;
+                let start = this.page.pageNumber * this.page.limit;
+                let end = Math.min((start + this.page.limit), this.page.totalElements);
+
+                if (this.matches.length == 0 && this.page.pageNumber > 0) {
+                    this.getAllMatches({ offset: (this.page.pageNumber - 1) });
+                }
             },
             (error) => this.onError(error)
         );
@@ -87,6 +103,10 @@ export class MatchComponent implements OnInit {
         this.matches = this.matches.filter(function (element, index) {
             return (element._id !== id);
         });
+
+        if (this.matches.length == 0 && this.page.pageNumber > 0) {
+            this.getAllMatches({ offset: (this.page.pageNumber - 1) });
+        }
     }
 
     // get12Time(currentTime) {
@@ -124,7 +144,7 @@ export class MatchComponent implements OnInit {
         if (parseInt(hours) < 10 && hours.length == 1)
             hours = "0" + parseInt(hours);
 
-        var current_time = hours + ":" + minutes ;
+        var current_time = hours + ":" + minutes;
         return current_time;
     }
 

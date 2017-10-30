@@ -90,6 +90,9 @@ export class ClubComponent implements OnInit {
   userlistModel: any[];
   matches: any = [];
   page = new Page();
+  page1 = new Page()
+  matchesPage = new Page();
+  videosPage = new Page();
 
 
   userlistSettings: IMultiSelectSettings = {
@@ -137,8 +140,10 @@ export class ClubComponent implements OnInit {
     this.sub = this.route.params.subscribe(params => {
       this.id = params['id'];
       this.getClub(this.id);
-      this.getVideos();
-      this.getVideos();
+      this.matchesPage.sort = '_id';
+      this.matchesPage.sortDir = 'asc';
+      this.getVideos({ offset: 0 });
+      // this.getVideos();
       this.gridView();
 
       this.teamService.getAllTeams(this.userService.token).subscribe(
@@ -151,25 +156,44 @@ export class ClubComponent implements OnInit {
         (error) => this.onError(error)
       );
 
-      this.matchService.getMatchesByClub(this.userService.token).subscribe(
-        (response: any) => {
-          this.matches = JSON.parse(response._body);
-
-          this.matches.forEach((element, index) => {
-            element.time = this.get12Time(element.time);
-          });
-        },
-        (error) => this.onError(error)
-      );
+      this.matchesPage.sort = '_id';
+      this.matchesPage.sortDir = 'asc';
+      this.getAllMatches({ offset: 0 });
 
     });
 
     //  var user = this.userService.loadUserFromStorage();
   }
-  getVideos() {
+
+  getAllMatches(pageInfo) {
+    this.matchesPage.pageNumber = pageInfo.offset;
+    this.matchService.getMatchesByClub(this.userService.token, this.matchesPage).subscribe(
+      (response: any) => {
+        this.matches = JSON.parse(response._body).matches;
+
+        this.matches.forEach((element, index) => {
+          element.time = this.get12Time(element.time);
+        });
+
+        this.matchesPage.totalElements = JSON.parse(response._body).total;
+        this.matchesPage.totalPages = this.matchesPage.totalElements / this.matchesPage.limit;
+        let start = this.matchesPage.pageNumber * this.matchesPage.limit;
+        let end = Math.min((start + this.matchesPage.limit), this.matchesPage.totalElements);
+
+        if (this.matches.length == 0 && this.matchesPage.pageNumber > 0) {
+          this.getAllMatches({ offset: (this.matchesPage.pageNumber - 1) });
+        }
+
+      },
+      (error) => this.onError(error)
+    );
+  }
+
+  getVideos(pageInfo) {
+    this.videosPage.pageNumber = pageInfo.offset;
     // console.info("users: "+JSON.stringify(this.userService));
     // console.log(this.userService.user.club);
-    this.videoService.getVideosClub(this.id, this.userService.token).subscribe(
+    this.videoService.getVideosClub(this.id, this.userService.token, this.videosPage).subscribe(
       (response) => this.onGetVideosSuccess(response),
       (error) => this.onError(error)
     );
@@ -183,7 +207,7 @@ export class ClubComponent implements OnInit {
     this.list = true;
   }
   onGetVideosSuccess(response) {
-    this.videoSucess = JSON.parse(response._body);
+    this.videoSucess = JSON.parse(response._body).videos;
 
     if (this.videoSucess.length > 0) {
       this.videoSucess.forEach(element => {
@@ -214,6 +238,15 @@ export class ClubComponent implements OnInit {
       this.allVideos = this.videoSucess;
       this.typeFilter();
       // this.videoList = this.videoSucess;
+    }
+
+    this.videosPage.totalElements = JSON.parse(response._body).total;
+    this.videosPage.totalPages = this.videosPage.totalElements / this.videosPage.limit;
+    let start = this.videosPage.pageNumber * this.videosPage.limit;
+    let end = Math.min((start + this.videosPage.limit), this.videosPage.totalElements);
+
+    if (this.videoSucess.length == 0 && this.videosPage.pageNumber > 0) {
+      this.getVideos({ offset: (this.videosPage.pageNumber - 1) });
     }
 
 
@@ -325,14 +358,18 @@ export class ClubComponent implements OnInit {
     e.preventDefault();
     e.stopPropagation();
     this.videoId = id;
-    this.userService.getUsers(this.userService.token).subscribe(
+
+    this.page1.limit = 0;
+    this.page1.pageNumber = 0;
+
+    this.userService.getUsers(this.userService.token, this.page1).subscribe(
       (response) => this.onAssignUsersSuccess(response),
       (error) => this.onError(error)
     );
     this.assignVideoModal.open();
   }
   onAssignUsersSuccess(response) {
-    const userlist = JSON.parse(response._body);
+    const userlist = JSON.parse(response._body).users;
     this.trackUserlist = [];
     userlist.forEach((usr, index) => {
       this.trackUserlist.push({
@@ -372,7 +409,7 @@ export class ClubComponent implements OnInit {
     this.videoDelete = JSON.parse(response._body);
     this.successmsg = this.videoDelete.message;
     this.SucessModal.open();
-    this.getVideos();
+    this.getVideos({ offset: this.videosPage.pageNumber });
   }
 
   // get12Time(currentTime) {

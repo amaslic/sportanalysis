@@ -27,7 +27,9 @@
             </div>
             <div>
 
-                <ngx-datatable #activetable class="material" [limit]="10" [headerHeight]="50" [footerHeight]="50" [columnMode]="'standard'" [rows]="usersList" (onRowsUpdate)='updateRows()'>
+                <ngx-datatable #activetable class="material" [limit]="page1.limit" [headerHeight]="35" [footerHeight]="50" [columnMode]="'standard'"
+                    [rows]="usersList" (onRowsUpdate)='updateRows()' [externalPaging]="true" [count]="page1.totalElements" [offset]="page1.pageNumber"
+                    (page)='getUsers($event)' [externalSorting]="true" (sort)="onSortUsers($event)">
                     <ngx-datatable-column [flexGrow]="3" [width]="210" name="Email" prop="email"> </ngx-datatable-column>
                     <ngx-datatable-column name="First Name" [width]="90" prop="firstName"> </ngx-datatable-column>
                     <ngx-datatable-column name="Last Name" [width]="130" prop="lastName"> </ngx-datatable-column>
@@ -75,7 +77,9 @@
                 </div>
             </div>
             <div>
-                <ngx-datatable #deactivetable class="material" [limit]="10" [headerHeight]="50" [footerHeight]="50" [columnMode]="'standard'" [rows]="unApprovedUsers">
+                <ngx-datatable #deactivetable class="material" [limit]="page2.limit" [headerHeight]="35" [footerHeight]="50" [columnMode]="'standard'"
+                    [rows]="unApprovedUsers" [externalPaging]="true" [count]="page2.totalElements" [offset]="page2.pageNumber"
+                    (page)='getUnApprovedUsers($event)' [externalSorting]="true" (sort)="onSortUnApprovedUsers($event)">
                     <ngx-datatable-column [flexGrow]="3" [width]="210" name="Email" prop="email"> </ngx-datatable-column>
                     <ngx-datatable-column name="First Name" [width]="90" prop="firstName"> </ngx-datatable-column>
                     <ngx-datatable-column name="Last Name" [width]="130" prop="lastName"> </ngx-datatable-column>

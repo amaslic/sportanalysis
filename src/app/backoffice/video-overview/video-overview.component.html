@@ -19,7 +19,8 @@
       </div>
     </div>
   </div>
-  <ngx-datatable class="material" [limit]="10" [headerHeight]="50" [footerHeight]="50"  [columnMode]="'force'" [rows]="videoListData" [loadingIndicator]="loadingIndicator" [rowHeight]="'auto'">
+  <ngx-datatable class="material" [limit]="page.limit" [headerHeight]="35" [footerHeight]="50"  [columnMode]="'force'" [rows]="videoListData" [loadingIndicator]="loadingIndicator" [rowHeight]="'auto'" [externalPaging]="true"
+        [count]="page.totalElements" [offset]="page.pageNumber" (page)='setPage($event)' [externalSorting]="true" (sort)="onSort($event)">
 
     <!-- <ngx-datatable-column name="_id">
       <ng-template let-column="title" ngx-datatable-header-template>

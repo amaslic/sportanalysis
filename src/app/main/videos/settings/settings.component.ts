@@ -31,6 +31,9 @@ import {
 } from 'videogular2/core';
 import { Playlist } from "app/models/playlist.model";
 import { IMultiSelectOption, IMultiSelectSettings, IMultiSelectTexts } from 'angular-2-dropdown-multiselect';
+import {
+  Page
+} from './../../../models/page.model';
 
 declare var document: any;
 declare var VTTCue;
@@ -122,6 +125,7 @@ export class VideoSettingsComponent implements OnInit {
   api: VgAPI;
   videoLoaded: boolean;
   //public playlists: Playlist = new Playlist();
+  matchesPage = new Page();
 
   teamlistOptions: IMultiSelectOption[];
   teamlistSettings: IMultiSelectSettings = {
@@ -224,9 +228,12 @@ export class VideoSettingsComponent implements OnInit {
         this.getAllClubs();
         this.getActivatedClubs();
 
-        this.matchService.getMatchesByClub(this.userService.token).subscribe(
+        this.matchesPage.limit = 0;
+        this.matchesPage.pageNumber = 0;
+
+        this.matchService.getMatchesByClub(this.userService.token, this.matchesPage).subscribe(
           (response: any) => {
-            this.matches = JSON.parse(response._body);
+            this.matches = JSON.parse(response._body).matches;
 
             this.matches.forEach((element, index) => {
               element.time = this.get12Time(element.time);

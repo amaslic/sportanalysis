@@ -1,7 +1,9 @@
 <div class="main-part">
   <div class="heading">
     <h2>Matches</h2>
-    <div class="pull-right"><button [routerLink]="['/match']">Add Matches</button></div>
+    <div class="pull-right">
+      <button [routerLink]="['/match']">Add Matches</button>
+    </div>
     <!--<p>Girone A</p>-->
   </div>
   <ul class="list-inline matches header">
@@ -34,12 +36,14 @@
           <li *ngIf="match.team2details.length == 0">&nbsp;</li>
           <li>{{match.createduser.firstName}} {{match.createduser.lastName}}</li>
           <li>
-            <button class="btn btn-default" [routerLink]="['/match/',match._id]"><i class="fa fa-pencil-square-o text-info" aria-hidden="true"></i></button>
+            <button class="btn btn-default" [routerLink]="['/match/',match._id]">
+              <i class="fa fa-pencil-square-o text-info" aria-hidden="true"></i>
+            </button>
             <button type="button" [routerLink]="['/match/view/',match._id]" class="btn btn-default" aria-label="Left Align">
-            <i class="fa fa-eye text-success" aria-hidden="true"></i>
-          </button>
+              <i class="fa fa-eye text-success" aria-hidden="true"></i>
+            </button>
             <button type="button" (click)="deleteMatchById(match._id)" class="btn btn-default" aria-label="Left Align">
-               <i class="fa fa-trash text-danger" aria-hidden="true"></i>
+              <i class="fa fa-trash text-danger" aria-hidden="true"></i>
             </button>
           </li>
         </ul>
@@ -49,6 +53,23 @@
         <li>No Matches Found</li>
       </ul>
     </div>
+
+    <ngx-datatable class="material" [limit]="page.limit" [headerHeight]="35" [footerHeight]="50" [columnMode]="'force'" [rows]="matches"
+      [loadingIndicator]="loadingIndicator" [rowHeight]="'auto'" [externalPaging]="true" [count]="page.totalElements" [offset]="page.pageNumber"
+      (page)='getAllMatches($event)' [externalSorting]="true" (sort)="onSort($event)">
+
+      <ngx-datatable-column name="_id">
+
+        <ng-template let-column="_id" ngx-datatable-header-template>
+          Type
+        </ng-template>
+        <ng-template let-value="value" ngx-datatable-cell-template>
+
+          {{value}}
+        </ng-template>
+      </ngx-datatable-column>
+
+    </ngx-datatable>
   </perfect-scrollbar>
 </div>
 

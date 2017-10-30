@@ -23,6 +23,9 @@ import {
   Router, ActivatedRoute
 } from '@angular/router';
 import { DatePipe } from '@angular/common';
+import {
+  Page
+} from './../../models/page.model';
 
 import { IMultiSelectOption, IMultiSelectSettings, IMultiSelectTexts } from 'angular-2-dropdown-multiselect';
 import { GlobalVariables } from "app/models/global.model";
@@ -46,6 +49,8 @@ export class VideoOverviewComponent implements OnInit {
   videoId: any;
   trackUserlist: any[];
   event: any = {};
+  page = new Page();
+  page1 = new Page();
 
   userlistOptions: IMultiSelectOption[];
   userlistModel: any[];
@@ -139,6 +144,22 @@ export class VideoOverviewComponent implements OnInit {
   onGetAllClubsSuccess(response) {
     this.allClubList = JSON.parse(response._body);
 
+    this.page.sort = '_id';
+    this.page.sortDir = 'asc';
+    this.setPage({ offset: 0 });
+
+  }
+
+  onSort(event) {
+    const sort = event.sorts[0];
+    this.page.sort = sort.prop;
+    this.page.sortDir = sort.dir;
+    this.setPage({ offset: this.page.pageNumber });
+  }
+
+  setPage(pageInfo) {
+    this.isAllSelected = false;
+    this.page.pageNumber = pageInfo.offset;
     this.sub = this.route.params.subscribe(params => {
       this.id = params['id'];
       if (typeof (this.id) == 'undefined') {
@@ -151,7 +172,7 @@ export class VideoOverviewComponent implements OnInit {
   }
 
   getVideosbyMatch() {
-    this.videoService.getVideosByMatch(this.id, this.userService.token).subscribe(
+    this.videoService.getVideosByMatch(this.id, this.userService.token, this.page).subscribe(
       (response) => this.onGetVideosSuccess(response),
       (error) => this.onError(error)
     );
@@ -159,14 +180,14 @@ export class VideoOverviewComponent implements OnInit {
   }
 
   getVideos() {
-    this.videoService.getVideos(this.userService.token).subscribe(
+    this.videoService.getVideos(this.userService.token, this.page).subscribe(
       (response) => this.onGetVideosSuccess(response),
       (error) => this.onError(error)
     );
   }
 
   onGetVideosSuccess(response) {
-    this.videoList = JSON.parse(response._body);
+    this.videoList = JSON.parse(response._body).videos;
     // console.log(this.videoList);
 
     if (this.videoList.length > 0) {
@@ -198,7 +219,7 @@ export class VideoOverviewComponent implements OnInit {
         element["isSelected"] = false;
 
       });
-      
+
       this.clubList = this.clubList.filter((thing, index, self) => self.findIndex((t) => { return t._id === thing._id && t.name === thing.name; }) === index)
 
     }
@@ -206,6 +227,15 @@ export class VideoOverviewComponent implements OnInit {
     // console.log(this.videoList);
     this.onChangeofActivatedSearch();
     this.loadingIndicator = false;
+
+    this.page.totalElements = JSON.parse(response._body).total;
+    this.page.totalPages = this.page.totalElements / this.page.limit;
+    let start = this.page.pageNumber * this.page.limit;
+    let end = Math.min((start + this.page.limit), this.page.totalElements);
+
+    if (this.videoList.length == 0 && this.page.pageNumber > 0) {
+      this.setPage({ offset: (this.page.pageNumber - 1) });
+    }
   }
 
   onError(error) {
@@ -225,7 +255,10 @@ export class VideoOverviewComponent implements OnInit {
   assignVideo(id) {
 
     this.videoId = id;
-    this.userService.getUsers(this.userService.token).subscribe(
+    this.page1.limit = 0;
+    this.page1.pageNumber = 0;
+
+    this.userService.getUsers(this.userService.token, this.page1).subscribe(
       (response) => this.onGetUsersSuccess(response),
       (error) => this.onError(error)
     );
@@ -235,7 +268,7 @@ export class VideoOverviewComponent implements OnInit {
 
   }
   onGetUsersSuccess(response) {
-    const userlist = JSON.parse(response._body);
+    const userlist = JSON.parse(response._body).users;
     this.trackUserlist = [];
     userlist.forEach((usr, index) => {
       this.trackUserlist.push({
@@ -316,7 +349,8 @@ export class VideoOverviewComponent implements OnInit {
     this.videoSucessModal.open();
     this.multiDelete = [];
     this.isAllSelected = false;
-    this.getVideos()
+    // this.getVideos();
+    this.setPage({ offset: this.page.pageNumber });
 
   }
   checkAll(ev) {

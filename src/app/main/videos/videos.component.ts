@@ -71,6 +71,7 @@ export class VideosComponent implements OnInit {
   videoOriginalName: any;
   private router: Router;
   page = new Page();
+  page1 = new Page();
 
   private sub: any;
   private id: String;
@@ -118,6 +119,22 @@ export class VideosComponent implements OnInit {
       this.isCoach = true;
     }
 
+    this.page.sort = '_id';
+    this.page.sortDir = 'asc';
+    this.setPage({ offset: 0 });
+
+  }
+
+  onSort(event) {
+    const sort = event.sorts[0];
+    this.page.sort = sort.prop;
+    this.page.sortDir = sort.dir;
+    this.setPage({ offset: this.page.pageNumber });
+  }
+
+  setPage(pageInfo) {
+    this.isAllSelected = false;
+    this.page.pageNumber = pageInfo.offset;
     this.sub = this.route.params.subscribe(params => {
       this.id = params['id'];
       if (typeof (this.id) == 'undefined') {
@@ -127,11 +144,10 @@ export class VideosComponent implements OnInit {
       }
     });
 
-
   }
 
   getVideosbyMatch() {
-    this.videoService.getVideosByMatch(this.id, this.userService.token).subscribe(
+    this.videoService.getVideosByMatch(this.id, this.userService.token, this.page).subscribe(
       (response) => this.onGetVideosSuccess(response),
       (error) => this.onError(error)
     );
@@ -165,14 +181,14 @@ export class VideosComponent implements OnInit {
   getVideos() {
     // console.info("users: "+JSON.stringify(this.userService));
     // console.log(this.userService.user.club);
-    this.videoService.getVideos(this.userService.token).subscribe(
+    this.videoService.getVideos(this.userService.token, this.page).subscribe(
       (response) => this.onGetVideosSuccess(response),
       (error) => this.onError(error)
     );
   }
 
   onGetVideosSuccess(response) {
-    this.allVideos = JSON.parse(response._body);
+    this.allVideos = JSON.parse(response._body).videos;
     //console.log(this.allVideos);
 
     if (this.allVideos.length > 0) {
@@ -197,9 +213,16 @@ export class VideosComponent implements OnInit {
 
     }
 
+    this.page.totalElements = JSON.parse(response._body).total;
+    this.page.totalPages = this.page.totalElements / this.page.limit;
+    let start = this.page.pageNumber * this.page.limit;
+    let end = Math.min((start + this.page.limit), this.page.totalElements);
     this.typeFilter();
     //this.videoList = JSON.parse(response._body);
     // console.log(this.videoList);
+    if (this.allVideos.length == 0 && this.page.pageNumber > 0) {
+      this.setPage({ offset: (this.page.pageNumber - 1) });
+    }
   }
 
   onError(error) {
@@ -229,8 +252,11 @@ export class VideosComponent implements OnInit {
     e.preventDefault();
     e.stopPropagation();
     this.videoId = id;
-    console.log('dssd');
-    this.userService.getUsers(this.userService.token).subscribe(
+
+    this.page1.limit = 0;
+    this.page1.pageNumber = 0;
+
+    this.userService.getUsers(this.userService.token, this.page1).subscribe(
       (response) => this.onGetUsersSuccess(response),
       (error) => this.onError(error)
     );
@@ -238,7 +264,7 @@ export class VideosComponent implements OnInit {
   }
 
   onGetUsersSuccess(response) {
-    const userlist = JSON.parse(response._body);
+    const userlist = JSON.parse(response._body).users;
     this.trackUserlist = [];
     userlist.forEach((usr, index) => {
       this.trackUserlist.push({
@@ -370,7 +396,7 @@ export class VideosComponent implements OnInit {
     this.page.pageNumber = 0;
     this.page.limit = 0;
 
-    this.playlistService.getPlaylists(this.userService.token,this.page).subscribe(
+    this.playlistService.getPlaylists(this.userService.token, this.page).subscribe(
       (response) => this.onGetPlaylistsSuccess(response),
       (error) => this.onError(error)
     );

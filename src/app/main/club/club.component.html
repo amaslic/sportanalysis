@@ -87,6 +87,9 @@
 
           </div>
         </div>
+
+
+
       </perfect-scrollbar>
       <perfect-scrollbar *ngIf="list">
 
@@ -171,6 +174,22 @@
           </div>
         </div>
       </perfect-scrollbar>
+      <ngx-datatable class="material videosdatatable" [limit]="videosPage.limit" [headerHeight]="35" [footerHeight]="50" [columnMode]="'force'"
+        [rows]="videoList" [loadingIndicator]="loadingIndicator" [rowHeight]="'auto'" [externalPaging]="true" [count]="videosPage.totalElements"
+        [offset]="videosPage.pageNumber" (page)='getVideos($event)' [externalSorting]="true" (sort)="onSort($event)">
+
+        <ngx-datatable-column name="_id">
+
+          <ng-template let-column="_id" ngx-datatable-header-template>
+            Type
+          </ng-template>
+          <ng-template let-value="value" ngx-datatable-cell-template>
+
+            {{value}}
+          </ng-template>
+        </ngx-datatable-column>
+
+      </ngx-datatable>
     </md-tab>
     <md-tab label="Players" *ngIf="isCoach">
       <ngx-datatable #activetable class="material" [limit]="page.limit" [headerHeight]="35" [footerHeight]="50" [columnMode]="'force'"
@@ -250,6 +269,24 @@
               <li>No Matches Found</li>
             </ul>
           </div>
+
+          <ngx-datatable class="material matchesdatatable" [limit]="matchesPage.limit" [headerHeight]="35" [footerHeight]="50" [columnMode]="'force'"
+            [rows]="matches" [loadingIndicator]="loadingIndicator" [rowHeight]="'auto'" [externalPaging]="true" [count]="matchesPage.totalElements"
+            [offset]="matchesPage.pageNumber" (page)='getAllMatches($event)' [externalSorting]="true" (sort)="onSort($event)">
+
+            <ngx-datatable-column name="_id">
+
+              <ng-template let-column="_id" ngx-datatable-header-template>
+                Type
+              </ng-template>
+              <ng-template let-value="value" ngx-datatable-cell-template>
+
+                {{value}}
+              </ng-template>
+            </ngx-datatable-column>
+
+          </ngx-datatable>
+
         </perfect-scrollbar>
       </div>
     </md-tab>

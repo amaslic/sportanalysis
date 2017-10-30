@@ -129,6 +129,7 @@ export class ViewComponent implements OnInit {
   isCoachOrAnalyst: boolean = false;
   public playlists: Playlist = new Playlist();
   page = new Page();
+  page1 = new Page();
 
   eventPlayQueue: any = [];
 
@@ -595,7 +596,11 @@ export class ViewComponent implements OnInit {
     if (e.start <= this.videoDuration && this.videoDuration >= e.end) {
       // console.log(vid, eid)
       // console.log(e);
-      this.userService.getUsers(this.userService.token).subscribe(
+
+      this.page1.limit = 0;
+      this.page1.pageNumber = 0;
+
+      this.userService.getUsers(this.userService.token, this.page1).subscribe(
         (response) => this.onGetUsersSuccess(response),
         (error) => this.onError(error)
       );
@@ -616,12 +621,12 @@ export class ViewComponent implements OnInit {
     this.eventsDetails = eventsdata.eventData.filter(function (element, index) {
       return (element.id[0] === eid);
     })[0];
-
+    console.log("this.eventsDetails: ", this.eventsDetails);
     this.getVideo(this.videoId);
 
   }
   onGetUsersSuccess(response) {
-    const userlist = JSON.parse(response._body);
+    const userlist = JSON.parse(response._body).users;
     this.trackUserlist = [];
     userlist.forEach((usr, index) => {
       this.trackUserlist.push({
@@ -949,7 +954,7 @@ export class ViewComponent implements OnInit {
     this.page.pageNumber = 0;
     this.page.limit = 0;
 
-    this.playlistService.getPlaylists(this.userService.token,this.page).subscribe(
+    this.playlistService.getPlaylists(this.userService.token, this.page).subscribe(
       (response) => this.onGetPlaylistsSuccess(response),
       (error) => this.onError(error)
     );

@@ -71,10 +71,10 @@ export class VideoService {
     }).post(this.baseApiUrl + 'video/upload', form, options)
   }
 
-  getVideos(token: String) {
+  getVideos(token: String, page) {
     const headers = new Headers({ 'Authorization': token });
     const options = new RequestOptions({ headers: headers });
-    return this.http.get(this.baseApiUrl + 'video/fetchAll', options);
+    return this.http.get(this.baseApiUrl + 'video/fetchAll?page=' + page.pageNumber + '&limit=' + page.limit + '&sort=' + page.sort + '&sortDir=' + page.sortDir, options);
   }
 
   getVideoById(id: any, token: String) {
@@ -109,15 +109,15 @@ export class VideoService {
 
     return this.http.post(this.baseApiUrl + 'video/assignUsers', body, options);
   }
-  getVideosClub(id: any, token: String) {
+  getVideosClub(id: any, token: String, page) {
     const headers = new Headers({ 'Authorization': token });
     const options = new RequestOptions({ headers: headers });
-    return this.http.get(this.baseApiUrl + 'video/getVideosClub?club=' + id, options);
+    return this.http.get(this.baseApiUrl + 'video/getVideosClub?club=' + id + '&page=' + page.pageNumber + '&limit=' + page.limit + '&sort=' + page.sort + '&sortDir=' + page.sortDir, options);
   }
 
-  getVideosByMatch(id: any, token: String) {
+  getVideosByMatch(id: any, token: String, page) {
     const headers = new Headers({ 'Authorization': token });
     const options = new RequestOptions({ headers: headers });
-    return this.http.get(this.baseApiUrl + 'video/getVideosByMatch?match=' + id, options);
+    return this.http.get(this.baseApiUrl + 'video/getVideosByMatch?match=' + id + '&page=' + page.pageNumber + '&limit=' + page.limit + '&sort=' + page.sort + '&sortDir=' + page.sortDir, options);
   }
 }
