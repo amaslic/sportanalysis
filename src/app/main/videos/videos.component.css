@@ -200,13 +200,14 @@ div.date{
   font-style: normal;
 }
 
+/*
 div.date ul.list-inline li:nth-child(2) i{
   font-size: 8px;
   position: absolute;
   margin-left: -3px;
   bottom: 18px;
 }
-
+*/
 .durationn{
     position: absolute;
     bottom: 85px;
@@ -379,13 +380,13 @@ li.title-grid{display: block !important;margin-bottom: 5px;}
   max-width: 250px;
 } */
 .title{
-  max-width: 100px !important;
+  max-width: 170px !important;
 }
 .hometeam{
-  max-width: 90px !important;
+  max-width: 120px !important;
 }
 .awayteam{
-  max-width: 90px !important;
+  max-width: 120px !important;
 }
 .result{
   max-width: 200px !important;
@@ -408,7 +409,7 @@ li.title-grid{display: block !important;margin-bottom: 5px;}
 }
 
 .date .list-inline .video-delete{
-  padding-right: 8px;
+  /*padding-right: 8px;*/
 }
 
 .list-view .video-info-list i:first-child, .list-view .video-info-list i:last-child{
