@@ -43,6 +43,7 @@
                         <li *ngIf="match.team2details.length == 0">&nbsp;</li>
                         <li>{{match.createduser.firstName}} {{match.createduser.lastName}}</li>
                         <li>
+
                             <button class="btn btn-default" [routerLink]="['/backoffice/match/',match._id]">
                                 <i class="fa fa-pencil-square-o text-info" aria-hidden="true"></i>
                             </button>

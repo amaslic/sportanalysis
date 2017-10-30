@@ -36,6 +36,10 @@ import { CompleterService, CompleterData } from 'ng2-completer';
 import {
   TeamService
 } from './../../../services/team.service';
+import {
+  SettingService
+} from './../../../services/setting.service';
+
 import { IMultiSelectOption, IMultiSelectSettings, IMultiSelectTexts } from 'angular-2-dropdown-multiselect';
 
 @Component({
@@ -73,7 +77,10 @@ export class UploadComponent implements OnInit {
   clubName2: any;
   team1: any = null;
   team2: any = null;
-  season: any = '2017/2018';
+  season: any = null;
+  tacticsTeam1: any = null;
+  tacticsTeam2: any = null;
+  competition: any = null;
   team: boolean = false;
   all: boolean = false;
   player: boolean = false;
@@ -144,6 +151,135 @@ export class UploadComponent implements OnInit {
     defaultTitle: ' Select  Player  ',
     allSelected: 'All Player ',
   };
+
+  teamslistOptions: IMultiSelectOption[];
+  teamsModel: any[];
+
+  teamslistSettings: IMultiSelectSettings = {
+    enableSearch: true,
+    checkedStyle: 'fontawesome',
+    containerClasses: 'no-button-arrow',
+    buttonClasses: 'btn btn-default btn-block',
+    fixedTitle: false,
+    maxHeight: '100px',
+    dynamicTitleMaxItems: 2,
+    closeOnClickOutside: true
+  };
+  teamslistTexts: IMultiSelectTexts = {
+    checkAll: 'Select all',
+    uncheckAll: 'Unselect all',
+    checked: 'Team selected',
+    checkedPlural: 'Teams selected',
+    searchPlaceholder: 'Find',
+    defaultTitle: ' Select Team  ',
+    allSelected: 'All Teams ',
+  };
+
+  clubsList: IMultiSelectOption[];
+  clubslistOptions: IMultiSelectOption[];
+  clubslistSettings: IMultiSelectSettings = {
+    enableSearch: true,
+    checkedStyle: 'fontawesome',
+    containerClasses: 'no-button-arrow',
+    buttonClasses: 'btn btn-default btn-block',
+    fixedTitle: false,
+    maxHeight: '100px',
+    dynamicTitleMaxItems: 2,
+    closeOnClickOutside: true
+  };
+  clubslistTexts: IMultiSelectTexts = {
+    checkAll: 'Select all',
+    uncheckAll: 'Unselect all',
+    checked: 'Club selected',
+    checkedPlural: 'Clubs selected',
+    searchPlaceholder: 'Find',
+    defaultTitle: ' Select Club  ',
+    allSelected: 'All Clubs ',
+  };
+
+  locationslistOptions: IMultiSelectOption[];
+  locationslistSettings: IMultiSelectSettings = {
+    enableSearch: true,
+    checkedStyle: 'fontawesome',
+    containerClasses: 'no-button-arrow',
+    buttonClasses: 'btn btn-default btn-block',
+    fixedTitle: false,
+    maxHeight: '100px',
+    dynamicTitleMaxItems: 2,
+    closeOnClickOutside: true
+  };
+  locationslistTexts: IMultiSelectTexts = {
+    checkAll: 'Select all',
+    uncheckAll: 'Unselect all',
+    checked: 'Location selected',
+    checkedPlural: 'Locations selected',
+    searchPlaceholder: 'Find',
+    defaultTitle: ' Select Location  ',
+    allSelected: 'All Locations ',
+  };
+
+  seasonslistOptions: IMultiSelectOption[];
+  seasonslistSettings: IMultiSelectSettings = {
+    enableSearch: true,
+    checkedStyle: 'fontawesome',
+    containerClasses: 'no-button-arrow',
+    buttonClasses: 'btn btn-default btn-block',
+    fixedTitle: false,
+    maxHeight: '100px',
+    dynamicTitleMaxItems: 2,
+    closeOnClickOutside: true
+  };
+  seasonslistTexts: IMultiSelectTexts = {
+    checkAll: 'Select all',
+    uncheckAll: 'Unselect all',
+    checked: 'Season selected',
+    checkedPlural: 'Seasons selected',
+    searchPlaceholder: 'Find',
+    defaultTitle: ' Select Season  ',
+    allSelected: 'All Seasons ',
+  };
+
+  competitionslistOptions: IMultiSelectOption[];
+  competitionslistSettings: IMultiSelectSettings = {
+    enableSearch: true,
+    checkedStyle: 'fontawesome',
+    containerClasses: 'no-button-arrow',
+    buttonClasses: 'btn btn-default btn-block',
+    fixedTitle: false,
+    maxHeight: '100px',
+    dynamicTitleMaxItems: 2,
+    closeOnClickOutside: true
+  };
+  competitionslistTexts: IMultiSelectTexts = {
+    checkAll: 'Select all',
+    uncheckAll: 'Unselect all',
+    checked: 'Competition selected',
+    checkedPlural: 'Competitions selected',
+    searchPlaceholder: 'Find',
+    defaultTitle: ' Select Competition  ',
+    allSelected: 'All Competitions ',
+  };
+
+  tacticslistOptions: IMultiSelectOption[];
+  tacticslistSettings: IMultiSelectSettings = {
+    enableSearch: true,
+    checkedStyle: 'fontawesome',
+    containerClasses: 'no-button-arrow',
+    buttonClasses: 'btn btn-default btn-block',
+    fixedTitle: false,
+    maxHeight: '100px',
+    dynamicTitleMaxItems: 2,
+    closeOnClickOutside: true
+  };
+  tacticslistTexts: IMultiSelectTexts = {
+    checkAll: 'Select all',
+    uncheckAll: 'Unselect all',
+    checked: 'Tactic selected',
+    checkedPlural: 'Tactics selected',
+    searchPlaceholder: 'Find',
+    defaultTitle: ' Select Tactic  ',
+    allSelected: 'All Tactics ',
+  };
   protected dataService: CompleterData;
   videoRights: any = { allRoles: true, team: true, player: true, viewer: true };
   matches: any = [];
@@ -157,7 +293,7 @@ export class UploadComponent implements OnInit {
   @ViewChild('ErrorModal') ErrorModal;
   @ViewChild('form') form;
 
-  constructor(private completerService: CompleterService, private clubService: ClubService, private videoService: VideoService, private userService: UserService, private r: Router, private teamService: TeamService, private matchService: MatchService) {
+  constructor(private completerService: CompleterService, private clubService: ClubService, private videoService: VideoService, private userService: UserService, private r: Router, private teamService: TeamService, private matchService: MatchService, private settingService: SettingService) {
     videoService.progress$.subscribe((newValue: number) => { this.progress = newValue; });
     this.router = r;
 
@@ -204,10 +340,57 @@ export class UploadComponent implements OnInit {
       this.uploadErrorModal.open();
     }
 
-    // this.userService.isAdmin().subscribe(
-    //   (response) => this.onIsAdminClubsSuccess(response),
-    //   (error) => this.onError(error)
-    // );
+    this.settingService.getAllMasters(this.userService.token).subscribe(
+      (response: any) => {
+
+        const masters = JSON.parse(response._body);
+
+        // this.getClubs();
+        // this.getActivatedClubs();
+
+        this.teamslistOptions = [];
+        masters.teams.forEach((obj, index) => {
+          this.teamslistOptions.push({
+            'id': obj._id,
+            'name': obj.name
+          });
+        });
+
+        this.locationslistOptions = [];
+        masters.locations.forEach((obj, index) => {
+          this.locationslistOptions.push({
+            'id': obj._id,
+            'name': obj.name
+          });
+        });
+
+        this.seasonslistOptions = [];
+        masters.seasons.forEach((obj, index) => {
+          this.seasonslistOptions.push({
+            'id': obj._id,
+            'name': obj.name
+          });
+        });
+
+        this.competitionslistOptions = [];
+        masters.competitions.forEach((obj, index) => {
+          this.competitionslistOptions.push({
+            'id': obj._id,
+            'name': obj.name
+          });
+        });
+
+        this.tacticslistOptions = [];
+        masters.tactics.forEach((obj, index) => {
+          this.tacticslistOptions.push({
+            'id': obj._id,
+            'name': obj.name
+          });
+        });
+
+      },
+      (error) => this.onError(error)
+    );
     this.filteredClubs = this.clubCtrl.valueChanges
       .startWith(null)
       .map(name => this.filterClubs(name));
@@ -782,5 +965,6 @@ export class UploadComponent implements OnInit {
     }
 
   }
+
 
 }

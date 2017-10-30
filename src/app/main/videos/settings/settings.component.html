@@ -104,10 +104,10 @@
                 <div class="col-sm-7">
                   <!-- <input type="text" [(ngModel)]="video.season" class="form-control" name="season" id="season" placeholder="Season"> -->
                   <select class="sportscode form-control" name="season" required [(ngModel)]="video.season">
-                    <option>2015/2016</option>
-                    <option>2016/2017</option>
-                    <option>2017/2018</option>
-                    <option>2018/2019</option>
+                    <option value="null">Select Season</option>
+                    <option *ngFor="let sea of seasonslistOptions" value={{sea.id}}>
+                      {{sea.name}}
+                    </option>
                   </select>
                 </div>
               </div>
@@ -117,7 +117,13 @@
               <div *ngIf="(video.type != 'Training')" class="form-group">
                 <label class="control-label col-sm-5" for="title">Competition:</label>
                 <div class="col-sm-7">
-                  <input type="text" [(ngModel)]="video.competition" class="form-control" name="competition" id="competition" placeholder="Competition">
+                  <!-- <input type="text" [(ngModel)]="video.competition" class="form-control" name="competition" id="competition" placeholder="Competition"> -->
+                  <select name="competition" class="form-control" [(ngModel)]="video.competition">
+                    <option value="null">Select Competition</option>
+                    <option *ngFor="let com of competitionslistOptions" value={{com.id}}>
+                      {{com.name}}
+                    </option>
+                  </select>
                 </div>
               </div>
               <div *ngIf="(video.type != 'Training')" class="form-group">
@@ -129,13 +135,25 @@
               <div *ngIf="(video.type != 'Training')" class="form-group">
                 <label class="control-label col-sm-5">Tactics of home team:</label>
                 <div class="col-sm-7">
-                  <input type="text" [(ngModel)]="video.tacticsTeam1" class="form-control" name="tacticsTeam1" id="tacticsTeam1" placeholder="Tactics of home team">
+                  <!-- <input type="text" [(ngModel)]="video.tacticsTeam1" class="form-control" name="tacticsTeam1" id="tacticsTeam1" placeholder="Tactics of home team"> -->
+                  <select name="tacticsTeam1" id="tacticsTeam1" class="form-control" [(ngModel)]="video.tacticsTeam1">
+                    <option value="null">Select Tactics</option>
+                    <option *ngFor="let tac of tacticslistOptions" value={{tac.id}}>
+                      {{tac.name}}
+                    </option>
+                  </select>
                 </div>
               </div>
               <div *ngIf="(video.type != 'Training')" class="form-group">
                 <label class="control-label col-sm-5">Tactics of away team:</label>
                 <div class="col-sm-7">
-                  <input type="text" [(ngModel)]="video.tacticsTeam2" class="form-control" name="tacticsTeam2" id="tacticsTeam2" placeholder="Tactics of away team">
+                  <!-- <input type="text" [(ngModel)]="video.tacticsTeam2" class="form-control" name="tacticsTeam2" id="tacticsTeam2" placeholder="Tactics of away team"> -->
+                  <select name="tacticsTeam2" id="tacticsTeam2" class="form-control" [(ngModel)]="video.tacticsTeam2">
+                    <option value="null">Select Tactics</option>
+                    <option *ngFor="let tac of tacticslistOptions" value={{tac.id}}>
+                      {{tac.name}}
+                    </option>
+                  </select>
                 </div>
               </div>
               <div *ngIf="(video.type != 'Training')" class="form-group">
@@ -185,7 +203,7 @@
 
             </div>
 
-            <div class="form-group" style="padding-bottom: 30px; tect-align: center">
+            <div class="form-group" style="padding-bottom: 30px; text-align: center">
               <div class="col-sm-9" style="text-align: right">
                 <button type="submit" class="btn btn-default btn-save">Save</button>
               </div>
