@@ -157,6 +157,16 @@ export class TrackingDataService {
     });
     return this.http.post(this.baseApiUrl + 'eventData/getEventsByVideo', body, options);
   }
+  getEventsByMatch(matchId: any, token: String) {
+    const headers = new Headers({
+      'Authorization': token
+    });
+    const body = { token: token, matchId: matchId };
+    const options = new RequestOptions({
+      headers: headers
+    });
+    return this.http.post(this.baseApiUrl + 'eventData/getEventsByMatch', body, options);
+  }
   activateEvent(eventId: any, eid: any, token: String) {
     const headers = new Headers({
       'Authorization': token

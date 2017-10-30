@@ -30,6 +30,9 @@ import {
   VgAPI
 } from 'videogular2/core';
 import { Playlist } from "app/models/playlist.model";
+import {
+  SettingService
+} from './../../../services/setting.service';
 import { IMultiSelectOption, IMultiSelectSettings, IMultiSelectTexts } from 'angular-2-dropdown-multiselect';
 
 declare var document: any;
@@ -189,7 +192,110 @@ export class VideoSettingsComponent implements OnInit {
     defaultTitle: ' Select  Player  ',
     allSelected: 'All Player ',
   };
+  seasonslistOptions: IMultiSelectOption[];
+  seasonslistSettings: IMultiSelectSettings = {
+    enableSearch: true,
+    checkedStyle: 'fontawesome',
+    containerClasses: 'no-button-arrow',
+    buttonClasses: 'btn btn-default btn-block',
+    fixedTitle: false,
+    maxHeight: '100px',
+    dynamicTitleMaxItems: 2,
+    closeOnClickOutside: true
+  };
+  seasonslistTexts: IMultiSelectTexts = {
+    checkAll: 'Select all',
+    uncheckAll: 'Unselect all',
+    checked: 'Season selected',
+    checkedPlural: 'Seasons selected',
+    searchPlaceholder: 'Find',
+    defaultTitle: ' Select Season  ',
+    allSelected: 'All Seasons ',
+  };
 
+  competitionslistOptions: IMultiSelectOption[];
+  competitionslistSettings: IMultiSelectSettings = {
+    enableSearch: true,
+    checkedStyle: 'fontawesome',
+    containerClasses: 'no-button-arrow',
+    buttonClasses: 'btn btn-default btn-block',
+    fixedTitle: false,
+    maxHeight: '100px',
+    dynamicTitleMaxItems: 2,
+    closeOnClickOutside: true
+  };
+  competitionslistTexts: IMultiSelectTexts = {
+    checkAll: 'Select all',
+    uncheckAll: 'Unselect all',
+    checked: 'Competition selected',
+    checkedPlural: 'Competitions selected',
+    searchPlaceholder: 'Find',
+    defaultTitle: ' Select Competition  ',
+    allSelected: 'All Competitions ',
+  };
+
+  tacticslistOptions: IMultiSelectOption[];
+  tacticslistSettings: IMultiSelectSettings = {
+    enableSearch: true,
+    checkedStyle: 'fontawesome',
+    containerClasses: 'no-button-arrow',
+    buttonClasses: 'btn btn-default btn-block',
+    fixedTitle: false,
+    maxHeight: '100px',
+    dynamicTitleMaxItems: 2,
+    closeOnClickOutside: true
+  };
+  tacticslistTexts: IMultiSelectTexts = {
+    checkAll: 'Select all',
+    uncheckAll: 'Unselect all',
+    checked: 'Tactic selected',
+    checkedPlural: 'Tactics selected',
+    searchPlaceholder: 'Find',
+    defaultTitle: ' Select Tactic  ',
+    allSelected: 'All Tactics ',
+  };
+  teamslistOptions: IMultiSelectOption[];
+  teamsModel: any[];
+
+  teamslistSettings: IMultiSelectSettings = {
+    enableSearch: true,
+    checkedStyle: 'fontawesome',
+    containerClasses: 'no-button-arrow',
+    buttonClasses: 'btn btn-default btn-block',
+    fixedTitle: false,
+    maxHeight: '100px',
+    dynamicTitleMaxItems: 2,
+    closeOnClickOutside: true
+  };
+  teamslistTexts: IMultiSelectTexts = {
+    checkAll: 'Select all',
+    uncheckAll: 'Unselect all',
+    checked: 'Team selected',
+    checkedPlural: 'Teams selected',
+    searchPlaceholder: 'Find',
+    defaultTitle: ' Select Team  ',
+    allSelected: 'All Teams ',
+  };
+  locationslistOptions: IMultiSelectOption[];
+  locationslistSettings: IMultiSelectSettings = {
+    enableSearch: true,
+    checkedStyle: 'fontawesome',
+    containerClasses: 'no-button-arrow',
+    buttonClasses: 'btn btn-default btn-block',
+    fixedTitle: false,
+    maxHeight: '100px',
+    dynamicTitleMaxItems: 2,
+    closeOnClickOutside: true
+  };
+  locationslistTexts: IMultiSelectTexts = {
+    checkAll: 'Select all',
+    uncheckAll: 'Unselect all',
+    checked: 'Location selected',
+    checkedPlural: 'Locations selected',
+    searchPlaceholder: 'Find',
+    defaultTitle: ' Select Location  ',
+    allSelected: 'All Locations ',
+  };
   xmlDataApplicationTypes = ["tagapp", "ortec", "sportscode", "telestrator", "instat_deep", "instat_simple", 'easytag', 'calibration'];
   xmlDataApplicationTypeSelected = '';
 
@@ -206,10 +312,13 @@ export class VideoSettingsComponent implements OnInit {
   @ViewChild('VideoModal') VideoModal;
   @ViewChild('updateEventlistModal') updateEventlistModal;
   @ViewChild('lnkDownloadLink') lnkDownloadLink: ElementRef;
-  constructor(private route: ActivatedRoute, private trackingDataService: TrackingDataService, private userService: UserService, private videoService: VideoService, private clubService: ClubService, private teamService: TeamService, private matchService: MatchService) { }
+  constructor(private route: ActivatedRoute, private trackingDataService: TrackingDataService, private userService: UserService, private videoService: VideoService, private clubService: ClubService, private teamService: TeamService, private matchService: MatchService, private settingService: SettingService) { }
 
   ngOnInit() {
-
+    this.video.season = null;
+    this.video.competition = null;
+    this.video.tacticsTeam1 = null;
+    this.video.tacticsTeam2 = null;
     var user = this.userService.loadUserFromStorage();
     if (user['role'] == 1 || user['role'] == 2) {
       this.isAdmin = true;
@@ -243,10 +352,57 @@ export class VideoSettingsComponent implements OnInit {
       (response) => this.onGetUsersSuccess(response),
       (error) => this.onError(error)
     );
-    // this.userService.isAdmin().subscribe(
-    //   (response) => this.onIsAdminClubsSuccess(response),
-    //   (error) => this.onError(error)
-    // );
+    this.settingService.getAllMasters(this.userService.token).subscribe(
+      (response: any) => {
+
+        const masters = JSON.parse(response._body);
+
+        // this.getClubs();
+        // this.getActivatedClubs();
+
+        this.teamslistOptions = [];
+        masters.teams.forEach((obj, index) => {
+          this.teamslistOptions.push({
+            'id': obj._id,
+            'name': obj.name
+          });
+        });
+
+        this.locationslistOptions = [];
+        masters.locations.forEach((obj, index) => {
+          this.locationslistOptions.push({
+            'id': obj._id,
+            'name': obj.name
+          });
+        });
+
+        this.seasonslistOptions = [];
+        masters.seasons.forEach((obj, index) => {
+          this.seasonslistOptions.push({
+            'id': obj._id,
+            'name': obj.name
+          });
+        });
+
+        this.competitionslistOptions = [];
+        masters.competitions.forEach((obj, index) => {
+          this.competitionslistOptions.push({
+            'id': obj._id,
+            'name': obj.name
+          });
+        });
+
+        this.tacticslistOptions = [];
+        masters.tactics.forEach((obj, index) => {
+          this.tacticslistOptions.push({
+            'id': obj._id,
+            'name': obj.name
+          });
+        });
+
+      },
+      (error) => this.onError(error)
+    );
   }
 
   xmlTypeSelected(xmlType) {
@@ -354,8 +510,8 @@ export class VideoSettingsComponent implements OnInit {
       var club2trim = this.video.club2details[0].name.replace(/ /g, '').slice(0, 3);
       this.video.club2details[0].name = club2trim.toUpperCase();
     }
-    console.log(this.video);
-    console.log(this.video.path);
+    // console.log(this.video);
+    // console.log(this.video.path);
     if (this.video && this.video.path) {
       this.videoLoaded = true;
       this.playlist = [{
@@ -414,11 +570,11 @@ export class VideoSettingsComponent implements OnInit {
       var ext = myFile.substring(myFile.lastIndexOf(".") + 1);
 
       // if (ext.toLowerCase() == 'xml') {
-        this.selectedFile = {
-          name: files[i].name,
-          size: files[i].size,
-          _file: files[i]
-        };
+      this.selectedFile = {
+        name: files[i].name,
+        size: files[i].size,
+        _file: files[i]
+      };
       // } else {
       //   alert("Please select valid xml file")
       // }

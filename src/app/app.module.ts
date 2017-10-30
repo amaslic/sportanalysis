@@ -120,6 +120,8 @@ const appRoutes: Routes = [
       { path: 'match', loadChildren: './main/addEditMatches/addEditMatches.component.module#addEditMatchesComponentModule' },
       { path: 'match/:id', loadChildren: './main/addEditMatches/addEditMatches.component.module#addEditMatchesComponentModule' },
       { path: 'match/view/:id', loadChildren: './main/videos/videos.component.module#VideosComponentModule' },
+      { path: 'matchEvents/:id', loadChildren: './main/matchEvents/matchEvents.component.module#matchEventsComponentModule' },
+
     ]
   },
   {
@@ -194,7 +196,7 @@ const appRoutes: Routes = [
     BrowserModule,
     FormsModule, ReactiveFormsModule,
     HttpModule, ProgressHttpModule,
-    BrowserAnimationsModule, 
+    BrowserAnimationsModule,
     MdButtonModule, MdCheckboxModule, MdRadioModule, MdTabsModule,
     MdAutocompleteModule,
     MdInputModule,
@@ -217,7 +219,7 @@ const appRoutes: Routes = [
     Ng2CompleterModule,
     PipeModule
   ],
-  providers: [UserService,VideoService, TrackingDataService, AuthGuard, AdminGuard, ClubService, PlaylistService, TeamService, MatchService,LocationService,SeasonService,CompetitionService,TacticService,SettingService],
+  providers: [UserService, VideoService, TrackingDataService, AuthGuard, AdminGuard, ClubService, PlaylistService, TeamService, MatchService, LocationService, SeasonService, CompetitionService, TacticService, SettingService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

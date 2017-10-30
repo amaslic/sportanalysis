@@ -124,7 +124,7 @@ export class MatchComponent implements OnInit {
         if (parseInt(hours) < 10 && hours.length == 1)
             hours = "0" + parseInt(hours);
 
-        var current_time = hours + ":" + minutes ;
+        var current_time = hours + ":" + minutes;
         return current_time;
     }
 

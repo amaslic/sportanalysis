@@ -9,7 +9,9 @@
     <div class="main-part">
         <div class="heading">
             <h2>Matches</h2>
-            <div *ngIf="!isSuperAdmin" class="pull-right"><button [routerLink]="['/backoffice/match']">Add Matches</button></div>
+            <div *ngIf="!isSuperAdmin" class="pull-right">
+                <button [routerLink]="['/backoffice/match']">Add Matches</button>
+            </div>
         </div>
         <ul class="list-inline matches header">
             <li>Date</li>
@@ -41,12 +43,15 @@
                         <li *ngIf="match.team2details.length == 0">&nbsp;</li>
                         <li>{{match.createduser.firstName}} {{match.createduser.lastName}}</li>
                         <li>
-                            <button class="btn btn-default" [routerLink]="['/backoffice/match/',match._id]"><i class="fa fa-pencil-square-o text-info" aria-hidden="true"></i></button>
+
+                            <button class="btn btn-default" [routerLink]="['/backoffice/match/',match._id]">
+                                <i class="fa fa-pencil-square-o text-info" aria-hidden="true"></i>
+                            </button>
                             <button type="button" [routerLink]="['/backoffice/match/view/',match._id]" class="btn btn-default" aria-label="Left Align">
-                              <i class="fa fa-eye text-success" aria-hidden="true"></i>
+                                <i class="fa fa-eye text-success" aria-hidden="true"></i>
                             </button>
                             <button type="button" (click)="deleteMatchById(match._id)" class="btn btn-default" aria-label="Left Align">
-                               <i class="fa fa-trash text-danger" aria-hidden="true"></i>
+                                <i class="fa fa-trash text-danger" aria-hidden="true"></i>
                             </button>
                         </li>
                     </ul>

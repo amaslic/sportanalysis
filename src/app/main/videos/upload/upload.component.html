@@ -102,10 +102,13 @@
 
             <select name="season" class="form-control" [(ngModel)]="season">
               <option value="null">Select Season</option>
-              <option>2015/2016</option>
+              <option *ngFor="let sea of seasonslistOptions" value={{sea.id}}>
+                {{sea.name}}
+              </option>
+              <!-- <option>2015/2016</option>
               <option>2016/2017</option>
               <option>2017/2018</option>
-              <option>2018/2019</option>
+              <option>2018/2019</option> -->
             </select>
           </div>
 
@@ -118,7 +121,13 @@
           </div> -->
           <div class="form-group" *ngIf="(type != 'Training')">
             <label class="control-label text-left" for="title">Competition:</label>
-            <input type="text" [(ngModel)]="competition" class="form-control" name="competition" id="competition" placeholder="Competition">
+            <!-- <input type="text" [(ngModel)]="competition" class="form-control" name="competition" id="competition" placeholder="Competition"> -->
+            <select name="competition" class="form-control" [(ngModel)]="competition">
+              <option value="null">Select Competition</option>
+              <option *ngFor="let com of competitionslistOptions" value={{com.id}}>
+                {{com.name}}
+              </option>
+            </select>
           </div>
           <div class="form-group" *ngIf="(type != 'Training')">
             <label class="control-label text-left" for="title">Description:</label>
@@ -126,11 +135,23 @@
           </div>
           <div class="form-group" *ngIf="(type != 'Training')">
             <label class="control-label text-left" for="title">Tactics of team 1:</label>
-            <input type="text" [(ngModel)]="tacticsTeam1" class="form-control" name="tacticsTeam1" id="tacticsTeam1" placeholder="Tactics of team 1">
+            <!-- <input type="text" [(ngModel)]="tacticsTeam1" class="form-control" name="tacticsTeam1" id="tacticsTeam1" placeholder="Tactics of team 1"> -->
+            <select name="tacticsTeam1" id="tacticsTeam1" class="form-control" [(ngModel)]="tacticsTeam1">
+              <option value="null">Select Tactics</option>
+              <option *ngFor="let tac of tacticslistOptions" value={{tac.id}}>
+                {{tac.name}}
+              </option>
+            </select>
           </div>
           <div class="form-group" *ngIf="(type != 'Training')">
             <label class="control-label text-left" for="title">Tactics of team 2:</label>
-            <input type="text" [(ngModel)]="tacticsTeam2" class="form-control" name="tacticsTeam2" id="tacticsTeam2" placeholder="Tactics of team 2">
+            <!-- <input type="text" [(ngModel)]="tacticsTeam2" class="form-control" name="tacticsTeam2" id="tacticsTeam2" placeholder="Tactics of team 2"> -->
+            <select name="tacticsTeam2" id="tacticsTeam2" class="form-control" [(ngModel)]="tacticsTeam2">
+              <option value="null">Select Tactics</option>
+              <option *ngFor="let tac of tacticslistOptions" value={{tac.id}}>
+                {{tac.name}}
+              </option>
+            </select>
           </div>
         </div>
 

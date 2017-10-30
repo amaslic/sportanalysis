@@ -1,7 +1,9 @@
 <div class="main-part">
   <div class="heading">
     <h2>Matches</h2>
-    <div class="pull-right"><button [routerLink]="['/match']">Add Matches</button></div>
+    <div class="pull-right">
+      <button [routerLink]="['/match']">Add Matches</button>
+    </div>
     <!--<p>Girone A</p>-->
   </div>
   <ul class="list-inline matches header">
@@ -34,12 +36,17 @@
           <li *ngIf="match.team2details.length == 0">&nbsp;</li>
           <li>{{match.createduser.firstName}} {{match.createduser.lastName}}</li>
           <li>
-            <button class="btn btn-default" [routerLink]="['/match/',match._id]"><i class="fa fa-pencil-square-o text-info" aria-hidden="true"></i></button>
-            <button type="button" [routerLink]="['/match/view/',match._id]" class="btn btn-default" aria-label="Left Align">
-            <i class="fa fa-eye text-success" aria-hidden="true"></i>
-          </button>
-            <button type="button" (click)="deleteMatchById(match._id)" class="btn btn-default" aria-label="Left Align">
-               <i class="fa fa-trash text-danger" aria-hidden="true"></i>
+            <button class="btn btn-default" title="Edit" [routerLink]="['/match/',match._id]">
+              <i class="fa fa-pencil-square-o text-info" aria-hidden="true"></i>
+            </button>
+            <button type="button" title="View" [routerLink]="['/match/view/',match._id]" class="btn btn-default" aria-label="Left Align">
+              <i class="fa fa-eye text-success" aria-hidden="true"></i>
+            </button>
+            <button type="button" title="Delete" (click)="deleteMatchById(match._id)" class="btn btn-default" aria-label="Left Align">
+              <i class="fa fa-trash text-danger" aria-hidden="true"></i>
+            </button>
+            <button class="btn btn-default" title="Eventlist" [routerLink]="['/matchEvents/',match._id]">
+              <i class="fa fa-clipboard text-info" aria-hidden="true"></i>
             </button>
           </li>
         </ul>
