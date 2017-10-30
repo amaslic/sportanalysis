@@ -418,19 +418,22 @@ h3.recent{
     margin-bottom: -2px;
 }
 .title{
-  max-width: 100px !important;
+  max-width: 170px !important;
 }
 .hometeam{
-  max-width: 90px !important;
+  max-width: 120px !important;
 }
 .awayteam{
-  max-width: 90px !important;
+  max-width: 120px !important;
 }
 /* .result{
   max-width: 200px !important;
 } */
 .type{width: 120px !important;}
 
+.date-first{
+  max-width: 100px!important;
+}
 
 @media (max-width: 1333px) {
     div.teams{

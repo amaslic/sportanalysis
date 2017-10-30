@@ -558,7 +558,7 @@ export class VideoSettingsComponent implements OnInit {
     this.showProgressBar = false;
     const errorBody = JSON.parse(error._body);
     // console.error(errorBody);
-    this.errormsg = errorBody.message;
+    this.errormsg = errorBody.message || errorBody.msg;
     this.ErrorModal.open();
   }
 
