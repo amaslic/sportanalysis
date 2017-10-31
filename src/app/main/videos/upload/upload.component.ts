@@ -788,8 +788,10 @@ export class UploadComponent implements OnInit {
       this.team1 = null;
       if (typeof (userclub) != 'undefined') {
         this.teamsList.forEach((element, index) => {
-          if (userclub.teams.indexOf(element._id) > -1) {
-            this.clubTeams1.push(element);
+          if (userclub.teams != null) {
+            if (userclub.teams.indexOf(element._id) > -1) {
+              this.clubTeams1.push(element);
+            }
           }
         });
       }
@@ -810,8 +812,10 @@ export class UploadComponent implements OnInit {
       this.team2 = null;
       if (typeof (userclub) != 'undefined') {
         this.teamsList.forEach((element, index) => {
-          if (userclub.teams.indexOf(element._id) > -1) {
-            this.clubTeams2.push(element);
+          if (userclub.teams != null) {
+            if (userclub.teams.indexOf(element._id) > -1) {
+              this.clubTeams2.push(element);
+            }
           }
         });
       }

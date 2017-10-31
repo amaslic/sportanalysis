@@ -197,7 +197,6 @@ export class PlaylistsComponent implements OnInit {
     var loggedInUserId = this.localStorageService.get('user')['_id'];
 
     const userSelect = JSON.parse(response._body).playlists;
-    console.log(userSelect);
     userSelect['assignedUsers'].forEach((usr, index) => {
 
       if (usr != loggedInUserId)
