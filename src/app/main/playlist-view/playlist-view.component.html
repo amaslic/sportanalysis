@@ -77,8 +77,8 @@
           <ng-container *ngFor="let event of playList  | search:searchQuery ; let idx=index">
 
             <li>
-              <md-checkbox ng-model="event.checked" [checked]="event.checked" class="more-events" id="{{event._id}}" name="{{event._id}}"
-                (change)="selectEvent($event,event)"></md-checkbox>
+              <md-checkbox *ngIf="userCanDelele" ng-model="event.checked" [checked]="event.checked" class="more-events" id="{{event._id}}"
+                name="{{event._id}}" (change)="selectEvent($event,event)"></md-checkbox>
               <a style="display:block" class="playlist-info" href="#" id="{{event._id}}{{event.id}}" (click)="goToEvent($event,   idx)"
                 *ngIf="event.eventStart !== 'NaN'">
                 <div class="message-img">
@@ -105,7 +105,7 @@
                   <ul class="dropdown-menu multi-level" role="menu" aria-labelledby="dropdownMenu">
                     <!--<li (click)="createPlaylist(video._id,event,false)">Create Playlist</li>-->
                     <li id="event" (click)="shareEventlist(event)">Share</li>
-                    <li id="eventDelete" (click)="deletePlaylistItem(event)">Delete</li>
+                    <li *ngIf="userCanDelele" id="eventDelete" (click)="deletePlaylistItem(event)">Delete</li>
                     <!--<li class="dropdown-submenu">
 
                         <a id="event" *ngIf="isAdmin"  (click)="shareEventlist(video._id,event.id)">Share Event</a>

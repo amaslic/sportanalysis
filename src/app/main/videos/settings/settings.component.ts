@@ -323,6 +323,7 @@ export class VideoSettingsComponent implements OnInit {
     this.video.competition = null;
     this.video.tacticsTeam1 = null;
     this.video.tacticsTeam2 = null;
+    this.video.location = null;
     var user = this.userService.loadUserFromStorage();
     if (user['role'] == 1 || user['role'] == 2) {
       this.isAdmin = true;

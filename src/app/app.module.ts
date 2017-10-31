@@ -142,6 +142,7 @@ const appRoutes: Routes = [
       { path: 'match', loadChildren: './main/addEditMatches/addEditMatches.component.module#addEditMatchesComponentModule' },
       { path: 'match/:id', loadChildren: './main/addEditMatches/addEditMatches.component.module#addEditMatchesComponentModule' },
       { path: 'settings', loadChildren: './backoffice/settings/settings.component.module#SettingsComponentModule' },
+      { path: 'matchEvents/:id', loadChildren: './main/matchEvents/matchEvents.component.module#matchEventsComponentModule' },
     ]
   },
   { path: "*", redirectTo: 'videos' }

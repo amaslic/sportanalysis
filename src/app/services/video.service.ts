@@ -61,6 +61,8 @@ export class VideoService {
     form.append('viewer', data.viewer);
     form.append('match', data.match);
     form.append('fullVideo', fullVideo);
+    form.append('locations', data.locations);
+
 
     const headers = new Headers({ 'Authorization': data.token });
     const options = new RequestOptions({ headers: headers });
