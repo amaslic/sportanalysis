@@ -127,9 +127,15 @@
                 </div>
               </div>
               <div *ngIf="(video.type != 'Training')" class="form-group">
-                <label class="control-label col-sm-5" for="title">Description:</label>
+                <label class="control-label col-sm-5" for="title">Location:</label>
                 <div class="col-sm-7">
-                  <input type="text" [(ngModel)]="video.description" class="form-control" name="description" id="description" placeholder="Description">
+                  <select name="locations" id="locations" class="form-control" [(ngModel)]="video.locations">
+                    <option value="null">Select Location</option>
+                    <option *ngFor="let loc of locationslistOptions" value={{loc.id}}>
+                      {{loc.name}}
+                    </option>
+                  </select>
+                  <!-- <input type="text" [(ngModel)]="video.location" class="form-control" name="location" id="location" placeholder="Location"> -->
                 </div>
               </div>
               <div *ngIf="(video.type != 'Training')" class="form-group">

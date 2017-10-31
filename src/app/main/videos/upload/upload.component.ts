@@ -81,6 +81,7 @@ export class UploadComponent implements OnInit {
   tacticsTeam1: any = null;
   tacticsTeam2: any = null;
   competition: any = null;
+  locations: any = null;
   team: boolean = false;
   all: boolean = false;
   player: boolean = false;
@@ -699,7 +700,8 @@ export class UploadComponent implements OnInit {
     if (typeof (f.value.public) == 'undefined')
       f.value.public = '';
 
-
+    if (typeof (f.value.locations) == 'undefined')
+      f.value.locations = '';
     // this.assignedUser = f.value.team.filter(function (element, index) {
     //   return (element._id != club._id);
     // });

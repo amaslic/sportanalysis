@@ -50,6 +50,9 @@ export interface IMedia {
   styleUrls: ['./playlist-view.component.css']
 })
 export class PlaylistViewComponent implements OnInit {
+  userCanDelele: boolean;
+  userId: any;
+  player: boolean;
   videoId: any;
   eventsDetails: any;
   trackUserlist: any[];
@@ -144,6 +147,12 @@ export class PlaylistViewComponent implements OnInit {
   }
 
   ngOnInit() {
+    var user = this.userService.loadUserFromStorage();
+    if (user['role'] == 5 || user['role'] == 6) {
+      this.player = true;
+    }
+    this.userId = user['_id'];
+    console.log('userID', this.userId);
     this.sub = this.route.params.subscribe(params => {
       this.playId = params['id'];
       this.getPlaylistDetail(this.playId);
@@ -161,6 +170,10 @@ export class PlaylistViewComponent implements OnInit {
     //console.log("test", response._body)
     this.playList = JSON.parse(response._body);
     this.playlisName = this.playList['playlists']['name'];
+    console.log(this.playList['playlists']['user']);
+    if (this.userId == this.playList['playlists']['user']) {
+      this.userCanDelele = true;
+    }
 
     if (this.playList['playlists'] && this.playList['playlists']['playdata'].length > 0) {
 
