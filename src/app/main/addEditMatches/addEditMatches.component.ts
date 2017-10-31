@@ -74,7 +74,7 @@ export class addEditMatchesComponent implements OnInit {
   }
 
   ngOnInit() {
-  
+
     this.match.team1 = null;
     this.match.team2 = null;
     this.teamService.getAllTeams(this.userService.token).subscribe(
@@ -112,7 +112,7 @@ export class addEditMatchesComponent implements OnInit {
                     if (JSON.parse(response._body)[0].club1details[0].teams.indexOf(element._id) > -1) {
                       this.clubTeams1.push(element);
                     }
-                  }else{
+                  } else {
                     this.match.team1 = null;
                   }
 
@@ -120,7 +120,7 @@ export class addEditMatchesComponent implements OnInit {
                     if (JSON.parse(response._body)[0].club2details[0].teams.indexOf(element._id) > -1) {
                       this.clubTeams2.push(element);
                     }
-                  }else{
+                  } else {
                     this.match.team2 = null;
                   }
                 });
@@ -130,7 +130,7 @@ export class addEditMatchesComponent implements OnInit {
               },
               (error) => this.onError(error)
             );
-          }else{
+          } else {
             this.buttonName = "Add Match";
           }
 
@@ -207,8 +207,10 @@ export class addEditMatchesComponent implements OnInit {
       this.match.team1 = null;
       if (typeof (userclub) != 'undefined') {
         this.teamsList.forEach((element, index) => {
-          if (userclub.teams.indexOf(element._id) > -1) {
-            this.clubTeams1.push(element);
+          if (userclub.teams != null) {
+            if (userclub.teams.indexOf(element._id) > -1) {
+              this.clubTeams1.push(element);
+            }
           }
         });
       }
@@ -229,8 +231,10 @@ export class addEditMatchesComponent implements OnInit {
       this.match.team2 = null;
       if (typeof (userclub) != 'undefined') {
         this.teamsList.forEach((element, index) => {
-          if (userclub.teams.indexOf(element._id) > -1) {
-            this.clubTeams2.push(element);
+          if (userclub.teams != null) {
+            if (userclub.teams.indexOf(element._id) > -1) {
+              this.clubTeams2.push(element);
+            }
           }
         });
       }

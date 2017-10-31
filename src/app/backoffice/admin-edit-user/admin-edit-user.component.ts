@@ -315,12 +315,14 @@ export class AdminEditUserComponent implements OnInit {
         }
         if (typeof (userclub) != 'undefined') {
             this.teamsList.forEach((element, index) => {
-                if (userclub.teams.indexOf(element._id) > -1) {
-                    this.clubTeams.push(element);
-                    this.teamslistOptions.push({
-                        'id': element._id,
-                        'name': element.name
-                    });
+                if (userclub.teams != null) {
+                    if (userclub.teams.indexOf(element._id) > -1) {
+                        this.clubTeams.push(element);
+                        this.teamslistOptions.push({
+                            'id': element._id,
+                            'name': element.name
+                        });
+                    }
                 }
             });
         }

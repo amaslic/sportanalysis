@@ -19,8 +19,10 @@
       </div>
     </div>
   </div>
-  <ngx-datatable class="material" [limit]="page.limit" [headerHeight]="35" [footerHeight]="50"  [columnMode]="'force'" [rows]="videoListData" [loadingIndicator]="loadingIndicator" [rowHeight]="'auto'" [externalPaging]="true"
-        [count]="page.totalElements" [offset]="page.pageNumber" (page)='setPage($event)' [externalSorting]="true" (sort)="onSort($event)">
+  <ngx-datatable class="material" [limit]="page.limit" [headerHeight]="35" [footerHeight]="50" [columnMode]="'force'" [rows]="videoListData"
+    [loadingIndicator]="loadingIndicator" [rowHeight]="'auto'" [externalPaging]="true" [count]="page.totalElements" [offset]="page.pageNumber"
+    (page)='setPage($event)' [externalSorting]="true" (sort)="onSort($event)">
+
 
     <!-- <ngx-datatable-column name="_id">
       <ng-template let-column="title" ngx-datatable-header-template>
@@ -96,7 +98,7 @@
     <ngx-datatable-column name="calculatedSize">
 
       <ng-template let-column="calculatedSize" ngx-datatable-header-template>
-        Size 
+        Size
       </ng-template>
       <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
         {{value}}
@@ -115,10 +117,10 @@
 
     </ngx-datatable-column>-->
 
-    <ngx-datatable-column *ngIf="isClub" name="endTime">
+    <ngx-datatable-column name="endTime">
 
       <ng-template let-column="endTime" ngx-datatable-header-template>
-        Upload End Time 
+        Upload End Time
       </ng-template>
       <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
         {{value | date:'yyyy-MM-dd HH:mm:ss'}}
