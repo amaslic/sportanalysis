@@ -710,9 +710,9 @@ export class ViewComponent implements OnInit {
         //  this.getVideoTrackingDataItems(this.videoId);
 
         this.getVideoEventsData(this.videoId);
-        // this.timerEvent = setInterval(() => {
-        //   this.getVideoEventsData(this.videoId);
-        // }, 15000);
+        this.timerEvent = setInterval(() => {
+          this.getVideoEventsData(this.videoId);
+        }, 15000);
 
         if (this.currentIndex <= 2) {
           if (this.eventId) {
