@@ -268,7 +268,7 @@ export class ViewComponent implements OnInit {
     //   (response) => this.onIsAdminClubsSuccess(response),
     //   (error) => this.onError(error)
     // );
-    this.showEvent = true;
+
     this.sub = this.route.params.subscribe(params => {
       this.videoId = params['id'];
       if (params['eid'] && params['edid']) {
@@ -279,6 +279,7 @@ export class ViewComponent implements OnInit {
           (error) => this.onError(error)
         )
       } else {
+        this.showEvent = true;
         this.getVideo(this.videoId);
       }
 
@@ -617,11 +618,39 @@ export class ViewComponent implements OnInit {
   }
   getEventDetailsSuccess(response, eid) {
     const eventsdata = JSON.parse(response._body);
+    // console.log("eventsdata.eventData: ");
     // console.log(eventsdata.eventData);
+    // console.log("eid: " + eid);
+    // console.log("response: " + response);
     this.eventsDetails = eventsdata.eventData.filter(function (element, index) {
-      return (element.id[0] === eid);
+      // console.log("element.id[0]: " + element.id[0]);
+      return (element.id[0] == eid);
     })[0];
-    console.log("this.eventsDetails: ", this.eventsDetails);
+
+    this.trackingJsonData = [];
+
+    // let cloned = this.eventsDetails.map(x => Object.assign({}, x));
+    let cloned = Object.assign([], this.eventsDetails);
+
+    if (typeof (cloned.id) != 'undefined') {
+      cloned.id = cloned.id[0];
+    }
+    if (typeof (cloned.name) != 'undefined') {
+      cloned.name = cloned.name[0];
+    }
+    if (typeof (cloned.team) != 'undefined') {
+      cloned.team = cloned.team[0];
+    }
+    if (typeof (cloned.start) != 'undefined') {
+      cloned.start = cloned.start[0];
+    }
+    if (typeof (this.eventsDetails.end) != 'undefined') {
+      cloned.end = cloned.end[0];
+    }
+
+    this.trackingJsonData.push(cloned);
+
+    // console.log("this.eventsDetails: ", this.eventsDetails);
     this.getVideo(this.videoId);
 
   }
@@ -709,7 +738,9 @@ export class ViewComponent implements OnInit {
 
         //  this.getVideoTrackingDataItems(this.videoId);
 
-        this.getVideoEventsData(this.videoId);
+        if (!this.eventId) {
+          this.getVideoEventsData(this.videoId);
+        }
         // this.timerEvent = setInterval(() => {
         //   this.getVideoEventsData(this.videoId);
         // }, 15000);

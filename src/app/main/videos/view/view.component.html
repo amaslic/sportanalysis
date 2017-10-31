@@ -176,6 +176,39 @@
     <!-- <h3>{{ cuePointData?.title }}</h3> -->
   </div>
 </div>
+<div class="right-sidebar" *ngIf="!showEvent">
+  <div class="events-list match-status col-xs-12">
+    <h2 class="title">Event</h2>
+    <!-- <i class="fa fa-search show-filters" aria-hidden="true" (click)="showFilters = !showFilters"></i> -->
+  </div>
+  <div class="match-status playlist col-xs-12">
+    <div class="shareevent stats">
+      <perfect-scrollbar>
+        <ul>
+          <ng-container *ngFor="let event of trackingJsonData | searchEvent:'team,name':[teamModel,eventModel,searchQuery]">
+
+            <li>
+              <a style="display:block" class="playlist-info" href="#" (click)="goToEvent($event, event)" *ngIf="event.start !== 'NaN'">
+                <div class="message-img">
+                  {{fancyTimeFormat(event.start)}}
+                </div>
+                <div class="message-list-content">
+                  <h4>
+                    <img [src]="getEventIcon(event.name)" alt="Event Icon" width="38" height="38" style="visibility: hidden">{{event.name}} ({{event.team}})
+                  </h4>
+
+                </div>
+              </a>
+            </li>
+
+
+          </ng-container>
+        </ul>
+      </perfect-scrollbar>
+    </div>
+  </div>
+</div>
+
 <div class="right-sidebar" *ngIf="showEvent">
   <button *ngIf="multiPlaylist?.length > 0" (click)="createPlaylist(video._id,multiPlaylist,true)">Create Playlist</button>
   <button *ngIf="multiPlaylist?.length > 0" (click)="addToPlaylist(video._id,multiPlaylist,true)">Add to Playlist</button>
@@ -198,8 +231,6 @@
       <a *ngIf="video && isCoachOrAnalyst" [routerLink]="['/videos/settings', video._id]">Settings</a>
     </span>
 
-
-
     <div class="match-club  search clearfix form-inline">
       <div class="form-group">
         <label class="control-label" for="inputSuccess4"></label>
@@ -210,12 +241,9 @@
       </div>
       <br>
 
-
-
     </div>
 
   </div>
-
   <div class="match-status playlist col-xs-12" *ngIf="showEvent">
     <div class="stats">
       <perfect-scrollbar>

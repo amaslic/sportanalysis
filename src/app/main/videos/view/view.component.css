@@ -578,6 +578,11 @@
   background: #009cff;
   color: white;
 }
+.shareevent.stats ul li .message-img {
+  position: absolute;
+  top: 15px;
+  left: 0px;
+} 
 
 .stats ul li .message-img {
   position: absolute;
@@ -593,6 +598,13 @@
 
 .video-date{
   margin-left: 10px;
+}
+
+.shareevent.stats ul li .message-list-content {
+  
+  padding-bottom:5px;
+  padding-top: 5px;
+  padding-left: 0px;
 }
 
 .stats ul li .message-list-content {
