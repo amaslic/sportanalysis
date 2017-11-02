@@ -112,7 +112,7 @@
         <div class="clock-time ">
           <i class="fa fa-clock-o " aria-hidden="true "></i> Events
         </div>
-      </div>
+      </div> 
       <!--| searchVideoTimeline:'team,name':[teamModel,eventModel,searchQuery]" -->
       <div class="form-group clearfix" style="font-size: 12px; text-align: center" *ngFor="let evtGroup of videoEvents | searchVideoTimeline:'team,name':[teamModel,eventModel,searchQuery]"
         [ngClass]="{'active': checkIfCurrentTime(evtGroup)}">
@@ -214,8 +214,19 @@
   <button *ngIf="multiPlaylist?.length > 0" (click)="addToPlaylist(video._id,multiPlaylist,true)">Add to Playlist</button>
   <button *ngIf="multiPlaylist?.length > 0 && isCoachOrAnalyst" (click)="deleteSelected()">Delete Selected</button>
   <div class="events-list match-status col-xs-12">
-    <h2 class="title">Event list</h2>
-    <i class="fa fa-search show-filters" aria-hidden="true" (click)="showFilters = !showFilters"></i>
+    <!--<h2 class="title">Event list</h2>-->
+       <div class="match-club  search clearfix form-inline">
+      <div class="form-group">
+        <label class="control-label" for="inputSuccess4"></label>
+        <input type="text" class="form-control" placeholder="Search" [(ngModel)]="searchQuery">
+        <span *ngIf="false">
+          <img src="assets/images/search.png" alt="Search">
+        </span>
+      </div>
+      <br>
+
+    </div>
+    <i class="fa fa-filter show-filters" aria-hidden="true" (click)="showFilters = !showFilters"></i>
   </div>
   <div class="match-info filters col-xs-12" *ngIf="showFilters">
 
@@ -227,21 +238,12 @@
       <ss-multiselect-dropdown [options]="myOptions1" [texts]="eventTexts" [settings]="eventSettings" [(ngModel)]="eventModel"
         (ngModelChange)="onChange($event)"></ss-multiselect-dropdown>
     </div>
+    <div class="settings-div">
     <span class="settings">
       <a *ngIf="video && isCoachOrAnalyst" [routerLink]="['/videos/settings', video._id]">Settings</a>
     </span>
-
-    <div class="match-club  search clearfix form-inline">
-      <div class="form-group">
-        <label class="control-label" for="inputSuccess4"></label>
-        <input type="text" class="form-control" placeholder="Search" [(ngModel)]="searchQuery">
-        <span *ngIf="false">
-          <img src="assets/images/search.png" alt="Search">
-        </span>
-      </div>
-      <br>
-
-    </div>
+  </div>
+ 
 
   </div>
   <div class="match-status playlist col-xs-12" *ngIf="showEvent">
