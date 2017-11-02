@@ -130,6 +130,7 @@ export class ViewComponent implements OnInit {
   public playlists: Playlist = new Playlist();
   page = new Page();
   page1 = new Page();
+  videoTimeFormat = "mm:ss";
 
   eventPlayQueue: any = [];
 
@@ -733,6 +734,10 @@ export class ViewComponent implements OnInit {
         this.videoDuration = this.api.getDefaultMedia().duration;
         this.roundedDuration = parseInt(this.videoDuration);
         this.fancyVideoDuration = this.fancyTimeFormat(this.videoDuration);
+
+        if (this.videoDuration > 3600)
+          this.videoTimeFormat = "hh:mm:ss";
+
         // console.log(this.videoDuration);
         // console.log(this.fancyVideoDuration);
 

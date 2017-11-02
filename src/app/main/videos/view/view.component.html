@@ -38,12 +38,12 @@
         <vg-play-pause></vg-play-pause>
         <vg-playback-button></vg-playback-button>
 
-        <vg-time-display vgProperty="current" vgFormat="mm:ss"></vg-time-display>
+        <vg-time-display vgProperty="current" vgFormat="{{videoTimeFormat}}"></vg-time-display>
 
         <vg-scrub-bar></vg-scrub-bar>
 
-        <vg-time-display vgProperty="left" vgFormat="mm:ss"></vg-time-display>
-        <vg-time-display vgProperty="total" vgFormat="mm:ss"></vg-time-display>
+        <vg-time-display vgProperty="left" vgFormat="{{videoTimeFormat}}"></vg-time-display>
+        <vg-time-display vgProperty="total" vgFormat="{{videoTimeFormat}}"></vg-time-display>
 
         <!--<vg-track-selector></vg-track-selector>-->
         <vg-mute></vg-mute>
@@ -212,7 +212,7 @@
 <div class="right-sidebar" *ngIf="showEvent">
   <button *ngIf="multiPlaylist?.length > 0" (click)="createPlaylist(video._id,multiPlaylist,true)">Create Playlist</button>
   <button *ngIf="multiPlaylist?.length > 0" (click)="addToPlaylist(video._id,multiPlaylist,true)">Add to Playlist</button>
-  <button *ngIf="multiPlaylist?.length > 0" (click)="deleteSelected()">Delete Selected</button>
+  <button *ngIf="multiPlaylist?.length > 0 && isCoachOrAnalyst" (click)="deleteSelected()">Delete Selected</button>
   <div class="events-list match-status col-xs-12">
     <h2 class="title">Event list</h2>
     <i class="fa fa-search show-filters" aria-hidden="true" (click)="showFilters = !showFilters"></i>
