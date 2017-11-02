@@ -56,7 +56,8 @@
             <label class="control-label text-left" for="title">Match:</label>
             <select name="match" #team class="form-control select-match-option" [(ngModel)]="match" (ngModelChange)="onChangeofMatch()">
               <option value=null>Select Match</option>
-              <option *ngFor="let m of matches | orderBy: ['date']" [ngValue]="m._id">{{m.club1details[0].name}} vs {{m.club2details[0].name}} ({{m.date | date: 'yyyy-MM-dd'}} {{m.time}}) </option>
+              <option *ngFor="let m of matches | orderBy: ['date']" [ngValue]="m._id">{{m.club1details[0].name}} - {{m.club2details[0].name}} ({{m.team1details[0].name}} - {{m.team2details[0].name}})
+                ({{m.date | date: 'dd/MM/yyyy'}} {{m.time}}) </option>
             </select>
           </div>
           <div class="form-group margin-left-0" *ngIf="match!=null && match != 'null'">
