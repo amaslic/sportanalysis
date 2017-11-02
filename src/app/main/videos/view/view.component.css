@@ -453,6 +453,13 @@
   display: none;
 }
 
+div.settings-div{
+  max-width: 85px;
+  width: 100%;
+  margin: auto;
+  padding-bottom: 10px;
+}
+
 .settings{
   /*margin-left: 90px;*/
   text-align: center;
@@ -471,9 +478,17 @@
     padding: 5px 10px 5px 10px;
     background: #009cff;
     border-radius: 50px;
-    position: absolute;
+    max-width: 120px;
+    width: 100%;
+    margin: auto;
+    text-align: center;
+   /* position: absolute;
     right: 20px;
-    bottom: 13px;
+    bottom: 13px;*/
+}
+
+.second-dropdown{
+  padding-bottom: 10px;
 }
 
 .settings a:hover{
@@ -650,6 +665,20 @@
 .chat-box ul li span{
   font-size: 13px;
 }
+ 
+.events-list.match-status{
+  padding-top: 50px;
+  padding-bottom: 20px;
+}
+
+.match-club.search{
+  position: absolute;
+  left: 10px;
+  top: 14px;
+  padding-top: 0;
+  max-width: 200px;
+  width: 100%;
+}
 
 .chat-box .reply h5{
   float: left;
@@ -810,7 +839,7 @@ ss-multiselect-dropdown /deep/ .btn{
     bottom: 0;
 }
 .playlist ul{
-  max-height: 400px !important;
+  max-height: 800px !important;
 }
 .dots a:hover{
   color: #59719a!important;
@@ -834,8 +863,8 @@ ss-multiselect-dropdown /deep/ .btn{
 }
 
 i.show-filters{
- max-width: 330px;
- width: 100%;
+ /*max-width: 330px;
+ width: 100%;*/
  text-align: right;
  cursor: pointer;
  font-size: 24px;

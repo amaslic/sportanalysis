@@ -99,6 +99,7 @@
 .all-videos .col-lg-4, .all-videos .col-lg-4, .all-videos .col-sm-6, .all-videos .col-xs-12{
   max-width: 320px;
   width: 100%;
+  font-size: 13px;
 }
 .all-videos .list-view{
   max-width: 100%;
@@ -379,8 +380,10 @@ li.title-grid{display: block !important;margin-bottom: 5px;}
 /* .list-view .list-inline.video-list-details > li:nth-child(4){
   max-width: 250px;
 } */
+
 .title{
-  max-width: 170px !important;
+  max-width: 260px !important;
+  white-space: nowrap;
 }
 .hometeam{
   max-width: 120px !important;
@@ -391,7 +394,10 @@ li.title-grid{display: block !important;margin-bottom: 5px;}
 .result{
   max-width: 200px !important;
 }
-.type{width: 120px !important;}
+.type{max-width: 70px !important;}
+.date-first{
+  max-width: 100px!important;
+}
 .list-view .list-inline.video-list-details > li:nth-child(5){
    max-width: 100px;
 }
