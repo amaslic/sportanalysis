@@ -7,8 +7,8 @@
 <div class="content add-margin">
 
   <div class="container">
-    <h3 *ngIf="(video.type == 'Training')" class="video-title">{{video.title}}</h3>
-    <h3 *ngIf="(video.type != 'Training')" class="video-title">{{video.clubName}} vs {{video.clubName2}}</h3>
+    <h3 *ngIf="(video.type != 'Match')" class="video-title">{{video.title}}</h3>
+    <h3 *ngIf="(video.type == 'Match')" class="video-title">{{video.clubName}} vs {{video.clubName2}}</h3>
     <button class="btn btn-default pull-right action-button" *ngIf="isAdmin" [routerLink]="['/backoffice/video-overview']">Back</button>
     <button class="btn btn-default pull-right action-button" *ngIf="(tabIndex==2)" (click)="deleteSelected()">Delete Selected</button>
     <button class="btn btn-default pull-right action-button" *ngIf="(tabIndex==2)" (click)="approveSelected()">Approve Selected</button>
@@ -61,7 +61,8 @@
                 <div class="col-sm-7">
                   <select name="match" #team class="form-control" [(ngModel)]="video.match" (ngModelChange)="onChangeofMatch()">
                     <option value="null">Select Match</option>
-                    <option *ngFor="let m of matches | orderBy: ['date']" [ngValue]="m._id">{{m.club1details[0].name}} vs {{m.club2details[0].name}} ({{m.date | date: 'yyyy-MM-dd'}} {{m.time}})
+                    <option *ngFor="let m of matches | orderBy: ['date']" [ngValue]="m._id">{{m.club1details[0].name}} - {{m.club2details[0].name}} ({{m.team1details[0].name}} - {{m.team2details[0].name}})
+                      ({{m.date | date: 'dd/MM/yyyy'}} {{m.time}})
                     </option>
                   </select>
                 </div>
