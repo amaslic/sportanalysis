@@ -60,7 +60,43 @@
   </div>
 </div>
 <div class="right-sidebar">
-  <br>
+  <div class="show-chat" *ngIf="showChat" (click)="showChatWindow()">Show Chat</div>
+  <div class="chat-list" *ngIf="chatList&&!showChat">
+    <h4 class="chat-title">Live Chat</h4>
+    <div class="chat-body" #scrollMe [scrollTop]="scrollMe.scrollHeight">
+      <div class="msg-section" *ngFor="let chat of chatMessages">
+        <div class="profile-pic">
+          <img src="{{chat.profileImg}}" (error)="setDefaultPic(chat)">
+        </div>
+        <div class="user-name">
+          <div class="name">{{chat.sender.firstName}} {{chat.sender.lastName}}
+            <span class="send-time">{{chat.time | date:'dd/MM/yyyy HH:mm a'}}</span>
+          </div>
+          <div class="msg">{{chat.message}}
+
+          </div>
+        </div>
+      </div>
+    </div>
+    <div>
+      <div class="msj-rta macro" style="margin:auto">
+        <div class="text text-r clearfix">
+          <div class="border-bottom">
+            <input type="textarea" [(ngModel)]="message" class="send-text" placeholder="Type a message" (keyup.enter)="sendMessage()"
+            />
+            <button (click)="sendMessage()" class="send-message">
+              <i class="fa fa-send"></i>
+            </button>
+            <i class="fa fa-smile-o"></i>
+
+          </div>
+          <div class="hide-chat-section" (click)="hideChatWindow()">
+            Hide Chat
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
   <button *ngIf="multiEid?.length > 0" class="pull-right" (click)="deleteSelected()">Delete Selected</button>
   <div class="match-info filters col-xs-12">
     <h2 class="title">

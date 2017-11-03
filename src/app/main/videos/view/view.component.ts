@@ -22,7 +22,12 @@ import {
 import {
   PlaylistService
 } from './../../../services/playlist.service';
-
+// import {
+//   ChatService
+// } from './../../../services/chat.service';
+import {
+  ChatService
+} from './../../../services/chat.service';
 import {
   GlobalVariables
 } from './../../../models/global.model';
@@ -75,10 +80,18 @@ export interface IMedia {
   styleUrls: ['./view.component.css']
 })
 export class ViewComponent implements OnInit {
+  lastMsgId: any;
+  userDetails: {};
+  private baseImageUrl = GlobalVariables.BASE_IMAGE_URL;
+  showChat: Boolean = true;
+  chatData: any;
+  chatList: any;
+  message: String;
   timerOn: boolean;
   keyCode: any;
   multiEid: any = [];
   multiId: any = [];
+  chatMessages: any = [];
   globalListenFunc: Function;
   create: boolean;
   multiplay: Boolean;
@@ -100,6 +113,7 @@ export class ViewComponent implements OnInit {
   vId: any;
   timer: NodeJS.Timer;
   timerEvent: NodeJS.Timer;
+  timerChat: NodeJS.Timer;
   starttime: number;
   eventPause: boolean;
   private sub: any;
@@ -250,14 +264,14 @@ export class ViewComponent implements OnInit {
 
   //@ViewChild('eventTimelineScrollbar') eventTimelineScrollbar;
 
-  constructor(private r: Router, private route: ActivatedRoute, private playlistService: PlaylistService, private videoService: VideoService, private userService: UserService, private trackingDataService: TrackingDataService, private renderer: Renderer2) { }
+  constructor(private r: Router, private route: ActivatedRoute, private playlistService: PlaylistService, private videoService: VideoService, private userService: UserService, private trackingDataService: TrackingDataService, private chatService: ChatService, private renderer: Renderer2) { }
 
   ngOnInit() {
     // this.globalListenFunc = this.renderer.listen('document', 'keypress', e => {
     //   console.log('test', e);
     // });
     var user = this.userService.loadUserFromStorage();
-
+    this.userDetails = user;
     if (user['role'] != 3 && user['role'] != 4) {
       this.isCoachOrAnalyst = false;
     } else {
@@ -284,6 +298,11 @@ export class ViewComponent implements OnInit {
       }
 
     });
+    this.fetchMessages(0);
+
+    this.timerChat = setInterval(() => {
+      this.fetchMessages(this.lastMsgId);
+    }, 5000);
 
   }
   onIsAdminClubsSuccess(response) {
@@ -839,6 +858,9 @@ export class ViewComponent implements OnInit {
     if (this.timerEvent) {
       clearInterval(this.timerEvent);
     }
+    if (this.timerChat) {
+      clearInterval(this.timerChat);
+    }
 
   }
 
@@ -953,6 +975,9 @@ export class ViewComponent implements OnInit {
   ngOnDestroy() {
 
     this.cleartimer();
+    if (this.timerChat) {
+      clearInterval(this.timerChat);
+    }
   }
   createPlaylist(vId, event, multiplay: Boolean) {
     this.create = true;
@@ -1195,5 +1220,42 @@ export class ViewComponent implements OnInit {
       );
     }
   }
+  sendMessage() {
 
+    if (this.message) {
+      this.chatService.sendMessage(this.message, this.videoId, this.userService.token, 'video').subscribe(
+        (response: any) => {
+          this.chatData = JSON.parse(response._body);
+          this.lastMsgId = this.chatData.chat._id;
+          this.chatMessages.push({ id: this.chatData.chat._id, message: this.chatData.chat.message, time: this.chatData.chat.createdAt, sender: this.userDetails, profileImg: this.baseImageUrl + "/profile/" + this.userDetails['_id'] + ".png" });
+        },
+        (error) => this.onError(error)
+      );
+      this.message = '';
+    }
+  }
+  fetchMessages(lastId) {
+    this.chatService.fetchMessages(lastId, this.videoId, this.userService.token).subscribe(
+      (response: any) => {
+        this.chatList = JSON.parse(response._body);
+        this.chatList.chat.forEach((element, index) => {
+          element.profileImg = this.baseImageUrl + "/profile/" + element.sender._id + ".png";
+          this.chatMessages.push({ id: element._id, message: element.message, time: element.createdAt, sender: element.sender, profileImg: element.profileImg });
+          this.lastMsgId = element._id;
+        });
+
+      },
+      (error) => this.onError(error)
+    );
+  }
+  showChatWindow() {
+    this.showChat = false;
+  }
+  hideChatWindow() {
+    this.showChat = true;
+  }
+
+  setDefaultPic(element) {
+    element.profileImg = "assets/images/user.png";
+  }
 }

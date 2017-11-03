@@ -37,7 +37,7 @@ import { SeasonService } from './services/season.service';
 import { CompetitionService } from './services/competition.service';
 import { TacticService } from './services/tactic.service';
 import { SettingService } from './services/setting.service';
-
+import { ChatService } from './services/chat.service';
 import { MainComponent } from './main/main.component';
 import { AdminGuard } from './admin-guard.service';
 import { AuthGuard } from './auth-guard.service';
@@ -220,7 +220,7 @@ const appRoutes: Routes = [
     Ng2CompleterModule,
     PipeModule
   ],
-  providers: [UserService, VideoService, TrackingDataService, AuthGuard, AdminGuard, ClubService, PlaylistService, TeamService, MatchService, LocationService, SeasonService, CompetitionService, TacticService, SettingService],
+  providers: [UserService, VideoService, TrackingDataService, AuthGuard, AdminGuard, ClubService, PlaylistService, TeamService, MatchService, LocationService, SeasonService, CompetitionService, TacticService, SettingService, ChatService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

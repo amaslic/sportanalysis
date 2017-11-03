@@ -30,6 +30,9 @@ import {
 import {
   Page
 } from './../../models/page.model';
+import {
+  ChatService
+} from './../../services/chat.service';
 
 import { IMultiSelectOption, IMultiSelectSettings, IMultiSelectTexts } from 'angular-2-dropdown-multiselect';
 
@@ -50,6 +53,15 @@ export interface IMedia {
   styleUrls: ['./playlist-view.component.css']
 })
 export class PlaylistViewComponent implements OnInit {
+  chatList: any;
+  lastMsgId: any;
+  userDetails: {};
+  chatMessages: any = [];
+  timerChat: NodeJS.Timer;
+  private baseImageUrl = GlobalVariables.BASE_IMAGE_URL;
+  message: any;
+  chatData: any;
+  showChat: boolean = true;
   userCanDelele: boolean;
   userId: any;
   player: boolean;
@@ -142,12 +154,14 @@ export class PlaylistViewComponent implements OnInit {
   @ViewChild('assignEventModal') assignEventModal;
 
 
-  constructor(private playlistService: PlaylistService, private videoService: VideoService, private userService: UserService, private trackingDataService: TrackingDataService, r: Router, private route: ActivatedRoute) {
+  constructor(private playlistService: PlaylistService, private videoService: VideoService, private userService: UserService, private trackingDataService: TrackingDataService, r: Router, private route: ActivatedRoute, private chatService: ChatService) {
     this.router = r;
   }
 
   ngOnInit() {
     var user = this.userService.loadUserFromStorage();
+
+    this.userDetails = user;
     if (user['role'] == 5 || user['role'] == 6) {
       this.player = true;
     }
@@ -157,6 +171,12 @@ export class PlaylistViewComponent implements OnInit {
       this.playId = params['id'];
       this.getPlaylistDetail(this.playId);
     });
+
+    this.fetchMessages(0);
+
+    this.timerChat = setInterval(() => {
+      this.fetchMessages(this.lastMsgId);
+    }, 5000);
   }
 
 
@@ -347,9 +367,11 @@ export class PlaylistViewComponent implements OnInit {
 
 
   }
+
   cleartimer() {
-    if (this.timer)
+    if (this.timer) {
       clearInterval(this.timer);
+    }
   }
 
   startEventTimer() {
@@ -636,5 +658,48 @@ export class PlaylistViewComponent implements OnInit {
     this.successmsg = eventRes.message;
     this.assignEventModal.close();
     this.SucessModal.open();
+  }
+  showChatWindow() {
+    this.showChat = false;
+  }
+  hideChatWindow() {
+    this.showChat = true;
+  }
+  sendMessage() {
+
+    if (this.message) {
+      this.chatService.sendMessage(this.message, this.playId, this.userService.token, 'playlist').subscribe(
+        (response: any) => {
+          this.chatData = JSON.parse(response._body);
+          this.lastMsgId = this.chatData.chat._id;
+          this.chatMessages.push({ id: this.chatData.chat._id, message: this.chatData.chat.message, time: this.chatData.chat.createdAt, sender: this.userDetails, profileImg: this.baseImageUrl + "/profile/" + this.userDetails['_id'] + ".png" });
+        },
+        (error) => this.onError(error)
+      );
+      this.message = '';
+    }
+  }
+  fetchMessages(lastId) {
+    this.chatService.fetchMessages(lastId, this.playId, this.userService.token).subscribe(
+      (response: any) => {
+        this.chatList = JSON.parse(response._body);
+        this.chatList.chat.forEach((element, index) => {
+          element.profileImg = this.baseImageUrl + "/profile/" + element.sender._id + ".png";
+          this.chatMessages.push({ id: element._id, message: element.message, time: element.createdAt, sender: element.sender, profileImg: element.profileImg });
+          this.lastMsgId = element._id;
+        });
+
+      },
+      (error) => this.onError(error)
+    );
+  }
+  setDefaultPic(element) {
+    element.profileImg = "assets/images/user.png";
+  }
+  ngOnDestroy() {
+    this.cleartimer();
+    if (this.timerChat) {
+      clearInterval(this.timerChat);
+    }
   }
 }

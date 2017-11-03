@@ -1253,4 +1253,40 @@ a.playlist-info:hover .message-list-content h4{
     display: inline-block;
     font-size: 22px;} 
 
-  
+  /*Chat css*/
+  .chat-list{    padding: 0px 15px 0;}
+  input.send-text{width: 78%;border: none;color:#fff;height: 30px;background-color: transparent;display: inline-block;}
+  input.send-text:focus{outline: none;}
+  input.send-text::-webkit-input-placeholder { /* Chrome/Opera/Safari */
+    color: #fff;
+    font-weight: normal;
+  }
+  input.send-text::-moz-placeholder { /* Firefox 19+ */
+    color: #fff;
+    font-weight: normal;
+  }
+  input.send-text:-ms-input-placeholder { /* IE 10+ */
+    color: #fff;
+    font-weight: normal;
+  }
+  input.send-text:-moz-placeholder { /* Firefox 18- */
+    color: #fff;
+    font-weight: normal;
+  }
+  .border-bottom{border-bottom: 1px solid #fff;}
+  .show-chat{background:#009cff;color: #fff;margin: 10px 15px 0;text-align: center;padding: 10px 0;cursor: pointer;}
+  .chat-title{background:#009cff;color: #fff;margin: 0px;padding: 10px; }
+  .chat-body{width: 100%;padding: 10px;background-color: #fff;height: 430px;overflow-y: auto;}
+  .msg-section{margin-bottom: 5px;}
+  .profile-pic{width:36px;height: 36px;display: inline-block;border-radius: 50%;background-color: #9aca3e;margin-right: 10px;vertical-align: top;}
+  .profile-pic img{width: 100%;height: auto;overflow: hidden;border-radius: 50%;}
+  .user-name{width:calc(100% - 49px);display: inline-block;}
+  .name{width: 100%;display: inline-block;color: #ccc;font-size: 14px;margin-right: 10px;}
+  .msg{width: 100%;display: inline-block;color: #000;font-size: 14px;font-weight: normal;word-break: break-all;}
+  .text{background:#009cff !important;padding:10px;}
+  .fa-send{font-size: 17px;color: #fff;display: inline-block;margin-left: 10px;}
+  .fa-smile-o{font-size: 19px;color: #fff;float: right;margin-top: 6px;}
+  button.send-message{border: none;background-color: transparent;height: auto;float: right;margin-top: 6px;}
+  span.text-limit{color:#fff;font-size: 12px;margin-right:10px;}
+  .hide-chat-section{text-align: center;color: #fff;padding-top: 10px;clear: both;cursor: pointer;}
+  .send-time{color: #009cff;margin-left: 10px;font-size: 9px;font-weight: 400;float: right;margin-top: 6px;}
