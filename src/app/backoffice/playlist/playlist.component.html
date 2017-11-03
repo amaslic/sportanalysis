@@ -27,8 +27,9 @@
     </ngx-datatable-column>
   </ngx-datatable>-->
 
-  <ngx-datatable class="material" [limit]="page.limit" [headerHeight]="35" [footerHeight]="50" [columnMode]="'force'" [rows]="playList" [rowHeight]="40" [externalPaging]="true"
-        [count]="page.totalElements" [offset]="page.pageNumber" (page)='setPage($event)' [externalSorting]="true" (sort)="onSort($event)">
+  <ngx-datatable class="material" [limit]="page.limit" [headerHeight]="35" [footerHeight]="50" [columnMode]="'force'" [rows]="playList"
+    [rowHeight]="40" [externalPaging]="true" [count]="page.totalElements" [offset]="page.pageNumber" (page)='setPage($event)'
+    [externalSorting]="true" (sort)="onSort($event)">
     <ngx-datatable-column name="Name">
     </ngx-datatable-column>
     <ngx-datatable-column name="Club" prop="user.club">
@@ -38,8 +39,20 @@
         {{row.user.firstName}} {{row.user.lastName}}
       </ng-template>
     </ngx-datatable-column>
+    <ngx-datatable-column name="viewCounter">
+
+      <ng-template let-column="club" ngx-datatable-header-template>
+        View Counter
+      </ng-template>
+      <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
+        {{value}}
+        <!--{{value.club}}-->
+      </ng-template>
+
+    </ngx-datatable-column>
     <ngx-datatable-column name="Action">
       <ng-template let-row="row" ngx-datatable-cell-template>
+        <i class="fa fa-users text-info btn btn-default" title="View Counter Users" (click)="ShowCounterUsersModel(row._id)" aria-hidden="true"></i>
         <i class="fa fa-eye text-info btn btn-default" *ngIf="row.playdata.length > 0" [routerLink]="['/backoffice/playlist/view',row._id]"
           aria-hidden="true"></i>
         <i class="btn btn-default fa fa-share-alt fa-lg text-success" aria-hidden="true" (click)="assignUser(row._id)"></i>
@@ -94,5 +107,48 @@
   </modal-content>
   <modal-footer>
     <button class="btn btn-primary" (click)="SucessModal.close()">Ok</button>
+  </modal-footer>
+</modal>
+
+<modal #counterUsersModal class="counter-users-modal">
+  <modal-header>
+
+  </modal-header>
+  <modal-content>
+    <p>
+      Users
+    </p>
+    <div class="col-md-12">
+      <div *ngFor="let user of counterUserList" class="msg-section">
+        <div class="profile-pic">
+          <img src="{{user.profileImg}}" (error)="setDefaultPic(user)" alt="profile picture">
+        </div>
+        <div class="user-name">
+          <div class="name">{{user.userdetails.firstName}} {{user.userdetails.lastName}}</div>
+          <div class="msg">had seen before {{user.timespan}}</div>
+        </div>
+      </div>
+
+      <ngx-datatable class="material counterusersdatatable" [limit]="counterUsersPage.limit" [headerHeight]="35" [footerHeight]="50"
+        [columnMode]="'force'" [rows]="counterUserList" [loadingIndicator]="loadingIndicator" [rowHeight]="'auto'" [externalPaging]="true"
+        [count]="counterUsersPage.totalElements" [offset]="counterUsersPage.pageNumber" (page)='getCounterUsers($event)'>
+
+        <ngx-datatable-column name="_id">
+
+          <ng-template let-column="_id" ngx-datatable-header-template>
+            Type
+          </ng-template>
+          <ng-template let-value="value" ngx-datatable-cell-template>
+
+            {{value}}
+          </ng-template>
+        </ngx-datatable-column>
+
+      </ngx-datatable>
+
+    </div>
+  </modal-content>
+  <modal-footer>
+    <button class="btn btn-primary" (click)="counterUsersModal.close()">Ok</button>
   </modal-footer>
 </modal>

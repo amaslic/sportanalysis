@@ -35,4 +35,10 @@ export class CounterUsersService {
         return this.http.get(this.baseApiUrl + 'counterusers/fetchAllByVideo?video=' + id + '&page=' + page.pageNumber + '&limit=' + page.limit + '&sort=' + page.sort + '&sortDir=' + page.sortDir, options);
     }
 
+    getCounterUsersByPlaylist(id: any, token: String, page) {
+        const headers = new Headers({ 'Authorization': token });
+        const options = new RequestOptions({ headers: headers });
+        return this.http.get(this.baseApiUrl + 'counterusers/fetchAllByPlaylist?playlist=' + id + '&page=' + page.pageNumber + '&limit=' + page.limit + '&sort=' + page.sort + '&sortDir=' + page.sortDir, options);
+    }
+
 }

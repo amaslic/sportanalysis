@@ -24,7 +24,11 @@ import {
 import {
   Page
 } from './../../models/page.model';
+import {
+  CounterUsersService
+} from './../../services/counterusers.service';
 import { IMultiSelectOption, IMultiSelectSettings, IMultiSelectTexts } from 'angular-2-dropdown-multiselect';
+import { GlobalVariables } from "app/models/global.model";
 
 @Component({
   selector: 'app-playlist',
@@ -44,6 +48,11 @@ export class PlaylistsComponent implements OnInit {
   showProgressBar: boolean = false;
   page = new Page();
   page1 = new Page();
+  counterUsersPage = new Page();
+  counterUserVideoId: any;
+  counterUserList: any = [];
+  timer: NodeJS.Timer;
+  private baseImageUrl = GlobalVariables.BASE_IMAGE_URL;
 
   userlistSettings: IMultiSelectSettings = {
     enableSearch: false,
@@ -80,10 +89,15 @@ export class PlaylistsComponent implements OnInit {
 
   @ViewChild('updatePlaylistModal') updatePlaylistModal;
   @ViewChild('SucessModal') SucessModal;
-  constructor(private localStorageService: LocalStorageService, private userService: UserService, private playlistService: PlaylistService, private clubService: ClubService) { }
+  @ViewChild('counterUsersModal') counterUsersModal;
+  constructor(private localStorageService: LocalStorageService, private userService: UserService, private playlistService: PlaylistService, private clubService: ClubService, private counterUsersService: CounterUsersService) { }
 
   ngOnInit() {
+    this.counterUsersPage.limit = 5;
+    this.counterUsersPage.sort = "createdAt";
+    this.counterUsersPage.sortDir = "desc";
     this.getAllClubs();
+
   }
 
   getAllClubs() {
@@ -249,6 +263,80 @@ export class PlaylistsComponent implements OnInit {
     this.SucessModal.open();
     // this.getPlaylist();
     this.setPage({ offset: this.page.pageNumber });
+  }
+
+  ShowCounterUsersModel(id) {
+    console.log(id);
+    this.counterUserVideoId = id;
+    this.getCounterUsers({ offset: 0 })
+  }
+
+  getCounterUsers(pageInfo) {
+    this.counterUsersPage.pageNumber = pageInfo.offset;
+    if (this.timer) {
+      clearInterval(this.timer);
+    }
+    this.counterUsersService.getCounterUsersByPlaylist(this.counterUserVideoId, this.userService.token, this.counterUsersPage).subscribe(
+      (response: any) => {
+        console.log(response);
+        this.counterUserList = JSON.parse(response._body).counterUsers;
+
+        if (this.counterUserList.length > 0) {
+          this.counterUserList.forEach(element => {
+            element.profileImg = this.baseImageUrl + "/profile/" + element.user + ".png";
+          });
+        }
+
+        this.setCurrentTime();
+
+        this.counterUsersPage.totalElements = JSON.parse(response._body).total;
+        this.counterUsersPage.totalPages = this.counterUsersPage.totalElements / this.counterUsersPage.limit;
+        let start = this.counterUsersPage.pageNumber * this.counterUsersPage.limit;
+        let end = Math.min((start + this.counterUsersPage.limit), this.counterUsersPage.totalElements);
+
+        if (this.counterUserList.length == 0 && this.counterUsersPage.pageNumber > 0) {
+          this.getCounterUsers({ offset: (this.counterUsersPage.pageNumber - 1) });
+        }
+
+        this.timer = setInterval(() => {
+          this.setCurrentTime();
+        }, 1000);
+      },
+      (error) => this.onError(error)
+    );
+
+    this.counterUsersModal.open();
+  }
+
+  setCurrentTime() {
+    if (this.counterUserList.length > 0) {
+      this.counterUserList.forEach(element => {
+
+        var Currentdate = new Date();
+        // var date1 = new Date("7/Nov/2012 20:30:00");
+        // var date2 = new Date("20/Nov/2012 19:15:00");
+
+        var diff = Currentdate.getTime() - new Date(element.createdAt).getTime();
+
+        var days = Math.floor(diff / (1000 * 60 * 60 * 24));
+        diff -= days * (1000 * 60 * 60 * 24);
+
+        var hours = Math.floor(diff / (1000 * 60 * 60));
+        diff -= hours * (1000 * 60 * 60);
+
+        var mins = Math.floor(diff / (1000 * 60));
+        diff -= mins * (1000 * 60);
+
+        var seconds = Math.floor(diff / (1000));
+        diff -= seconds * (1000);
+
+        element.timespan = (days > 0 ? days + " days " : '') + (hours > 0 ? hours + " hours " : '') + (mins > 0 ? mins + " minutes " : "") + seconds + " seconds.";
+      });
+    }
+  }
+
+  setDefaultPic(element) {
+    element.profileImg = "assets/images/user.png";
   }
 
 
