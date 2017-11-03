@@ -5,9 +5,6 @@ import {
   GlobalVariables
 } from './../models/global.model';
 import {
-  User
-} from './../models/user.model';
-import {
   Http,
   RequestOptions,
   Headers
@@ -35,45 +32,45 @@ export class CompetitionService {
     this.progress$ = this.progressSubject.asObservable();
   }
 
-  
-  createCompetition(competition,token: String) {
-      const headers = new Headers({
-          'Authorization': token
-        });
-        const options = new RequestOptions({
-          headers: headers
-        });
-        return this.http.post(this.baseApiUrl + 'competition/create', competition, options);
-    }
 
-    getAllCompetitions(token: String) {
-        const headers = new Headers({
-          'Authorization': token
-        });
-        const options = new RequestOptions({
-          headers: headers
-        });
-        return this.http.get(this.baseApiUrl + 'competition/fetchAll', options);
-    }
+  createCompetition(competition, token: String) {
+    const headers = new Headers({
+      'Authorization': token
+    });
+    const options = new RequestOptions({
+      headers: headers
+    });
+    return this.http.post(this.baseApiUrl + 'competition/create', competition, options);
+  }
 
-    deleteCompetition(competitionId,token: String) {
-      const headers = new Headers({
-          'Authorization': token
-        });
-        const options = new RequestOptions({
-          headers: headers
-        });
-        return this.http.delete(this.baseApiUrl + 'competition/delete?id='+competitionId, options);
-    }
+  getAllCompetitions(token: String) {
+    const headers = new Headers({
+      'Authorization': token
+    });
+    const options = new RequestOptions({
+      headers: headers
+    });
+    return this.http.get(this.baseApiUrl + 'competition/fetchAll', options);
+  }
 
-    updateCompetition(competition,token: String) {
-      const headers = new Headers({
-          'Authorization': token
-        });
-        const options = new RequestOptions({
-          headers: headers
-        });
-        return this.http.post(this.baseApiUrl + 'competition/update', competition, options);
-    }
+  deleteCompetition(competitionId, token: String) {
+    const headers = new Headers({
+      'Authorization': token
+    });
+    const options = new RequestOptions({
+      headers: headers
+    });
+    return this.http.delete(this.baseApiUrl + 'competition/delete?id=' + competitionId, options);
+  }
+
+  updateCompetition(competition, token: String) {
+    const headers = new Headers({
+      'Authorization': token
+    });
+    const options = new RequestOptions({
+      headers: headers
+    });
+    return this.http.post(this.baseApiUrl + 'competition/update', competition, options);
+  }
 
 }

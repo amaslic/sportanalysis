@@ -519,6 +519,9 @@ export class ClubsAdministrationComponent implements OnInit {
   selectedIndexChange(val: number) {
     // console.log(val);
     this.selectedIndex = val;
+    if (val == 1) {
+      this.getClubs();
+    }
   }
 
   onAddAndApproveClubSuccess(response) {

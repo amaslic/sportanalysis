@@ -1,5 +1,5 @@
 .main-part{
-    max-width: 1170px;
+    max-width: 1370px;
     width: 100%;
     margin: auto;
     margin-top: 10px;
@@ -17,6 +17,11 @@ ul.list-inline.matches>li{
     max-width: 220px;
     /*width: 100%;*/
     width: 14%;
+}
+
+.heading div.col-md-6 h2{
+    margin-top: 0;
+    padding-bottom: 20px;
 }
 
 ul.list-inline.matches>li img{
