@@ -136,11 +136,11 @@
         <!-- <button (click)="confirmDelete(value)" [disabled]="row['status']==='BLOCKED'">
             <i class="fa fa-trash-o"></i>
         </button> -->
-
-        <i class="fa fa-share-alt fa-lg text-success" aria-hidden="true" (click)="assignVideo(row._id)"></i>&nbsp;
-        <i class="fa fa-cog fa-lg text-info" aria-hidden="true" [routerLink]="['/backoffice/videos-settings',row._id]"></i>&nbsp;
-        <i class="fa fa-trash fa-lg text-danger" aria-hidden="true" (click)="confirmDelete(value)"></i>
-        <i (click)="downloadVideo(row,$event)" class="fa fa-download fa-lg text-info"></i>
+        <i class="fa fa-users text-info" title="View Counter Users" (click)="ShowCounterUsersModel(row._id)" aria-hidden="true"></i>
+        <i class="fa fa-share-alt fa-lg text-success" title="Share" aria-hidden="true" (click)="assignVideo(row._id)"></i>&nbsp;
+        <i class="fa fa-cog fa-lg text-info" title="Settings" aria-hidden="true" [routerLink]="['/backoffice/videos-settings',row._id]"></i>&nbsp;
+        <i class="fa fa-trash fa-lg text-danger" title="Delete" aria-hidden="true" (click)="confirmDelete(value)"></i>
+        <i (click)="downloadVideo(row,$event)" title="Download" class="fa fa-download fa-lg text-info"></i>
 
       </ng-template>
     </ngx-datatable-column>
@@ -207,5 +207,48 @@
     <button class="btn btn-primary " (click)="assignVideoModal.close() ">Cancel</button>
 
 
+  </modal-footer>
+</modal>
+
+<modal #counterUsersModal class="counter-users-modal">
+  <modal-header>
+
+  </modal-header>
+  <modal-content>
+    <p>
+      Users
+    </p>
+    <div class="col-md-12">
+      <div *ngFor="let user of counterUserList" class="msg-section">
+        <div class="profile-pic">
+          <img src="{{user.profileImg}}" (error)="setDefaultPic(user)" alt="profile picture">
+        </div>
+        <div class="user-name">
+          <div class="name">{{user.userdetails.firstName}} {{user.userdetails.lastName}}</div>
+          <div class="msg">had seen before {{user.timespan}}</div>
+        </div>
+      </div>
+
+      <ngx-datatable class="material counterusersdatatable" [limit]="counterUsersPage.limit" [headerHeight]="35" [footerHeight]="50"
+        [columnMode]="'force'" [rows]="counterUserList" [loadingIndicator]="loadingIndicator" [rowHeight]="'auto'" [externalPaging]="true"
+        [count]="counterUsersPage.totalElements" [offset]="counterUsersPage.pageNumber" (page)='getCounterUsers($event)'>
+
+        <ngx-datatable-column name="_id">
+
+          <ng-template let-column="_id" ngx-datatable-header-template>
+            Type
+          </ng-template>
+          <ng-template let-value="value" ngx-datatable-cell-template>
+
+            {{value}}
+          </ng-template>
+        </ngx-datatable-column>
+
+      </ngx-datatable>
+
+    </div>
+  </modal-content>
+  <modal-footer>
+    <button class="btn btn-primary" (click)="counterUsersModal.close()">Ok</button>
   </modal-footer>
 </modal>

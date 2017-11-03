@@ -39,3 +39,22 @@ select.form-control{
 i{
     cursor: pointer;
 }        
+
+.msg-section{margin-bottom: 5px;}
+.profile-pic{width:36px;height: 36px;display: inline-block;border-radius: 50%;background-color: #9aca3e;margin-right: 10px;vertical-align: top;}
+.profile-pic img{width: 100%;height: auto;overflow: hidden;border-radius: 50%;}
+.user-name{width:calc(100% - 49px);display: inline-block;}
+.name{width: 34%;display: inline-block;color: #ccc;font-size: 14px;margin-right: 10px;float: left;vertical-align: middle;margin-top: 0px;}
+.msg{width: 59%;display: inline-block;color: #000;font-size: 14px;font-weight: normal;vertical-align: middle;float: right;}  
+
+:host >>> .counterusersdatatable datatable-header.datatable-header{
+    display: none !important;
+  }
+  
+  :host >>> .ngx-datatable.counterusersdatatable .datatable-body .datatable-scroll{
+    display: none;
+  }
+  
+  :host >>> .counterusersdatatable datatable-body.datatable-body {
+    display: none !important;
+  }
