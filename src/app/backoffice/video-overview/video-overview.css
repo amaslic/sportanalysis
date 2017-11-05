@@ -9,6 +9,11 @@ select.form-control{
 }
 
 
+.videos-list{
+    max-width: 1600px!important;
+    width: 100%!important;
+}
+
 .loginOverLay {
     display: table;
     background: rgba(255,255,255,0.7);
