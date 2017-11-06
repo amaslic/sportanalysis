@@ -18,7 +18,7 @@ ul.list-inline.matches>li{
     /*width: 100%;*/
     width: 14%;
 }
-
+ 
 ul.list-inline.matches>li img{
     max-width: 32px;
     width: 100%;
@@ -39,6 +39,11 @@ ul.list-inline.matches{
 .main-part div.heading{
     padding-left: 30px;
     padding-bottom: 30px;
+}
+
+.matches{
+    max-width: 1600px!important;
+    width: 100%!important;
 }
 
 :host >>> datatable-header.datatable-header {

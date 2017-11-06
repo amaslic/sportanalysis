@@ -1,4 +1,4 @@
-<div class="container" style="margin-top:10px;">
+<div class="container users-list" style="margin-top:10px;">
     <h3>User list</h3>
     <div class="adduser">
         <button class="pull-right" [routerLink]="['/backoffice/add-user']">Add User</button>
@@ -30,10 +30,10 @@
                 <ngx-datatable #activetable class="material" [limit]="page1.limit" [headerHeight]="35" [footerHeight]="50" [columnMode]="'standard'"
                     [rows]="usersList" (onRowsUpdate)='updateRows()' [externalPaging]="true" [count]="page1.totalElements" [offset]="page1.pageNumber"
                     (page)='getUsers($event)' [externalSorting]="true" (sort)="onSortUsers($event)">
-                    <ngx-datatable-column [flexGrow]="3" [width]="210" name="Email" prop="email"> </ngx-datatable-column>
-                    <ngx-datatable-column name="First Name" [width]="90" prop="firstName"> </ngx-datatable-column>
-                    <ngx-datatable-column name="Last Name" [width]="130" prop="lastName"> </ngx-datatable-column>
-                    <ngx-datatable-column name="Club" [width]="100" prop="club"> </ngx-datatable-column>
+                    <ngx-datatable-column [flexGrow]="3" [width]="310" name="Email" prop="email"> </ngx-datatable-column>
+                    <ngx-datatable-column name="First Name" [width]="140" prop="firstName"> </ngx-datatable-column>
+                    <ngx-datatable-column name="Last Name" [width]="180" prop="lastName"> </ngx-datatable-column>
+                    <ngx-datatable-column name="Club" [width]="200" prop="club"> </ngx-datatable-column>
                     <ngx-datatable-column name="Team(s)" [width]="150" prop="teams"> </ngx-datatable-column>
                     <!-- <ngx-datatable-column name="Club Function" prop="clubFunction"> </ngx-datatable-column> -->
                     <ngx-datatable-column name="Phone Number" prop="phone"> </ngx-datatable-column>
@@ -80,10 +80,10 @@
                 <ngx-datatable #deactivetable class="material" [limit]="page2.limit" [headerHeight]="35" [footerHeight]="50" [columnMode]="'standard'"
                     [rows]="unApprovedUsers" [externalPaging]="true" [count]="page2.totalElements" [offset]="page2.pageNumber"
                     (page)='getUnApprovedUsers($event)' [externalSorting]="true" (sort)="onSortUnApprovedUsers($event)">
-                    <ngx-datatable-column [flexGrow]="3" [width]="210" name="Email" prop="email"> </ngx-datatable-column>
-                    <ngx-datatable-column name="First Name" [width]="90" prop="firstName"> </ngx-datatable-column>
-                    <ngx-datatable-column name="Last Name" [width]="130" prop="lastName"> </ngx-datatable-column>
-                    <ngx-datatable-column name="Club" [width]="100" prop="club"> </ngx-datatable-column>
+                    <ngx-datatable-column [flexGrow]="3" [width]="310" name="Email" prop="email"> </ngx-datatable-column>
+                    <ngx-datatable-column name="First Name" [width]="140" prop="firstName"> </ngx-datatable-column>
+                    <ngx-datatable-column name="Last Name" [width]="180" prop="lastName"> </ngx-datatable-column>
+                    <ngx-datatable-column name="Club" [width]="200" prop="club"> </ngx-datatable-column>
                     <ngx-datatable-column name="Team(s)" [width]="150" prop="teams"> </ngx-datatable-column>
                     <!-- <ngx-datatable-column name="Club Function" prop="clubFunction"> </ngx-datatable-column> -->
                     <ngx-datatable-column name="Phone Number" prop="phone"> </ngx-datatable-column>
