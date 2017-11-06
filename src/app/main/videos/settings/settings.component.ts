@@ -669,9 +669,9 @@ export class VideoSettingsComponent implements OnInit {
     f.value.sharedWithUsers = sharedUsers;
     // console.log('submitted');
 
-    if (f.value.type == 'Match') {
-      f.value.title = '';
-    }
+    // if (f.value.type == 'Match') {
+    //   f.value.title = '';
+    // }
 
     this.showProgressBar = true;
     if (f.value.type != 'Training') {

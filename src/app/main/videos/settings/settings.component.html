@@ -83,7 +83,8 @@
                   <md-checkbox class="checkbox-margin" name="fullVideo" [(ngModel)]="video.fullVideo">Full Video</md-checkbox>
                 </div>
               </div>
-              <div *ngIf="(video.type != 'Match')" class="form-group">
+              <div class="form-group">
+                <!-- *ngIf="(video.type != 'Match')" -->
                 <label class="control-label col-sm-5" for="title">Video Title:</label>
                 <div class="col-sm-7">
                   <input type="text" class="form-control" id="title" name="title" [ngModel]="video.title" placeholder="Enter Title" required>

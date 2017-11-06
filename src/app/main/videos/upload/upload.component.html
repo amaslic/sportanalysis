@@ -80,7 +80,8 @@
             <input type="title" [(ngModel)]="name" class="form-control" name="title" id="video-name" placeholder="Video Name" required>
           </div>
         </div>
-        <div class="row margin-bottom-10 width" *ngIf="(type != 'Match')">
+        <div class="row margin-bottom-10 width">
+          <!-- *ngIf="(type != 'Match')" -->
           <div class="form-group margin-left-0">
             <label class="control-label text-left" for="title">Title:</label>
             <input type="title" [(ngModel)]="name" class="form-control" name="title" id="video-name" placeholder="Video Name" required>
