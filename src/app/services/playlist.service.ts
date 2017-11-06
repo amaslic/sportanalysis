@@ -35,11 +35,11 @@ export class PlaylistService {
 
         return this.http.post(this.baseApiUrl + 'playlist/assignUsers', body, options);
     }
-    getPlaylists(token: String,page) {
+    getPlaylists(token: String, page) {
         const headers = new Headers({ 'Authorization': token });
         const options = new RequestOptions({ headers: headers });
 
-        return this.http.get(this.baseApiUrl + 'playlist/fetchAll?page='+page.pageNumber+'&limit='+page.limit+'&sort='+page.sort+'&sortDir='+page.sortDir, options);
+        return this.http.get(this.baseApiUrl + 'playlist/fetchAll?page=' + page.pageNumber + '&limit=' + page.limit + '&sort=' + page.sort + '&sortDir=' + page.sortDir, options);
     }
     createPlaylists(plist: Playlist) {
         // console.log('plist' + plist);
@@ -83,5 +83,12 @@ export class PlaylistService {
         const options = new RequestOptions({ headers: headers });
 
         return this.http.post(this.baseApiUrl + 'playlist/deleteSelected', body, options);
+    }
+
+    getPlaylistsByUserId(token: String, page) {
+        const headers = new Headers({ 'Authorization': token });
+        const options = new RequestOptions({ headers: headers });
+
+        return this.http.get(this.baseApiUrl + 'playlist/fetchByUserId?page=' + page.pageNumber + '&limit=' + page.limit + '&sort=' + page.sort + '&sortDir=' + page.sortDir, options);
     }
 }

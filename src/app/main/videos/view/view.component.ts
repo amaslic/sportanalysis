@@ -80,7 +80,7 @@ export interface IMedia {
   styleUrls: ['./view.component.css']
 })
 export class ViewComponent implements OnInit {
-  lastMsgId: any;
+  lastMsgId: any = 0;
   userDetails: {};
   private baseImageUrl = GlobalVariables.BASE_IMAGE_URL;
   showChat: Boolean = true;
@@ -1015,7 +1015,7 @@ export class ViewComponent implements OnInit {
     this.page.pageNumber = 0;
     this.page.limit = 0;
 
-    this.playlistService.getPlaylists(this.userService.token, this.page).subscribe(
+    this.playlistService.getPlaylistsByUserId(this.userService.token, this.page).subscribe(
       (response) => this.onGetPlaylistsSuccess(response),
       (error) => this.onError(error)
     );
