@@ -1171,7 +1171,6 @@ export class ViewComponent implements OnInit {
   }
   onKey(event) {
     this.keyCode = event.keyCode;
-    event.preventDefault();
 
     if (this.api.duration <= 30) {
       var frameTime = this.api.duration / 5;
@@ -1180,6 +1179,9 @@ export class ViewComponent implements OnInit {
     }
 
     if (this.keyCode == '32') {
+      event.preventDefault();
+      this.message = this.message + " ";
+
       if (this.api.state == 'playing') {
         this.api.pause();
       } else {

@@ -418,13 +418,15 @@ export class VideoOverviewComponent implements OnInit {
   }
 
   getCounterUsers(pageInfo) {
+    this.showProgressBar = true;
     this.counterUsersPage.pageNumber = pageInfo.offset;
     if (this.timer) {
       clearInterval(this.timer);
     }
     this.counterUsersService.getCounterUsersByVideo(this.counterUserVideoId, this.userService.token, this.counterUsersPage).subscribe(
       (response: any) => {
-        console.log(response);
+        // console.log(response);
+        this.showProgressBar = false;
         this.counterUserList = JSON.parse(response._body).counterUsers;
 
         if (this.counterUserList.length > 0) {
@@ -447,11 +449,11 @@ export class VideoOverviewComponent implements OnInit {
         this.timer = setInterval(() => {
           this.setCurrentTime();
         }, 1000);
+
+        this.counterUsersModal.open();
       },
       (error) => this.onError(error)
     );
-
-    this.counterUsersModal.open();
   }
 
   setCurrentTime() {
