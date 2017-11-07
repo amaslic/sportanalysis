@@ -28,6 +28,7 @@ import {
 import {
   ChatService
 } from './../../../services/chat.service';
+import { FeedbackService } from './../../../services/feedback.service';
 import {
   GlobalVariables
 } from './../../../models/global.model';
@@ -80,6 +81,18 @@ export interface IMedia {
   styleUrls: ['./view.component.css']
 })
 export class ViewComponent implements OnInit {
+  videoTitle: string;
+  feedbackMatch: boolean;
+  feedbackname: string;
+  videotype: any;
+  team2Name: any;
+  team1Name: any;
+  club2Name: any;
+  club1Name: any;
+  feebackMsg: any;
+  feedbackFlag: boolean;
+  shareEventFlag: boolean;
+  eventmodeltitle: string;
   lastMsgId: any = 0;
   userDetails: {};
   private baseImageUrl = GlobalVariables.BASE_IMAGE_URL;
@@ -265,7 +278,7 @@ export class ViewComponent implements OnInit {
 
   //@ViewChild('eventTimelineScrollbar') eventTimelineScrollbar;
 
-  constructor(private r: Router, private route: ActivatedRoute, private playlistService: PlaylistService, private videoService: VideoService, private userService: UserService, private trackingDataService: TrackingDataService, private chatService: ChatService, private renderer: Renderer2) { }
+  constructor(private r: Router, private route: ActivatedRoute, private playlistService: PlaylistService, private videoService: VideoService, private userService: UserService, private trackingDataService: TrackingDataService, private chatService: ChatService, private feedbackService: FeedbackService, private renderer: Renderer2) { }
 
   ngOnInit() {
     // this.globalListenFunc = this.renderer.listen('document', 'keypress', e => {
@@ -299,11 +312,11 @@ export class ViewComponent implements OnInit {
       }
 
     });
-    this.fetchMessages(0);
+    // this.fetchMessages(0);
 
-    this.timerChat = setInterval(() => {
-      this.fetchMessages(this.lastMsgId);
-    }, 5000);
+    // this.timerChat = setInterval(() => {
+    //   this.fetchMessages(this.lastMsgId);
+    // }, 5000);
 
   }
   onIsAdminClubsSuccess(response) {
@@ -566,17 +579,25 @@ export class ViewComponent implements OnInit {
   onGetVideoSuccess(response) {
 
     this.video = JSON.parse(response._body);
-
-    if (this.video.club1details && this.video.club1details.length > 0) {
-
+    this.videotype = this.video.type;
+    this.videoTitle = this.video.title;
+    if (this.video.club1details != null && this.video.club1details.length > 0) {
+      this.club1Name = this.video.club1details[0].name;
       var club1trim = this.video.club1details[0].name.replace(/ /g, '').slice(0, 3);
       this.video.club1details[0].name = club1trim.toUpperCase();
     }
-    if (this.video.club2details && this.video.club2details.length > 0) {
-
+    if (this.video.club2details != null && this.video.club2details.length > 0) {
+      this.club2Name = this.video.club2details[0].name;
       var club2trim = this.video.club2details[0].name.replace(/ /g, '').slice(0, 3);
       this.video.club2details[0].name = club2trim.toUpperCase();
     }
+    if (this.video.team1Name != null && this.video.team1Name) {
+      this.team1Name = this.video.team1Name;
+    }
+    if (this.video.team2Name != null && this.video.team2Name) {
+      this.team2Name = this.video.team2Name;
+    }
+
     if (this.video && this.video.path) {
       this.videoLoaded = true;
       this.playlist = [{
@@ -614,6 +635,9 @@ export class ViewComponent implements OnInit {
   currentItem: IMedia;
 
   shareEventlist(vid, e) {
+    this.eventmodeltitle = " Share Event"
+    this.shareEventFlag = true;
+    this.feedbackFlag = false;
     if (e.start <= this.videoDuration && this.videoDuration >= e.end) {
       // console.log(vid, eid)
       // console.log(e);
@@ -1172,6 +1196,7 @@ export class ViewComponent implements OnInit {
   onKey(event) {
     this.keyCode = event.keyCode;
 
+
     if (this.api.duration <= 30) {
       var frameTime = this.api.duration / 5;
     } else {
@@ -1181,6 +1206,8 @@ export class ViewComponent implements OnInit {
     if (this.keyCode == '32') {
       event.preventDefault();
       this.message = this.message + " ";
+      this.feebackMsg = this.feebackMsg + " ";
+      this.feedbackname = this.feedbackname + " ";
 
       if (this.api.state == 'playing') {
         this.api.pause();
@@ -1266,5 +1293,89 @@ export class ViewComponent implements OnInit {
 
   setDefaultPic(element) {
     element.profileImg = "assets/images/user.png";
+  }
+  // openNav() {
+  //   document.getElementById("mySidenav").style.width = "40%";
+  //   document.getElementById("main").style.marginLeft = "40%";
+  // }
+  // closeNav() {
+  //   document.getElementById("mySidenav").style.width = "0";
+  //   document.getElementById("main").style.marginLeft = "0";
+  // }
+
+  addFeedbacks(vid, e) {
+
+    this.eventmodeltitle = "Feedback Event"
+    if (e.start <= this.videoDuration && this.videoDuration >= e.end) {
+
+      if (this.videotype == 'Match') {
+        if (this.club1Name && this.club2Name) {
+          this.feedbackname = this.club1Name + '-' + this.club2Name;
+        }
+        if (this.team1Name && this.team2Name) {
+          this.feedbackname = this.feedbackname + ' ' + this.team1Name + '-' + this.team2Name;
+        }
+        this.feedbackname = this.feedbackname + ' ' + e.name;
+
+      }
+      else {
+        this.feedbackname = this.videoTitle + ' ' + e.name;
+      }
+      this.feebackMsg = '';
+      this.shareEventFlag = false;
+      this.feedbackFlag = true;
+      this.page1.limit = 0;
+      this.page1.pageNumber = 0;
+
+      this.userService.getUsers(this.userService.token, this.page1).subscribe(
+        (response) => this.onGetUsersSuccess(response),
+        (error) => this.onError(error)
+      );
+      // this.trackingDataService.getEventDetails(vid, e.id, this.userService.token).subscribe(
+      //   (response) => this.getEventDetailsSuccess(response, e.id),
+      //   (error) => this.onError(error)
+      // )
+      this.eventsDetails = e;
+      this.assignEventModal.open();
+    } else {
+      this.errormsg = "This event is not valid.";
+      this.ErrorModal.open();
+    }
+  }
+  showFeedbacks(vid, e) {
+    this.eventmodeltitle = "Feedbacks Event"
+    if (e.start <= this.videoDuration && this.videoDuration >= e.end) {
+
+      this.feebackMsg = '';
+      this.shareEventFlag = false;
+      this.feedbackFlag = true;
+
+      // this.userService.getUsers(this.userService.token, this.page1).subscribe(
+      //   (response) => this.onGetUsersSuccess(response),
+      //   (error) => this.onError(error)
+      // );
+      this.feedbackService.fetchFeedback(0, this.videoId, e, this.userService.token, 'video').subscribe(
+        (response) => this.shareEventSuccess(response),
+        (error) => this.onError(error)
+      )
+      // this.trackingDataService.getEventDetails(vid, e.id, this.userService.token).subscribe(
+      //   (response) => this.getEventDetailsSuccess(response, e.id),
+      //   (error) => this.onError(error)
+      // )
+      this.eventsDetails = e;
+      this.assignEventModal.open();
+    } else {
+      this.errormsg = "This event is not valid.";
+      this.ErrorModal.open();
+    }
+  }
+  eventFeedback() {
+    console.log(this.feebackMsg);
+    console.log(this.eventsDetails);
+    this.feedbackService.addFeedback(this.videoId, this.eventsDetails, this.userlistModel, this.feedbackname, this.feebackMsg, this.userService.token, 'video').subscribe(
+      (response) => this.shareEventSuccess(response),
+      (error) => this.onError(error)
+    )
+
   }
 }
