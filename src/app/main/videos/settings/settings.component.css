@@ -3,7 +3,6 @@
 }
 
 #video-metadata-form input , input.form-control{
-
     border: 0;
     background: transparent;
     box-shadow: none;
@@ -16,6 +15,10 @@
 
 .control-label{
   line-height: 54px;
+}
+
+form.submited .ng-invalid:not(form) {
+  border-left: 5px solid #a94442 !important;
 }
 
 
