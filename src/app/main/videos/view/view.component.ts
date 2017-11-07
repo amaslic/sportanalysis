@@ -1039,7 +1039,7 @@ export class ViewComponent implements OnInit {
     this.page.pageNumber = 0;
     this.page.limit = 0;
 
-    this.playlistService.getPlaylists(this.userService.token, this.page).subscribe(
+    this.playlistService.getPlaylistsByUserId(this.userService.token, this.page).subscribe(
       (response) => this.onGetPlaylistsSuccess(response),
       (error) => this.onError(error)
     );
@@ -1208,6 +1208,7 @@ export class ViewComponent implements OnInit {
       this.message = this.message + " ";
       this.feebackMsg = this.feebackMsg + " ";
       this.feedbackname = this.feedbackname + " ";
+
       if (this.api.state == 'playing') {
         this.api.pause();
       } else {

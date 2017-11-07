@@ -83,10 +83,10 @@
                   <md-checkbox class="checkbox-margin" name="fullVideo" [(ngModel)]="video.fullVideo">Full Video</md-checkbox>
                 </div>
               </div>
-              <div *ngIf="(video.type != 'Match')" class="form-group">
+              <div class="form-group">
                 <label class="control-label col-sm-5" for="title">Video Title:</label>
                 <div class="col-sm-7">
-                  <input type="text" class="form-control" id="title" name="title" [ngModel]="video.title" placeholder="Enter Title" required>
+                  <input type="text" class="form-control" id="title" name="title" [ngModel]="video.title" placeholder="Enter Title" [required]="video.type != 'Match' ? true : null">
                 </div>
               </div>
               <div class="form-group">
@@ -114,7 +114,7 @@
                 <label class="control-label col-sm-5" for="title">Season:</label>
                 <div class="col-sm-7">
                   <!-- <input type="text" [(ngModel)]="video.season" class="form-control" name="season" id="season" placeholder="Season"> -->
-                  <select class="sportscode form-control" name="season" required [(ngModel)]="video.season">
+                  <select class="sportscode form-control" name="season" [(ngModel)]="video.season">
                     <option value="null">Select Season</option>
                     <option *ngFor="let sea of seasonslistOptions" value={{sea.id}}>
                       {{sea.name}}

@@ -52,6 +52,7 @@ export class PlaylistComponent implements OnInit {
   userlistOptions: IMultiSelectOption[];
   page = new Page();
   page1 = new Page();
+  userId: any;
 
   playlistSettings: IMultiSelectSettings = {
     enableSearch: false,
@@ -99,11 +100,14 @@ export class PlaylistComponent implements OnInit {
 
   ngOnInit() {
     var user = this.userService.loadUserFromStorage();
+
     if (user['role'] != 3 && user['role'] != 4) {
       this.isCoachOrAnalyst = false;
     } else {
       this.isCoachOrAnalyst = true;
     }
+    this.userId = user["_id"];
+    // console.log(this.userId);
     this.ClubStatus();
     this.getAllClubs();
   }

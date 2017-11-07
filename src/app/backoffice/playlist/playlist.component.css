@@ -11,6 +11,12 @@
     z-index: 7000;
 }
 
+
+.playlist-list{
+    max-width: 1600px!important;
+    width: 100%!important;
+}
+
     .loginOverLay > div {
         display: table-cell;
         vertical-align: middle;

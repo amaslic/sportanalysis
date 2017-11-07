@@ -33,7 +33,10 @@ select.form-control{
     padding: 0 !important;
 }
 
-
+.users-list{
+    max-width: 1600px!important;
+    width: 100%!important;
+}
 
 ngx-datatable /deep/ .material{
     max-width: 1240px!important;

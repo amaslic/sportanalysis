@@ -54,7 +54,7 @@ export interface IMedia {
 })
 export class PlaylistViewComponent implements OnInit {
   chatList: any;
-  lastMsgId: any;
+  lastMsgId: any = 0;
   userDetails: {};
   chatMessages: any = [];
   timerChat: NodeJS.Timer;
