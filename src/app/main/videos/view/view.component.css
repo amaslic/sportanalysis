@@ -1305,7 +1305,7 @@ a.playlist-info:hover .message-list-content h4{
   .border-bottom{border-bottom: 1px solid #fff;}
   .show-chat{background:#009cff;color: #fff;margin: 10px 15px 0;text-align: center;padding: 10px 0;cursor: pointer;}
   .chat-title{background:#009cff;color: #fff;margin: 0px;padding: 10px; }
-  .chat-body{width: 100%;padding: 10px;background-color: #fff;height: 430px;overflow-y: auto;}
+  .chat-body{width: 100%;padding: 10px;background-color: #fff;height: 430px;overflow-y: auto;position: relative;}
   .msg-section{margin-bottom: 5px;}
   .profile-pic{width:36px;height: 36px;display: inline-block;border-radius: 50%;background-color: #9aca3e;margin-right: 10px;vertical-align: top;}
   .profile-pic img{width: 100%;height: auto;overflow: hidden;border-radius: 50%;}
@@ -1319,3 +1319,66 @@ a.playlist-info:hover .message-list-content h4{
   span.text-limit{color:#fff;font-size: 12px;margin-right:10px;}
   .hide-chat-section{text-align: center;color: #fff;padding-top: 10px;clear: both;cursor: pointer;}
   .send-time{color: #009cff;margin-left: 10px;font-size: 9px;font-weight: 400;float: right;margin-top: 6px;}
+  .fa-arrow-down{    background-color: #009cff;
+    color: #fff;
+    padding: 10px;
+    border-radius: 50%;
+    font-weight: 300;
+    position: absolute;
+    bottom: -10%;
+    left: 50%;
+    transform: translatex(-50%);
+  }
+
+  .sidenav {
+    height: 100%;
+    width: 0;
+    position: fixed;
+    z-index: 9999;
+    top: 0;
+    right: 0;
+    background-color: #fff;
+    overflow-x: hidden;
+    transition: 0.5s;
+    box-shadow: 0 0 10px 0 #999;
+}
+
+.sidenav a {
+    text-decoration: none;
+    font-size: 25px;
+    color: #818181;
+    display: block;
+    transition: 0.3s;
+    display: inline-block;
+}
+
+.sidenav a:hover {
+    color: #000;
+}
+
+.sidenav .closebtn {
+    position: absolute;
+    top: 0;
+    right: 25px;
+    font-size: 36px;
+}
+
+@media screen and (max-height: 450px) {
+  .sidenav {padding-top: 15px;}
+  .sidenav a {font-size: 18px;}
+}
+
+h4.comment-title{margin: 20px 20px 10px;border-bottom: 1px solid #aaa;padding-bottom: 10px;}
+button.create{    border: none;
+  background-color: #009cff;
+  color: #fff;
+  padding: 10px 20px;
+  float: right;
+  margin-right: 20px;}
+.enter-msg{    width: 92.8%;
+    margin: 10px 20px 20px;
+    min-height: 40px;
+    color: #000;
+    padding: 0px 6px;
+    border:1px solid #009cff;
+  }
