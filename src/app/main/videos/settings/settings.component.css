@@ -204,10 +204,14 @@ select.sportscode.data{
   height: 40px!important;
 }
 
-.fa-window-close{
+/* .fa-window-close{
   padding-right: 15px;
-}
+} */
 
 .list-group-item span i{
   cursor: pointer;
+}
+
+.margin-right-15{
+  margin-right: 15px;
 }

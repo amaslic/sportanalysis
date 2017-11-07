@@ -316,6 +316,7 @@ export class VideoSettingsComponent implements OnInit {
   @ViewChild('VideoModal') VideoModal;
   @ViewChild('updateEventlistModal') updateEventlistModal;
   @ViewChild('lnkDownloadLink') lnkDownloadLink: ElementRef;
+  @ViewChild('addOffsetModal') addOffsetModal;
   constructor(private route: ActivatedRoute, private trackingDataService: TrackingDataService, private userService: UserService, private videoService: VideoService, private clubService: ClubService, private teamService: TeamService, private matchService: MatchService, private settingService: SettingService) { }
 
   ngOnInit() {
@@ -1523,6 +1524,14 @@ export class VideoSettingsComponent implements OnInit {
 
       }
     );
+  }
+
+  AddOffset(obj, e) {
+    e.preventDefault();
+    e.stopPropagation();
+
+    this.addOffsetModal.open()
+
   }
 
 }

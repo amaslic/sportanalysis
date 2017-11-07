@@ -239,8 +239,9 @@
               <a class="list-group-item clearfix" *ngFor="let data of videoTrackingData">
                 {{data.title}} ({{data.original_filename}})
                 <span class="pull-right">
-                  <i (click)="confirmDelete(data._id,$event)" class="fa fa-window-close text-danger" aria-hidden="true"></i>
-                  <i (click)="downloadVideo(data,$event)" class="fa fa-download text-info"></i>
+                  <i (click)="confirmDelete(data._id,$event)" title="Delete" class="fa fa-window-close text-danger margin-right-15" aria-hidden="true"></i>
+                  <i (click)="downloadVideo(data,$event)" title="Download" class="fa fa-download text-info margin-right-15"></i>
+                  <!-- <i (click)="AddOffset(data,$event)" title="Add Offset" class="fa fa-clock-o text-success"></i> -->
                 </span>
               </a>
             </div>
@@ -302,6 +303,7 @@
           </div>
         </div>
       </md-tab>
+
       <md-tab label="Eventlist">
         <ngx-datatable #activetable class="material" [limit]="20" [headerHeight]="50" [footerHeight]="50" [columnMode]="'force'"
           [rows]="trackingJsonData">
@@ -466,4 +468,26 @@
     <modal-footer>
       <button class="btn btn-primary" (click)="VideoModal.close()">Ok</button>
     </modal-footer>
+  </modal>
+
+  <modal #addOffsetModal>
+    <modal-header>
+    </modal-header>
+    <modal-content>
+      <p>
+        Offset Settings
+      </p>
+      <form (ngSubmit)="updateOffset()" #offsetForm="ngForm">
+        <div class="col-md-12">
+          <div class="form-group">
+            <label class="col-md-4 control-label">Offset</label>
+            <input type="number" name="txtoffset" [(ngModel)]="offset" class="form-control col-md-6" placeholder="Offset" required>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button class="btn btn-primary" [disabled]="!offsetForm.form.valid">Update Offset</button>
+          <button class="btn btn-primary" (click)="addOffsetModal.close()">Cancel</button>
+        </div>
+      </form>
+    </modal-content>
   </modal>
