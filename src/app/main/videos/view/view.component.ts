@@ -1208,6 +1208,7 @@ export class ViewComponent implements OnInit {
       this.message = this.message + " ";
       this.feebackMsg = this.feebackMsg + " ";
       this.feedbackname = this.feedbackname + " ";
+      this.playlistName = this.playlistName + " ";
 
       if (this.api.state == 'playing') {
         this.api.pause();

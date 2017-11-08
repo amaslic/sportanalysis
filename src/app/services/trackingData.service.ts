@@ -249,4 +249,15 @@ export class TrackingDataService {
     return this.http.post(this.baseApiUrl + 'eventData/disapproveSelected', body, options);
   }
 
+  updateOffest(token: String, ids: any, offset1: any, offset2: any) {
+    const headers = new Headers({
+      'Authorization': token
+    });
+    const body = { token: token, ids: ids, offset1: offset1, offset2: offset2 };
+    const options = new RequestOptions({
+      headers: headers
+    });
+    return this.http.post(this.baseApiUrl + 'eventData/updateOffest', body, options);
+  }
+
 }

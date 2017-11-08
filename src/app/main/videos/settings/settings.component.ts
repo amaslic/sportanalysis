@@ -74,7 +74,9 @@ export class VideoSettingsComponent implements OnInit {
   roundedDuration: number;
   videoDuration: any;
   currentVideoTime: number;
-
+  offset: any = 0;
+  offset1: any = 0;
+  offset2: any = 0;
 
   private baseVideoUrl = GlobalVariables.BASE_VIDEO_URL;
   private baseAmazonVideoUrl = GlobalVariables.BASE_AMAZON_VIDEO_URL;
@@ -317,6 +319,7 @@ export class VideoSettingsComponent implements OnInit {
   @ViewChild('updateEventlistModal') updateEventlistModal;
   @ViewChild('lnkDownloadLink') lnkDownloadLink: ElementRef;
   @ViewChild('addOffsetModal') addOffsetModal;
+  @ViewChild('updateOffsetModal') updateOffsetModal;
   constructor(private route: ActivatedRoute, private trackingDataService: TrackingDataService, private userService: UserService, private videoService: VideoService, private clubService: ClubService, private teamService: TeamService, private matchService: MatchService, private settingService: SettingService) { }
 
   ngOnInit() {
@@ -415,7 +418,7 @@ export class VideoSettingsComponent implements OnInit {
   }
 
   xmlTypeSelected(xmlType) {
-    console.log(this.xmlDataApplicationTypeSelected);
+    // console.log(this.xmlDataApplicationTypeSelected);
   }
 
   onIsAdminClubsSuccess(response) {
@@ -542,7 +545,7 @@ export class VideoSettingsComponent implements OnInit {
 
       this.currentItem = this.playlist[this.currentIndex];
 
-      console.log(this.playlist);
+      // console.log(this.playlist);
     }
   }
 
@@ -653,14 +656,14 @@ export class VideoSettingsComponent implements OnInit {
         f.value.teamArray = '';
       }
     }
-    console.log('player', f.value.player);
+    // console.log('player', f.value.player);
     if ((f.value.shareWithPlayers && !f.value.shareWithAll) && (f.value.player && f.value.player.length > 0)) {
-      console.log('player', f.value.player);
+      // console.log('player', f.value.player);
       teamArray = teamArray.concat(f.value.player);
     }
-    console.log('Viewer', f.value.viewer);
+    // console.log('Viewer', f.value.viewer);
     if ((f.value.shareWithViewers && !f.value.shareWithAll) && (f.value.viewer && f.value.viewer.length > 0)) {
-      console.log('Viewer', f.value.viewer);
+      // console.log('Viewer', f.value.viewer);
       teamArray = teamArray.concat(f.value.viewer);
     }
 
@@ -813,7 +816,7 @@ export class VideoSettingsComponent implements OnInit {
   }
 
   updateVideo(f) {
-    console.log(f.value);
+    // console.log(f.value);
     if (typeof (f.value.season) == 'undefined')
       f.value.season = '';
 
@@ -1161,15 +1164,21 @@ export class VideoSettingsComponent implements OnInit {
         if (typeof (event.team) != 'undefined') {
           event.team = event.team[0];
         }
+
         if (typeof (event.start) != 'undefined' && event.start[0] !== "NaN") {
+          event.originalStart = event.start[0] == null ? 0 : event.start[0];
           event.start = this.fancyTimeFormat(event.start[0]);
         } else {
+          event.originalStart = 0;
           event.start = event.start[0];
         }
+
         if (typeof (event.end) != 'undefined' && event.end[0] !== "NaN") {
+          event.originalEnd = event.end[0] == null ? 0 : event.end[0];
           event.end = this.fancyTimeFormat(event.end[0]);
         }
         else {
+          event.originalEnd = 0;
           event.end = event.end[0];
         }
         event.rowId = count;
@@ -1269,7 +1278,7 @@ export class VideoSettingsComponent implements OnInit {
     this.eventstart = e.start;
     this.eventend = e.end;
     this.eventDataId = e.eid
-    console.log(e);
+    // console.log(e);
 
     // this.estart = e.start.split(':').reverse().reduce((prev, curr, i) => prev + curr * Math.pow(60, i), 0);
     // this.eend = e.end.split(':').reverse().reduce((prev, curr, i) => prev + curr * Math.pow(60, i), 0);
@@ -1325,11 +1334,11 @@ export class VideoSettingsComponent implements OnInit {
       // else {
       //   this.multiEid.push({ id: obj.id, eid: obj.eventDataId });
       // }
-      console.log(this.multiEid);
+      // console.log(this.multiEid);
       this.multiEid = this.multiEid.filter((element, index) => {
         return !(element.id == String(obj.id) && element.eid == String(obj.eventDataId));
       });
-      console.log(this.multiEid);
+      // console.log(this.multiEid);
     } else {
       obj['isSelected'] = true;
       this.multiEid.push({ id: obj.id, eid: obj.eventDataId });
@@ -1352,7 +1361,7 @@ export class VideoSettingsComponent implements OnInit {
       }
     });
     if (this.multiId.length == 0 || this.multiId == null) {
-      this.errormsg = "Please select videos for delete."
+      this.errormsg = "Please select events for delete."
       this.ErrorModal.open();
       return;
     }
@@ -1408,17 +1417,27 @@ export class VideoSettingsComponent implements OnInit {
     }
   }
   onMultipleSuccess(response) {
+    this.offset = 0;
+    this.offset1 = 0;
+    this.offset2 = 0;
     this.deleteVideoResponce = JSON.parse(response._body);
 
     this.successmsg = this.deleteVideoResponce.message;
     this.SucessModal.open();
     this.multiId = [];
+    this.multiEid = [];
+    this.trackingJsonData.forEach(element => {
+      element["isSelected"] = false;
+    });
 
     this.isAllSelected = false;
     this.getVideoEventsData(this.videoId);
   }
   onSelectTab(e) {
     this.tabIndex = e.index;
+    if (this.tabIndex == 2) {
+      this.getVideoEventsData(this.videoId);
+    }
   }
   cleartimer() {
     if (this.timerEvent) {
@@ -1433,7 +1452,7 @@ export class VideoSettingsComponent implements OnInit {
     var b = e.end.split(':'); // split it at the colons
 
     // minutes are worth 60 seconds. Hours are worth 60 minutes.
-    console.log(a);
+    // console.log(a);
     var startseconds = (+a[0]) * 60 * 60 + (+a[1]) * 60 + (+a[2]);
     var endseconds = (+b[0]) * 60 * 60 + (+b[1]) * 60 + (+b[2]);
 
@@ -1526,10 +1545,57 @@ export class VideoSettingsComponent implements OnInit {
     );
   }
 
+  AddOffsetForSelectedEvent() {
+    this.multiId = [];
+
+    this.trackingJsonData.forEach(element => {
+      if (element["isSelected"]) {
+        this.multiId.push({ 'Id': element.id, 'Eid': element.eid, 'start': parseInt(element.originalStart), 'end': parseInt(element.originalEnd) });
+        //this.multiEid.push(element.eid);
+      }
+    });
+    if (this.multiId.length == 0 || this.multiId == null) {
+      this.errormsg = "Please select events for add offset."
+      this.ErrorModal.open();
+      return;
+    }
+
+    this.updateOffsetModal.open();
+
+  }
+
+  updateOffsetofSelectedEvent(flag) {
+    if (flag == 1) {
+      this.offset1 = this.offset;
+      this.offset2 = this.offset;
+    }
+    this.trackingDataService.updateOffest(this.userService.token, this.multiId, this.offset1, this.offset2).subscribe(
+      (response) => {
+        this.addOffsetModal.close();
+        this.updateOffsetModal.close();
+        this.onMultipleSuccess(response);
+      },
+      (error) => this.onError(error)
+    );
+  }
+
   AddOffset(obj, e) {
     e.preventDefault();
     e.stopPropagation();
 
+    this.multiId = [];
+
+    var TrackingEvents = this.events.filter(function (element, index) {
+      return (element.trackData === obj._id);
+    })[0];
+
+    if (TrackingEvents && typeof (TrackingEvents) != 'undefined') {
+      if (TrackingEvents.eventData.length > 0) {
+        TrackingEvents.eventData.forEach(event => {
+          this.multiId.push({ 'Id': event.id, 'Eid': TrackingEvents._id, 'start': parseInt(event.originalStart), 'end': parseInt(event.originalEnd) });
+        });
+      }
+    }
     this.addOffsetModal.open()
 
   }
