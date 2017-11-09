@@ -394,6 +394,13 @@
             required>
         </div>
       </div>
+      <div class="col-md-12" style="margin-top: 10px;">
+        <div class="form-group">
+          <label class="col-md-4 control-label">Users</label>
+          <ss-multiselect-dropdown name="sharePlaylistWithUsers" style="padding: 0;" class="col-md-6" [options]="userlistOptions" [texts]="userlistTexts"
+            [settings]="userlistSettings" [(ngModel)]="userlistModel"></ss-multiselect-dropdown>
+        </div>
+      </div>
       <div class="col-md-12">
         <div class="form-group pull-left" style="margin-top: 5%" *ngIf="saveMessage">
           <span class="col-md-12">{{saveMessage}}</span>

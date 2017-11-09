@@ -98,6 +98,7 @@ export class ViewComponent implements OnInit {
   lastMsgId: any = 0;
   userDetails: {};
   private baseImageUrl = GlobalVariables.BASE_IMAGE_URL;
+  private baseUrl = GlobalVariables.BASE_URL;
   showChat: Boolean = true;
   chatData: any;
   chatList: any;
@@ -1017,17 +1018,29 @@ export class ViewComponent implements OnInit {
     this.create = true;
     this.multiplay = multiplay;
     this.vId = vId;
-    this.eId = event.id;
-    this.eStrat = event.start;
-    this.eEnd = event.end;
-    this.eName = event.name;
-    this.eTeam = event.team;
-    this.eventDataId = event.eventDataId;
-    //  console.log(this.eventDataId);
-    this.playlistName = '';
-    // console.log(this.multiplay);
-    // console.log(this.multiPlaylist);
-    this.createPlaylistModal.open();
+
+    this.page1.limit = 0;
+    this.page1.pageNumber = 0;
+
+    this.userService.getUsers(this.userService.token, this.page1).subscribe(
+      (response) => this.onGetUsersSuccess(response),
+      (error) => this.onError(error)
+    );
+
+    if (typeof (event) != 'undefined') {
+      this.eId = event.id;
+      this.eStrat = event.start;
+      this.eEnd = event.end;
+      this.eName = event.name;
+      this.eTeam = event.team;
+      this.eventDataId = event.eventDataId;
+      //  console.log(this.eventDataId);
+      this.playlistName = '';
+
+      // console.log(this.multiplay);
+      // console.log(this.multiPlaylist);
+      this.createPlaylistModal.open();
+    }
   }
 
   addToPlaylist(vId, event, multiplay: Boolean) {
@@ -1108,7 +1121,6 @@ export class ViewComponent implements OnInit {
 
   }
   addPlaylist() {
-
     this.playlists['vid'] = this.vId;
     this.playlists['eId'] = this.eId;
     this.playlists['eStrat'] = this.eStrat;
@@ -1119,6 +1131,8 @@ export class ViewComponent implements OnInit {
     this.playlists['user'] = this.userService.user._id;
     this.playlists['token'] = this.userService.token;
     this.playlists['eventDataId'] = this.eventDataId;
+    this.playlists['assignedUsers'] = this.userlistModel;
+    this.playlists['url'] = this.baseUrl + 'playlist/view/';
     // console.log(this.multiplay);
     // console.log('playlist', this.multiPlaylist);
 
@@ -1213,6 +1227,7 @@ export class ViewComponent implements OnInit {
       this.message = this.message + " ";
       this.feebackMsg = this.feebackMsg + " ";
       this.feedbackname = this.feedbackname + " ";
+      this.playlistName = this.playlistName + " ";
 
       if (this.api.state == 'playing') {
         this.api.pause();
