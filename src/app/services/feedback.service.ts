@@ -48,7 +48,7 @@ export class FeedbackService {
         return this.http.post(this.baseApiUrl + 'feedback/addFeedback', body, options);
     }
     fetchFeedback(lastId: any, id: any, edata: any, token: String, page: String) {
-        console.log('edata', edata);
+
         const headers = new Headers({
             'Authorization': token
         });
@@ -59,11 +59,35 @@ export class FeedbackService {
         });
         return this.http.post(this.baseApiUrl + 'feedback/fetchFeedback', body, options);
     }
+    fetchEventFeedback(lastId: any, id: any, edataId: any, eid: any, token: String, page: String) {
+
+        const headers = new Headers({
+            'Authorization': token
+        });
+        const body = { lastId: lastId, id: id, edataId: edataId, eid: eid, page: page };
+
+        const options = new RequestOptions({
+            headers: headers
+        });
+        return this.http.post(this.baseApiUrl + 'feedback/fetchEventFeedback', body, options);
+    }
     getAllFeedback(token: String, page) {
         const headers = new Headers({ 'Authorization': token });
         const options = new RequestOptions({ headers: headers });
 
         return this.http.get(this.baseApiUrl + 'feedback/fetchAll?page=' + page.pageNumber + '&limit=' + page.limit + '&sort=' + page.sort + '&sortDir=' + page.sortDir, options);
+    }
+    getFeedback(id: any, edata: any, token: String, page: String) {
+        console.log('edata', edata);
+        const headers = new Headers({
+            'Authorization': token
+        });
+        const body = { id: id, edata: edata, page: page };
+
+        const options = new RequestOptions({
+            headers: headers
+        });
+        return this.http.post(this.baseApiUrl + 'feedback/getFeedback', body, options);
     }
 
 }

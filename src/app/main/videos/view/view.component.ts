@@ -81,6 +81,8 @@ export interface IMedia {
   styleUrls: ['./view.component.css']
 })
 export class ViewComponent implements OnInit {
+  EID: any;
+  showchattitle: string = 'Hide Chat';
   videoTitle: string;
   feedbackMatch: boolean;
   feedbackname: string;
@@ -106,6 +108,7 @@ export class ViewComponent implements OnInit {
   multiEid: any = [];
   multiId: any = [];
   chatMessages: any = [];
+  feedbackMessages: any = [];
   globalListenFunc: Function;
   create: boolean;
   multiplay: Boolean;
@@ -244,8 +247,8 @@ export class ViewComponent implements OnInit {
   userlistTexts: IMultiSelectTexts = {
     checkAll: 'Select all',
     uncheckAll: 'Unselect all',
-    checked: 'Video selected',
-    checkedPlural: 'Video selected',
+    checked: 'User selected',
+    checkedPlural: 'User selected',
     searchPlaceholder: 'Find',
     searchEmptyResult: 'Nothing found',
     searchNoRenderText: 'Type in search box',
@@ -303,6 +306,8 @@ export class ViewComponent implements OnInit {
       if (params['eid'] && params['edid']) {
 
         this.eventId = params['eid'];
+        this.EID = params['edid'];
+        this.fetchEventMessages(0);
         this.trackingDataService.getEventDetails(this.videoId, params['edid'], this.userService.token).subscribe(
           (response) => this.getEventDetailsSuccess(response, params['eid']),
           (error) => this.onError(error)
@@ -1299,8 +1304,38 @@ export class ViewComponent implements OnInit {
       (error) => this.onError(error)
     );
   }
+  fetchEventMessages(lastId) {
+    this.feedbackService.fetchEventFeedback(lastId, this.videoId, this.EID, this.eventId, this.userService.token, 'video').subscribe(
+      (response: any) => {
+        this.chatList = JSON.parse(response._body);
+        console.log('chatlist', this.chatList);
+        if (this.chatList.feedback.length > 0) {
+          console.log('chatlist', this.chatList.feedback);
+          this.feedbackMessages = this.chatList.feedback[0].feedbacks;
+          this.feedbackMessages.forEach((element, index) => {
+            element.profileImg = this.baseImageUrl + "/profile/" + element.user._id + ".png";
+          });
+        }
+
+        // this.chatList.chat.forEach((element, index) => {
+        //   element.profileImg = this.baseImageUrl + "/profile/" + element.sender._id + ".png";
+        //   this.feedbackMessages.push({ message: this.chatList.feedbacks[0].feedbacks.message, createdAt: this.chatList.feedbacks[0].feedbacks.createdAt, user: this.userDetails, profileImg: this.baseImageUrl + "/profile/" + this.userDetails['_id'] + ".png" });
+        //   // this.feedbackMessages.push({ id: element._id, message: element.message, time: element.createdAt, sender: element.sender, profileImg: element.profileImg });
+        //   this.lastMsgId = element._id;
+        // });
+
+      },
+      (error) => this.onError(error)
+    );
+  }
   showChatWindow() {
-    this.showChat = false;
+    if (this.showChat) {
+      this.showChat = false;
+      this.showchattitle = "Show Chat"
+    } else {
+      this.showChat = true;
+      this.showchattitle = "Hide Chat"
+    }
   }
   hideChatWindow() {
     this.showChat = true;
@@ -1319,7 +1354,9 @@ export class ViewComponent implements OnInit {
   // }
 
   addFeedbacks(vid, e) {
-
+    this.feedbackMessages = [];
+    this.userlistModel = [];
+    this.feedbackname = '';
     this.eventmodeltitle = "Feedback Event"
     if (e.start <= this.videoDuration && this.videoDuration >= e.end) {
 
@@ -1341,6 +1378,10 @@ export class ViewComponent implements OnInit {
       this.feedbackFlag = true;
       this.page1.limit = 0;
       this.page1.pageNumber = 0;
+      this.feedbackService.getFeedback(this.videoId, e, this.userService.token, 'video').subscribe(
+        (response) => this.getFeedbackSuccess(response),
+        (error) => this.onError(error)
+      )
 
       this.userService.getUsers(this.userService.token, this.page1).subscribe(
         (response) => this.onGetUsersSuccess(response),
@@ -1384,13 +1425,40 @@ export class ViewComponent implements OnInit {
       this.ErrorModal.open();
     }
   }
-  eventFeedback() {
+  eventFeedback(page) {
     console.log(this.feebackMsg);
-    console.log(this.eventsDetails);
-    this.feedbackService.addFeedback(this.videoId, this.eventsDetails, this.userlistModel, this.feedbackname, this.feebackMsg, this.userService.token, 'video').subscribe(
-      (response) => this.shareEventSuccess(response),
+    if (page == 'Feedback') {
+      this.eventsDetails.id = this.eventsDetails.id[0];
+      this.eventsDetails.name = this.eventsDetails.name[0];
+      this.eventsDetails.eventDataId = this.EID;
+    }
+
+    this.feedbackService.addFeedback(this.videoId, this.eventsDetails, this.userlistModel, this.feedbackname, this.feebackMsg, this.userService.token, page).subscribe(
+      (response) => this.eventFeedbackSuccess(response),
       (error) => this.onError(error)
     )
+
+  }
+  getFeedbackSuccess(response) {
+    this.feebackMsg = '';
+    const responseFeedback = JSON.parse(response._body);
+    if (responseFeedback.feedbacks.length > 0) {
+      this.feedbackname = responseFeedback.feedbacks[0].feedbackname;
+      this.userlistModel = responseFeedback.feedbacks[0].assignedUsers;
+      this.feedbackMessages = responseFeedback.feedbacks[0].feedbacks;
+      this.feedbackMessages.forEach((element, index) => {
+        element.profileImg = this.baseImageUrl + "/profile/" + element.user._id + ".png";
+      });
+    }
+
+    console.log(this.feedbackname);
+  }
+  eventFeedbackSuccess(response) {
+    const responseFeedback = JSON.parse(response._body);
+    this.userlistModel = responseFeedback.feedbacks[0].assignedUsers;
+    this.feebackMsg = '';
+    this.feedbackMessages.push({ message: responseFeedback.feedbacks[0].feedbacks.message, createdAt: responseFeedback.feedbacks[0].feedbacks.createdAt, user: this.userDetails, profileImg: this.baseImageUrl + "/profile/" + this.userDetails['_id'] + ".png" });
+    console.log(this.feedbackMessages);
 
   }
 }

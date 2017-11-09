@@ -1302,10 +1302,37 @@ a.playlist-info:hover .message-list-content h4{
     color: #fff;
     font-weight: normal;
   }
+  .no-padding{padding: 0 !important;}
+  .no-border{border:none !important;}
+  .main-div-bg{
+  background-color: #009cff;
+  padding: 10px;
+  color: #fff;}
+.select-input,.enter-name-input{padding: 5px;}
+:host >>> .select-input ss-multiselect-dropdown .btn{    background: transparent;
+  border: 0;
+  color: #fff;
+  text-align: left;
+  border-bottom: 1px solid #fff;
+  border-radius: 0;}
+  .name-input{    background: transparent;
+    border: 0;
+    box-shadow: none;
+    color: #fff;
+    border-bottom: 1px solid #fff;
+    border-radius: 0;}
+.enter-name-input label,.select-input label{    margin-top: 7px;
+  margin-bottom: 0;}
+  i.fa-times{    font-size: 24px;
+    color: #fff;
+    float: right;
+    margin-top: 3px;margin-left: 10px;}
+
   .border-bottom{border-bottom: 1px solid #fff;}
   .show-chat{background:#009cff;color: #fff;margin: 10px 15px 0;text-align: center;padding: 10px 0;cursor: pointer;}
   .chat-title{background:#009cff;color: #fff;margin: 0px;padding: 10px; }
   .chat-body{width: 100%;padding: 10px;background-color: #fff;height: 430px;overflow-y: auto;position: relative;}
+  .chat-body-box{height: 200px;border:1px solid #aaa;}
   .msg-section{margin-bottom: 5px;}
   .profile-pic{width:36px;height: 36px;display: inline-block;border-radius: 50%;background-color: #9aca3e;margin-right: 10px;vertical-align: top;}
   .profile-pic img{width: 100%;height: auto;overflow: hidden;border-radius: 50%;}
