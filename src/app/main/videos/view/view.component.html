@@ -185,7 +185,45 @@
   </div>
 </div>
 <div class="right-sidebar" *ngIf="!showEvent">
-  <div class="events-list match-status col-xs-12">
+  <div class="show-chat" *ngIf="feedbackMessages.length > 0" (click)="showChatWindow()">{{showchattitle}}</div>
+  <!-- <div class="hide-chat-section" (click)="hideChatWindow()">
+    Hide Chat
+  </div> -->
+  <div class="chat-list" *ngIf="showChat&&feedbackMessages.length > 0">
+    <h4 class="chat-title">Live Chat</h4>
+    <div class="chat-body" #scrollMe [scrollTop]="scrollMe.scrollHeight">
+      <div class="msg-section" *ngFor="let chat of feedbackMessages">
+        <div class="profile-pic">
+          <img src="{{chat.profileImg}}" (error)="setDefaultPic(chat)">
+        </div>
+        <div class="user-name">
+          <div class="name">{{chat.user.firstName}} {{chat.user.lastName}}
+            <span class="send-time">{{chat.createdAt | date:'dd/MM/yyyy HH:mm a'}}</span>
+          </div>
+          <div class="msg">{{chat.message}}</div>
+        </div>
+
+      </div>
+      <!-- <i class="fa fa-arrow-down"></i> -->
+    </div>
+    <div>
+      <div class="msj-rta macro" style="margin:auto">
+        <div class="text text-r clearfix">
+          <div class="border-bottom">
+            <input type="textarea" [(ngModel)]="feebackMsg" class="send-text" placeholder="Type a message" (keyup.enter)="eventFeedback('feedback')"
+            />
+            <button (click)="eventFeedback('feedback')" class="send-message">
+              <i class="fa fa-send"></i>
+            </button>
+            <i class="fa fa-smile-o"></i>
+
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="events-list col-xs-12">
     <h2 class="title">Event</h2>
     <!-- <i class="fa fa-search show-filters" aria-hidden="true" (click)="showFilters = !showFilters"></i> -->
   </div>
@@ -218,43 +256,7 @@
 </div>
 
 <div class="right-sidebar" *ngIf="showEvent">
-  <!-- <div class="show-chat" *ngIf="showChat" (click)="showChatWindow()">Show Chat</div>
-  <div class="chat-list" *ngIf="chatList&&!showChat">
-    <h4 class="chat-title">Live Chat</h4>
-    <div class="chat-body" #scrollMe [scrollTop]="scrollMe.scrollHeight">
-      <div class="msg-section" *ngFor="let chat of chatMessages">
-        <div class="profile-pic">
-          <img src="{{chat.profileImg}}" (error)="setDefaultPic(chat)">
-        </div>
-        <div class="user-name">
-          <div class="name">{{chat.sender.firstName}} {{chat.sender.lastName}}
-            <span class="send-time">{{chat.time | date:'dd/MM/yyyy HH:mm a'}}</span>
-          </div>
-          <div class="msg">{{chat.message}}</div>
-        </div>
 
-      </div>
-      <i class="fa fa-arrow-down"></i>
-    </div>
-    <div>
-      <div class="msj-rta macro" style="margin:auto">
-        <div class="text text-r clearfix">
-          <div class="border-bottom">
-            <input type="textarea" [(ngModel)]="message" class="send-text" placeholder="Type a message" (keyup.enter)="sendMessage()"
-            />
-            <button (click)="sendMessage()" class="send-message">
-              <i class="fa fa-send"></i>
-            </button>
-            <i class="fa fa-smile-o"></i>
-
-          </div>
-          <div class="hide-chat-section" (click)="hideChatWindow()">
-            Hide Chat
-          </div>
-        </div>
-      </div>
-    </div>
-  </div> -->
   <button *ngIf="multiPlaylist?.length > 0" (click)="createPlaylist(video._id,multiPlaylist,true)">Create Playlist</button>
   <button *ngIf="multiPlaylist?.length > 0" (click)="addToPlaylist(video._id,multiPlaylist,true)">Add to Playlist</button>
   <button *ngIf="multiPlaylist?.length > 0 && isCoachOrAnalyst" (click)="deleteSelected()">Delete Selected</button>
@@ -452,33 +454,78 @@
     <p>
       {{eventmodeltitle}}
     </p>
-    <div class="col-md-12" style="padding-bottom: 5px;">
+    <div class="col-md-12" *ngIf="!feedbackFlag" style="padding-bottom: 5px;">
       <label class="col-md-3 control-label"> Users: </label>
-      <ss-multiselect-dropdown class="col-md-8" [options]="userlistOptions" [texts]="userlistTexts" [settings]="userlistSettings"
+      <ss-multiselect-dropdown class="col-md-9" [options]="userlistOptions" [texts]="userlistTexts" [settings]="userlistSettings"
         [(ngModel)]="userlistModel"></ss-multiselect-dropdown>
     </div>
     <div class="col-md-12"></div>
-    <div class="col-md-12" *ngIf="feedbackFlag" style="padding-bottom: 5px;">
+    <!-- <div class="col-md-12" *ngIf="feedbackFlag" style="padding-bottom: 5px;">
       <label class="col-md-3 control-label"> Name: </label>
-      <div class="col-md-8">
+      <div class="col-md-9">
         <input type="text" [(ngModel)]="feedbackname" class="form-control" placeholder="Feedback Name" />
 
       </div>
-    </div>
-    <div class="col-md-12" *ngIf="feedbackFlag" style="padding-bottom: 5px;">
-      <label class="col-md-3 control-label"> Feedback: </label>
-      <div class="col-md-8">
-        <textarea [(ngModel)]="feebackMsg" class="form-control" placeholder="Enter Feedback"></textarea>
+    </div> -->
+    <div class="col-md-12 no-padding" *ngIf="feedbackFlag" style="padding-bottom: 5px;">
+      <!-- <label class="col-md-3 control-label"> Feedback: </label> -->
+      <div class="col-md-12 no-padding">
+        <div class="main-div-bg clearfix">
+          <div class="select-input clearfix">
+            <label class="col-md-3 no-padding control-label"> Users: </label>
+            <ss-multiselect-dropdown class="col-md-9 no-padding " [options]="userlistOptions" [texts]="userlistTexts" [settings]="userlistSettings"
+              [(ngModel)]="userlistModel"></ss-multiselect-dropdown>
+          </div>
+          <div class="enter-name-input clearfix">
+            <label class="col-md-3 no-padding control-label"> Name: </label>
+            <div class="col-md-9 no-padding">
+              <input type="text" [(ngModel)]="feedbackname" class="form-control name-input" placeholder="Feedback Name" />
+            </div>
+          </div>
+        </div>
+        <!-- <textarea [(ngModel)]="feebackMsg" class="form-control" placeholder="Enter Feedback"></textarea> -->
+        <div class="chat-list no-padding">
+          <div class="chat-body chat-body-box" #scrollMe [scrollTop]="scrollMe.scrollHeight">
+            <div class="msg-section" *ngFor="let chat of feedbackMessages">
+              <div class="profile-pic">
+                <img src="{{chat.profileImg}}" (error)="setDefaultPic(chat)">
+              </div>
+              <div class="user-name">
+                <div class="name">{{chat.user.firstName}} {{chat.user.lastName}}
+                  <span class="send-time">{{chat.createdAt | date:'dd/MM/yyyy HH:mm a'}}</span>
+                </div>
+                <div class="msg">{{chat.message}}</div>
+              </div>
+
+            </div>
+            <!-- <i class="fa fa-arrow-down"></i> -->
+          </div>
+          <div>
+            <div class="msj-rta macro" style="margin:auto">
+              <div class="text text-r clearfix">
+                <div class="border-bottom no-border">
+                  <input type="textarea" [(ngModel)]="feebackMsg" class="send-text" placeholder="Type a message" (keyup.enter)="eventFeedback('video')"
+                  />
+                  <i (click)="assignEventModal.close()" class="fa fa-times"></i>
+                  <button [disabled]="!userlistModel || userlistModel?.length==0 || feebackMsg=='' || feedbackname==''" (click)="eventFeedback('video')"
+                    class="send-message">
+                    <i class="fa fa-send"></i>
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
     <div class="form-group pull-left" style="margin-top: 5%" *ngIf="updateMessage">
       <span class="col-md-12">{{updateMessage}}</span>
     </div>
   </modal-content>
-  <modal-footer>
+  <modal-footer *ngIf="shareEventFlag">
     <button *ngIf="shareEventFlag" class="btn btn-primary" [disabled]="!userlistModel || userlistModel?.length==0 " (click)="usersToEvent() ">Share</button>
-    <button *ngIf="feedbackFlag" class="btn btn-primary" [disabled]="!userlistModel || userlistModel?.length==0 || feebackMsg=='' || feedbackname==''"
-      (click)="eventFeedback() ">Feedback</button>
+    <!-- <button *ngIf="feedbackFlag" class="btn btn-primary" [disabled]="!userlistModel || userlistModel?.length==0 || feebackMsg=='' || feedbackname==''"
+      (click)="eventFeedback() ">Feedback</button> -->
     <button class="btn btn-primary " (click)="assignEventModal.close() ">Cancel</button>
   </modal-footer>
 </modal>
