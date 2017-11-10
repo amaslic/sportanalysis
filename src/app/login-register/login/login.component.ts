@@ -15,7 +15,7 @@ import {
 } from '@angular/router';
 import {
   Injectable, Inject
-} from '@angular/core'; 
+} from '@angular/core';
 import { DOCUMENT } from '@angular/common';
 @Component({
   selector: 'app-login',
@@ -28,14 +28,14 @@ export class LoginComponent implements OnInit {
   private router: Router;
   errormsg: string;
   @ViewChild('loginErrorModal') loginErrorModal;
- constructor(private userService: UserService, r: Router, private route: ActivatedRoute, @Inject(DOCUMENT) private document: Document) {
+  constructor(private userService: UserService, r: Router, private route: ActivatedRoute, @Inject(DOCUMENT) private document: Document) {
     //constructor(private userService: UserService, r: Router, private route: ActivatedRoute) {
     this.router = r;
   }
 
   ngOnInit() {
-    
-   }
+
+  }
 
   onSubmit(f) {
     if (!f.valid) {
@@ -68,7 +68,8 @@ export class LoginComponent implements OnInit {
           this.router.navigateByUrl('/videos');
         }
         else {
-          this.router.navigateByUrl('/club/' + responseBody.user.club);
+          // this.router.navigateByUrl('/club/' + responseBody.user.club);
+          this.router.navigateByUrl('/videos');
         }
       }
 
