@@ -191,7 +191,7 @@
   </div> -->
   <div class="chat-list" *ngIf="showChat&&feedbackMessages.length > 0">
     <h4 class="chat-title">Live Chat</h4>
-    <div class="chat-body" #scrollMe [scrollTop]="scrollMe.scrollHeight">
+    <div class="chat-body" #scrollMeChat [scrollTop]="scrollMeChat.scrollHeight">
       <div class="msg-section" *ngFor="let chat of feedbackMessages">
         <div class="profile-pic">
           <img src="{{chat.profileImg}}" (error)="setDefaultPic(chat)">
@@ -209,6 +209,11 @@
     <div>
       <div class="msj-rta macro" style="margin:auto">
         <div class="text text-r clearfix">
+          <div *ngIf="this.isCoachOrAnalyst" class="select-input clearfix">
+            <label class="col-md-3 no-padding control-label" style="color:white"> Users: </label>
+            <ss-multiselect-dropdown class="col-md-9 no-padding " [options]="userlistOptions" [texts]="userlistTexts" [settings]="userlistSettings"
+              [(ngModel)]="userlistModel"></ss-multiselect-dropdown>
+          </div>
           <div class="border-bottom">
             <input type="textarea" [(ngModel)]="feebackMsg" class="send-text" placeholder="Type a message" (keyup.enter)="eventFeedback('feedback')"
             />

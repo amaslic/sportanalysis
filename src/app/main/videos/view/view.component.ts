@@ -313,6 +313,14 @@ export class ViewComponent implements OnInit {
           (response) => this.getEventDetailsSuccess(response, params['eid']),
           (error) => this.onError(error)
         )
+        // this.timerChat = setInterval(() => {
+        //   this.fetchEventMessages(this.lastMsgId);
+        // }, 10000);
+
+        this.userService.getUsers(this.userService.token, this.page1).subscribe(
+          (response) => this.onGetUsersSuccess(response),
+          (error) => this.onError(error)
+        );
       } else {
         this.showEvent = true;
         this.getVideo(this.videoId);
@@ -321,9 +329,7 @@ export class ViewComponent implements OnInit {
     });
     // this.fetchMessages(0);
 
-    // this.timerChat = setInterval(() => {
-    //   this.fetchMessages(this.lastMsgId);
-    // }, 5000);
+
 
   }
   onIsAdminClubsSuccess(response) {
@@ -894,9 +900,9 @@ export class ViewComponent implements OnInit {
     if (this.timerEvent) {
       clearInterval(this.timerEvent);
     }
-    if (this.timerChat) {
-      clearInterval(this.timerChat);
-    }
+    // if (this.timerChat) {
+    //   clearInterval(this.timerChat);
+    // }
 
   }
 
@@ -1311,14 +1317,16 @@ export class ViewComponent implements OnInit {
         this.chatList = JSON.parse(response._body);
         console.log('chatlist', this.chatList);
         if (this.chatList.feedbacks.length > 0) {
-          console.log('chatlist', this.chatList.feedback);
-          this.feedbackMessages = this.chatList.feedbacks;
-          this.feedbackMessages.forEach((element, index) => {
+          //          console.log('chatlist', this.feedbackMessages);
+          this.chatList.feedbacks.forEach((element, index) => {
             if (element.createduser.length > 0) {
               element.user = element.createduser[0];
+              element.profileImg = this.baseImageUrl + "/profile/" + element.user._id + ".png";
+              this.feedbackMessages.push(element);
             }
-            element.profileImg = this.baseImageUrl + "/profile/" + element.user._id + ".png";
+            this.lastMsgId = element._id;
           });
+          console.log(this.lastMsgId);
         }
 
         // this.chatList.chat.forEach((element, index) => {
@@ -1430,19 +1438,31 @@ export class ViewComponent implements OnInit {
     }
   }
   eventFeedback(page) {
-    console.log(this.feebackMsg);
-    console.log(this.eventsDetails);
+    this.users = []
+
     if (page == 'Feedback' || page == 'feedback') {
       this.eventsDetails.id = this.eventsDetails.id[0];
       this.eventsDetails.name = this.eventsDetails.name[0];
       this.eventsDetails.eventDataId = this.EID;
-      this.users = [];
-      this.users.push(this.userDetails['_id']);
-    } else {
-      this.users = this.userlistModel;
+
+      if (this.isCoachOrAnalyst) {
+        if (this.userlistModel) {
+          this.userlistModel.push(this.userDetails['_id']);
+          this.users = this.userlistModel;
+        }
+        else {
+          alert("Please select users");
+          return false;
+        }
+
+      }
+      else {
+        this.users.push(this.userDetails['_id']);
+      }
+
     }
 
-    this.feedbackService.addFeedback(this.videoId, this.eventsDetails, this.users, this.feedbackname, this.feebackMsg, this.userService.token, page).subscribe(
+    this.feedbackService.addFeedback(this.videoId, this.eventsDetails, this.userlistModel, this.feedbackname, this.feebackMsg, this.userService.token, page).subscribe(
       (response) => this.eventFeedbackSuccess(response),
       (error) => this.onError(error)
     )
