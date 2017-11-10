@@ -139,24 +139,24 @@ export class FeedbackComponent implements OnInit {
     this.feedBackService.getAllFeedback(this.userService.token, this.page).subscribe((response: any) => {
 
       this.feedbackData = JSON.parse(response._body);
-      console.log(this.feedbackData['feedbacks']);
+
       // this.playList = this.playList['playlists'];
       this.feedbackData = this.feedbackData['feedbacks'];
 
       this.feedbackData.forEach(element => {
 
-        var videoClubName = element['user'].club;
+        var videoClubName = element['createduser'].club;
         var videoClub = this.allClubList.filter(function (element1, index) {
           return (element1._id === videoClubName);
         })[0];
 
         if (typeof (videoClub) != 'undefined') {
-          element['user'].club = videoClub.name;
+          element['createduser'].club = videoClub.name;
         } else {
-          element['user'].club = '';
+          element['createduser'].club = '';
         }
       });
-
+      console.log(this.feedbackData);
       // this.playList.forEach((play, index) => {
       //   this.trackPlaylist.push({
       //     'id': play._id,

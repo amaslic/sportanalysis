@@ -234,6 +234,7 @@ export class ViewComponent implements OnInit {
 
   userlistOptions: IMultiSelectOption[];
   userlistModel: any[];
+  users: any[];
   userlistSettings: IMultiSelectSettings = {
     enableSearch: true,
     checkedStyle: 'fontawesome',
@@ -1309,10 +1310,13 @@ export class ViewComponent implements OnInit {
       (response: any) => {
         this.chatList = JSON.parse(response._body);
         console.log('chatlist', this.chatList);
-        if (this.chatList.feedback.length > 0) {
+        if (this.chatList.feedbacks.length > 0) {
           console.log('chatlist', this.chatList.feedback);
-          this.feedbackMessages = this.chatList.feedback[0].feedbacks;
+          this.feedbackMessages = this.chatList.feedbacks;
           this.feedbackMessages.forEach((element, index) => {
+            if (element.createduser.length > 0) {
+              element.user = element.createduser[0];
+            }
             element.profileImg = this.baseImageUrl + "/profile/" + element.user._id + ".png";
           });
         }
@@ -1427,13 +1431,18 @@ export class ViewComponent implements OnInit {
   }
   eventFeedback(page) {
     console.log(this.feebackMsg);
-    if (page == 'Feedback') {
+    console.log(this.eventsDetails);
+    if (page == 'Feedback' || page == 'feedback') {
       this.eventsDetails.id = this.eventsDetails.id[0];
       this.eventsDetails.name = this.eventsDetails.name[0];
       this.eventsDetails.eventDataId = this.EID;
+      this.users = [];
+      this.users.push(this.userDetails['_id']);
+    } else {
+      this.users = this.userlistModel;
     }
 
-    this.feedbackService.addFeedback(this.videoId, this.eventsDetails, this.userlistModel, this.feedbackname, this.feebackMsg, this.userService.token, page).subscribe(
+    this.feedbackService.addFeedback(this.videoId, this.eventsDetails, this.users, this.feedbackname, this.feebackMsg, this.userService.token, page).subscribe(
       (response) => this.eventFeedbackSuccess(response),
       (error) => this.onError(error)
     )
@@ -1443,10 +1452,16 @@ export class ViewComponent implements OnInit {
     this.feebackMsg = '';
     const responseFeedback = JSON.parse(response._body);
     if (responseFeedback.feedbacks.length > 0) {
-      this.feedbackname = responseFeedback.feedbacks[0].feedbackname;
-      this.userlistModel = responseFeedback.feedbacks[0].assignedUsers;
-      this.feedbackMessages = responseFeedback.feedbacks[0].feedbacks;
+
+      // this.feedbackname = responseFeedback.feedbacks[0].feedbackname;
+      this.userlistModel = responseFeedback.feedbacks.assignedUsers;
+      this.feedbackMessages = responseFeedback.feedbacks;
+      console.log(this.feedbackMessages)
       this.feedbackMessages.forEach((element, index) => {
+        console.log(element.createduser);
+        if (element.createduser.length > 0) {
+          element.user = element.createduser[0];
+        }
         element.profileImg = this.baseImageUrl + "/profile/" + element.user._id + ".png";
       });
     }
@@ -1455,9 +1470,9 @@ export class ViewComponent implements OnInit {
   }
   eventFeedbackSuccess(response) {
     const responseFeedback = JSON.parse(response._body);
-    this.userlistModel = responseFeedback.feedbacks[0].assignedUsers;
+    this.userlistModel = responseFeedback.chat.assignedUsers;
     this.feebackMsg = '';
-    this.feedbackMessages.push({ message: responseFeedback.feedbacks[0].feedbacks.message, createdAt: responseFeedback.feedbacks[0].feedbacks.createdAt, user: this.userDetails, profileImg: this.baseImageUrl + "/profile/" + this.userDetails['_id'] + ".png" });
+    this.feedbackMessages.push({ message: responseFeedback.chat.message, createdAt: responseFeedback.chat.createdAt, user: this.userDetails, profileImg: this.baseImageUrl + "/profile/" + this.userDetails['_id'] + ".png" });
     console.log(this.feedbackMessages);
 
   }

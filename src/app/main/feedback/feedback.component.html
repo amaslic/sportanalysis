@@ -5,7 +5,7 @@
     [externalSorting]="true" (sort)="onSort($event)">
     <ngx-datatable-column name="Title">
       <ng-template let-row="row" ngx-datatable-cell-template>
-        {{row.feedbackname}}
+        {{row.feedback.feedbackname}}
       </ng-template>
     </ngx-datatable-column>
     <!-- <ngx-datatable-column name="Feedback">
@@ -15,22 +15,27 @@
     </ngx-datatable-column> -->
     <ngx-datatable-column name="Event">
       <ng-template let-row="row" ngx-datatable-cell-template>
-        {{row.eventName}}
+        {{row.feedback.eventName}}
+      </ng-template>
+    </ngx-datatable-column>
+    <ngx-datatable-column name="Count">
+      <ng-template let-row="row" ngx-datatable-cell-template>
+        {{row.messgeCount}}
       </ng-template>
     </ngx-datatable-column>
     <ngx-datatable-column name="Created At">
       <ng-template let-row="row" ngx-datatable-cell-template>
-        {{row.createdAt | date:'dd/MM/yyyy HH:mm a'}}
+        {{row.feedback.createdAt | date:'dd/MM/yyyy HH:mm a'}}
       </ng-template>
     </ngx-datatable-column>
     <ngx-datatable-column name="Created By">
       <ng-template let-row="row" ngx-datatable-cell-template>
-        {{row.user.firstName}} {{row.user.lastName}}
+        {{row.createduser.firstName}} {{row.createduser.lastName}}
       </ng-template>
     </ngx-datatable-column>
     <ngx-datatable-column name="Action">
       <ng-template let-row="row" ngx-datatable-cell-template>
-        <button *ngIf="row.videoId" class="btn btn-default" [routerLink]="['/videos/view',row.videoId,row.eventdataId,row.eventId]">
+        <button *ngIf="row.feedback.videoId" class="btn btn-default" [routerLink]="['/videos/view',row.feedback.videoId,row.feedback.eventdataId,row.feedback.eventId]">
           <i class="fa fa-eye text-info" aria-hidden="true"></i>
         </button>
         <!-- <button *ngIf="isCoachOrAnalyst" type="button" (click)="deletePlaylist(row._id)" class="btn btn-default" aria-label="Left Align">

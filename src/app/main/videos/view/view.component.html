@@ -478,11 +478,7 @@
       <!-- <label class="col-md-3 control-label"> Feedback: </label> -->
       <div class="col-md-12 no-padding">
         <div class="main-div-bg clearfix">
-          <div class="select-input clearfix">
-            <label class="col-md-3 no-padding control-label"> Users: </label>
-            <ss-multiselect-dropdown class="col-md-9 no-padding " [options]="userlistOptions" [texts]="userlistTexts" [settings]="userlistSettings"
-              [(ngModel)]="userlistModel"></ss-multiselect-dropdown>
-          </div>
+
           <div class="enter-name-input clearfix">
             <label class="col-md-3 no-padding control-label"> Name: </label>
             <div class="col-md-9 no-padding">
@@ -510,6 +506,11 @@
           <div>
             <div class="msj-rta macro" style="margin:auto">
               <div class="text text-r clearfix">
+                <div class="select-input clearfix">
+                  <label class="col-md-3 no-padding control-label" style="color:white"> Users: </label>
+                  <ss-multiselect-dropdown class="col-md-9 no-padding " [options]="userlistOptions" [texts]="userlistTexts" [settings]="userlistSettings"
+                    [(ngModel)]="userlistModel"></ss-multiselect-dropdown>
+                </div>
                 <div class="border-bottom no-border">
                   <input type="textarea" [(ngModel)]="feebackMsg" class="send-text" placeholder="Type a message" (keyup.enter)="eventFeedback('video')"
                   />
