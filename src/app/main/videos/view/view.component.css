@@ -878,7 +878,17 @@ i.show-filters{
 i.show-filters:hover{
  color: #009cff;
  }
-
+i.fa-user{
+  width: 10%;
+  display: inline-block;
+  float: right;
+  position: absolute;
+  top:-15px;
+  right: 0;
+  z-index: 1;
+  color: #009cff;
+  font-size: 18px;
+}
  .more-events{
   position: absolute;
   left: 5px;
@@ -1402,6 +1412,7 @@ button.create{    border: none;
   padding: 10px 20px;
   float: right;
   margin-right: 20px;}
+
 .enter-msg{    width: 92.8%;
     margin: 10px 20px 20px;
     min-height: 40px;
@@ -1409,3 +1420,43 @@ button.create{    border: none;
     padding: 0px 6px;
     border:1px solid #009cff;
   }
+
+
+  /*Date: 13/11/2017 pop-up*/
+
+
+  .user-list-detail{position: relative;}
+.user-list-detail:hover .popup{
+  display : block;
+}
+/* .showhim:hover .ok{
+  display : none;
+} */
+
+  i.fa-user:hover .popup{display: block;}
+  .popup{width:70%;float: right;padding: 5px 0px;border:1px solid #948c8c;height: 120px;
+    overflow-y: scroll;box-shadow: 1px 1px 7px 0 #000;display: none;position: absolute;
+    top: 0;
+    right: 11%;
+    z-index: 9;  
+    background-color: #fff;}
+    
+  .popup .profile-pic{   
+     width: 36px;
+    height: 36px;
+    display: inline-block;
+    border-radius: 50%;
+    background-color: #9aca3e;
+    margin-right: 10px;
+    vertical-align: top;
+    float: right;
+    
+  }
+  .popup .pop-up-list{border-bottom: 1px solid #aaa;margin:5px;padding-bottom: 5px;}
+.popup .profile-pic img{    width: 100%;
+      height: auto;
+      overflow: hidden;
+      border-radius: 50%;}
+
+.popup .name{width: 56%;display: inline-block;float:left;text-align: right;margin-top: 7px;}
+.popup:nth-of-type(1){top: -100px;}      

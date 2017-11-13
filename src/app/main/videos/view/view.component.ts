@@ -81,6 +81,8 @@ export interface IMedia {
   styleUrls: ['./view.component.css']
 })
 export class ViewComponent implements OnInit {
+  assignedUsersDetails: any = [];
+  userlist: any;
   EID: any;
   showchattitle: string = 'Hide Chat';
   videoTitle: string;
@@ -313,9 +315,9 @@ export class ViewComponent implements OnInit {
           (response) => this.getEventDetailsSuccess(response, params['eid']),
           (error) => this.onError(error)
         )
-        // this.timerChat = setInterval(() => {
-        //   this.fetchEventMessages(this.lastMsgId);
-        // }, 10000);
+        this.timerChat = setInterval(() => {
+          this.fetchEventMessages(this.lastMsgId);
+        }, 5000);
 
         this.userService.getUsers(this.userService.token, this.page1).subscribe(
           (response) => this.onGetUsersSuccess(response),
@@ -712,9 +714,9 @@ export class ViewComponent implements OnInit {
 
   }
   onGetUsersSuccess(response) {
-    const userlist = JSON.parse(response._body).users;
+    this.userlist = JSON.parse(response._body).users;
     this.trackUserlist = [];
-    userlist.forEach((usr, index) => {
+    this.userlist.forEach((usr, index) => {
       this.trackUserlist.push({
         'id': usr._id,
         'name': usr.firstName
@@ -1298,11 +1300,14 @@ export class ViewComponent implements OnInit {
     }
   }
   fetchMessages(lastId) {
+
     this.chatService.fetchMessages(lastId, this.videoId, this.userService.token).subscribe(
       (response: any) => {
         this.chatList = JSON.parse(response._body);
         this.chatList.chat.forEach((element, index) => {
           element.profileImg = this.baseImageUrl + "/profile/" + element.sender._id + ".png";
+
+
           this.chatMessages.push({ id: element._id, message: element.message, time: element.createdAt, sender: element.sender, profileImg: element.profileImg });
           this.lastMsgId = element._id;
         });
@@ -1312,21 +1317,32 @@ export class ViewComponent implements OnInit {
     );
   }
   fetchEventMessages(lastId) {
+    // console.log("last id", lastId)
     this.feedbackService.fetchEventFeedback(lastId, this.videoId, this.EID, this.eventId, this.userService.token, 'video').subscribe(
       (response: any) => {
         this.chatList = JSON.parse(response._body);
-        console.log('chatlist', this.chatList);
+        // console.log('chatlist', this.chatList);
         if (this.chatList.feedbacks.length > 0) {
           //          console.log('chatlist', this.feedbackMessages);
+
           this.chatList.feedbacks.forEach((element, index) => {
             if (element.createduser.length > 0) {
               element.user = element.createduser[0];
               element.profileImg = this.baseImageUrl + "/profile/" + element.user._id + ".png";
+              if (element['assignedUsersDetails'] && element['assignedUsersDetails'].length > 0) {
+                element['assignedUsersDetails'].forEach((e, index) => {
+                  e.profileImg = this.baseImageUrl + "/profile/" + e._id + ".png";
+
+                });
+              }
+
+
+              this.feedbackMessages = this.feedbackMessages.filter(x => x._id != 0);
               this.feedbackMessages.push(element);
             }
             this.lastMsgId = element._id;
           });
-          console.log(this.lastMsgId);
+
         }
 
         // this.chatList.chat.forEach((element, index) => {
@@ -1447,7 +1463,7 @@ export class ViewComponent implements OnInit {
 
       if (this.isCoachOrAnalyst) {
         if (this.userlistModel) {
-          this.userlistModel.push(this.userDetails['_id']);
+          //  this.userlistModel.push(this.userDetails['_id']);
           this.users = this.userlistModel;
         }
         else {
@@ -1475,7 +1491,8 @@ export class ViewComponent implements OnInit {
 
       // this.feedbackname = responseFeedback.feedbacks[0].feedbackname;
       this.userlistModel = responseFeedback.feedbacks.assignedUsers;
-      this.feedbackMessages = responseFeedback.feedbacks;
+      this.feedbackMessages = responseFeedback.feedbacks.filter(x => x._id != 0);
+
       console.log(this.feedbackMessages)
       this.feedbackMessages.forEach((element, index) => {
         console.log(element.createduser);
@@ -1490,10 +1507,26 @@ export class ViewComponent implements OnInit {
   }
   eventFeedbackSuccess(response) {
     const responseFeedback = JSON.parse(response._body);
-    this.userlistModel = responseFeedback.chat.assignedUsers;
+    this.assignedUsersDetails = [];
+    this.userlistModel = responseFeedback.chat.assignedUsers.filter(x => String(x) != String(this.userDetails['_id']));
+    console.log(this.userlistModel);
     this.feebackMsg = '';
-    this.feedbackMessages.push({ message: responseFeedback.chat.message, createdAt: responseFeedback.chat.createdAt, user: this.userDetails, profileImg: this.baseImageUrl + "/profile/" + this.userDetails['_id'] + ".png" });
-    console.log(this.feedbackMessages);
+    console.log(responseFeedback.chat.assignedUsers);
+    responseFeedback.chat.assignedUsers.forEach((element, index) => {
+      console.log(element);
+      if (element.length > 0) {
+        this.userlist.forEach((e, index) => {
+          if (String(element) == String(e._id)) {
+            this.assignedUsersDetails.push(e);
+          }
+        });
+      }
+      // element.profileImg = this.baseImageUrl + "/profile/" + element.user._id + ".png";
+    });
 
+    // console.log('responseFeedback', responseFeedback);
+    this.feedbackMessages.push({ _id: 0, assignedUsersDetails: this.assignedUsersDetails, message: responseFeedback.chat.message, createdAt: responseFeedback.chat.createdAt, user: this.userDetails, profileImg: this.baseImageUrl + "/profile/" + this.userDetails['_id'] + ".png" });
+
+    console.log(this.feedbackMessages);
   }
 }
