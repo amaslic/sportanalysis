@@ -106,6 +106,9 @@
                 <li id="addtoplay" title="AddToPlaylist">
                   <i class="fa fa fa-sliders text-info" (click)="addToPlaylist(video._id,$event,false)"></i>
                 </li>
+                <li *ngIf="isCoach || isAdmin" title="Feedback">
+                  <i (click)="addFeedbacks(video,$event)" class="fa fa-comments text-success"></i>
+                </li>
               </ul>
             </div>
           </div>
@@ -293,8 +296,90 @@
     <button class="btn btn-primary" (click)="videoSucessModal.close()">Ok</button>
   </modal-footer>
 </modal>
-
 <modal #assignVideoModal>
+  <modal-header>
+  </modal-header>
+  <modal-content>
+    <p>
+      {{eventmodeltitle}}
+    </p>
+    <div class="col-md-12" *ngIf="!feedbackFlag" style="padding-bottom: 5px;">
+      <label class="col-md-3 control-label"> Users: </label>
+      <ss-multiselect-dropdown class="col-md-9" [options]="userlistOptions" [texts]="userlistTexts" [settings]="userlistSettings"
+        [(ngModel)]="userlistModel"></ss-multiselect-dropdown>
+    </div>
+    <div class="col-md-12"></div>
+    <!-- <div class="col-md-12" *ngIf="feedbackFlag" style="padding-bottom: 5px;">
+        <label class="col-md-3 control-label"> Name: </label>
+        <div class="col-md-9">
+          <input type="text" [(ngModel)]="feedbackname" class="form-control" placeholder="Feedback Name" />
+  
+        </div>
+      </div> -->
+    <div class="col-md-12 no-padding" *ngIf="feedbackFlag" style="padding-bottom: 5px;">
+      <!-- <label class="col-md-3 control-label"> Feedback: </label> -->
+      <div class="col-md-12 no-padding">
+        <div class="main-div-bg clearfix">
+
+          <div class="enter-name-input clearfix">
+            <label class="col-md-3 no-padding control-label"> Name: </label>
+            <div class="col-md-9 no-padding">
+              <input type="text" [(ngModel)]="feedbackname" class="form-control name-input" placeholder="Feedback Name" />
+            </div>
+          </div>
+        </div>
+        <!-- <textarea [(ngModel)]="feebackMsg" class="form-control" placeholder="Enter Feedback"></textarea> -->
+        <div class="chat-list no-padding">
+          <div class="chat-body chat-body-box" #scrollMe [scrollTop]="scrollMe.scrollHeight">
+            <div class="msg-section" *ngFor="let chat of feedbackMessages">
+              <div class="profile-pic">
+                <img src="{{chat.profileImg}}" (error)="setDefaultPic(chat)">
+              </div>
+              <div class="user-name">
+                <div class="name">{{chat.user.firstName}} {{chat.user.lastName}}
+                  <span class="send-time">{{chat.createdAt | date:'dd/MM/yyyy HH:mm a'}}</span>
+                </div>
+                <div class="msg">{{chat.message}}</div>
+              </div>
+
+            </div>
+            <!-- <i class="fa fa-arrow-down"></i> -->
+          </div>
+          <div>
+            <div class="msj-rta macro" style="margin:auto">
+              <div class="text text-r clearfix">
+                <div class="select-input clearfix">
+                  <label class="col-md-3 no-padding control-label" style="color:white"> Users: </label>
+                  <ss-multiselect-dropdown class="col-md-9 no-padding " [options]="userlistOptions" [texts]="userlistTexts" [settings]="userlistSettings"
+                    [(ngModel)]="userlistModel"></ss-multiselect-dropdown>
+                </div>
+                <div class="border-bottom no-border">
+                  <input type="textarea" [(ngModel)]="feebackMsg" class="send-text" placeholder="Type a message" (keyup.enter)="videoFeedback('video')"
+                  />
+                  <i (click)="assignVideoModal.close()" class="fa fa-times"></i>
+                  <button [disabled]="!userlistModel || userlistModel?.length==0 || feebackMsg=='' || feedbackname==''" (click)="videoFeedback('video')"
+                    class="send-message">
+                    <i class="fa fa-send"></i>
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="form-group pull-left" style="margin-top: 5%" *ngIf="updateMessage">
+      <span class="col-md-12">{{updateMessage}}</span>
+    </div>
+  </modal-content>
+  <modal-footer *ngIf="shareEventFlag">
+    <button *ngIf="shareEventFlag" class="btn btn-primary" [disabled]="!userlistModel || userlistModel?.length==0 " (click)="usersToVideo() ">Share</button>
+    <!-- <button *ngIf="feedbackFlag" class="btn btn-primary" [disabled]="!userlistModel || userlistModel?.length==0 || feebackMsg=='' || feedbackname==''"
+        (click)="eventFeedback() ">Feedback</button> -->
+    <button class="btn btn-primary " (click)="assignVideoModal.close() ">Cancel</button>
+  </modal-footer>
+</modal>
+<!-- <modal #assignVideoModal>
   <modal-header>
 
 
@@ -319,7 +404,7 @@
 
 
   </modal-footer>
-</modal>
+</modal> -->
 <modal #createPlaylistModal class="error-modal">
   <modal-header>
   </modal-header>
