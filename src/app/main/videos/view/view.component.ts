@@ -167,6 +167,10 @@ export class ViewComponent implements OnInit {
 
   teamModel: any[];
   myOptions: IMultiSelectOption[];
+  ThumbnailPath: any;
+  TrackerTime: any;
+  showTracker: any = false;
+  thumbanailTracker: NodeJS.Timer;
 
   eventModel: any[];
   myOptions1: IMultiSelectOption[];
@@ -1172,9 +1176,42 @@ export class ViewComponent implements OnInit {
 
   }
   onScrubBarMove(e, Container) {
+    this.showTracker = true;
 
-    // console.log(this.api.getDefaultMedia().duration);
-    // console.log(e.clientX / Container.width * this.api.getDefaultMedia().duration)
+    // console.log(document.getElementById("vg-scrub-bar-cue-points").getBoundingClientRect());
+    // var srubbarPosition = document.getElementById("vg-scrub-bar-cue-points").getBoundingClientRect();
+
+    if (document.getElementById("divThumbnail")) {
+      // document.getElementById("divThumbnail").style.top = srubbarPosition.top + "px";
+      if (e.clientX <= 60)
+        document.getElementById("divThumbnail").style.left = e.clientX + "px";
+      else if (e.clientX <= 80)
+        document.getElementById("divThumbnail").style.left = (e.clientX - 30) + "px";
+      else if (e.clientX <= Container.width - 60)
+        document.getElementById("divThumbnail").style.left = (e.clientX - 60) + "px";
+      else if (e.clientX <= Container.width - 30)
+        document.getElementById("divThumbnail").style.left = (e.clientX - 90) + "px";
+      else
+        document.getElementById("divThumbnail").style.left = (e.clientX - 115) + "px";
+    }
+    var seconds = e.clientX / Container.width * this.api.getDefaultMedia().duration;
+    var calculatedSeconds = seconds / 5;
+    var displaySeconds = String(calculatedSeconds).split('.')
+    this.ThumbnailPath = this.baseImageUrl + "/video-thumbnails/" + this.videoId + "/At-" + (parseInt(displaySeconds[0]) * 5) + "s.png";
+
+    this.TrackerTime = seconds;
+    if (this.thumbanailTracker)
+      clearInterval(this.thumbanailTracker);
+    this.thumbanailTracker = setInterval(() => {
+      if (this.thumbanailTracker) {
+        this.showTracker = false;
+        clearInterval(this.thumbanailTracker);
+      }
+    }, 1000);
+
+  }
+  setDefaultThumbnail(element) {
+    this.ThumbnailPath = this.baseImageUrl + this.video.screenshot_path;
   }
 
   selectEvent(e, event) {

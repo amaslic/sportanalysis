@@ -48,6 +48,7 @@ import { IMultiSelectOption, IMultiSelectSettings, IMultiSelectTexts } from 'ang
   styleUrls: ['./upload.component.css']
 })
 export class UploadComponent implements OnInit {
+  timer: NodeJS.Timer;
   viewerlistModel: any = [];
   teamlistModel: any = [];
   playerlistModel: any = [];
@@ -86,6 +87,8 @@ export class UploadComponent implements OnInit {
   all: boolean = false;
   player: boolean = false;
   viewer: boolean = false;
+  showProgressBar: boolean = false;
+
   teamlistOptions: IMultiSelectOption[];
   teamlistSettings: IMultiSelectSettings = {
     enableSearch: false,
@@ -430,14 +433,37 @@ export class UploadComponent implements OnInit {
 
   }
   onSelectFile(e) {
+
     // console.log(e);
     const files = e.target.files;
+
     for (let i = 0; i < files.length; i++) {
+      this.showProgressBar = true;
+      var video = document.createElement('video');
+      video.preload = 'metadata';
+      var duration = 0;
+      video.onloadedmetadata = function () {
+        duration = video.duration;
+      }
+
+      this.timer = setInterval(() => {
+        if (duration > 0) {
+          this.selectedFile.duration = duration;
+          this.showProgressBar = false;
+          if (this.timer)
+            clearInterval(this.timer);
+        }
+      }, 1000);
+
+
+      video.src = URL.createObjectURL(files[0]);;
+
       this.selectedFile = {
         name: files[i].name,
         size: files[i].size,
         _file: files[i]
       };
+
     }
     e.target.files = null;
   }

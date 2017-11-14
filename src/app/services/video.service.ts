@@ -62,6 +62,7 @@ export class VideoService {
     form.append('match', data.match);
     form.append('fullVideo', fullVideo);
     form.append('locations', data.locations);
+    form.append('duration', data.selectedFile.duration);
 
 
     const headers = new Headers({ 'Authorization': data.token });

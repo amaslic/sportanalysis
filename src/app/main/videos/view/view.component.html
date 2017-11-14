@@ -28,6 +28,7 @@
     </div>
     <h3 class="video-club2" *ngIf="video.club2details.length > 0 && video.club1details[0].name && (video.type!='Training')">{{video.club2details[0].name}}</h3>
   </div>
+
   <div class=" video-box " #Container>
 
     <vg-player *ngIf="video && playlist " (onPlayerReady)="onPlayerReady($event) " (mousemove)="onmouseenter()
@@ -35,14 +36,16 @@
       <vg-overlay-play></vg-overlay-play>
       <vg-buffering></vg-buffering>
 
+
       <vg-scrub-bar (mousemove)="onScrubBarMove($event,Container.getBoundingClientRect()) " *ngIf="currentIndex===1 ">
+        <!-- <vg-scrub-bar-thumbnails [vg-thumbnails]="thumbnails"></vg-scrub-bar-thumbnails> -->
         <vg-scrub-bar-current-time></vg-scrub-bar-current-time>
         <vg-scrub-bar-buffering-time></vg-scrub-bar-buffering-time>
 
-        <vg-scrub-bar-cue-points class="customCuePoints " [vgCuePoints]="metadataTrack.cues " [vgFor]="sportanalysis-video "></vg-scrub-bar-cue-points>
+        <vg-scrub-bar-cue-points id="vg-scrub-bar-cue-points" class="customCuePoints " [vgCuePoints]="metadataTrack.cues " [vgFor]="sportanalysis-video "></vg-scrub-bar-cue-points>
       </vg-scrub-bar>
 
-      <vg-controls [vgAutohide]="true" [vgAutohideTime]="1.5">
+      <vg-controls [vgAutohide]="false" [vgAutohideTime]="1.5">
         <vg-play-pause></vg-play-pause>
         <vg-playback-button></vg-playback-button>
 
@@ -67,6 +70,11 @@
           (onExitCuePoint)="onExitCuePoint($event) ">
       </video>
     </vg-player>
+
+    <div *ngIf="showTracker" id="divThumbnail" style="height: 90px;width: 150px;position: absolute;z-index: 9999;    margin-top: -150px;">
+      <img src="{{ThumbnailPath}}" (error)="setDefaultThumbnail(chat)">
+      <span class="time-tracker-div">{{fancyTimeFormat(TrackerTime)}}</span>
+    </div>
 
   </div>
   <div class="video-timeline " *ngIf="currentIndex===1 ">
