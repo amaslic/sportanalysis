@@ -26,6 +26,7 @@ import {
 import {
   Page
 } from './../../models/page.model';
+import { FeedbackService } from './../../services/feedback.service';
 
 import { IMultiSelectOption, IMultiSelectSettings, IMultiSelectTexts } from 'angular-2-dropdown-multiselect';
 
@@ -36,6 +37,15 @@ import { IMultiSelectOption, IMultiSelectSettings, IMultiSelectTexts } from 'ang
 })
 
 export class VideosComponent implements OnInit {
+  assignedUsersDetails: any = [];
+  userlist: any;
+  users: any[];
+  feedbackname: string;
+  feedbackMessages: any[];
+  feebackMsg: any;
+  feedbackFlag: boolean;
+  shareEventFlag: boolean;
+  eventmodeltitle: string;
   updateMessage: any;
   saveClass: any;
   saveMessage: any;
@@ -58,6 +68,8 @@ export class VideosComponent implements OnInit {
   errormsg: string;
   grid: boolean;
   list: boolean;
+  private baseImageUrl = GlobalVariables.BASE_IMAGE_URL;
+  private baseUrl = GlobalVariables.BASE_URL;
   private baseVideoUrl = GlobalVariables.BASE_VIDEO_URL;
   private baseAmazonVideoUrl = GlobalVariables.BASE_AMAZON_VIDEO_URL;
   videoList: Video[];
@@ -106,7 +118,7 @@ export class VideosComponent implements OnInit {
   @ViewChild('videoSucessModal') videoSucessModal;
   @ViewChild('lnkDownloadLink') lnkDownloadLink: ElementRef;
   @ViewChild('createPlaylistModal') createPlaylistModal;
-  constructor(private clubService: ClubService, private videoService: VideoService, private userService: UserService, r: Router, private route: ActivatedRoute, private playlistService: PlaylistService) {
+  constructor(private clubService: ClubService, private videoService: VideoService, private userService: UserService, r: Router, private route: ActivatedRoute, private playlistService: PlaylistService, private feedbackService: FeedbackService) {
     this.router = r;
   }
 
@@ -252,7 +264,9 @@ export class VideosComponent implements OnInit {
     e.preventDefault();
     e.stopPropagation();
     this.videoId = id;
-
+    this.eventmodeltitle = "Share Video"
+    this.shareEventFlag = true;
+    this.feedbackFlag = false;
     this.page1.limit = 0;
     this.page1.pageNumber = 0;
 
@@ -264,9 +278,9 @@ export class VideosComponent implements OnInit {
   }
 
   onGetUsersSuccess(response) {
-    const userlist = JSON.parse(response._body).users;
+    this.userlist = JSON.parse(response._body).users;
     this.trackUserlist = [];
-    userlist.forEach((usr, index) => {
+    this.userlist.forEach((usr, index) => {
       this.trackUserlist.push({
         'id': usr._id,
         'name': usr.firstName
@@ -517,6 +531,120 @@ export class VideosComponent implements OnInit {
       this.updateMessage = '';
     }, 1500);
 
+  }
+  addFeedbacks(vid, e) {
+    e.preventDefault();
+    e.stopPropagation();
+    this.feedbackMessages = [];
+    this.userlistModel = [];
+    this.feedbackname = '';
+    this.eventmodeltitle = "Feedback Video"
+    this.videoId = vid._id;
+    //console.log('vid', vid);
+    if (vid.type == 'Match') {
+      if (vid.club1details.length > 0 && vid.club2details.length > 0) {
+        this.feedbackname = vid.club1details[0].name + ' ' + vid.club2details[0].name;
+      } else {
+        this.feedbackname = "";
+      }
+
+    } else {
+      this.feedbackname = vid.title;
+    }
+    this.feebackMsg = '';
+    this.shareEventFlag = false;
+    this.feedbackFlag = true;
+    this.page1.limit = 0;
+    this.page1.pageNumber = 0;
+    this.feedbackService.getFeedback(this.videoId, e, this.userService.token, 'video').subscribe(
+      (response) => this.getFeedbackSuccess(response),
+      (error) => this.onError(error)
+    )
+
+    this.userService.getUsers(this.userService.token, this.page1).subscribe(
+      (response) => this.onGetUsersSuccess(response),
+      (error) => this.onError(error)
+    );
+    // this.trackingDataService.getEventDetails(vid, e.id, this.userService.token).subscribe(
+    //   (response) => this.getEventDetailsSuccess(response, e.id),
+    //   (error) => this.onError(error)
+    // )
+
+    this.assignVideoModal.open();
+
+  }
+  getFeedbackSuccess(response) {
+    this.feebackMsg = '';
+    const responseFeedback = JSON.parse(response._body);
+    if (responseFeedback.feedbacks.length > 0) {
+
+      // this.feedbackname = responseFeedback.feedbacks[0].feedbackname;
+      this.userlistModel = responseFeedback.feedbacks.assignedUsers;
+      this.feedbackMessages = responseFeedback.feedbacks.filter(x => x._id != 0);
+
+      console.log(this.feedbackMessages)
+      this.feedbackMessages.forEach((element, index) => {
+        console.log(element.createduser);
+        if (element.createduser.length > 0) {
+          element.user = element.createduser[0];
+        }
+        element.profileImg = this.baseImageUrl + "/profile/" + element.user._id + ".png";
+      });
+    }
+
+    // console.log(this.feedbackname);
+  }
+  videoFeedback(page) {
+    this.users = []
+
+    if (page == 'Feedback' || page == 'feedback') {
+
+      if (this.isCoach) {
+        if (this.userlistModel) {
+          //  this.userlistModel.push(this.userDetails['_id']);
+          this.users = this.userlistModel;
+        }
+        else {
+          alert("Please select users");
+          return false;
+        }
+
+      }
+      else {
+        this.users.push(this.userDetails['_id']);
+      }
+
+    }
+
+    this.feedbackService.addFeedback(this.videoId, '', this.userlistModel, this.feedbackname, this.feebackMsg, this.userService.token, page).subscribe(
+      (response) => this.videoFeedbackSuccess(response),
+      (error) => this.onError(error)
+    )
+
+  }
+  videoFeedbackSuccess(response) {
+    const responseFeedback = JSON.parse(response._body);
+    this.assignedUsersDetails = [];
+    this.userlistModel = responseFeedback.chat.assignedUsers.filter(x => String(x) != String(this.userDetails['_id']));
+    console.log(this.userlistModel);
+    this.feebackMsg = '';
+    console.log(responseFeedback.chat.assignedUsers);
+    responseFeedback.chat.assignedUsers.forEach((element, index) => {
+      console.log(element);
+      if (element.length > 0) {
+        this.userlist.forEach((e, index) => {
+          if (String(element) == String(e._id)) {
+            this.assignedUsersDetails.push(e);
+          }
+        });
+      }
+      // element.profileImg = this.baseImageUrl + "/profile/" + element.user._id + ".png";
+    });
+
+    // console.log('responseFeedback', responseFeedback);
+    this.feedbackMessages.push({ _id: 0, assignedUsersDetails: this.assignedUsersDetails, message: responseFeedback.chat.message, createdAt: responseFeedback.chat.createdAt, user: this.userDetails, profileImg: this.baseImageUrl + "/profile/" + this.userDetails['_id'] + ".png" });
+
+    console.log(this.feedbackMessages);
   }
 
 }

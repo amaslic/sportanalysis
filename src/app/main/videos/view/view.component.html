@@ -209,8 +209,19 @@
             <span class="send-time">{{chat.createdAt | date:'dd/MM/yyyy HH:mm a'}}</span>
           </div>
           <div class="msg">{{chat.message}}</div>
-        </div>
 
+        </div>
+        <div *ngIf="isCoachOrAnalyst && chat.assignedUsersDetails.length > 0" class="user-list-detail">
+          <i class="fa fa-user"></i>
+          <div class="popup clearfix">
+            <div class="clearfix pop-up-list" *ngFor="let userDetails of chat.assignedUsersDetails">
+              <div class="profile-pic">
+                <img src="{{userDetails.profileImg}}" (error)="setDefaultPic(userDetails)">
+              </div>
+              <div class="name">{{userDetails.firstName}} {{userDetails.lastName}}</div>
+            </div>
+          </div>
+        </div>
       </div>
       <!-- <i class="fa fa-arrow-down"></i> -->
     </div>

@@ -10,11 +10,11 @@
 
     <button class="btn btn-default pull-right" style="margin-top: 15px;" (click)="deleteSelected()">Delete Videos</button>
     <div class="row">
-      <div class="col-md-3 no-padding" style="margin-right: 5px;">
+      <div *ngIf="(!isClub)" class="col-md-3 no-padding" style="margin-right: 5px;">
         <label>Club: </label>
         <select *ngIf="(!isClub)" name="searchClub" #searchclub class="form-control" (change)="onChangeofActivatedSearch()" [(ngModel)]="search.ActivatedClub">
           <option value="null">All </option>
-          <option *ngFor="let club of clubList" [ngValue]="club._id">{{club.name}}</option>
+          <option *ngFor="let club of allClubList" [ngValue]="club._id">{{club.name}}</option>
         </select>
       </div>
     </div>
@@ -33,7 +33,7 @@
         <md-checkbox ng-model="multiDelete" [checked] class="more-events" (value)="value" id="event{{value}}" (change)="selectVideo($event,value)"></md-checkbox>
       </ng-template>
     </ngx-datatable-column> -->
-    <ngx-datatable-column [width] = "30">
+    <ngx-datatable-column [width]="30">
       <ng-template let-column="column" ngx-datatable-header-template>
         <md-checkbox [(ngModel)]="isAllSelected" (change)="onChangeOfcheckAll($event)"> </md-checkbox>
       </ng-template>
@@ -41,7 +41,7 @@
         <md-checkbox [(ngModel)]="row.isSelected" (change)="onChangeOfCheckbox($event,row)"> </md-checkbox>
       </ng-template>
     </ngx-datatable-column>
-    <ngx-datatable-column [width] = "300">
+    <ngx-datatable-column [width]="300">
       <ng-template let-column="column" ngx-datatable-header-template>
         Video Details
       </ng-template>
@@ -53,7 +53,7 @@
         <span *ngIf="(row.type=='Training')"> {{row.title}}</span>
       </ng-template>
     </ngx-datatable-column>
-    <ngx-datatable-column name="type" [width] = "120">
+    <ngx-datatable-column name="type" [width]="120">
 
       <ng-template let-column="type" ngx-datatable-header-template>
         Type
@@ -63,7 +63,7 @@
         {{value}}
       </ng-template>
     </ngx-datatable-column>
-    <ngx-datatable-column name="ofilename" [width] = "150">
+    <ngx-datatable-column name="ofilename" [width]="150">
 
       <ng-template let-column="ofilename" ngx-datatable-header-template>
         Filename
@@ -72,7 +72,7 @@
         {{value}}
       </ng-template>
     </ngx-datatable-column>
-    <ngx-datatable-column name="club" [width] = "150">
+    <ngx-datatable-column name="club" [width]="150">
 
       <ng-template let-column="club" ngx-datatable-header-template>
         Club
@@ -83,7 +83,7 @@
       </ng-template>
     </ngx-datatable-column>
 
-    <ngx-datatable-column name="viewCounter" [width] = "80">
+    <ngx-datatable-column name="viewCounter" [width]="80">
 
       <ng-template let-column="club" ngx-datatable-header-template>
         View Counter
@@ -95,7 +95,7 @@
 
     </ngx-datatable-column>
 
-    <ngx-datatable-column name="calculatedSize" [width] = "100">
+    <ngx-datatable-column name="calculatedSize" [width]="100">
 
       <ng-template let-column="calculatedSize" ngx-datatable-header-template>
         Size
@@ -117,7 +117,7 @@
 
     </ngx-datatable-column>-->
 
-    <ngx-datatable-column name="endTime" [width] = "200">
+    <ngx-datatable-column name="endTime" [width]="200">
 
       <ng-template let-column="endTime" ngx-datatable-header-template>
         Upload End Time
@@ -128,7 +128,7 @@
 
     </ngx-datatable-column>
 
-    <ngx-datatable-column name="id" sortable="false" [width] = "160">
+    <ngx-datatable-column name="id" sortable="false" [width]="160">
       <ng-template let-column="column" let-sort="sortFn" ngx-datatable-header-template>
         Action
       </ng-template>
