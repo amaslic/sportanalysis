@@ -81,6 +81,9 @@ export interface IMedia {
   styleUrls: ['./view.component.css']
 })
 export class ViewComponent implements OnInit {
+  userfilterModel: any = [];
+  feedbackFrontMessages: any = [];
+  feedbackfilteredMessages: any = [];
   assignedUsersDetails: any = [];
   userlist: any;
   EID: any;
@@ -239,6 +242,7 @@ export class ViewComponent implements OnInit {
   trackUserlist: any[];
 
   userlistOptions: IMultiSelectOption[];
+  userfilterOptions: IMultiSelectOption[];
   userlistModel: any[];
   users: any[];
   userlistSettings: IMultiSelectSettings = {
@@ -436,7 +440,7 @@ export class ViewComponent implements OnInit {
         //   event.name === "Free Kick"
         // ) &&
         this.api.getDefaultMedia().duration > event.start) {
-        console.log('add cue');
+        // console.log('add cue');
         this.track.addCue(
           new VTTCue(start, end, JSON.stringify({
             title: event.name,
@@ -1355,6 +1359,7 @@ export class ViewComponent implements OnInit {
   }
   fetchEventMessages(lastId) {
     // console.log("last id", lastId)
+    // this.feedbackMessages = this.feedbackFrontMessages;
     this.feedbackService.fetchEventFeedback(lastId, this.videoId, this.EID, this.eventId, this.userService.token, 'video').subscribe(
       (response: any) => {
         this.chatList = JSON.parse(response._body);
@@ -1363,31 +1368,43 @@ export class ViewComponent implements OnInit {
           //          console.log('chatlist', this.feedbackMessages);
 
           this.chatList.feedbacks.forEach((element, index) => {
-            if (element.createduser.length > 0) {
-              element.user = element.createduser[0];
-              element.profileImg = this.baseImageUrl + "/profile/" + element.user._id + ".png";
-              if (element['assignedUsersDetails'] && element['assignedUsersDetails'].length > 0) {
-                element['assignedUsersDetails'].forEach((e, index) => {
-                  e.profileImg = this.baseImageUrl + "/profile/" + e._id + ".png";
 
-                });
-              }
+            element.profileImg = this.baseImageUrl + "/profile/" + element.user._id + ".png";
+            if (element['assignedUsersDetails'] && element['assignedUsersDetails'].length > 0) {
+              element['assignedUsersDetails'].forEach((e, index) => {
+                e.profileImg = this.baseImageUrl + "/profile/" + e._id + ".png";
 
-
-              this.feedbackMessages = this.feedbackMessages.filter(x => x._id != 0);
-              this.feedbackMessages.push(element);
+              });
             }
+
+
+            this.feedbackMessages = this.feedbackMessages.filter(x => x._id != 0);
+            this.feedbackMessages.push(element);
+            this.feedbackfilteredMessages.push(element);
+
+            // this.feedbackFrontMessages = this.feedbackFrontMessages.filter(x => x._id != 0);
+            // this.feedbackFrontMessages.push(element);
+
             this.lastMsgId = element._id;
           });
 
         }
-
-        // this.chatList.chat.forEach((element, index) => {
-        //   element.profileImg = this.baseImageUrl + "/profile/" + element.sender._id + ".png";
-        //   this.feedbackMessages.push({ message: this.chatList.feedbacks[0].feedbacks.message, createdAt: this.chatList.feedbacks[0].feedbacks.createdAt, user: this.userDetails, profileImg: this.baseImageUrl + "/profile/" + this.userDetails['_id'] + ".png" });
-        //   // this.feedbackMessages.push({ id: element._id, message: element.message, time: element.createdAt, sender: element.sender, profileImg: element.profileImg });
-        //   this.lastMsgId = element._id;
-        // });
+        this.feedbackFrontMessages = this.feedbackMessages
+        //  this.feedbackfilteredMessages = this.feedbackMessages;
+        var uniqueArray = this.removeDuplicates(this.feedbackfilteredMessages, "user._id");
+        this.userfilterOptions = [];
+        uniqueArray.forEach((e, index) => {
+          this.userfilterOptions.push({ 'id': e._id, 'name': e.firstName })
+        });
+        if (this.userfilterModel.length > 0) {
+          this.feedbackMessages = this.feedbackfilteredMessages.filter(function (i) {
+            //console.log('i', i.user._id)
+            return this.indexOf(i.user._id) > - 1;
+          }, this.userfilterModel);
+        }
+        else {
+          this.feedbackMessages = this.feedbackfilteredMessages;
+        }
 
       },
       (error) => this.onError(error)
@@ -1420,6 +1437,7 @@ export class ViewComponent implements OnInit {
 
   addFeedbacks(vid, e) {
     this.feedbackMessages = [];
+    this.feedbackfilteredMessages = [];
     this.userlistModel = [];
     this.feedbackname = '';
     this.eventmodeltitle = "Feedback Event"
@@ -1533,14 +1551,28 @@ export class ViewComponent implements OnInit {
       console.log(this.feedbackMessages)
       this.feedbackMessages.forEach((element, index) => {
         console.log(element.createduser);
-        if (element.createduser.length > 0) {
-          element.user = element.createduser[0];
-        }
         element.profileImg = this.baseImageUrl + "/profile/" + element.user._id + ".png";
       });
     }
 
-    console.log(this.feedbackname);
+
+    this.feedbackfilteredMessages = this.feedbackMessages;
+    //  console.log(this.userfilterOptions);
+  }
+  removeDuplicates(originalArray, prop) {
+    var newArray = [];
+    var lookupObject = {};
+
+    for (var i in originalArray) {
+      //console.log('originalArray', originalArray[i].user._id)
+      lookupObject[originalArray[i].user._id] = originalArray[i].user;
+      //lookupObject[originalArray[i].user._id] = originalArray[i].user.firstName + ' ' + originalArray[i].user.lastName;
+    }
+
+    for (i in lookupObject) {
+      newArray.push(lookupObject[i]);
+    }
+    return newArray;
   }
   eventFeedbackSuccess(response) {
     const responseFeedback = JSON.parse(response._body);
@@ -1563,7 +1595,37 @@ export class ViewComponent implements OnInit {
 
     // console.log('responseFeedback', responseFeedback);
     this.feedbackMessages.push({ _id: 0, assignedUsersDetails: this.assignedUsersDetails, message: responseFeedback.chat.message, createdAt: responseFeedback.chat.createdAt, user: this.userDetails, profileImg: this.baseImageUrl + "/profile/" + this.userDetails['_id'] + ".png" });
-
+    var uniqueArray = this.removeDuplicates(this.feedbackMessages, "user._id");
+    // console.log("uniqueArray is: " + JSON.stringify(uniqueArray));
+    //console.log("uniqueArray is: " + uniqueArray);
+    this.userfilterOptions = [];
+    uniqueArray.forEach((e, index) => {
+      this.userfilterOptions.push({ 'id': e._id, 'name': e.firstName })
+    });
+    this.feedbackfilteredMessages = this.feedbackMessages;
     console.log(this.feedbackMessages);
+  }
+  onUserFilterSelect(e) {
+    console.log(e);
+    // this.feedbackfilteredMessages = this.feedbackMessages;
+    console.log(this.feedbackfilteredMessages);
+    if (e.length > 0) {
+      this.feedbackMessages = this.feedbackfilteredMessages.filter(function (i) {
+        console.log('i', i.user._id)
+        return this.indexOf(i.user._id) > - 1;
+      }, e);
+    }
+    else {
+      this.feedbackMessages = this.feedbackfilteredMessages;
+    }
+    //this.temp = this.feedbackMessages;
+    // if (e.length > 0) {
+    //   e.forEach((data, index) => {
+    //     if (String(e) == String(e._id)) {
+    //       this.assignedUsersDetails.push(e);
+    //     }
+    //   });
+    // }
+
   }
 }

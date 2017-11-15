@@ -199,6 +199,11 @@
   </div> -->
   <div class="chat-list" *ngIf="showChat&&feedbackMessages.length > 0">
     <h4 class="chat-title">Live Chat</h4>
+    <div class="select-input clearfix" style="background-color: #009cff;">
+      <label class="col-md-3  control-label" style="color:white"> Filter: </label>
+      <ss-multiselect-dropdown class="col-md-9" (ngModelChange)="onUserFilterSelect($event)" [options]="userfilterOptions" [texts]="userlistTexts"
+        [settings]="userlistSettings" [(ngModel)]="userfilterModel"></ss-multiselect-dropdown>
+    </div>
     <div class="chat-body" #scrollMeChat [scrollTop]="scrollMeChat.scrollHeight">
       <div class="msg-section" *ngFor="let chat of feedbackMessages">
         <div class="profile-pic">
@@ -509,6 +514,11 @@
               <input type="text" [(ngModel)]="feedbackname" class="form-control name-input" placeholder="Feedback Name" />
             </div>
           </div>
+          <div class="select-input clearfix">
+            <label class="col-md-3 no-padding control-label" style="color:white"> Filter: </label>
+            <ss-multiselect-dropdown class="col-md-9 no-padding" (ngModelChange)="onUserFilterSelect($event)" [options]="userfilterOptions"
+              [texts]="userlistTexts" [settings]="userlistSettings" [(ngModel)]="userfilterModel"></ss-multiselect-dropdown>
+          </div>
         </div>
         <!-- <textarea [(ngModel)]="feebackMsg" class="form-control" placeholder="Enter Feedback"></textarea> -->
         <div class="chat-list no-padding">
@@ -544,6 +554,7 @@
                     <i class="fa fa-send"></i>
                   </button>
                 </div>
+
               </div>
             </div>
           </div>
