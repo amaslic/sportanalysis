@@ -14,7 +14,7 @@
                     <label>Club: </label>
                     <select name="searchClub" #searchclub class="form-control" (change)="onChangeofActivatedSearch()" [(ngModel)]="search.ActivatedClub">
                         <option value="null">All </option>
-                        <option *ngFor="let club of AllClubList" [ngValue]="club._id">{{club.name}}</option>
+                        <option *ngFor="let club of allApprovedClubs" [ngValue]="club._id">{{club.name}}</option>
                     </select>
                 </div>
                 <div class="col-md-3 no-padding">
@@ -65,7 +65,7 @@
                     <label>Club: </label>
                     <select name="searchClub" #searchclub class="form-control" (change)="onChangeofDeactivatedSearch()" [(ngModel)]="search.DeactivatedClub">
                         <option value="null">All </option>
-                        <option *ngFor="let club of AllClubList" [ngValue]="club._id">{{club.name}}</option>
+                        <option *ngFor="let club of allUnApprovedClubs" [ngValue]="club._id">{{club.name}}</option>
                     </select>
                 </div>
                 <div class="col-md-3 no-padding">

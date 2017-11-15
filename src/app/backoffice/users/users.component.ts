@@ -25,7 +25,10 @@ import {
   styleUrls: ['./users.component.css']
 })
 export class UsersComponent implements OnInit {
-  allApprovedClubrList: any;
+  allUnApprovedClubList: any;
+  allUnApprovedClubs: any[];
+  allApprovedClubs: any;
+  allApprovedClubList: any;
   successmsg: any;
   deactivateUserResponce: any;
   activateUserResponce: any;
@@ -130,6 +133,14 @@ export class UsersComponent implements OnInit {
   }
   onGetUsersSuccess(response) {
     this.allApprovedUserList = JSON.parse(response._body).users;
+    if (this.isSuperAdmin) {
+      this.allApprovedClubs = [];
+      this.allApprovedClubList = JSON.parse(response._body).clubData;
+      this.allApprovedClubList.forEach(element => {
+        this.allApprovedClubs.push({ '_id': element._id, 'name': element.clubData.name });
+      });
+      //  console.log(this.allApprovedClubs);
+    }
 
     this.allApprovedUserList.forEach(element => {
       element.clubId = element.club;
@@ -184,7 +195,14 @@ export class UsersComponent implements OnInit {
   }
   onGetUnApprovedUsers(response) {
     this.allDeactivatedUserList = JSON.parse(response._body).users;
-
+    if (this.isSuperAdmin) {
+      this.allUnApprovedClubs = [];
+      this.allUnApprovedClubList = JSON.parse(response._body).clubData;
+      this.allUnApprovedClubList.forEach(element => {
+        this.allUnApprovedClubs.push({ '_id': element._id, 'name': element.clubData.name });
+      });
+      //  console.log(this.allUnApprovedClubs);
+    }
     this.allDeactivatedUserList.forEach(element => {
       element.clubId = element.club;
       if (element.teams && element.teams.length > 0)
