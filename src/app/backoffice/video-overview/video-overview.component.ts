@@ -40,6 +40,8 @@ import { PlatformLocation } from '@angular/common';
   styleUrls: ['./video-overview.css']
 })
 export class VideoOverviewComponent implements OnInit {
+  allVideoClubList: any;
+  allVideoClubs: any[];
   isClub: boolean;
   videoListData: User[];
   search: any = { ActivatedClub: null };
@@ -202,6 +204,14 @@ export class VideoOverviewComponent implements OnInit {
   onGetVideosSuccess(response) {
     this.videoList = JSON.parse(response._body).videos;
     // console.log(this.videoList);
+    if (this.isAdmin) {
+      this.allVideoClubs = [];
+      this.allVideoClubList = JSON.parse(response._body).clubData;
+      this.allVideoClubList.forEach(element => {
+        this.allVideoClubs.push({ '_id': element._id, 'name': element.clubData.name });
+      });
+      //  console.log(this.allApprovedClubs);
+    }
 
     if (this.videoList.length > 0) {
       var fSExt = new Array('Bytes', 'KB', 'MB', 'GB');
