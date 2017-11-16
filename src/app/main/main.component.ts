@@ -120,7 +120,12 @@ export class MainComponent implements OnInit {
 
   getUserDisplayName() {
     let user: any = this.localStorageService.get('user');
-    return user.firstName + " " + user.lastName;
+    if (user) {
+      return user.firstName + " " + user.lastName;
+    } else {
+      return 'Guest';
+    }
+
   }
   setDefaultPic() {
     this.profile.profile_path = "assets/images/user.png";
