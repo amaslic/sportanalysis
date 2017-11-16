@@ -71,10 +71,28 @@
       </video>
     </vg-player>
 
-    <div *ngIf="showTracker" id="divThumbnail" style="height: 90px;width: 150px;position: absolute;z-index: 9999;    margin-top: -150px;">
+    <div *ngIf="showTracker" id="divThumbnail" class="center-screen" style="height: 90px;width: 150px;position: absolute;z-index: 9999;    margin-top: -150px;">
       <img src="{{ThumbnailPath}}" (error)="setDefaultThumbnail(chat)">
       <span class="time-tracker-div">{{fancyTimeFormat(TrackerTime)}}</span>
     </div>
+
+    <!-- <div id="divThumbnail" *ngFor="let timestamp of video.timestamps">
+      <div class="abc">
+        <img [src]="timestamp.src" (error)="setDefaultThumbnail(chat)">
+      </div>
+    </div> -->
+
+    <div *ngIf="showTracker" style="background-color:black;position: relative;">
+      <swiper [config]="config" #usefulSwiper>
+        <div class="swiper-wrapper">
+          <img class="swiper-slide strip-image" *ngFor="let timestamp of video.timestamps" [src]="timestamp.src" (error)="setDefaultThumbnail(chat)">
+        </div>
+
+      </swiper>
+    </div>
+    <!-- <div class="swiper-pagination"></div> -->
+    <!-- <div class="swiper-button-next"></div>
+        <div class="swiper-button-prev"></div> -->
 
   </div>
   <div class="video-timeline " *ngIf="currentIndex===1 ">
@@ -303,6 +321,8 @@
 
     </div>
     <i class="fa fa-filter show-filters" aria-hidden="true" (click)="showFilters = !showFilters"></i>
+    <i *ngIf="video && isCoachOrAnalyst" style="right:5px;" class="fa fa-cog show-filters" title="Settings" [routerLink]="['/videos/settings', video._id]"
+      aria-hidden="true"></i>
   </div>
   <div class="match-info filters col-xs-12" *ngIf="showFilters">
 
@@ -314,11 +334,11 @@
       <ss-multiselect-dropdown [options]="myOptions1" [texts]="eventTexts" [settings]="eventSettings" [(ngModel)]="eventModel"
         (ngModelChange)="onChange($event)"></ss-multiselect-dropdown>
     </div>
-    <div class="settings-div">
+    <!-- <div class="settings-div">
       <span class="settings">
         <a *ngIf="video && isCoachOrAnalyst" [routerLink]="['/videos/settings', video._id]">Settings</a>
       </span>
-    </div>
+    </div> -->
 
 
   </div>

@@ -871,7 +871,7 @@ i.show-filters{
  color: #59719a;
  
  top: 18px;
- right: 25px;
+ right: 30px;
  position: absolute;
 }
 
@@ -1448,7 +1448,7 @@ button.create{    border: none;
 :host >>> vg-scrub-bar:hover vg-scrub-bar-buffering-time{height: 7px !important;}
 :host >>> vg-scrub-bar:hover :host >>> vg-scrub-bar-current-time:after{width: 15px;height: 15px;left: -1px;}
 :host >>> vg-scrub-bar:hover vg-scrub-bar-cue-points.customCuePoints .cue-point-container .cue-point{height: 7px !important;}
-:host >>> vg-scrub-bar:hover :host >>> vg-scrub-bar-current-time:after{height:16px;width: 16px;top: -4px;left: -2px;}
+/* :host >>> vg-scrub-bar-current-time:after{content: '';display: inline-block;background-image: url('/assets/icons/double-up-arrow-angles.svg');width: 30px;height: 30px;background-size: 100%;} */
 
   /*Date: 13/11/2017 pop-up*/
   .user-list-detail{position: relative;}
@@ -1486,3 +1486,20 @@ button.create{    border: none;
 
 .popup .name{width: 56%;display: inline-block;float:left;text-align: right;margin-top: 7px;}
 .popup:nth-of-type(1){top: -100px;}      
+
+swiper{
+  height: 90px;
+  width: 100%;
+  margin-top: -150px;
+  z-index: 999;
+}
+
+.swiper-wrapper {
+  box-sizing: border-box;
+}
+
+.center-screen {
+  left: 50% !important;
+  transform: translateX(-50%);
+  position: absolute;
+}
