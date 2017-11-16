@@ -321,6 +321,8 @@
 
     </div>
     <i class="fa fa-filter show-filters" aria-hidden="true" (click)="showFilters = !showFilters"></i>
+    <i *ngIf="video && isCoachOrAnalyst" style="right:5px;" class="fa fa-cog show-filters" title="Settings" [routerLink]="['/videos/settings', video._id]"
+      aria-hidden="true"></i>
   </div>
   <div class="match-info filters col-xs-12" *ngIf="showFilters">
 
@@ -332,11 +334,11 @@
       <ss-multiselect-dropdown [options]="myOptions1" [texts]="eventTexts" [settings]="eventSettings" [(ngModel)]="eventModel"
         (ngModelChange)="onChange($event)"></ss-multiselect-dropdown>
     </div>
-    <div class="settings-div">
+    <!-- <div class="settings-div">
       <span class="settings">
         <a *ngIf="video && isCoachOrAnalyst" [routerLink]="['/videos/settings', video._id]">Settings</a>
       </span>
-    </div>
+    </div> -->
 
 
   </div>
