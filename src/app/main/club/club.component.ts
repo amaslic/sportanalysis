@@ -94,7 +94,6 @@ export class ClubComponent implements OnInit {
   matchesPage = new Page();
   videosPage = new Page();
 
-
   userlistSettings: IMultiSelectSettings = {
     enableSearch: true,
     checkedStyle: 'fontawesome',
@@ -307,6 +306,7 @@ export class ClubComponent implements OnInit {
     this.usersList = JSON.parse(response._body).users;
 
     this.usersList.forEach(element => {
+
       if (this.teamsList.length > 0) {
         var userTeam = this.teamsList.filter(function (element1, index) {
           return (element1._id === element.teams[0]);
@@ -474,6 +474,7 @@ export class ClubComponent implements OnInit {
     console.log(vId);
     this.page.limit = 0;
     this.page.pageNumber = 0;
+
     this.playlistService.getPlaylists(this.userService.token, this.page).subscribe(
       (response) => this.onGetPlaylistsSuccess(response),
       (error) => this.onError(error)
@@ -506,6 +507,7 @@ export class ClubComponent implements OnInit {
     this.playlists['playlistName'] = this.playlistName;
     this.playlists['user'] = this.userService.user._id;
     this.playlists['token'] = this.userService.token;
+    this.playlists['assignedUsers'] = this.userlistModel;
     // this.playlists['eventDataId'] = this.eventDataId;
     // console.log(this.multiplay);
     // console.log('playlist', this.multiPlaylist);
@@ -547,10 +549,31 @@ export class ClubComponent implements OnInit {
     // this.eventDataId = event.eventDataId;
     //  console.log(this.eventDataId);
     this.playlistName = '';
+
+    this.userService.getUsers(this.userService.token, this.page1).subscribe(
+      (response) => this.onGetUsersSuccessForShare(response),
+      (error) => this.onError(error)
+    );
+
     // console.log(this.multiplay);
     // console.log(this.multiPlaylist);
     this.createPlaylistModal.open();
   }
+
+  onGetUsersSuccessForShare(response) {
+    var usersList = JSON.parse(response._body).users;
+
+    this.trackUserlist = [];
+    usersList.forEach(element => {
+
+      this.trackUserlist.push({
+        'id': element._id,
+        'name': element.firstName
+      });
+    });
+    this.userlistOptions = this.trackUserlist;
+  }
+
   onChangeEvent(e) {
 
   }
@@ -596,4 +619,5 @@ export class ClubComponent implements OnInit {
     }, 1500);
 
   }
+
 }
