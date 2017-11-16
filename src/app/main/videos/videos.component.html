@@ -106,9 +106,9 @@
                 <li id="addtoplay" title="AddToPlaylist">
                   <i class="fa fa fa-sliders text-info" (click)="addToPlaylist(video._id,$event,false)"></i>
                 </li>
-                <li *ngIf="isCoach || isAdmin" title="Feedback">
+                <!-- <li *ngIf="isCoach || isAdmin" title="Feedback">
                   <i (click)="addFeedbacks(video,$event)" class="fa fa-comments text-success"></i>
-                </li>
+                </li> -->
               </ul>
             </div>
           </div>
@@ -305,10 +305,20 @@
     </p>
     <div class="col-md-12" *ngIf="!feedbackFlag" style="padding-bottom: 5px;">
       <label class="col-md-3 control-label"> Users: </label>
-      <ss-multiselect-dropdown class="col-md-9" [options]="userlistOptions" [texts]="userlistTexts" [settings]="userlistSettings"
+      <ss-multiselect-dropdown class="col-md-8" [options]="userlistOptions" [texts]="userlistTexts" [settings]="userlistSettings"
         [(ngModel)]="userlistModel"></ss-multiselect-dropdown>
     </div>
-    <div class="col-md-12"></div>
+    <div class="col-md-12">
+      <label class="col-md-3 control-label">Public Link: </label>
+      <!-- <input class="col-md-8 form-control" disabled id="elem1" style="word-break: break-all;" value="{{publicVideoUrl}}" /> -->
+      <textarea class="col-md-7 form-control" readonly id="elem1" style="word-break: break-all;margin-left: 15px;">{{publicVideoUrl}}
+      </textarea>
+      <!-- <button *ngIf="shareEventFlag" class="btn btn-secondary" (click)="copyElementText('elem1')"> -->
+      <i class="fa fa-files-o fa-lg text-info" style="padding:2%" aria-hidden="true" (click)="copyElementText('elem1')"></i>
+      <!-- </button> -->
+
+
+    </div>
     <!-- <div class="col-md-12" *ngIf="feedbackFlag" style="padding-bottom: 5px;">
         <label class="col-md-3 control-label"> Name: </label>
         <div class="col-md-9">
@@ -373,7 +383,9 @@
     </div>
   </modal-content>
   <modal-footer *ngIf="shareEventFlag">
+
     <button *ngIf="shareEventFlag" class="btn btn-primary" [disabled]="!userlistModel || userlistModel?.length==0 " (click)="usersToVideo() ">Share</button>
+
     <!-- <button *ngIf="feedbackFlag" class="btn btn-primary" [disabled]="!userlistModel || userlistModel?.length==0 || feebackMsg=='' || feedbackname==''"
         (click)="eventFeedback() ">Feedback</button> -->
     <button class="btn btn-primary " (click)="assignVideoModal.close() ">Cancel</button>
