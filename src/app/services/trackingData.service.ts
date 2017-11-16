@@ -225,11 +225,21 @@ export class TrackingDataService {
     });
     return this.http.post(this.baseApiUrl + 'eventData/updateEvent', body, options);
   }
-  deleteSelected(token: String, ids: any, videoId: any) {
+  deleteEventSelected(token: String, ids: any, videoId: any) {
     const headers = new Headers({
       'Authorization': token
     });
     const body = { token: token, ids: ids, videoId: videoId };
+    const options = new RequestOptions({
+      headers: headers
+    });
+    return this.http.post(this.baseApiUrl + 'eventData/deleteEventSelected', body, options);
+  }
+  deleteSelected(token: String, ids: any) {
+    const headers = new Headers({
+      'Authorization': token
+    });
+    const body = { token: token, ids: ids };
     const options = new RequestOptions({
       headers: headers
     });

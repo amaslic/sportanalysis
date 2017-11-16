@@ -1409,6 +1409,7 @@ export class ViewComponent implements OnInit {
       return;
     }
     if (confirm("Are you sure to delete selected Events ?")) {
+
       this.trackingDataService.deleteSelected(this.userService.token, this.multiId).subscribe(
         (response) => this.onDeleteEventSuccess(response),
         (error) => this.onError(error)

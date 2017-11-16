@@ -1367,12 +1367,12 @@ export class VideoSettingsComponent implements OnInit {
     }
     if (confirm("Are you sure to delete selected Events ?")) {
       if (this.isAllSelected) {
-        this.trackingDataService.deleteSelected(this.userService.token, this.isAllSelected, this.videoId).subscribe(
+        this.trackingDataService.deleteEventSelected(this.userService.token, this.isAllSelected, this.videoId).subscribe(
           (response) => this.onMultipleSuccess(response),
           (error) => this.onError(error)
         );
       } else {
-        this.trackingDataService.deleteSelected(this.userService.token, this.multiId, this.videoId).subscribe(
+        this.trackingDataService.deleteEventSelected(this.userService.token, this.multiId, this.videoId).subscribe(
           (response) => this.onMultipleSuccess(response),
           (error) => this.onError(error)
         );
