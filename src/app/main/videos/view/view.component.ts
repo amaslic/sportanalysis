@@ -351,9 +351,9 @@ export class ViewComponent implements OnInit {
         console.log(this.document.location.href);
         let url = this.document.location.href;
         if (url.indexOf('/shared/') > -1) {
-          console.log('test', url);
+          //console.log('test', url);
           this.sharedVideo = true;
-          this.getVideoShared(this.videoId);
+          this.getVideoShared(atob(this.videoId));
         }
         else {
           this.sharedVideo = false;
@@ -849,7 +849,7 @@ export class ViewComponent implements OnInit {
         console.log('event', this.eventId);
         if (!this.eventId) {
           if (this.sharedVideo) {
-            this.getVideoSharedEventsData(this.videoId);
+            this.getVideoSharedEventsData(atob(this.videoId));
           } else {
             this.getVideoEventsData(this.videoId);
             this.timerEvent = setInterval(() => {

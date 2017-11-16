@@ -270,7 +270,8 @@ export class VideosComponent implements OnInit {
     e.stopPropagation();
     this.videoId = id;
     this.eventmodeltitle = "Share Video"
-    this.publicVideoUrl = this.baseUrl + 'videos/view/shared/' + this.videoId;
+    // console.log(btoa(this.videoId));
+    this.publicVideoUrl = this.baseUrl + 'videos/view/shared/' + btoa(this.videoId);
     this.shareEventFlag = true;
     this.feedbackFlag = false;
     this.page1.limit = 0;
