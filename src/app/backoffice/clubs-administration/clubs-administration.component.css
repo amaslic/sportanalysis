@@ -28,3 +28,7 @@
         ss-multiselect-dropdown /deep/ ul.dropdown-menu {
             max-height: 600px!important;
           }
+
+.img-responsive{
+    height: 50px;
+}          

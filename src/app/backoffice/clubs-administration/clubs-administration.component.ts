@@ -52,6 +52,8 @@ export class ClubsAdministrationComponent implements OnInit {
   private router: Router;
   teamslistOptions: IMultiSelectOption[];
   teamsModel: any[];
+  AttachedClub = new Club();
+  private baseVideoUrl = GlobalVariables.BASE_VIDEO_URL;
 
   teamslistSettings: IMultiSelectSettings = {
     enableSearch: true,
@@ -186,6 +188,7 @@ export class ClubsAdministrationComponent implements OnInit {
   @ViewChild('form') form;
   @ViewChild('ErrorModal') errorModal;
   @ViewChild('successModal') successModal;
+  @ViewChild('showAttachedThingModal') showAttachedThingModal;
   constructor(private clubService: ClubService, private userService: UserService, private teamService: TeamService, r: Router, private settingService: SettingService) {
     //this.selectedIndex = "1";
     this.router = r;
@@ -604,9 +607,14 @@ export class ClubsAdministrationComponent implements OnInit {
     });
   }
 
+  showAttachedThings(club) {
+    this.AttachedClub = club;
+    this.showAttachedThingModal.open();
+  }
+
   deleteClub(club, flag) {
     var isValid = true;
-    if (flag == 1 && (club.users.length > 0 || club.videos.length > 0)) {
+    if (club.users.length > 0 || club.videoClub1Details.length > 0 || club.videoClub2Details.length > 0 || club.matchClub1Details.length > 0 || club.matchClub2Details.length > 0) {
       isValid = false;
     }
 
@@ -633,7 +641,7 @@ export class ClubsAdministrationComponent implements OnInit {
       );
     } else {
       // alert("Delete is not possible for the club because of there are users or videos behind");
-      this.errormsg = "Delete is not possible for the club because of there are users or videos behind";
+      this.errormsg = "Delete is not possible for the club because of there are users, videos or matches behind";
       this.errorModal.open();
     }
   }

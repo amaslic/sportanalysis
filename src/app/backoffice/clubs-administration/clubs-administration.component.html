@@ -19,13 +19,17 @@
 
           <tbody>
             <tr *ngFor="let club of activatedClubList">
-              <td><img [src]="baseUrl + club.logo" style="width:50px" /></td>
+              <td>
+                <img [src]="baseUrl + club.logo" style="width:50px" />
+              </td>
               <td>{{club.name}}</td>
               <td>
                 <button type="button" class="btn btn-success btn-sm" (click)="editClubDetails(club)">Edit</button>
                 <button type="button" class="btn btn-success btn-sm" *ngIf="isAdmin" (click)="deactivateClubDetails(club)">Deactivate</button>
                 <button type="button" class="btn btn-danger btn-sm" *ngIf="isAdmin" (click)="deleteClub(club,1)">Delete</button>
                 <!--*ngIf="club.users.length == 0 && club.videos.length == 0"-->
+                <!-- *ngIf="club.users.length > 0 || club.videoClub1Details.length > 0 || club.videoClub2Details.length > 0 || club.matchClub1Details.length > 0 || club.matchClub2Details.length > 0" -->
+                <button type="button" class="btn btn-info btn-sm" (click)="showAttachedThings(club)">Attached Things</button>
               </td>
             </tr>
           </tbody>
@@ -51,43 +55,43 @@
           <div class="form-group">
             <label class="control-label col-sm-3" for="slug">Teams:</label>
             <div class="col-sm-9">
-              <ss-multiselect-dropdown class="all-teams" style="padding:0 !important;" name="teams" [options]="teamslistOptions" [texts]="teamslistTexts" [settings]="teamslistSettings"
-                [(ngModel)]="editClub.teams"></ss-multiselect-dropdown>
+              <ss-multiselect-dropdown class="all-teams" style="padding:0 !important;" name="teams" [options]="teamslistOptions" [texts]="teamslistTexts"
+                [settings]="teamslistSettings" [(ngModel)]="editClub.teams"></ss-multiselect-dropdown>
             </div>
           </div>
           <div class="form-group">
             <label class="control-label col-sm-3" for="slug">Locations:</label>
             <div class="col-sm-9">
-              <ss-multiselect-dropdown class="all-locations" style="padding:0 !important;" name="locations" [options]="locationslistOptions" [texts]="locationslistTexts" [settings]="locationslistSettings"
-                [(ngModel)]="editClub.locations"></ss-multiselect-dropdown>
+              <ss-multiselect-dropdown class="all-locations" style="padding:0 !important;" name="locations" [options]="locationslistOptions"
+                [texts]="locationslistTexts" [settings]="locationslistSettings" [(ngModel)]="editClub.locations"></ss-multiselect-dropdown>
             </div>
           </div>
           <div class="form-group">
             <label class="control-label col-sm-3" for="slug">Seasons:</label>
             <div class="col-sm-9">
-              <ss-multiselect-dropdown class="all-seasons" style="padding:0 !important;" name="seasons" [options]="seasonslistOptions" [texts]="seasonslistTexts" [settings]="seasonslistSettings"
-                [(ngModel)]="editClub.seasons"></ss-multiselect-dropdown>
+              <ss-multiselect-dropdown class="all-seasons" style="padding:0 !important;" name="seasons" [options]="seasonslistOptions"
+                [texts]="seasonslistTexts" [settings]="seasonslistSettings" [(ngModel)]="editClub.seasons"></ss-multiselect-dropdown>
             </div>
           </div>
           <div class="form-group">
             <label class="control-label col-sm-3" for="slug">Competitions:</label>
             <div class="col-sm-9">
-              <ss-multiselect-dropdown class="all-competitions" style="padding:0 !important;" name="competitions" [options]="competitionslistOptions" [texts]="competitionslistTexts" [settings]="competitionslistSettings"
-                [(ngModel)]="editClub.competitions"></ss-multiselect-dropdown>
+              <ss-multiselect-dropdown class="all-competitions" style="padding:0 !important;" name="competitions" [options]="competitionslistOptions"
+                [texts]="competitionslistTexts" [settings]="competitionslistSettings" [(ngModel)]="editClub.competitions"></ss-multiselect-dropdown>
             </div>
           </div>
           <div class="form-group">
             <label class="control-label col-sm-3" for="slug">Tactics:</label>
             <div class="col-sm-9">
-              <ss-multiselect-dropdown class="all-tactics" style="padding:0 !important;" name="tactics" [options]="tacticslistOptions" [texts]="tacticslistTexts" [settings]="tacticslistSettings"
-                [(ngModel)]="editClub.tactics"></ss-multiselect-dropdown>
+              <ss-multiselect-dropdown class="all-tactics" style="padding:0 !important;" name="tactics" [options]="tacticslistOptions"
+                [texts]="tacticslistTexts" [settings]="tacticslistSettings" [(ngModel)]="editClub.tactics"></ss-multiselect-dropdown>
             </div>
           </div>
           <div class="form-group">
             <label class="control-label col-sm-3" for="slug">Share With:</label>
             <div class="col-sm-9">
-              <ss-multiselect-dropdown class="all-teams" style="padding:0 !important;" name="clubs" [options]="clubslistOptions" [texts]="clubslistTexts" [settings]="clubslistSettings"
-                [(ngModel)]="editClub.clubs"></ss-multiselect-dropdown>
+              <ss-multiselect-dropdown class="all-teams" style="padding:0 !important;" name="clubs" [options]="clubslistOptions" [texts]="clubslistTexts"
+                [settings]="clubslistSettings" [(ngModel)]="editClub.clubs"></ss-multiselect-dropdown>
             </div>
           </div>
           <div class="form-group" *ngIf="editClub.updateLogo">
@@ -150,43 +154,43 @@
           <div class="form-group">
             <label class="control-label col-sm-2" for="slug">Teams:</label>
             <div class="col-sm-10">
-              <ss-multiselect-dropdown style="padding:0 !important;" name="teams" [options]="teamslistOptions" [texts]="teamslistTexts" [settings]="teamslistSettings"
-                [(ngModel)]="selectedClub[0].teams"></ss-multiselect-dropdown>
+              <ss-multiselect-dropdown style="padding:0 !important;" name="teams" [options]="teamslistOptions" [texts]="teamslistTexts"
+                [settings]="teamslistSettings" [(ngModel)]="selectedClub[0].teams"></ss-multiselect-dropdown>
             </div>
           </div>
           <div class="form-group">
             <label class="control-label col-sm-2" for="slug">Locations:</label>
             <div class="col-sm-10">
-              <ss-multiselect-dropdown class="all-locations" style="padding:0 !important;" name="locations" [options]="locationslistOptions" [texts]="locationslistTexts" [settings]="locationslistSettings"
-                [(ngModel)]="selectedClub[0].locations"></ss-multiselect-dropdown>
+              <ss-multiselect-dropdown class="all-locations" style="padding:0 !important;" name="locations" [options]="locationslistOptions"
+                [texts]="locationslistTexts" [settings]="locationslistSettings" [(ngModel)]="selectedClub[0].locations"></ss-multiselect-dropdown>
             </div>
           </div>
           <div class="form-group">
             <label class="control-label col-sm-2" for="slug">Seasons:</label>
             <div class="col-sm-10">
-              <ss-multiselect-dropdown class="all-seasons" style="padding:0 !important;" name="seasons" [options]="seasonslistOptions" [texts]="seasonslistTexts" [settings]="seasonslistSettings"
-                [(ngModel)]="selectedClub[0].seasons"></ss-multiselect-dropdown>
+              <ss-multiselect-dropdown class="all-seasons" style="padding:0 !important;" name="seasons" [options]="seasonslistOptions"
+                [texts]="seasonslistTexts" [settings]="seasonslistSettings" [(ngModel)]="selectedClub[0].seasons"></ss-multiselect-dropdown>
             </div>
           </div>
           <div class="form-group">
             <label class="control-label col-sm-2" for="slug">Competitions:</label>
             <div class="col-sm-10">
-              <ss-multiselect-dropdown class="all-competitions" style="padding:0 !important;" name="competitions" [options]="competitionslistOptions" [texts]="competitionslistTexts" [settings]="competitionslistSettings"
-                [(ngModel)]="selectedClub[0].competitions"></ss-multiselect-dropdown>
+              <ss-multiselect-dropdown class="all-competitions" style="padding:0 !important;" name="competitions" [options]="competitionslistOptions"
+                [texts]="competitionslistTexts" [settings]="competitionslistSettings" [(ngModel)]="selectedClub[0].competitions"></ss-multiselect-dropdown>
             </div>
           </div>
           <div class="form-group">
             <label class="control-label col-sm-2" for="slug">Tactics:</label>
             <div class="col-sm-10">
-              <ss-multiselect-dropdown class="all-tactics" style="padding:0 !important;" name="tactics" [options]="tacticslistOptions" [texts]="tacticslistTexts" [settings]="tacticslistSettings"
-                [(ngModel)]="selectedClub[0].tactics"></ss-multiselect-dropdown>
+              <ss-multiselect-dropdown class="all-tactics" style="padding:0 !important;" name="tactics" [options]="tacticslistOptions"
+                [texts]="tacticslistTexts" [settings]="tacticslistSettings" [(ngModel)]="selectedClub[0].tactics"></ss-multiselect-dropdown>
             </div>
           </div>
           <div class="form-group">
             <label class="control-label col-sm-2" for="slug">Share With:</label>
             <div class="col-sm-10">
-              <ss-multiselect-dropdown class="all-teams" style="padding:0 !important;" name="clubs" [options]="clubslistOptions" [texts]="clubslistTexts" [settings]="clubslistSettings"
-                [(ngModel)]="selectedClub[0].clubs"></ss-multiselect-dropdown>
+              <ss-multiselect-dropdown class="all-teams" style="padding:0 !important;" name="clubs" [options]="clubslistOptions" [texts]="clubslistTexts"
+                [settings]="clubslistSettings" [(ngModel)]="selectedClub[0].clubs"></ss-multiselect-dropdown>
             </div>
           </div>
           <div class="form-group" *ngIf="selectedClub[0].logo == '' || selectedClub[0].updateLogo">
@@ -210,8 +214,9 @@
             <div class="col-sm-offset-2 col-sm-10">
               <button type="button" (click)="onSubmit(f,false)" class="btn btn-success btn-save">Save</button>
               <button type="submit" class="btn btn-success btn-save">Activate</button>
-              <button *ngIf="selectedClub[0].users.length == 0 && selectedClub[0].videos.length == 0" type="button" class="btn btn-danger btn-sm"
-                (click)="deleteClub(selectedClub[0],2)">Delete</button>
+              <button type="button" class="btn btn-danger btn-sm" (click)="deleteClub(selectedClub[0],2)">Delete</button>
+              <button type="button" class="btn btn-info btn-sm" (click)="showAttachedThings(selectedClub[0])">Attached Things</button>
+              <!-- *ngIf="selectedClub[0].users.length > 0 || selectedClub[0].videoClub1Details.length > 0 || selectedClub[0].videoClub2Details.length > 0 || selectedClub[0].matchClub1Details.length > 0 || selectedClub[0].matchClub2Details.length > 0" -->
             </div>
           </div>
         </form>
@@ -238,43 +243,43 @@
           <div class="form-group">
             <label class="control-label col-sm-2" for="slug">Teams:</label>
             <div class="col-sm-10">
-              <ss-multiselect-dropdown style="padding:0 !important;" name="teams" [options]="teamslistOptions" [texts]="teamslistTexts" [settings]="teamslistSettings"
-                [(ngModel)]="newClub.teams"></ss-multiselect-dropdown>
+              <ss-multiselect-dropdown style="padding:0 !important;" name="teams" [options]="teamslistOptions" [texts]="teamslistTexts"
+                [settings]="teamslistSettings" [(ngModel)]="newClub.teams"></ss-multiselect-dropdown>
             </div>
           </div>
           <div class="form-group">
             <label class="control-label col-sm-2" for="slug">Locations:</label>
             <div class="col-sm-10">
-              <ss-multiselect-dropdown class="all-locations" style="padding:0 !important;" name="locations" [options]="locationslistOptions" [texts]="locationslistTexts" [settings]="locationslistSettings"
-                [(ngModel)]="newClub.locations"></ss-multiselect-dropdown>
+              <ss-multiselect-dropdown class="all-locations" style="padding:0 !important;" name="locations" [options]="locationslistOptions"
+                [texts]="locationslistTexts" [settings]="locationslistSettings" [(ngModel)]="newClub.locations"></ss-multiselect-dropdown>
             </div>
           </div>
           <div class="form-group">
             <label class="control-label col-sm-2" for="slug">Seasons:</label>
             <div class="col-sm-10">
-              <ss-multiselect-dropdown class="all-seasons" style="padding:0 !important;" name="seasons" [options]="seasonslistOptions" [texts]="seasonslistTexts" [settings]="seasonslistSettings"
-                [(ngModel)]="newClub.seasons"></ss-multiselect-dropdown>
+              <ss-multiselect-dropdown class="all-seasons" style="padding:0 !important;" name="seasons" [options]="seasonslistOptions"
+                [texts]="seasonslistTexts" [settings]="seasonslistSettings" [(ngModel)]="newClub.seasons"></ss-multiselect-dropdown>
             </div>
           </div>
           <div class="form-group">
             <label class="control-label col-sm-2" for="slug">Competitions:</label>
             <div class="col-sm-10">
-              <ss-multiselect-dropdown class="all-competitions" style="padding:0 !important;" name="competitions" [options]="competitionslistOptions" [texts]="competitionslistTexts" [settings]="competitionslistSettings"
-                [(ngModel)]="newClub.competitions"></ss-multiselect-dropdown>
+              <ss-multiselect-dropdown class="all-competitions" style="padding:0 !important;" name="competitions" [options]="competitionslistOptions"
+                [texts]="competitionslistTexts" [settings]="competitionslistSettings" [(ngModel)]="newClub.competitions"></ss-multiselect-dropdown>
             </div>
           </div>
           <div class="form-group">
             <label class="control-label col-sm-2" for="slug">Tactics:</label>
             <div class="col-sm-10">
-              <ss-multiselect-dropdown class="all-tactics" style="padding:0 !important;" name="tactics" [options]="tacticslistOptions" [texts]="tacticslistTexts" [settings]="tacticslistSettings"
-                [(ngModel)]="newClub.tactics"></ss-multiselect-dropdown>
+              <ss-multiselect-dropdown class="all-tactics" style="padding:0 !important;" name="tactics" [options]="tacticslistOptions"
+                [texts]="tacticslistTexts" [settings]="tacticslistSettings" [(ngModel)]="newClub.tactics"></ss-multiselect-dropdown>
             </div>
           </div>
           <div class="form-group">
             <label class="control-label col-sm-2" for="slug">Share With:</label>
             <div class="col-sm-10">
-              <ss-multiselect-dropdown class="all-teams" style="padding:0 !important;" name="clubs" [options]="clubsList" [texts]="clubslistTexts" [settings]="clubslistSettings"
-                [(ngModel)]="newClub.clubs"></ss-multiselect-dropdown>
+              <ss-multiselect-dropdown class="all-teams" style="padding:0 !important;" name="clubs" [options]="clubsList" [texts]="clubslistTexts"
+                [settings]="clubslistSettings" [(ngModel)]="newClub.clubs"></ss-multiselect-dropdown>
             </div>
           </div>
           <div class="form-group">
@@ -326,4 +331,153 @@
       <button class="btn btn-primary" (click)="errorModal.close()">Ok</button>
     </modal-footer>
   </modal>
+
+  <modal #showAttachedThingModal class="success-modal">
+    <modal-header>
+    </modal-header>
+    <modal-content>
+      <p>
+        Attached things with {{AttachedClub.name}}
+      </p>
+
+      <md-tab-group class="video-md-settings">
+        <md-tab label="Users">
+          <perfect-scrollbar *ngIf="AttachedClub.users">
+            <ngx-datatable class="material" [columnMode]="'standard'" [rows]="AttachedClub.users" [loadingIndicator]="loadingIndicator"
+              [rowHeight]="'auto'">
+
+              <ngx-datatable-column name="firstName">
+                <ng-template let-column="firstName" ngx-datatable-header-template>
+                  First Name
+                </ng-template>
+                <ng-template let-value="value" ngx-datatable-cell-template>
+                  {{value}}
+                </ng-template>
+              </ngx-datatable-column>
+              <ngx-datatable-column name="lastName">
+                <ng-template let-column="lastName" ngx-datatable-header-template>
+                  Last Name
+                </ng-template>
+                <ng-template let-value="value" ngx-datatable-cell-template>
+                  {{value}}
+                </ng-template>
+              </ngx-datatable-column>
+            </ngx-datatable>
+          </perfect-scrollbar>
+
+        </md-tab>
+        <md-tab label="As Club1 in Videos">
+          <perfect-scrollbar *ngIf="AttachedClub.videoClub1Details">
+            <ngx-datatable class="material" [columnMode]="'standard'" [rows]="AttachedClub.videoClub1Details" [loadingIndicator]="loadingIndicator"
+              [rowHeight]="'auto'">
+
+              <ngx-datatable-column>
+                <ng-template let-column="column" ngx-datatable-header-template>
+                  Video Details
+                </ng-template>
+                <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
+                  <!-- <span *ngIf="(row.type!='Training')">
+                    <span> {{AttachedClub.name}}</span> vs
+                    <span *ngIf="(row.club2details && row.club2details.length > 0)"> {{row.club2details[0].name}}</span>
+                  </span>
+                  <span *ngIf="(row.type=='Training')"> {{row.title}}</span> -->
+                  <img [src]="baseVideoUrl + row.screenshot_path" alt="video-screenshot" class="img-responsive video-ss" height="50px" />
+                </ng-template>
+              </ngx-datatable-column>
+              <ngx-datatable-column name="type" [width]="120">
+                <ng-template let-column="type" ngx-datatable-header-template>
+                  Type
+                </ng-template>
+                <ng-template let-value="value" ngx-datatable-cell-template>
+                  {{value}}
+                </ng-template>
+              </ngx-datatable-column>
+            </ngx-datatable>
+          </perfect-scrollbar>
+        </md-tab>
+        <md-tab label="As Club2 in Videos">
+          <perfect-scrollbar *ngIf="AttachedClub.videoClub2Details">
+            <ngx-datatable class="material" [columnMode]="'standard'" [rows]="AttachedClub.videoClub2Details" [loadingIndicator]="loadingIndicator"
+              [rowHeight]="'auto'">
+
+              <ngx-datatable-column>
+                <ng-template let-column="column" ngx-datatable-header-template>
+                  Video Details
+                </ng-template>
+                <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
+                  <!-- <span *ngIf="(row.type!='Training')">
+                    <span *ngIf="(row.club1details && row.club1details.length > 0)"> {{row.club1details[0].name}}</span> vs
+                    <span> {{AttachedClub.name}}</span>
+                  </span>
+                  <span *ngIf="(row.type=='Training')"> {{row.title}}</span> -->
+                  <img [src]="baseVideoUrl + row.screenshot_path" alt="video-screenshot" class="img-responsive video-ss" height="50px" />
+                </ng-template>
+              </ngx-datatable-column>
+              <ngx-datatable-column name="type" [width]="120">
+                <ng-template let-column="type" ngx-datatable-header-template>
+                  Type
+                </ng-template>
+                <ng-template let-value="value" ngx-datatable-cell-template>
+                  {{value}}
+                </ng-template>
+              </ngx-datatable-column>
+            </ngx-datatable>
+          </perfect-scrollbar>
+        </md-tab>
+        <md-tab label="As club1 in matches">
+          <perfect-scrollbar *ngIf="AttachedClub.matchClub1Details">
+            <ngx-datatable class="material" [columnMode]="'standard'" [rows]="AttachedClub.matchClub1Details" [loadingIndicator]="loadingIndicator"
+              [rowHeight]="'auto'">
+
+              <ngx-datatable-column>
+                <ng-template let-column="column" ngx-datatable-header-template>
+                  Date
+                </ng-template>
+                <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
+                  {{row.date | date: 'yyyy-MM-dd'}}
+                </ng-template>
+              </ngx-datatable-column>
+              <ngx-datatable-column [width]="120">
+                <ng-template let-column="column" ngx-datatable-header-template>
+                  Home Club
+                </ng-template>
+                <ng-template let-value="value" ngx-datatable-cell-template>
+                  {{AttachedClub.name}}
+                </ng-template>
+              </ngx-datatable-column>
+            </ngx-datatable>
+          </perfect-scrollbar>
+        </md-tab>
+        <md-tab label="As club2 in matches">
+          <perfect-scrollbar *ngIf="AttachedClub.matchClub2Details">
+            <ngx-datatable class="material" [columnMode]="'standard'" [rows]="AttachedClub.matchClub2Details" [loadingIndicator]="loadingIndicator"
+              [rowHeight]="'auto'">
+
+              <ngx-datatable-column>
+                <ng-template let-column="column" ngx-datatable-header-template>
+                  Date
+                </ng-template>
+                <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
+                  {{row.date | date: 'yyyy-MM-dd'}}
+                </ng-template>
+              </ngx-datatable-column>
+              <ngx-datatable-column [width]="120">
+                <ng-template let-column="column" ngx-datatable-header-template>
+                  Away Club
+                </ng-template>
+                <ng-template let-value="value" ngx-datatable-cell-template>
+                  {{AttachedClub.name}}
+                </ng-template>
+              </ngx-datatable-column>
+            </ngx-datatable>
+          </perfect-scrollbar>
+        </md-tab>
+      </md-tab-group>
+
+    </modal-content>
+    <modal-footer>
+      <button class="btn btn-primary" (click)="showAttachedThingModal.close()">Ok</button>
+    </modal-footer>
+  </modal>
+
 </div>
