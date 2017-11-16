@@ -18,6 +18,7 @@ import { DropdownModule } from "ngx-dropdown";
 import { PerfectScrollbarModule } from 'ngx-perfect-scrollbar';
 import { PerfectScrollbarConfigInterface } from 'ngx-perfect-scrollbar';
 import { CommonModules } from '../../../common.module';
+import { SwiperModule } from 'angular2-useful-swiper';
 
 const PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {};
 
@@ -37,7 +38,8 @@ const PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {};
         VgBufferingModule,
         DropdownModule,
         PerfectScrollbarModule.forRoot(PERFECT_SCROLLBAR_CONFIG),
-        CommonModules
+        CommonModules,
+        SwiperModule
     ],
     declarations: [ViewComponent]
 })

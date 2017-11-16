@@ -49,6 +49,8 @@ import { Playlist } from "app/models/playlist.model";
 import {
   Page
 } from './../../../models/page.model';
+// import { SwiperModule, SwiperOptions } from 'swiper';
+import { SwiperModule, SwiperComponent } from 'angular2-useful-swiper';
 
 declare var document: any;
 declare var VTTCue;
@@ -281,11 +283,30 @@ export class ViewComponent implements OnInit {
   //   }
   // }
 
+  // config: SwiperOptions = {
+  //   pagination: '.swiper-pagination',
+  //   paginationClickable: true,
+  //   nextButton: '.swiper-button-next',
+  //   prevButton: '.swiper-button-prev',
+  //   spaceBetween: 30
+  // };
+
+  config: SwiperOptions = {
+    slidesPerView: 7,
+    spaceBetween: 3,
+    // centeredSlides: true,
+    pagination: '.swiper-pagination',
+    paginationClickable: true,
+    nextButton: '.swiper-button-next',
+    prevButton: '.swiper-button-prev',
+  };
+
   @ViewChild('createPlaylistModal') createPlaylistModal;
   @ViewChild('updatePlaylistModal') updatePlaylistModal;
   @ViewChild('assignEventModal') assignEventModal;
   @ViewChild('SucessModal') SucessModal;
   @ViewChild('ErrorModal') ErrorModal;
+  @ViewChild('usefulSwiper') usefulSwiper: SwiperComponent;
 
   //@ViewChild('eventTimelineScrollbar') eventTimelineScrollbar;
 
@@ -598,6 +619,14 @@ export class ViewComponent implements OnInit {
   onGetVideoSuccess(response) {
 
     this.video = JSON.parse(response._body);
+
+    this.video.timestamps = [];
+    if (this.video.duration > 0) {
+      for (var i = 0; i < this.video.duration; i += 5) {
+        this.video.timestamps.push({ sec: i, src: this.baseImageUrl + "/video-thumbnails/" + this.video._id + "/At-" + i + "s.png?sec=" + i });
+      }
+    }
+
     this.videotype = this.video.type;
     this.videoTitle = this.video.title;
     if (this.video.club1details != null && this.video.club1details.length > 0) {
@@ -1179,6 +1208,9 @@ export class ViewComponent implements OnInit {
   }
   onScrubBarMove(e, Container) {
     this.showTracker = true;
+    // this.usefulSwiper.swiper.slideNext();
+
+
 
     // console.log(document.getElementById("vg-scrub-bar-cue-points").getBoundingClientRect());
     // var srubbarPosition = document.getElementById("vg-scrub-bar-cue-points").getBoundingClientRect();
@@ -1199,9 +1231,14 @@ export class ViewComponent implements OnInit {
     var seconds = e.clientX / Container.width * this.api.getDefaultMedia().duration;
     var calculatedSeconds = seconds / 5;
     var displaySeconds = String(calculatedSeconds).split('.')
-    this.ThumbnailPath = this.baseImageUrl + "/video-thumbnails/" + this.videoId + "/At-" + (parseInt(displaySeconds[0]) * 5) + "s.png";
 
+
+    this.ThumbnailPath = this.baseImageUrl + "/video-thumbnails/" + this.videoId + "/At-" + (parseInt(displaySeconds[0]) * 5) + "s.png?sec=" + (parseInt(displaySeconds[0]) * 5);
+    if ((parseInt(displaySeconds[0]) * 5) != NaN) {
+      this.usefulSwiper.swiper.slideTo(parseInt(displaySeconds[0]));
+    }
     this.TrackerTime = seconds;
+
     if (this.thumbanailTracker)
       clearInterval(this.thumbanailTracker);
     this.thumbanailTracker = setInterval(() => {
