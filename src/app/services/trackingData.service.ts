@@ -208,6 +208,13 @@ export class TrackingDataService {
     });
     return this.http.post(this.baseApiUrl + 'eventData/getEventsFront', body, options);
   }
+  getVideoSharedEvents(videoId: any) {
+
+    const body = { videoId: videoId };
+
+    return this.http.post(this.baseApiUrl + 'eventData/getVideoSharedEvents', body);
+  }
+
   updateEvent(token: String, event: any) {
     const headers = new Headers({
       'Authorization': token
