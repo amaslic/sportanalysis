@@ -449,6 +449,7 @@ export class VideosComponent implements OnInit {
     this.playlists['playlistName'] = this.playlistName;
     this.playlists['user'] = this.userService.user._id;
     this.playlists['token'] = this.userService.token;
+    this.playlists['assignedUsers'] = this.userlistModel;
     // this.playlists['eventDataId'] = this.eventDataId;
     // console.log(this.multiplay);
     // console.log('playlist', this.multiPlaylist);
@@ -492,6 +493,12 @@ export class VideosComponent implements OnInit {
     this.playlistName = '';
     // console.log(this.multiplay);
     // console.log(this.multiPlaylist);
+
+    this.userService.getUsers(this.userService.token, this.page1).subscribe(
+      (response) => this.onGetUsersSuccess(response),
+      (error) => this.onError(error)
+    );
+
     this.createPlaylistModal.open();
   }
   onChangeEvent(e) {
