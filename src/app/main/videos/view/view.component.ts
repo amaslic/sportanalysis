@@ -3,7 +3,8 @@ import {
   OnInit,
   ViewChild,
   HostListener,
-  Renderer2
+  Renderer2,
+  Inject
 } from '@angular/core';
 import {
   Router,
@@ -49,7 +50,7 @@ import { Playlist } from "app/models/playlist.model";
 import {
   Page
 } from './../../../models/page.model';
-
+import { DOCUMENT } from '@angular/common';
 declare var document: any;
 declare var VTTCue;
 
@@ -81,6 +82,7 @@ export interface IMedia {
   styleUrls: ['./view.component.css']
 })
 export class ViewComponent implements OnInit {
+  sharedVideo: boolean;
   userfilterModel: any = [];
   feedbackFrontMessages: any = [];
   feedbackfilteredMessages: any = [];
@@ -293,19 +295,31 @@ export class ViewComponent implements OnInit {
 
   //@ViewChild('eventTimelineScrollbar') eventTimelineScrollbar;
 
-  constructor(private r: Router, private route: ActivatedRoute, private playlistService: PlaylistService, private videoService: VideoService, private userService: UserService, private trackingDataService: TrackingDataService, private chatService: ChatService, private feedbackService: FeedbackService, private renderer: Renderer2) { }
+  constructor(private r: Router, private route: ActivatedRoute, private playlistService: PlaylistService, private videoService: VideoService, private userService: UserService, private trackingDataService: TrackingDataService, private chatService: ChatService, private feedbackService: FeedbackService, private renderer: Renderer2, @Inject(DOCUMENT) private document: Document) {
+    let link = route.toString();
+    console.log(link);
+
+  }
 
   ngOnInit() {
+
+
+
     // this.globalListenFunc = this.renderer.listen('document', 'keypress', e => {
     //   console.log('test', e);
     // });
+
+    // console.log(url.contains('shared'))
     var user = this.userService.loadUserFromStorage();
     this.userDetails = user;
-    if (user['role'] != 3 && user['role'] != 4) {
-      this.isCoachOrAnalyst = false;
-    } else {
-      this.isCoachOrAnalyst = true;
+    if (user) {
+      if (user['role'] != 3 && user['role'] != 4) {
+        this.isCoachOrAnalyst = false;
+      } else {
+        this.isCoachOrAnalyst = true;
+      }
     }
+
 
     // this.userService.isAdmin().subscribe(
     //   (response) => this.onIsAdminClubsSuccess(response),
@@ -333,7 +347,18 @@ export class ViewComponent implements OnInit {
         );
       } else {
         this.showEvent = true;
-        this.getVideo(this.videoId);
+
+        console.log(this.document.location.href);
+        let url = this.document.location.href;
+        if (url.indexOf('/shared/') > -1) {
+          console.log('test', url);
+          this.sharedVideo = true;
+          this.getVideoShared(this.videoId);
+        }
+        else {
+          this.sharedVideo = false;
+          this.getVideo(this.videoId);
+        }
       }
 
     });
@@ -358,6 +383,12 @@ export class ViewComponent implements OnInit {
 
   getVideoEventsData(id: String) {
     this.trackingDataService.getEventsFront(id, this.userService.token).subscribe(
+      (response) => this.ongetVideoEventsDataSuccess(response),
+      (error) => this.onError(error)
+    );
+  }
+  getVideoSharedEventsData(id: String) {
+    this.trackingDataService.getVideoSharedEvents(id).subscribe(
       (response) => this.ongetVideoEventsDataSuccess(response),
       (error) => this.onError(error)
     );
@@ -598,6 +629,13 @@ export class ViewComponent implements OnInit {
       (error) => this.onError(error)
       );
   }
+  getVideoShared(id) {
+    this.videoService.getVideoShared(id)
+      .subscribe(
+      (response) => this.onGetVideoSuccess(response),
+      (error) => this.onError(error)
+      );
+  }
   playlist: Array<IMedia>;
   onGetVideoSuccess(response) {
 
@@ -808,12 +846,17 @@ export class ViewComponent implements OnInit {
         // console.log(this.fancyVideoDuration);
 
         //  this.getVideoTrackingDataItems(this.videoId);
-
+        console.log('event', this.eventId);
         if (!this.eventId) {
-          this.getVideoEventsData(this.videoId);
-          this.timerEvent = setInterval(() => {
+          if (this.sharedVideo) {
+            this.getVideoSharedEventsData(this.videoId);
+          } else {
             this.getVideoEventsData(this.videoId);
-          }, 15000);
+            this.timerEvent = setInterval(() => {
+              this.getVideoEventsData(this.videoId);
+            }, 15000);
+          }
+
         }
 
         if (this.currentIndex <= 2) {
@@ -1554,10 +1597,16 @@ export class ViewComponent implements OnInit {
         element.profileImg = this.baseImageUrl + "/profile/" + element.user._id + ".png";
       });
     }
-
+    var uniqueArray = this.removeDuplicates(this.feedbackMessages, "user._id");
+    // console.log("uniqueArray is: " + JSON.stringify(uniqueArray));
+    //console.log("uniqueArray is: " + uniqueArray);
+    this.userfilterOptions = [];
+    uniqueArray.forEach((e, index) => {
+      this.userfilterOptions.push({ 'id': e._id, 'name': e.firstName })
+    });
 
     this.feedbackfilteredMessages = this.feedbackMessages;
-    //  console.log(this.userfilterOptions);
+    //console.log(this.userfilterOptions);
   }
   removeDuplicates(originalArray, prop) {
     var newArray = [];
