@@ -353,7 +353,14 @@ export class ViewComponent implements OnInit {
         if (url.indexOf('/shared/') > -1) {
           //console.log('test', url);
           this.sharedVideo = true;
-          this.getVideoShared(atob(this.videoId));
+          try {
+            var videoId = atob(this.videoId)
+            console.log(videoId);
+            this.getVideoShared(videoId);
+          }
+          catch (e) {
+
+          }
         }
         else {
           this.sharedVideo = false;
@@ -687,8 +694,10 @@ export class ViewComponent implements OnInit {
   }
 
   onError(error) {
-    const errorBody = JSON.parse(error._body);
-    console.error(errorBody);
+    this.r.navigateByUrl('/videos');
+    // const errorBody = JSON.parse(error._body);
+    // console.error(errorBody);
+
     // alert(errorBody.message);
   }
 
