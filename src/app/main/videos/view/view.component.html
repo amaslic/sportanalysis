@@ -217,6 +217,11 @@
   </div> -->
   <div class="chat-list" *ngIf="showChat&&feedbackMessages.length > 0">
     <h4 class="chat-title">Live Chat</h4>
+    <div class="select-input clearfix" style="background-color: #009cff;">
+      <label class="col-md-3  control-label" style="color:white"> Filter: </label>
+      <ss-multiselect-dropdown class="col-md-9" (ngModelChange)="onUserFilterSelect($event)" [options]="userfilterOptions" [texts]="userlistTexts"
+        [settings]="userlistSettings" [(ngModel)]="userfilterModel"></ss-multiselect-dropdown>
+    </div>
     <div class="chat-body" #scrollMeChat [scrollTop]="scrollMeChat.scrollHeight">
       <div class="msg-section" *ngFor="let chat of feedbackMessages">
         <div class="profile-pic">
@@ -343,7 +348,8 @@
 
             <li>
 
-              <md-checkbox ng-model="event.checked" [checked]="event.checked" class="more-events" id="{{event.rowId}}" (change)="selectEvent($event,event)"></md-checkbox>
+              <md-checkbox *ngIf="!sharedVideo" ng-model="event.checked" [checked]="event.checked" class="more-events" id="{{event.rowId}}"
+                (change)="selectEvent($event,event)"></md-checkbox>
               <a style="display:block" class="playlist-info" href="#" (click)="goToEvent($event, event)" *ngIf="event.start !== 'NaN'">
                 <div class="message-img">
                   {{fancyTimeFormat(event.start)}}
@@ -361,7 +367,7 @@
                     </div>
                   </div>-->
 
-                  <div class="dots dropdown" dropdown [dropdownToggle]="false">
+                  <div *ngIf="!sharedVideo" class="dots dropdown" dropdown [dropdownToggle]="false">
                     <button class="btn dropdown-toggle" type="button" dropdown-open>
                       <i class="dropbtn fa fa-ellipsis-h" aria-hidden="true"></i>
                     </button>
@@ -527,6 +533,11 @@
               <input type="text" [(ngModel)]="feedbackname" class="form-control name-input" placeholder="Feedback Name" />
             </div>
           </div>
+          <div class="select-input clearfix">
+            <label class="col-md-3 no-padding control-label" style="color:white"> Filter: </label>
+            <ss-multiselect-dropdown class="col-md-9 no-padding" (ngModelChange)="onUserFilterSelect($event)" [options]="userfilterOptions"
+              [texts]="userlistTexts" [settings]="userlistSettings" [(ngModel)]="userfilterModel"></ss-multiselect-dropdown>
+          </div>
         </div>
         <!-- <textarea [(ngModel)]="feebackMsg" class="form-control" placeholder="Enter Feedback"></textarea> -->
         <div class="chat-list no-padding">
@@ -562,6 +573,7 @@
                     <i class="fa fa-send"></i>
                   </button>
                 </div>
+
               </div>
             </div>
           </div>

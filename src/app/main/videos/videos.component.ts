@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef, Inject } from '@angular/core';
 import {
   Video
 } from './../../models/video.model';
@@ -29,7 +29,7 @@ import {
 import { FeedbackService } from './../../services/feedback.service';
 
 import { IMultiSelectOption, IMultiSelectSettings, IMultiSelectTexts } from 'angular-2-dropdown-multiselect';
-
+import { DOCUMENT } from "@angular/platform-browser";
 @Component({
   selector: 'app-videos',
   templateUrl: './videos.component.html',
@@ -37,6 +37,7 @@ import { IMultiSelectOption, IMultiSelectSettings, IMultiSelectTexts } from 'ang
 })
 
 export class VideosComponent implements OnInit {
+  publicVideoUrl: any;
   assignedUsersDetails: any = [];
   userlist: any;
   users: any[];
@@ -118,8 +119,12 @@ export class VideosComponent implements OnInit {
   @ViewChild('videoSucessModal') videoSucessModal;
   @ViewChild('lnkDownloadLink') lnkDownloadLink: ElementRef;
   @ViewChild('createPlaylistModal') createPlaylistModal;
-  constructor(private clubService: ClubService, private videoService: VideoService, private userService: UserService, r: Router, private route: ActivatedRoute, private playlistService: PlaylistService, private feedbackService: FeedbackService) {
+  private dom: Document;
+
+
+  constructor(private clubService: ClubService, private videoService: VideoService, private userService: UserService, r: Router, private route: ActivatedRoute, private playlistService: PlaylistService, private feedbackService: FeedbackService, @Inject(DOCUMENT) dom: Document) {
     this.router = r;
+    this.dom = dom;
   }
 
   ngOnInit() {
@@ -265,6 +270,8 @@ export class VideosComponent implements OnInit {
     e.stopPropagation();
     this.videoId = id;
     this.eventmodeltitle = "Share Video"
+    // console.log(btoa(this.videoId));
+    this.publicVideoUrl = this.baseUrl + 'videos/view/shared/' + btoa(this.videoId);
     this.shareEventFlag = true;
     this.feedbackFlag = false;
     this.page1.limit = 0;
@@ -646,5 +653,15 @@ export class VideosComponent implements OnInit {
 
     console.log(this.feedbackMessages);
   }
-
+  copyElementText(id) {
+    var element = null; // Should be <textarea> or <input>
+    try {
+      element = this.dom.getElementById(id);
+      element.select();
+      this.dom.execCommand("copy");
+    }
+    finally {
+      this.dom.getSelection().removeAllRanges;
+    }
+  }
 }

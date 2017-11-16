@@ -14,7 +14,7 @@
         <label>Club: </label>
         <select *ngIf="(!isClub)" name="searchClub" #searchclub class="form-control" (change)="onChangeofActivatedSearch()" [(ngModel)]="search.ActivatedClub">
           <option value="null">All </option>
-          <option *ngFor="let club of allClubList" [ngValue]="club._id">{{club.name}}</option>
+          <option *ngFor="let club of allVideoClubs" [ngValue]="club._id">{{club.name}}</option>
         </select>
       </div>
     </div>

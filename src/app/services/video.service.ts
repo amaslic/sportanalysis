@@ -85,6 +85,10 @@ export class VideoService {
     const options = new RequestOptions({ headers: headers });
     return this.http.get(this.baseApiUrl + 'video/getById?id=' + id, options);
   }
+  getVideoShared(id: any) {
+    return this.http.get(this.baseApiUrl + 'video/getVideoShared?id=' + id);
+  }
+
 
   updateVideo(id, data, token) {
     const headers = new Headers({ 'Authorization': token });

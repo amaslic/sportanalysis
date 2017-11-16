@@ -102,6 +102,7 @@ import { Ng2CompleterModule } from "ng2-completer";
 const appRoutes: Routes = [
   { path: 'auth', component: LoginRegisterComponent },
   { path: 'auth/:type', component: LoginRegisterComponent },
+  { path: 'videos/view/shared/:id', loadChildren: './main/videos/view/view.component.module#ViewComponentModule' },
   {
     path: '', component: MainComponent, canActivate: [AuthGuard], children: [
       { path: 'home', loadChildren: './main/home/home.component.module#HomeComponentModule' },
