@@ -140,10 +140,10 @@ export class VideoOverviewComponent implements OnInit {
 
     var user = this.userService.loadUserFromStorage();
     if (user['role'] == 1 || user['role'] == 2) {
-      if (user['role'] == 2) {
+      if (user['role'] == 2)
         this.isClub = true;
-      }
-      this.isAdmin = true;
+      if (user['role'] == 1)
+        this.isAdmin = true;
     }
 
     this.getAllClubs();
