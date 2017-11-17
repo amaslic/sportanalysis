@@ -13,6 +13,16 @@ select{
     height: auto !important;
     
 }
+
+
+md-tab-group /deep/ .mat-tab-body-wrapper{
+    height: 800px!important;
+}
+
+ss-multiselect-dropdown /deep/ ul.dropdown-menu{
+    max-height: 400px!important;
+}
+
 :host >>> .autocompleteInput {border: none !important;outline: none;padding: 5px 0px 0px 8px;}
 :host >>> .autocompleteControl{
         border: 1px solid #767d9a;

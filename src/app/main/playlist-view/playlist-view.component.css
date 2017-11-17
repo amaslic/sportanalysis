@@ -214,8 +214,16 @@
 }
 
 .playlist ul {
-  max-height: 637px;
+  max-height: 800px !important;
   /*overflow: auto;*/
+}
+
+.dots i:hover{
+  background: transparent;
+}
+
+.dropdown:hover   .dropbtn{
+  background-color: transparent!important;
 }
 
 .first-dropdown{

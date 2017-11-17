@@ -45,6 +45,12 @@
 .video-white-bg{
   padding: 1px;
   background: white;
+  height: 150px;
+}
+
+.video-white-bg div.date  ul.list-inline  li:nth-child(2)   i{
+  position: relative!important;
+  bottom: 0;
 }
 
 .video-list-thumbs .glyphicon-play-circle {
@@ -235,7 +241,7 @@ div.date ul.list-inline li:nth-child(2) i{
 }
 
 .video-white-bg .text-success{
-  padding-left: 10px;
+  /*padding-left: 10px; */
 }
 
 /*
