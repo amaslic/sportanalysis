@@ -53,7 +53,8 @@
 .video-white-bg{
   padding: 1px;
   background: white;
-  padding-bottom: 50px;
+
+  height: 150px;
 }
 
 .video-list-thumbs .glyphicon-play-circle {
