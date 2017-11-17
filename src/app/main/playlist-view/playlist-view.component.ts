@@ -172,11 +172,11 @@ export class PlaylistViewComponent implements OnInit {
       this.getPlaylistDetail(this.playId);
     });
 
-    this.fetchMessages(0);
+    // this.fetchMessages(0);
 
-    this.timerChat = setInterval(() => {
-      this.fetchMessages(this.lastMsgId);
-    }, 5000);
+    // this.timerChat = setInterval(() => {
+    //   this.fetchMessages(this.lastMsgId);
+    // }, 5000);
   }
 
 

@@ -37,6 +37,7 @@ import { DOCUMENT } from "@angular/platform-browser";
 })
 
 export class VideosComponent implements OnInit {
+  isCopied: boolean;
   publicVideoUrl: any;
   assignedUsersDetails: any = [];
   userlist: any;
@@ -269,6 +270,7 @@ export class VideosComponent implements OnInit {
     e.preventDefault();
     e.stopPropagation();
     this.videoId = id;
+    this.isCopied = false;
     this.eventmodeltitle = "Share Video"
     // console.log(btoa(this.videoId));
     this.publicVideoUrl = this.baseUrl + 'videos/view/shared/' + btoa(this.videoId);
@@ -661,14 +663,36 @@ export class VideosComponent implements OnInit {
     console.log(this.feedbackMessages);
   }
   copyElementText(id) {
+    console.log(id);
     var element = null; // Should be <textarea> or <input>
     try {
       element = this.dom.getElementById(id);
+      console.log(element);
       element.select();
       this.dom.execCommand("copy");
+      console.log(this.dom.execCommand("copy"));
     }
     finally {
       this.dom.getSelection().removeAllRanges;
     }
   }
+  copy(val) {
+
+    let selBox = document.createElement('textarea');
+
+    selBox.style.position = 'fixed';
+    selBox.style.left = '0';
+    selBox.style.top = '0';
+    selBox.style.opacity = '0';
+    selBox.value = val;
+
+    document.body.appendChild(selBox);
+    selBox.focus();
+    selBox.select();
+
+    document.execCommand('copy');
+    document.body.removeChild(selBox);
+    this.isCopied = true;
+  }
+
 }

@@ -60,7 +60,7 @@
   </div>
 </div>
 <div class="right-sidebar">
-  <div class="show-chat" *ngIf="showChat" (click)="showChatWindow()">Show Chat</div>
+  <!-- <div class="show-chat" *ngIf="showChat" (click)="showChatWindow()">Show Chat</div>
   <div class="chat-list" *ngIf="chatList&&!showChat">
     <h4 class="chat-title">Live Chat</h4>
     <div class="chat-body" #scrollMe [scrollTop]="scrollMe.scrollHeight">
@@ -96,7 +96,7 @@
         </div>
       </div>
     </div>
-  </div>
+  </div> -->
   <button *ngIf="multiEid?.length > 0" class="pull-right" (click)="deleteSelected()">Delete Selected</button>
   <div class="match-info filters col-xs-12">
     <h2 class="title">
