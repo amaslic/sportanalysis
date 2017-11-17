@@ -87,7 +87,7 @@
               <div class="form-group">
                 <label class="control-label col-sm-5" for="title">Video Title:</label>
                 <div class="col-sm-7">
-                  <input type="text" class="form-control" id="title" name="title" [ngModel]="video.title" placeholder="Enter Title" [required]="video.type != 'Match' ? true : null">
+                  <input type="text" class="form-control" id="title" name="title" [ngModel]="video.title" placeholder="Enter Title" [required]="video.type == 'Training' ? true : null">
                 </div>
               </div>
               <div class="form-group">

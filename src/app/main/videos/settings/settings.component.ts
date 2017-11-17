@@ -568,10 +568,13 @@ export class VideoSettingsComponent implements OnInit {
 
   onError(error) {
     this.showProgressBar = false;
-    const errorBody = JSON.parse(error._body);
-    // console.error(errorBody);
-    this.errormsg = errorBody.message || errorBody.msg;
-    this.ErrorModal.open();
+    if (error) {
+      const errorBody = JSON.parse(error._body);
+      // console.error(errorBody);
+      this.errormsg = errorBody.message || errorBody.msg;
+      this.ErrorModal.open();
+    }
+
   }
 
   onSelectFile(e) {
@@ -1396,10 +1399,18 @@ export class VideoSettingsComponent implements OnInit {
       return;
     }
     if (confirm("Are you sure to approve selected Events ?")) {
-      this.trackingDataService.approveSelected(this.userService.token, this.multiId).subscribe(
-        (response) => this.onMultipleSuccess(response),
-        (error) => this.onError(error)
-      );
+      if (this.isAllSelected) {
+        this.trackingDataService.approveSelected(this.userService.token, this.multiId).subscribe(
+          (response) => this.onMultipleSuccess(response),
+          (error) => this.onError(error)
+        );
+      } else {
+        this.trackingDataService.approveSelected(this.userService.token, this.multiId).subscribe(
+          (response) => this.onMultipleSuccess(response),
+          (error) => this.onError(error)
+        );
+      }
+
     }
   }
   disapproveSelected() {
@@ -1418,10 +1429,18 @@ export class VideoSettingsComponent implements OnInit {
       return;
     }
     if (confirm("Are you sure to disapprove selected Events ?")) {
-      this.trackingDataService.disapproveSelected(this.userService.token, this.multiId).subscribe(
-        (response) => this.onMultipleSuccess(response),
-        (error) => this.onError(error)
-      );
+      if (this.isAllSelected) {
+        this.trackingDataService.disapproveEventsSelected(this.userService.token, this.isAllSelected, this.videoId).subscribe(
+          (response) => this.onMultipleSuccess(response),
+          (error) => this.onError(error)
+        );
+      } else {
+        this.trackingDataService.disapproveSelected(this.userService.token, this.multiId).subscribe(
+          (response) => this.onMultipleSuccess(response),
+          (error) => this.onError(error)
+        );
+      }
+
     }
   }
   onMultipleSuccess(response) {
