@@ -71,7 +71,8 @@
       </video>
     </vg-player>
 
-    <div *ngIf="showTracker" id="divThumbnail" class="center-screen" style="height: 90px;width: 150px;position: absolute;z-index: 9999;    margin-top: -150px;">
+    <!-- class="center-screen" -->
+    <div *ngIf="showTracker" id="divThumbnail" style="height: 90px;width: 150px;position: absolute;z-index: 9999;    margin-top: -150px;">
       <img src="{{ThumbnailPath}}" (error)="setDefaultThumbnail(chat)">
       <span class="time-tracker-div">{{fancyTimeFormat(TrackerTime)}}</span>
     </div>
@@ -82,14 +83,14 @@
       </div>
     </div> -->
 
-    <div *ngIf="showTracker" style="background-color:black;position: relative;">
+    <!-- <div *ngIf="showTracker" style="background-color:black;position: relative;">
       <swiper [config]="config" #usefulSwiper>
         <div class="swiper-wrapper">
           <img class="swiper-slide strip-image" *ngFor="let timestamp of video.timestamps" [src]="timestamp.src" (error)="setDefaultThumbnail(chat)">
         </div>
 
       </swiper>
-    </div>
+    </div> -->
     <!-- <div class="swiper-pagination"></div> -->
     <!-- <div class="swiper-button-next"></div>
         <div class="swiper-button-prev"></div> -->
@@ -320,7 +321,11 @@
       <br>
 
     </div>
-    <i class="fa fa-filter show-filters" aria-hidden="true" (click)="showFilters = !showFilters"></i>
+    <i *ngIf="video && isCoachOrAnalyst" class="fa fa-clock-o show-filters" (click)="AddOffset(1)" style="right:81px;" title="Add offset for First Half"
+      aria-hidden="true"></i>
+    <i *ngIf="video && isCoachOrAnalyst" class="fa fa-clock-o show-filters" (click)="AddOffset(2)" style="right:54px;" title="Add offset for Second Half"
+      aria-hidden="true"></i>
+    <i class="fa fa-filter show-filters" aria-hidden="true" title="Show Filter" (click)="showFilters = !showFilters"></i>
     <i *ngIf="video && isCoachOrAnalyst" style="right:5px;" class="fa fa-cog show-filters" title="Settings" [routerLink]="['/videos/settings', video._id]"
       aria-hidden="true"></i>
   </div>
@@ -379,6 +384,7 @@
                       <li id="event" *ngIf="isCoachOrAnalyst" (click)="shareEventlist(video._id,event)">Share Event</li>
                       <li id="eventDelete" *ngIf="isCoachOrAnalyst" (click)="deleteEvent(event)">Delete Event</li>
                       <li id="addFeedbacks" *ngIf="isCoachOrAnalyst" (click)="addFeedbacks(video._id,event)">Add Feedbacks</li>
+                      <li id="addOffset" *ngIf="isCoachOrAnalyst" (click)="AddOffsetForEvent(event)">Add Offset</li>
                       <!-- <li id="addFeedbacks" *ngIf="isCoachOrAnalyst" (click)="showFeedbacks(video._id,event)">Show Feedbacks</li> -->
                       <!--<li class="dropdown-submenu">
 
@@ -625,4 +631,27 @@
   <modal-footer>
     <button class="btn btn-primary" (click)="ErrorModal.close()">Ok</button>
   </modal-footer>
+</modal>
+
+<modal #addOffsetModal>
+  <modal-header>
+  </modal-header>
+  <modal-content>
+    <p>
+      Offset Settings
+    </p>
+    <form (ngSubmit)="updateOffsetofSelectedEvent()" #offsetForm="ngForm">
+      <div class="col-md-12">
+        <div class="form-group">
+          <label class="col-md-12 control-label" style="line-height: 1;">{{offsetInputTitle}}</label>
+          <input type="number" name="txtoffset1" [(ngModel)]="offset" class="form-control col-md-6" placeholder="1st half Offset" required>
+          <label class="col-md-12 control-label" style="line-height: 2; color: gray; font-size: 12px;">Add offset value in seconds</label>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-primary" [disabled]="!offsetForm.form.valid">Update Offset</button>
+        <button class="btn btn-primary" (click)="addOffsetModal.close()">Cancel</button>
+      </div>
+    </form>
+  </modal-content>
 </modal>

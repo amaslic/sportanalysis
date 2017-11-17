@@ -277,4 +277,15 @@ export class TrackingDataService {
     return this.http.post(this.baseApiUrl + 'eventData/updateOffest', body, options);
   }
 
+  updateOffsetByVideo(token: String, videoId: any, offset: any, flag: any) {
+    const headers = new Headers({
+      'Authorization': token
+    });
+    const body = { token: token, videoId: videoId, offset: offset, flag: flag };
+    const options = new RequestOptions({
+      headers: headers
+    });
+    return this.http.post(this.baseApiUrl + 'eventData/updateOffsetByVideo', body, options);
+  }
+
 }

@@ -50,7 +50,7 @@ import { Playlist } from "app/models/playlist.model";
 import {
   Page
 } from './../../../models/page.model';
-import { SwiperModule, SwiperComponent } from 'angular2-useful-swiper';
+// import { SwiperModule, SwiperComponent } from 'angular2-useful-swiper';
 import { DOCUMENT } from '@angular/common';
 
 declare var document: any;
@@ -275,6 +275,10 @@ export class ViewComponent implements OnInit {
   eventDataId: any;
   VideoTiming: any;
   errormsg: any;
+  offsetInputTitle: any = "1st half Offset";
+  offset: any = 0;
+  offsetPopupFlag: any = 0;
+  offsetEvent: any = [];
 
   // @HostListener('window:keypress', ['$event'])
   // handleKeyboardEvent(event: KeyboardEvent) {
@@ -290,29 +294,22 @@ export class ViewComponent implements OnInit {
   // }
 
   // config: SwiperOptions = {
+  //   slidesPerView: 7,
+  //   spaceBetween: 3,
+  //   // centeredSlides: true,
   //   pagination: '.swiper-pagination',
   //   paginationClickable: true,
   //   nextButton: '.swiper-button-next',
   //   prevButton: '.swiper-button-prev',
-  //   spaceBetween: 30
   // };
-
-  config: SwiperOptions = {
-    slidesPerView: 7,
-    spaceBetween: 3,
-    // centeredSlides: true,
-    pagination: '.swiper-pagination',
-    paginationClickable: true,
-    nextButton: '.swiper-button-next',
-    prevButton: '.swiper-button-prev',
-  };
 
   @ViewChild('createPlaylistModal') createPlaylistModal;
   @ViewChild('updatePlaylistModal') updatePlaylistModal;
   @ViewChild('assignEventModal') assignEventModal;
   @ViewChild('SucessModal') SucessModal;
   @ViewChild('ErrorModal') ErrorModal;
-  @ViewChild('usefulSwiper') usefulSwiper: SwiperComponent;
+  @ViewChild('addOffsetModal') addOffsetModal;
+  // @ViewChild('usefulSwiper') usefulSwiper: SwiperComponent;
 
   //@ViewChild('eventTimelineScrollbar') eventTimelineScrollbar;
 
@@ -465,6 +462,16 @@ export class ViewComponent implements OnInit {
     });
 
     this.videoEvents = this.trackingDataService.groupEvents(this.trackingJsonData, this.api.getDefaultMedia().duration);
+
+    for (let x = 0; x < this.track.cues.length; x++) {
+      // console.log('t[x] =' + x + ' ' + this.track.cues[x]);
+      try {
+        this.track.removeCue(this.track.cues[x]);
+        this.api.textTracks[0].removeCue(this.track.cues[x]);
+      } catch (e) {
+        console.log('removeCue error = ' + e.toString());
+      }
+    }
 
     this.trackingJsonData.forEach((event, index) => {
 
@@ -1290,10 +1297,11 @@ export class ViewComponent implements OnInit {
 
 
     this.ThumbnailPath = this.baseImageUrl + "/video-thumbnails/" + this.videoId + "/At-" + (parseInt(displaySeconds[0]) * 5) + "s.png?sec=" + (parseInt(displaySeconds[0]) * 5);
-    if ((parseInt(displaySeconds[0]) * 5) != NaN) {
-      this.usefulSwiper.swiper.slideTo(parseInt(displaySeconds[0]));
-    }
+    // if ((parseInt(displaySeconds[0]) * 5) != NaN) {
+    //   this.usefulSwiper.swiper.slideTo(parseInt(displaySeconds[0]));
+    // }
     this.TrackerTime = seconds;
+    console.log(this.TrackerTime);
 
     if (this.thumbanailTracker)
       clearInterval(this.thumbanailTracker);
@@ -1724,4 +1732,60 @@ export class ViewComponent implements OnInit {
     // }
 
   }
+  AddOffsetForEvent(event) {
+    console.log(event);
+    this.offsetPopupFlag = 2;
+    this.offset = 0;
+    if (event.start < 2700) {
+      this.offsetInputTitle = "1st half Offset";
+    } else {
+      this.offsetInputTitle = "2nd half Offset";
+    }
+
+    this.offsetEvent.push({ 'Id': event.id, 'Eid': event.eventDataId, 'start': parseInt(event.start), 'end': parseInt(event.end) });
+
+    this.addOffsetModal.open();
+  }
+
+  AddOffset(flag) {
+    this.offsetPopupFlag = 1;
+    this.api.pause();
+    this.offset = parseInt(this.currentVideoTime);
+    if (flag == 1) {
+      this.offsetInputTitle = "1st half Offset";
+    } else {
+      this.offsetInputTitle = "2nd half Offset";
+    }
+    this.addOffsetModal.open();
+  }
+
+  updateOffsetofSelectedEvent() {
+    if (this.offsetPopupFlag == 1) {
+      this.trackingDataService.updateOffsetByVideo(this.userService.token, this.videoId, this.offset, this.offsetInputTitle == "1st half Offset" ? 1 : 2).subscribe(
+        (response: any) => {
+          this.addOffsetModal.close();
+          this.getVideoEventsData(this.videoId);
+          const responseBody = JSON.parse(response._body);
+          this.successmsg = responseBody.message || responseBody.msg;
+          this.SucessModal.open();
+        },
+        (error) => this.onError(error)
+      );
+    } else {
+
+
+
+      this.trackingDataService.updateOffest(this.userService.token, this.offsetEvent, this.offsetInputTitle == "1st half Offset" ? this.offset : 0, this.offsetInputTitle == "1st half Offset" ? 0 : this.offset).subscribe(
+        (response: any) => {
+          this.addOffsetModal.close();
+          this.getVideoEventsData(this.videoId);
+          const responseBody = JSON.parse(response._body);
+          this.successmsg = responseBody.message || responseBody.msg;
+          this.SucessModal.open();
+        },
+        (error) => this.onError(error)
+      );
+    }
+  }
+
 }
