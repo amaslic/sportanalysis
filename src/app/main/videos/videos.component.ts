@@ -37,6 +37,7 @@ import { DOCUMENT } from "@angular/platform-browser";
 })
 
 export class VideosComponent implements OnInit {
+  isCopied: boolean;
   publicVideoUrl: any;
   assignedUsersDetails: any = [];
   userlist: any;
@@ -269,6 +270,7 @@ export class VideosComponent implements OnInit {
     e.preventDefault();
     e.stopPropagation();
     this.videoId = id;
+    this.isCopied = false;
     this.eventmodeltitle = "Share Video"
     // console.log(btoa(this.videoId));
     this.publicVideoUrl = this.baseUrl + 'videos/view/shared/' + btoa(this.videoId);
@@ -690,6 +692,7 @@ export class VideosComponent implements OnInit {
 
     document.execCommand('copy');
     document.body.removeChild(selBox);
+    this.isCopied = true;
   }
 
 }
