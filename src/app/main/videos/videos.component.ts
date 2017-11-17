@@ -661,14 +661,35 @@ export class VideosComponent implements OnInit {
     console.log(this.feedbackMessages);
   }
   copyElementText(id) {
+    console.log(id);
     var element = null; // Should be <textarea> or <input>
     try {
       element = this.dom.getElementById(id);
+      console.log(element);
       element.select();
       this.dom.execCommand("copy");
+      console.log(this.dom.execCommand("copy"));
     }
     finally {
       this.dom.getSelection().removeAllRanges;
     }
   }
+  copy(val) {
+
+    let selBox = document.createElement('textarea');
+
+    selBox.style.position = 'fixed';
+    selBox.style.left = '0';
+    selBox.style.top = '0';
+    selBox.style.opacity = '0';
+    selBox.value = val;
+
+    document.body.appendChild(selBox);
+    selBox.focus();
+    selBox.select();
+
+    document.execCommand('copy');
+    document.body.removeChild(selBox);
+  }
+
 }

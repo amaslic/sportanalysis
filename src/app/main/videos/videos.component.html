@@ -310,11 +310,11 @@
     </div>
     <div class="col-md-12">
       <label class="col-md-3 control-label">Public Link: </label>
-      <!-- <input class="col-md-8 form-control" disabled id="elem1" style="word-break: break-all;" value="{{publicVideoUrl}}" /> -->
-      <textarea class="col-md-7 form-control" readonly id="elem1" style="word-break: break-all;margin-left: 15px;">{{publicVideoUrl}}
-      </textarea>
+      <input type="hidden" class="col-md-8 form-control" id="elem1" style="word-break: break-all;" value="{{publicVideoUrl}}" />
+      <!-- <textarea class="col-md-7 form-control" readonly id="elem1" style="display:none;word-break: break-all;margin-left: 15px;">{{publicVideoUrl}}
+      </textarea> -->
       <!-- <button *ngIf="shareEventFlag" class="btn btn-secondary" (click)="copyElementText('elem1')"> -->
-      <i class="fa fa-files-o fa-lg text-info" style="padding:2%" aria-hidden="true" (click)="copyElementText('elem1')"></i>
+      <i class="fa fa-files-o fa-lg text-info" style="padding-left:5%" aria-hidden="true" (click)="copy(publicVideoUrl)"></i>
       <!-- </button> -->
 
 
