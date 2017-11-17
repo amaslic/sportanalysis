@@ -255,7 +255,27 @@ export class TrackingDataService {
     });
     return this.http.post(this.baseApiUrl + 'eventData/approveSelected', body, options);
   }
-  disapproveSelected(token: String, ids: any) {
+  approveEventsSelected(token: String, ids: any, videoId: any) {
+    const headers = new Headers({
+      'Authorization': token
+    });
+    const body = { token: token, ids: ids, videoId: videoId };
+    const options = new RequestOptions({
+      headers: headers
+    });
+    return this.http.post(this.baseApiUrl + 'eventData/approveEventsSelected', body, options);
+  }
+  disapproveEventsSelected(token: String, ids: any, videoId: any) {
+    const headers = new Headers({
+      'Authorization': token
+    });
+    const body = { token: token, ids: ids, videoId: videoId };
+    const options = new RequestOptions({
+      headers: headers
+    });
+    return this.http.post(this.baseApiUrl + 'eventData/disapproveEventsSelected', body, options);
+  }
+  disapproveSelected(token: String, ids: any, ) {
     const headers = new Headers({
       'Authorization': token
     });
