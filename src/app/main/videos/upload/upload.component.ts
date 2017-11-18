@@ -315,7 +315,7 @@ export class UploadComponent implements OnInit {
         this.teamsList = JSON.parse(response._body);
         this.ClubStatus();
         this.getAllClubs();
-        this.getActivatedClubs();
+        // this.getActivatedClubs();
 
         this.matchesPage.limit = 0;
         this.matchesPage.pageNumber = 0;
@@ -422,6 +422,9 @@ export class UploadComponent implements OnInit {
 
   onGetAllClubsSuccess(response) {
     this.allClubList = JSON.parse(response._body);
+    this.allClubList.forEach(element => {
+      this.clubData.push(element.name);
+    });
   }
 
   onIsAdminClubsSuccess(response) {

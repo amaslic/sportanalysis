@@ -190,4 +190,8 @@ export class ClubService {
     return this.http.post(this.baseApiUrl + 'club/deactive', club, options);
   }
 
+  getClubById(id) {
+    return this.http.get(this.baseApiUrl + 'club/getClubById?id=' + id);
+  }
+
 }

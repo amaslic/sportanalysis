@@ -304,10 +304,11 @@
 </div>
 
 <div class="right-sidebar" *ngIf="showEvent">
-
-  <button *ngIf="multiPlaylist?.length > 0" (click)="createPlaylist(video._id,multiPlaylist,true)">Create Playlist</button>
-  <button *ngIf="multiPlaylist?.length > 0" (click)="addToPlaylist(video._id,multiPlaylist,true)">Add to Playlist</button>
-  <button *ngIf="multiPlaylist?.length > 0 && isCoachOrAnalyst" (click)="deleteSelected()">Delete Selected</button>
+  <div class="col-md-12" style="padding:10px;">
+    <button class="btn btn-round btn-green" *ngIf="multiPlaylist?.length > 0" (click)="createPlaylist(video._id,multiPlaylist,true)">Create Playlist</button>
+    <button class="btn btn-round btn-green" *ngIf="multiPlaylist?.length > 0" (click)="addToPlaylist(video._id,multiPlaylist,true)">Add to Playlist</button>
+    <button class="btn btn-round btn-green" *ngIf="multiPlaylist?.length > 0 && isCoachOrAnalyst" (click)="deleteSelected()">Delete</button>
+  </div>
   <div class="events-list match-status col-xs-12">
     <!--<h2 class="title">Event list</h2>-->
     <div class="match-club  search clearfix form-inline">

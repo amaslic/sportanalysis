@@ -24,6 +24,9 @@ import {
 import {
     TacticService
 } from './../../services/tactic.service';
+import {
+    ClubService
+} from './../../services/club.service';
 
 @Component({
     selector: 'app-settings',
@@ -59,6 +62,8 @@ export class SettingsComponent implements OnInit {
     deleteseason: any;
     deletecompetition: any;
     deletetactic: any;
+    club: any;
+    userRole: any;
 
     showProgressBar: boolean = false;
 
@@ -72,14 +77,35 @@ export class SettingsComponent implements OnInit {
     @ViewChild('tacticform') tacticform;
 
     constructor(private userService: UserService, private teamService: TeamService, private locationService: LocationService
-        , private seasonService: SeasonService, private competitionService: CompetitionService, private tacticService: TacticService) { }
+        , private seasonService: SeasonService, private competitionService: CompetitionService, private tacticService: TacticService, private clubService: ClubService) { }
 
     ngOnInit() {
-        this.getAllTeams();
-        this.getAllLocations();
-        this.getAllSeasons();
-        this.getAllCompetitions();
-        this.getAllTactics()
+        var user = this.userService.loadUserFromStorage();
+        this.userRole = user['role'];
+        if (this.userRole == 1) {
+            this.getAllTeams();
+            this.getAllLocations();
+            this.getAllSeasons();
+            this.getAllCompetitions();
+            this.getAllTactics();
+        } else {
+            this.clubService.getClubById(user['club']).subscribe(
+                (response: any) => {
+                    this.club = JSON.parse(response._body);
+                    console.log(this.club);
+                    this.getAllTeams();
+                    this.getAllLocations();
+                    this.getAllSeasons();
+                    this.getAllCompetitions();
+                    this.getAllTactics();
+                },
+                (error) => this.onError(error)
+            );
+        }
+
+
+
+
     }
 
     onError(error) {
@@ -94,7 +120,16 @@ export class SettingsComponent implements OnInit {
     getAllTeams() {
         this.teamService.getAllTeams(this.userService.token).subscribe(
             (response: any) => {
-                this.teamsList = JSON.parse(response._body);
+                var teamResponse = JSON.parse(response._body);
+
+                if (this.userRole == 2) {
+                    var clubDetails = this.club;
+                    this.teamsList = teamResponse.filter(function (element, index) {
+                        return (clubDetails.teams.includes(element._id));
+                    });
+                } else {
+                    this.teamsList = teamResponse;
+                }
             },
             (error) => this.onError(error)
         );
@@ -187,7 +222,15 @@ export class SettingsComponent implements OnInit {
     getAllLocations() {
         this.locationService.getAllLocations(this.userService.token).subscribe(
             (response: any) => {
-                this.locationsList = JSON.parse(response._body);
+                var locationsResponse = JSON.parse(response._body);
+                if (this.userRole == 2) {
+                    var clubDetails = this.club;
+                    this.locationsList = locationsResponse.filter(function (element, index) {
+                        return (clubDetails.locations.includes(element._id));
+                    });
+                } else {
+                    this.locationsList = locationsResponse;
+                }
             },
             (error) => this.onError(error)
         );
@@ -280,7 +323,16 @@ export class SettingsComponent implements OnInit {
     getAllSeasons() {
         this.seasonService.getAllSeasons(this.userService.token).subscribe(
             (response: any) => {
-                this.seasonsList = JSON.parse(response._body);
+                var seasonsResponse = JSON.parse(response._body);
+
+                if (this.userRole == 2) {
+                    var clubDetails = this.club;
+                    this.seasonsList = seasonsResponse.filter(function (element, index) {
+                        return (clubDetails.seasons.includes(element._id));
+                    });
+                } else {
+                    this.seasonsList = seasonsResponse;
+                }
             },
             (error) => this.onError(error)
         );
@@ -373,7 +425,16 @@ export class SettingsComponent implements OnInit {
     getAllCompetitions() {
         this.competitionService.getAllCompetitions(this.userService.token).subscribe(
             (response: any) => {
-                this.competitionsList = JSON.parse(response._body);
+                var competitionsResponse = JSON.parse(response._body);
+
+                if (this.userRole == 2) {
+                    var clubDetails = this.club;
+                    this.competitionsList = competitionsResponse.filter(function (element, index) {
+                        return (clubDetails.competitions.includes(element._id));
+                    });
+                } else {
+                    this.competitionsList = competitionsResponse;
+                }
             },
             (error) => this.onError(error)
         );
@@ -466,7 +527,16 @@ export class SettingsComponent implements OnInit {
     getAllTactics() {
         this.tacticService.getAllTactics(this.userService.token).subscribe(
             (response: any) => {
-                this.tacticsList = JSON.parse(response._body);
+                var tacticsResponse = JSON.parse(response._body);
+
+                if (this.userRole == 2) {
+                    var clubDetails = this.club;
+                    this.tacticsList = tacticsResponse.filter(function (element, index) {
+                        return (clubDetails.tactics.includes(element._id));
+                    });
+                } else {
+                    this.tacticsList = tacticsResponse;
+                }
             },
             (error) => this.onError(error)
         );
