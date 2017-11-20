@@ -21,6 +21,10 @@ import {
 import {
   Page
 } from './../../models/page.model';
+import {
+  GlobalVariables
+} from './../../models/global.model';
+
 
 import { IMultiSelectOption, IMultiSelectSettings, IMultiSelectTexts } from 'angular-2-dropdown-multiselect';
 import { RouterLink, Router } from '@angular/router';
@@ -33,6 +37,9 @@ import {
   styleUrls: ['./playlist.component.css']
 })
 export class PlaylistComponent implements OnInit {
+  publicPlaylistUrl: any;
+  private baseUrl = GlobalVariables.BASE_URL;
+  isCopied: boolean;
   showProgressBar: boolean;
   trackUserlist: any[];
   userlistModel: any[];
@@ -256,7 +263,11 @@ export class PlaylistComponent implements OnInit {
     this.playListId = id;
     this.page1.limit = 0;
     this.page1.pageNumber = 0;
+    this.isCopied = false;
 
+
+    this.publicPlaylistUrl = this.baseUrl + 'playlist/view/shared/' + btoa(this.playListId);
+    console.log(this.publicPlaylistUrl)
     this.playlistService.fetchPlaylistData(this.userService.token, this.playListId).subscribe(
       (response) => this.fetchPlaylistSuccess(response),
       (error) => this.onError(error)
@@ -310,6 +321,24 @@ export class PlaylistComponent implements OnInit {
     this.successmsg = playresp.message;
     this.SucessModal.open();
     this.updatePlaylistModal.close();
+  }
+  copy(val) {
+    //alert(val);
+    let selBox = document.createElement('textarea');
+
+    selBox.style.position = 'fixed';
+    selBox.style.left = '0';
+    selBox.style.top = '0';
+    selBox.style.opacity = '0';
+    selBox.value = val;
+
+    document.body.appendChild(selBox);
+    selBox.focus();
+    selBox.select();
+
+    document.execCommand('copy');
+    document.body.removeChild(selBox);
+    this.isCopied = true;
   }
 
 }

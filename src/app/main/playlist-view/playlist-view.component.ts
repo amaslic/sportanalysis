@@ -1,7 +1,8 @@
 import {
   Component,
   OnInit,
-  ViewChild
+  ViewChild,
+  Inject
 } from '@angular/core';
 import {
   Router, ActivatedRoute
@@ -35,7 +36,7 @@ import {
 } from './../../services/chat.service';
 
 import { IMultiSelectOption, IMultiSelectSettings, IMultiSelectTexts } from 'angular-2-dropdown-multiselect';
-
+import { DOCUMENT } from '@angular/common';
 import {
   VgAPI
 } from 'videogular2/core';
@@ -53,6 +54,7 @@ export interface IMedia {
   styleUrls: ['./playlist-view.component.css']
 })
 export class PlaylistViewComponent implements OnInit {
+  sharedPlaylist: boolean = false;
   chatList: any;
   lastMsgId: any = 0;
   userDetails: {};
@@ -154,31 +156,55 @@ export class PlaylistViewComponent implements OnInit {
   @ViewChild('assignEventModal') assignEventModal;
 
 
-  constructor(private playlistService: PlaylistService, private videoService: VideoService, private userService: UserService, private trackingDataService: TrackingDataService, r: Router, private route: ActivatedRoute, private chatService: ChatService) {
+  constructor(private playlistService: PlaylistService, private videoService: VideoService, private userService: UserService, private trackingDataService: TrackingDataService, r: Router, private route: ActivatedRoute, private chatService: ChatService, @Inject(DOCUMENT) private document: Document) {
     this.router = r;
   }
 
   ngOnInit() {
+
     var user = this.userService.loadUserFromStorage();
 
     this.userDetails = user;
-    if (user['role'] == 5 || user['role'] == 6) {
-      this.player = true;
+    if (user) {
+      if (user['role'] == 5 || user['role'] == 6) {
+        this.player = true;
+      }
+      this.userId = user['_id'];
     }
-    this.userId = user['_id'];
+
     console.log('userID', this.userId);
     this.sub = this.route.params.subscribe(params => {
       this.playId = params['id'];
-      this.getPlaylistDetail(this.playId);
+      // this.getPlaylistDetail(this.playId);
     });
+    let url = this.document.location.href;
+    if (url.indexOf('/shared/') > -1) {
+      this.sharedPlaylist = true;
+      try {
+        var playId = atob(this.playId)
+        this.getPlaylistSharedDetail(playId);
+      }
+      catch (e) {
+        this.router.navigateByUrl('/playlist');
+      }
 
+    } else {
+      this.sharedPlaylist = false;
+      this.getPlaylistDetail(this.playId);
+    }
     // this.fetchMessages(0);
 
     // this.timerChat = setInterval(() => {
     //   this.fetchMessages(this.lastMsgId);
     // }, 5000);
   }
+  getPlaylistSharedDetail(id) {
 
+    this.playlistService.fetchPlaylistSharedData(id).subscribe(
+      (response) => this.fetchPlaylistSuccess(response),
+      (error) => this.onError(error)
+    );
+  }
 
   getPlaylistDetail(id) {
     this.playlistService.fetchPlaylistData(this.userService.token, this.playId).subscribe(
@@ -189,67 +215,70 @@ export class PlaylistViewComponent implements OnInit {
   fetchPlaylistSuccess(response) {
     //console.log("test", response._body)
     this.playList = JSON.parse(response._body);
-    this.playlisName = this.playList['playlists']['name'];
-    console.log(this.playList['playlists']['user']);
-    if (this.userId == this.playList['playlists']['user']) {
-      this.userCanDelele = true;
-    }
 
-    if (this.playList['playlists'] && this.playList['playlists']['playdata'].length > 0) {
+    if (this.playList['playlists']) {
 
-      this.playList = this.playList['playlists']['playdata'];
-      //console.log(this.playList);
-    }
-    else {
-      this.errormsg = "Events not avalible to show";
-      this.ErrorModal.open();
-    }
-    this.playList.forEach(element => {
-      // console.log(element['video']);
-      var filteredObj = this.playlist.find(function (item, i) {
-        return (item.id == element['video']['_id']);
-      });
-      element['checked'] = false;
-      //if (!filteredObj || filteredObj.length == 0)
-      this.playlist.push({
-        'title': element['video']['title'],
-        'src': this.baseAmazonVideoUrl + element['video']['path'],
-        'type': element['video']['mimetype'],
-        'id': element['video']['_id']
-      });
-    });
+      this.playlisName = this.playList['playlists']['name'];
+      console.log(this.playList['playlists']['user']);
+      if (this.userId == this.playList['playlists']['user']) {
+        this.userCanDelele = true;
+      }
 
-    this.currentItem = this.playlist[this.currentIndex];
+      if (this.playList['playlists'] && this.playList['playlists']['playdata'].length > 0) {
 
-    this.videoLoaded = true;
-    // console.log(this.playList);
-    // this.playlist = [{
-    //   title: 'Intro Video',
-    //   src: 'assets/videos/intro.mp4',
-    //   type: 'video/mp4'
-    // },
-    // {
-    //   title: this.playList[0].title,
-    //   src: this.baseVideoUrl + this.video.path,
-    //   type: this.video.mimetype
-    // },
-    // {
-    //   title: 'Outro Video',
-    //   src: 'assets/videos/outro.mp4',
-    //   type: 'video/mp4'
-    // }
-    // ];
-
-    this.playList.forEach((play, index) => {
-      this.trackPlaylist.push({
-        'id': play._id,
-        'name': play.name
+        this.playList = this.playList['playlists']['playdata'];
+        //console.log(this.playList);
+      }
+      else {
+        this.errormsg = "Events not avalible to show";
+        this.ErrorModal.open();
+      }
+      this.playList.forEach(element => {
+        // console.log(element['video']);
+        var filteredObj = this.playlist.find(function (item, i) {
+          return (item.id == element['video']['_id']);
+        });
+        element['checked'] = false;
+        //if (!filteredObj || filteredObj.length == 0)
+        this.playlist.push({
+          'title': element['video']['title'],
+          'src': this.baseAmazonVideoUrl + element['video']['path'],
+          'type': element['video']['mimetype'],
+          'id': element['video']['_id']
+        });
       });
 
+      this.currentItem = this.playlist[this.currentIndex];
 
-    });
+      this.videoLoaded = true;
+      // console.log(this.playList);
+      // this.playlist = [{
+      //   title: 'Intro Video',
+      //   src: 'assets/videos/intro.mp4',
+      //   type: 'video/mp4'
+      // },
+      // {
+      //   title: this.playList[0].title,
+      //   src: this.baseVideoUrl + this.video.path,
+      //   type: this.video.mimetype
+      // },
+      // {
+      //   title: 'Outro Video',
+      //   src: 'assets/videos/outro.mp4',
+      //   type: 'video/mp4'
+      // }
+      // ];
+
+      this.playList.forEach((play, index) => {
+        this.trackPlaylist.push({
+          'id': play._id,
+          'name': play.name
+        });
 
 
+      });
+
+    }
   }
   getPlaylist() {
     this.page.pageNumber = 0;
@@ -273,9 +302,12 @@ export class PlaylistViewComponent implements OnInit {
     this.loadingIndicator = false;
   }
   onError(error) {
+    if (this.sharedPlaylist) {
+      this.router.navigateByUrl('/playlist');
+    }
     const errorBody = JSON.parse(error._body);
     console.error(errorBody);
-    alert(errorBody.msg);
+    alert(errorBody.message);
   }
 
 

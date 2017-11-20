@@ -366,14 +366,14 @@ export class ViewComponent implements OnInit {
       } else {
         this.showEvent = true;
 
-        console.log(this.document.location.href);
+        //console.log(this.document.location.href);
         let url = this.document.location.href;
         if (url.indexOf('/shared/') > -1) {
           //console.log('test', url);
           this.sharedVideo = true;
           try {
             var videoId = atob(this.videoId)
-            console.log(videoId);
+            //console.log(videoId);
             this.getVideoShared(videoId);
           }
           catch (e) {
