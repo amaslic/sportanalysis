@@ -364,12 +364,15 @@
                 <div class="message-img">
                   {{fancyTimeFormat(event.start)}}
                 </div>
-                <div class="message-list-content">
+              </a>
+              <div class="message-list-content" *ngIf="event.start !== 'NaN'">
+                <a style="display:block" class="playlist-info" href="#" (click)="goToEvent($event, event)">
                   <h4>
                     <img [src]="getEventIcon(event.name)" alt="Event Icon" width="38" height="38" style="visibility: hidden">{{event.name}} ({{event.team}})
                   </h4>
-                  <!-- <p>Friday, 9 June 2017</p> -->
-                  <!--  <div class="dots dropdown"><i class="dropbtn fa fa-ellipsis-h" aria-hidden="true"></i>
+                </a>
+                <!-- <p>Friday, 9 June 2017</p> -->
+                <!--  <div class="dots dropdown"><i class="dropbtn fa fa-ellipsis-h" aria-hidden="true"></i>
                     <div class="dropdown-content">
                       <a (click)="createPlaylist(video._id,event)">Create Playlist</a>
                       <a (click)="addToPlaylist(video._id,event)">Add Playlist</a>
@@ -377,19 +380,19 @@
                     </div>
                   </div>-->
 
-                  <div *ngIf="!sharedVideo" class="dots dropdown" dropdown [dropdownToggle]="false">
-                    <button class="btn dropdown-toggle" type="button" dropdown-open>
-                      <i class="dropbtn fa fa-ellipsis-h" aria-hidden="true"></i>
-                    </button>
-                    <ul class="dropdown-menu multi-level" role="menu" aria-labelledby="dropdownMenu">
-                      <!--<li (click)="createPlaylist(video._id,event,false)">Create Playlist</li>-->
-                      <li id="addtoplay" (click)="addToPlaylist(video._id,event,false)">Add to playlist</li>
-                      <li id="event" *ngIf="isCoachOrAnalyst" (click)="shareEventlist(video._id,event)">Share Event</li>
-                      <li id="eventDelete" *ngIf="isCoachOrAnalyst" (click)="deleteEvent(event)">Delete Event</li>
-                      <li id="addFeedbacks" *ngIf="isCoachOrAnalyst" (click)="addFeedbacks(video._id,event)">Add Feedback</li>
-                      <li id="addOffset" *ngIf="isCoachOrAnalyst" (click)="AddOffsetForEvent(event)">Add Offset</li>
-                      <!-- <li id="addFeedbacks" *ngIf="isCoachOrAnalyst" (click)="showFeedbacks(video._id,event)">Show Feedbacks</li> -->
-                      <!--<li class="dropdown-submenu">
+                <div *ngIf="!sharedVideo" class="dots dropdown" dropdown [dropdownToggle]="false">
+                  <button class="btn dropdown-toggle" type="button" dropdown-open>
+                    <i class="dropbtn fa fa-ellipsis-h" aria-hidden="true"></i>
+                  </button>
+                  <ul class="dropdown-menu multi-level" role="menu" aria-labelledby="dropdownMenu">
+                    <!--<li (click)="createPlaylist(video._id,event,false)">Create Playlist</li>-->
+                    <li id="addtoplay" (click)="addToPlaylist(video._id,event,false)">Add to playlist</li>
+                    <li id="event" *ngIf="isCoachOrAnalyst" (click)="shareEventlist(video._id,event)">Share Event</li>
+                    <li id="eventDelete" *ngIf="isCoachOrAnalyst" (click)="deleteEvent(event)">Delete Event</li>
+                    <li id="addFeedbacks" *ngIf="isCoachOrAnalyst" (click)="addFeedbacks(video._id,event)">Add Feedback</li>
+                    <li id="addOffset" *ngIf="isCoachOrAnalyst" (click)="AddOffsetForEvent(event)">Set Offset</li>
+                    <!-- <li id="addFeedbacks" *ngIf="isCoachOrAnalyst" (click)="showFeedbacks(video._id,event)">Show Feedbacks</li> -->
+                    <!--<li class="dropdown-submenu">
 
                         <a id="event" *ngIf="isAdmin"  (click)="shareEventlist(video._id,event.id)">Share Event</a>
                         <a id="addtoplay"  (click)="addToPlaylist(video._id,event)">Add to playlist</a>
@@ -401,14 +404,14 @@
 
                         </ul>
                       </li>-->
-                    </ul>
-                    <!-- <ul class="dropdown-menu">
+                  </ul>
+                  <!-- <ul class="dropdown-menu">
                       <li (click)="createPlaylist(video._id,event.id)">Create Playlist</li>
                       <li (click)="addToPlaylist(video._id,event.id)">Add to playlist</li>
                     </ul>-->
-                  </div>
                 </div>
-              </a>
+              </div>
+
             </li>
 
 
