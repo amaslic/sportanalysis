@@ -1088,14 +1088,16 @@ a.playlist-info:hover .message-list-content h4{
   .dots .dropdown-toggle.btn{
     background: transparent;
   }
+  .dots ul.dropdown-menu {
+    left: -135px;
+    top: -150px;
+    z-index: 999999999;
+  }
   
-  .dots ul.dropdown-menu{
-    left: -115px;
-    top: -22px;
+  .stats ul li:first-child .dots ul.dropdown-menu, .stats ul li:nth-child(2) .dots ul.dropdown-menu, .stats ul li:nth-child(3) .dots ul.dropdown-menu{
+    top: 5px;
   }
-  .dots ul.dropdown-menu:first-child{
-    top: 0px !important;
-  }
+  
   .dots i{
     font-size: 22px;
   }
