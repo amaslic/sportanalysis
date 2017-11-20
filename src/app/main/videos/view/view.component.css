@@ -1806,3 +1806,17 @@ swiper {
   width: 71% !important;
   float: left !important;
 }
+
+li {
+  cursor: pointer;
+}
+i.ico-justify{    font-size: 24px !important;
+  color: #59719a;width: 100%;}
+.video-filter{right: 55px !important;;}
+.vdio-dropdown{    right: 5px;
+  position: absolute !important;
+  top: 18px;}
+  .vdio-dropdown ul.dropdown-menu{    left: -177px !important;
+    top: 18px !important;}
+
+.btn-justify{padding: 0px 5px;}

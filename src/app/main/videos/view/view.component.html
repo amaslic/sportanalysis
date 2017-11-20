@@ -324,13 +324,28 @@
       <br>
 
     </div>
-    <i *ngIf="video && isCoachOrAnalyst" class="fa fa-clock-o show-filters" (click)="AddOffset(1)" style="right:81px;" title="Add offset for First Half"
+    <!-- <i *ngIf="video && isCoachOrAnalyst" class="fa fa-clock-o show-filters" (click)="AddOffset(1)" style="right:81px;" title="Add offset for First Half"
       aria-hidden="true"></i>
     <i *ngIf="video && isCoachOrAnalyst" class="fa fa-clock-o show-filters" (click)="AddOffset(2)" style="right:54px;" title="Add offset for Second Half"
-      aria-hidden="true"></i>
-    <i class="fa fa-filter show-filters" aria-hidden="true" title="Show Filter" (click)="showFilters = !showFilters"></i>
-    <i *ngIf="video && isCoachOrAnalyst" style="right:5px;" class="fa fa-cog show-filters" title="Settings" [routerLink]="['/videos/settings', video._id]"
-      aria-hidden="true"></i>
+      aria-hidden="true"></i> -->
+
+    <i class="fa fa-filter show-filters video-filter" aria-hidden="true" title="Show Filter" (click)="showFilters = !showFilters"></i>
+    <!-- <i *ngIf="video && isCoachOrAnalyst" style="right:5px;" class="fa fa-cog show-filters" title="Settings" [routerLink]="['/videos/settings', video._id]"
+      aria-hidden="true"></i> -->
+
+    <div *ngIf="video && isCoachOrAnalyst" style="right:5px;" class="dots dropdown stats vdio-dropdown" dropdown [dropdownToggle]="false">
+      <button class="btn dropdown-toggle btn-justify" type="button" dropdown-open>
+        <i class="dropbtn fa fa-bars ico-justify" aria-hidden="true"></i>
+      </button>
+      <ul class="dropdown-menu multi-level" role="menu" aria-labelledby="dropdownMenu">
+        <li id="addFistOffset" (click)="AddOffset(1)">Add offset for First Half</li>
+        <li id="addSecondOffset" *ngIf="isCoachOrAnalyst" (click)="AddOffset(2)">Add offset for Second Half</li>
+        <li id="settings" *ngIf="isCoachOrAnalyst" [routerLink]="['/videos/settings', video._id]">Settings</li>
+      </ul>
+    </div>
+
+
+
   </div>
   <div class="match-info filters col-xs-12" *ngIf="showFilters">
 
