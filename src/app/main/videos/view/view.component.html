@@ -304,11 +304,11 @@
 </div>
 
 <div class="right-sidebar" *ngIf="showEvent">
-  <div class="col-md-12" style="padding:10px;">
+  <!-- <div class="col-md-12" style="padding:10px;">
     <button class="btn btn-round btn-green" *ngIf="multiPlaylist?.length > 0" (click)="createPlaylist(video._id,multiPlaylist,true)">Create Playlist</button>
     <button class="btn btn-round btn-green" *ngIf="multiPlaylist?.length > 0" (click)="addToPlaylist(video._id,multiPlaylist,true)">Add to Playlist</button>
     <button class="btn btn-round btn-green" *ngIf="multiPlaylist?.length > 0 && isCoachOrAnalyst" (click)="deleteSelected()">Delete</button>
-  </div>
+  </div> -->
   <div class="events-list match-status col-xs-12">
     <!--<h2 class="title">Event list</h2>-->
     <div class="match-club  search clearfix form-inline">
@@ -401,9 +401,11 @@
                   </button>
                   <ul class="dropdown-menu multi-level" role="menu" aria-labelledby="dropdownMenu">
                     <!--<li (click)="createPlaylist(video._id,event,false)">Create Playlist</li>-->
-                    <li id="addtoplay" (click)="addToPlaylist(video._id,event,false)">Add to playlist</li>
+                    <li *ngIf="multiPlaylist?.length == 0" id="addtoplay" (click)="addToPlaylist(video._id,event,false)">Add to playlist</li>
+                    <li *ngIf="multiPlaylist?.length > 0" (click)="addToPlaylist(video._id,multiPlaylist,true)">Add to playlist</li>
                     <li id="event" *ngIf="isCoachOrAnalyst" (click)="shareEventlist(video._id,event)">Share Event</li>
-                    <li id="eventDelete" *ngIf="isCoachOrAnalyst" (click)="deleteEvent(event)">Delete Event</li>
+                    <li id="eventDelete" *ngIf="multiPlaylist?.length == 0 && isCoachOrAnalyst" (click)="deleteEvent(event)">Delete Event</li>
+                    <li id="eventDelete" *ngIf="multiPlaylist?.length > 0 && isCoachOrAnalyst" (click)="deleteSelected()">Delete Events</li>
                     <li id="addFeedbacks" *ngIf="isCoachOrAnalyst" (click)="addFeedbacks(video._id,event)">Add Feedback</li>
                     <li id="addOffset" *ngIf="isCoachOrAnalyst" (click)="AddOffsetForEvent(event)">Set Offset</li>
                     <!-- <li id="addFeedbacks" *ngIf="isCoachOrAnalyst" (click)="showFeedbacks(video._id,event)">Show Feedbacks</li> -->
@@ -485,7 +487,8 @@
       </div>
       <div class="modal-footer">
         <button class="btn btn-primary" [disabled]="!documentEditForm.form.valid">Create playlist</button>
-        <button *ngIf="!multiplay" class="btn btn-primary" (click)="create = false;">Back</button>
+        <button class="btn btn-primary" (click)="create = false;">Back</button>
+        <!-- *ngIf="!multiplay" -->
         <button class="btn btn-primary" (click)="createPlaylistModal.close()">Cancel</button>
       </div>
     </form>
@@ -506,6 +509,7 @@
   <modal-footer *ngIf="!create">
     <button class=" btn btn-primary " [disabled]="!playlistModel || playlistModel?.length==0 " (click)="updatePlaylist() ">Add</button>
     <button class="btn btn-primary" *ngIf="!multiplay" (click)="createPlaylist(video._id,event,false)">Create playlist</button>
+    <button class="btn btn-primary" *ngIf="multiPlaylist?.length > 0" (click)="createPlaylist(video._id,multiPlaylist,true)">Create Playlist</button>
     <button class="btn btn-primary " (click)="createPlaylistModal.close() ">Cancel</button>
   </modal-footer>
 
