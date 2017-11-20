@@ -1577,7 +1577,7 @@ export class VideoSettingsComponent implements OnInit {
 
     this.trackingJsonData.forEach(element => {
       if (element["isSelected"]) {
-        this.multiId.push({ 'Id': element.id, 'Eid': element.eid, 'start': parseInt(element.originalStart), 'end': parseInt(element.originalEnd) });
+        this.multiId.push({ 'Id': element.id, 'Eid': element.eid, 'start': parseInt(element.originalStart), 'end': parseInt(element.originalEnd), 'IsSetOffset': 0 });
         //this.multiEid.push(element.eid);
       }
     });
@@ -1619,7 +1619,7 @@ export class VideoSettingsComponent implements OnInit {
     if (TrackingEvents && typeof (TrackingEvents) != 'undefined') {
       if (TrackingEvents.eventData.length > 0) {
         TrackingEvents.eventData.forEach(event => {
-          this.multiId.push({ 'Id': event.id, 'Eid': TrackingEvents._id, 'start': parseInt(event.originalStart), 'end': parseInt(event.originalEnd) });
+          this.multiId.push({ 'Id': event.id, 'Eid': TrackingEvents._id, 'start': parseInt(event.originalStart), 'end': parseInt(event.originalEnd), 'IsSetOffset': 0 });
         });
       }
     }

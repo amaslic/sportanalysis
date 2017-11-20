@@ -1733,16 +1733,16 @@ export class ViewComponent implements OnInit {
 
   }
   AddOffsetForEvent(event) {
-    console.log(event);
+    this.api.pause();
     this.offsetPopupFlag = 2;
-    this.offset = 0;
+    this.offset = parseInt(this.currentVideoTime);
     if (event.start < 2700) {
       this.offsetInputTitle = "1st half Offset";
     } else {
       this.offsetInputTitle = "2nd half Offset";
     }
 
-    this.offsetEvent.push({ 'Id': event.id, 'Eid': event.eventDataId, 'start': parseInt(event.start), 'end': parseInt(event.end) });
+    this.offsetEvent.push({ 'Id': event.id, 'Eid': event.eventDataId, 'start': parseInt(event.start), 'end': parseInt(event.end), 'IsSetOffset': 1 });
 
     this.addOffsetModal.open();
   }
@@ -1772,9 +1772,6 @@ export class ViewComponent implements OnInit {
         (error) => this.onError(error)
       );
     } else {
-
-
-
       this.trackingDataService.updateOffest(this.userService.token, this.offsetEvent, this.offsetInputTitle == "1st half Offset" ? this.offset : 0, this.offsetInputTitle == "1st half Offset" ? 0 : this.offset).subscribe(
         (response: any) => {
           this.addOffsetModal.close();
