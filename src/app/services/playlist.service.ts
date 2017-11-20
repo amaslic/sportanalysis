@@ -55,6 +55,12 @@ export class PlaylistService {
 
         return this.http.get(this.baseApiUrl + 'playlist/fetchPlaylistData', options);
     }
+    fetchPlaylistSharedData(id) {
+        //  const headers = new Headers({ 'Authorization': token });
+        const options = new RequestOptions({ params: { id: id } });
+
+        return this.http.get(this.baseApiUrl + 'playlist/fetchPlaylistSharedData', options);
+    }
     createPlaylistsEvents(playlist: any = [], plist: Playlist) {
         const body = { plist: plist, events: playlist };
         return this.http.post(this.baseApiUrl + 'playlist/create', body);

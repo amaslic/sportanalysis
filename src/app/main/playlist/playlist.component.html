@@ -86,12 +86,24 @@
       Share Playlist
     </p>
 
-    <div class="form-group">
+    <div class="form-group col-md-12">
       <label class="col-md-4 control-label">Users</label>
       <ss-multiselect-dropdown class="col-md-5" [options]="userlistOptions" [texts]="userlistTexts" [settings]="userlistSettings"
         [(ngModel)]="userlistModel"></ss-multiselect-dropdown>
     </div>
+    <div class="col-md-12">
+      <label class="col-md-4 control-label">Public Link: </label>
+      <input type="hidden" class="col-md-4 form-control" id="elem1" style="word-break: break-all;" value="{{publicPlaylistUrl}}"
+      />
+      <!-- <textarea class="col-md-7 form-control" readonly id="elem1" style="display:none;word-break: break-all;margin-left: 15px;">{{publicVideoUrl}}
+        </textarea> -->
+      <!-- <button *ngIf="shareEventFlag" class="btn btn-secondary" (click)="copyElementText('elem1')"> -->
+      <i class="fa fa-files-o fa-lg text-info" title="Copy URL" style="padding-left:5%;cursor: pointer;" aria-hidden="true" (click)="copy(publicPlaylistUrl)"></i>
+      <!-- </button> -->
+      <span *ngIf="isCopied" class="text-info" style="padding-left:1%"> Copied!</span>
 
+
+    </div>
 
 
     <div class="form-group pull-left" style="margin-top: 5%" *ngIf="updateMessage">

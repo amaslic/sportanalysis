@@ -103,6 +103,7 @@ const appRoutes: Routes = [
   { path: 'auth', component: LoginRegisterComponent },
   { path: 'auth/:type', component: LoginRegisterComponent },
   { path: 'videos/view/shared/:id', loadChildren: './main/videos/view/view.component.module#ViewComponentModule' },
+  { path: 'playlist/view/shared/:id', loadChildren: './main/playlist-view/playlist-view.component.module#PlaylistViewComponentModule' },
   {
     path: '', component: MainComponent, canActivate: [AuthGuard], children: [
       { path: 'home', loadChildren: './main/home/home.component.module#HomeComponentModule' },

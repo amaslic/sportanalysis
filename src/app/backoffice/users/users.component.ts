@@ -323,7 +323,7 @@ export class UsersComponent implements OnInit {
     this.usersList = this.allApprovedUserList.filter((element, index) => {
       return ((this.search.ActivatedClub == null || this.search.ActivatedClub == "null") || element.clubId == this.search.ActivatedClub) && ((this.search.ActivatedTeam == null || this.search.ActivatedTeam == "null") || element.teamId == this.search.ActivatedTeam);
     });
-
+    console.log(this.usersList);
     if (this.usersList.length == 0 && this.page1.pageNumber > 0) {
       this.getUsers({ offset: 0 });
     }

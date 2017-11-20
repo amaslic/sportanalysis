@@ -97,7 +97,8 @@
       </div>
     </div>
   </div> -->
-  <button *ngIf="multiEid?.length > 0" class="pull-right" (click)="deleteSelected()">Delete Selected</button>
+  <button *ngIf="sharedPlaylist" class="btn btn-flat btn-green btn-signup pull-right" [routerLink]="['/auth', 'register']">Sign Up</button>
+  <button *ngIf="multiEid?.length > 0" class="btn btn-flat btn-danger pull-right" (click)="deleteSelected()">Delete Selected</button>
   <div class="match-info filters col-xs-12">
     <h2 class="title">
       <span class="title-span">Playlist</span>
@@ -109,12 +110,12 @@
   <div class="match-status playlist col-xs-12">
     <div class="stats">
       <perfect-scrollbar>
-        <ul>
+        <ul *ngIf="playList && playList.length > 0">
           <ng-container *ngFor="let event of playList  | search:searchQuery ; let idx=index">
 
             <li>
-              <md-checkbox *ngIf="userCanDelele" ng-model="event.checked" [checked]="event.checked" class="more-events" id="{{event._id}}"
-                name="{{event._id}}" (change)="selectEvent($event,event)"></md-checkbox>
+              <md-checkbox *ngIf="userCanDelele && !sharedPlaylist" ng-model="event.checked" [checked]="event.checked" class="more-events"
+                id="{{event._id}}" name="{{event._id}}" (change)="selectEvent($event,event)"></md-checkbox>
               <a style="display:block" class="playlist-info" href="#" id="{{event._id}}{{event.id}}" (click)="goToEvent($event,   idx)"
                 *ngIf="event.eventStart !== 'NaN'">
                 <div class="message-img">
@@ -135,7 +136,7 @@
 
                 </div>
                 <div class="dots dropdown" dropdown [dropdownToggle]="false">
-                  <button class="btn dropdown-toggle" type="button" dropdown-open>
+                  <button *ngIf="!sharedPlaylist" class="btn dropdown-toggle" type="button" dropdown-open>
                     <i class="dropbtn fa fa-ellipsis-h" aria-hidden="true"></i>
                   </button>
                   <ul class="dropdown-menu multi-level" role="menu" aria-labelledby="dropdownMenu">
