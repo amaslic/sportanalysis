@@ -1089,9 +1089,9 @@ a.playlist-info:hover .message-list-content h4{
     background: transparent;
   }
   .dots ul.dropdown-menu {
-    left: -135px;
-    top: -150px;
-    z-index: 999999999;
+    left: -95px;
+    top: -50px;
+  
   }
   
   .stats ul li:first-child .dots ul.dropdown-menu, .stats ul li:nth-child(2) .dots ul.dropdown-menu, .stats ul li:nth-child(3) .dots ul.dropdown-menu{
