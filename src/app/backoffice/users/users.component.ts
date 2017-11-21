@@ -119,6 +119,8 @@ export class UsersComponent implements OnInit {
 
   getUsers(pageInfo) {
     this.page1.pageNumber = pageInfo.offset;
+    this.page1.filterClub = this.search.ActivatedClub;
+    this.page1.filterTeam = this.search.ActivatedTeam;
     this.userService.getUsers(this.userService.token, this.page1).subscribe(
       (response) => this.onGetUsersSuccess(response),
       (error) => this.onError(error)
@@ -126,6 +128,8 @@ export class UsersComponent implements OnInit {
   }
   getUnApprovedUsers(pageInfo) {
     this.page2.pageNumber = pageInfo.offset;
+    this.page2.filterClub = this.search.DeactivatedClub;
+    this.page2.filterTeam = this.search.DeactivatedTeam;
     this.userService.getUnApprovedUsers(this.userService.token, this.page2).subscribe(
       (response) => this.onGetUnApprovedUsers(response),
       (error) => this.onError(error)
@@ -134,14 +138,20 @@ export class UsersComponent implements OnInit {
   onGetUsersSuccess(response) {
     this.allApprovedUserList = JSON.parse(response._body).users;
     if (this.isSuperAdmin) {
-      this.allApprovedClubs = [];
-      this.allApprovedClubList = JSON.parse(response._body).clubData;
-      this.allApprovedClubList.forEach(element => {
-        this.allApprovedClubs.push({ '_id': element._id, 'name': element.clubData.name });
-      });
+
+      // var ActivatedClub = this.search.ActivatedClub;
+      if (this.search.ActivatedClub == 'null' || this.search.ActivatedClub == null) {
+        this.allApprovedClubs = [];
+        this.allApprovedClubList = JSON.parse(response._body).clubData;
+        this.allApprovedClubList.forEach(element => {
+          this.allApprovedClubs.push({ '_id': element._id, 'name': element.clubData.name });
+        });
+      }
+
       //  console.log(this.allApprovedClubs);
     }
-
+    // this.search.ActivatedClub = ActivatedClub;
+    console.log(this.search.ActivatedClub);
     this.allApprovedUserList.forEach(element => {
       element.clubId = element.club;
       if (element.teams && element.teams.length > 0)
@@ -181,7 +191,12 @@ export class UsersComponent implements OnInit {
 
 
     });
-    this.onChangeofActivatedSearch();
+    this.page1.filterClub = '';
+    //this.onChangeofActivatedSearch();
+    // this.usersList = this.allApprovedUserList.filter((element, index) => {
+    //   return ((this.search.ActivatedClub == null || this.search.ActivatedClub == "null") || element.clubId == this.search.ActivatedClub) && ((this.search.ActivatedTeam == null || this.search.ActivatedTeam == "null") || element.teamId == this.search.ActivatedTeam);
+    // }); // onChangeofActivatedSearch() code added
+    this.usersList = this.allApprovedUserList;
     this.loadingIndicator = false;
 
     this.page1.totalElements = JSON.parse(response._body).total;
@@ -196,11 +211,14 @@ export class UsersComponent implements OnInit {
   onGetUnApprovedUsers(response) {
     this.allDeactivatedUserList = JSON.parse(response._body).users;
     if (this.isSuperAdmin) {
-      this.allUnApprovedClubs = [];
-      this.allUnApprovedClubList = JSON.parse(response._body).clubData;
-      this.allUnApprovedClubList.forEach(element => {
-        this.allUnApprovedClubs.push({ '_id': element._id, 'name': element.clubData.name });
-      });
+      if (this.search.DeactivatedClub == 'null' || this.search.DeactivatedClub == null) {
+        this.allUnApprovedClubs = [];
+        this.allUnApprovedClubList = JSON.parse(response._body).clubData;
+        this.allUnApprovedClubList.forEach(element => {
+          this.allUnApprovedClubs.push({ '_id': element._id, 'name': element.clubData.name });
+        });
+      }
+
       //  console.log(this.allUnApprovedClubs);
     }
     this.allDeactivatedUserList.forEach(element => {
@@ -236,7 +254,11 @@ export class UsersComponent implements OnInit {
       }
 
     });
-    this.onChangeofDeactivatedSearch();
+    // this.onChangeofDeactivatedSearch();
+    // this.unApprovedUsers = this.allDeactivatedUserList.filter((element, index) => {
+    //   return ((this.search.DeactivatedClub == null || this.search.DeactivatedClub == "null") || element.clubId == this.search.DeactivatedClub) && ((this.search.DeactivatedTeam == null || this.search.DeactivatedTeam == "null") || element.teamId == this.search.DeactivatedTeam);
+    // });
+    this.unApprovedUsers = this.allDeactivatedUserList;
     this.loadingIndicator = false;
 
     this.page2.totalElements = JSON.parse(response._body).total;
@@ -319,23 +341,56 @@ export class UsersComponent implements OnInit {
 
   onChangeofActivatedSearch() {
 
+    // this.usersList = this.allApprovedUserList.filter((element, index) => {
+    //   return ((this.search.ActivatedClub == null || this.search.ActivatedClub == "null") || element.clubId == this.search.ActivatedClub) && ((this.search.ActivatedTeam == null || this.search.ActivatedTeam == "null") || element.teamId == this.search.ActivatedTeam);
+    // });
+    //console.log(this.usersList);
+    // this.getUsers({ offset: 0, filterClub: this.search.ActivatedClub });
+    // if (this.usersList.length == 0 && this.page1.pageNumber > 0) {
+    //   this.getUsers({ offset: 0, filterClub: this.search.ActivatedClub });
+    // }
 
-    this.usersList = this.allApprovedUserList.filter((element, index) => {
-      return ((this.search.ActivatedClub == null || this.search.ActivatedClub == "null") || element.clubId == this.search.ActivatedClub) && ((this.search.ActivatedTeam == null || this.search.ActivatedTeam == "null") || element.teamId == this.search.ActivatedTeam);
-    });
-    console.log(this.usersList);
     if (this.usersList.length == 0 && this.page1.pageNumber > 0) {
       this.getUsers({ offset: 0 });
+      if (this.search.ActivatedClub && this.search.ActivatedTeam) {
+        this.getUsers({ offset: 0, filterClub: this.search.ActivatedClub, filterTeam: this.search.ActivatedTeam });
+      } else {
+        this.getUsers({ offset: 0 });
+      }
+    } else {
+      if (this.search.ActivatedClub && this.search.ActivatedTeam) {
+        this.getUsers({ offset: 0, filterClub: this.search.ActivatedClub, filterTeam: this.search.ActivatedTeam });
+      }
+      else if (this.search.ActivatedClub) {
+        this.getUsers({ offset: 0, filterClub: this.search.ActivatedClub });
+      }
+      else if (this.search.ActivatedTeam) {
+        this.getUsers({ offset: 0, filterTeam: this.search.ActivatedTeam });
+      }
     }
   }
 
-  onChangeofDeactivatedSearch() {
-    this.unApprovedUsers = this.allDeactivatedUserList.filter((element, index) => {
-      return ((this.search.DeactivatedClub == null || this.search.DeactivatedClub == "null") || element.clubId == this.search.DeactivatedClub) && ((this.search.DeactivatedTeam == null || this.search.DeactivatedTeam == "null") || element.teamId == this.search.DeactivatedTeam);
-    });
 
+
+  onChangeofDeactivatedSearch() {
+    // this.unApprovedUsers = this.allDeactivatedUserList.filter((element, index) => {
+    //   return ((this.search.DeactivatedClub == null || this.search.DeactivatedClub == "null") || element.clubId == this.search.DeactivatedClub) && ((this.search.DeactivatedTeam == null || this.search.DeactivatedTeam == "null") || element.teamId == this.search.DeactivatedTeam);
+    // });
+
+    // if (this.unApprovedUsers.length == 0 && this.page2.pageNumber > 0) {
+    //   this.getUnApprovedUsers({ offset: 0 });
+    // }
     if (this.unApprovedUsers.length == 0 && this.page2.pageNumber > 0) {
-      this.getUnApprovedUsers({ offset: 0 });
+
+      if (this.search.DeactivatedClub && this.search.DeactivatedTeam) {
+        this.getUnApprovedUsers({ offset: 0, filterClub: this.search.DeactivatedClub, filterTeam: this.search.DeactivatedTeam });
+      } else {
+        this.getUnApprovedUsers({ offset: 0, filterClub: this.search.DeactivatedClub, filterTeam: this.search.DeactivatedTeam });
+      }
+    } else {
+      // if (this.search.DeactivatedClub && this.search.DeactivatedTeam) {
+      this.getUnApprovedUsers({ offset: 0, filterClub: this.search.DeactivatedClub, filterTeam: this.search.DeactivatedTeam });
+      // } 
     }
   }
 }
