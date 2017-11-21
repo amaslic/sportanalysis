@@ -847,9 +847,21 @@ ss-multiselect-dropdown /deep/ .btn {
 }
 
 .dots ul.dropdown-menu {
-  left: -115px;
-  top: -17px;
+  left: -135px;
+  top: -150px;
+
 }
+
+.stats ul li:first-child .dots ul.dropdown-menu, .stats ul li:nth-child(2) .dots ul.dropdown-menu, .stats ul li:nth-child(3) .dots ul.dropdown-menu{
+  top: 5px;
+}
+
+
+/*
+.dots ul:first-child.dropdown-menu, .dots ul:nth-child(2).dropdown-menu, .dots ul:nth-child(3).dropdown-menu {
+  z-index: 999999999;
+  top: 5px;
+}*/
 
 .dots i {
   font-size: 22px;
@@ -1660,9 +1672,11 @@ span.time-tracker-div {
   background-color: red !important;
 }
 
-:host>>>vg-controls {
+/* :host>>>vg-controls {
   z-index: unset !important;
-}
+} */
+
+:host>>>vg-scrub-bar{z-index: 9999;}
 
 :host>>>vg-scrub-bar-current-time:after {
   content: '';
@@ -1806,3 +1820,17 @@ swiper {
   width: 71% !important;
   float: left !important;
 }
+
+li {
+  cursor: pointer;
+}
+i.ico-justify{    font-size: 24px !important;
+  color: #59719a;width: 100%;}
+.video-filter{right: 55px !important;;}
+.vdio-dropdown{    right: 5px;
+  position: absolute !important;
+  top: 18px;}
+  .vdio-dropdown ul.dropdown-menu{    left: -177px !important;
+    top: 18px !important;}
+
+.btn-justify{padding: 0px 5px;}
