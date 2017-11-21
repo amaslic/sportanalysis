@@ -57,6 +57,14 @@
   height: 150px;
 }
 
+.video-delete{
+  padding-right: 0!important;
+}
+
+.video-share{
+  padding-left: 0!important;
+}
+
 .video-list-thumbs .glyphicon-play-circle {
   font-size: 60px;
   opacity: 0.6;
