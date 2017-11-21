@@ -849,7 +849,7 @@ ss-multiselect-dropdown /deep/ .btn {
 .dots ul.dropdown-menu {
   left: -135px;
   top: -150px;
-  z-index: 999999999;
+
 }
 
 .stats ul li:first-child .dots ul.dropdown-menu, .stats ul li:nth-child(2) .dots ul.dropdown-menu, .stats ul li:nth-child(3) .dots ul.dropdown-menu{
