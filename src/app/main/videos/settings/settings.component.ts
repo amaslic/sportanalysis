@@ -340,7 +340,7 @@ export class VideoSettingsComponent implements OnInit {
       (response: any) => {
         this.teamsList = JSON.parse(response._body);
         this.getAllClubs();
-        this.getActivatedClubs();
+        // this.getActivatedClubs();
 
         this.matchesPage.limit = 0;
         this.matchesPage.pageNumber = 0;
@@ -439,6 +439,10 @@ export class VideoSettingsComponent implements OnInit {
 
   onGetAllClubsSuccess(response) {
     this.allClubList = JSON.parse(response._body);
+    this.allClubList.forEach(element => {
+      this.clubData.push(element.name);
+    });
+
     this.sub = this.route.params.subscribe(params => {
       this.videoId = params['id'];
       this.getVideoTrackingDataItems(this.videoId);
