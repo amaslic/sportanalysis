@@ -1672,9 +1672,11 @@ span.time-tracker-div {
   background-color: red !important;
 }
 
-:host>>>vg-controls {
+/* :host>>>vg-controls {
   z-index: unset !important;
-}
+} */
+
+:host>>>vg-scrub-bar{z-index: 9999;}
 
 :host>>>vg-scrub-bar-current-time:after {
   content: '';
