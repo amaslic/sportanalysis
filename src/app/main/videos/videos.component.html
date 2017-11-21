@@ -94,7 +94,7 @@
                 <li *ngIf="isCoach || isAdmin" class="video-delete" title="Delete">
                   <i (click)="confirmDelete(video._id,$event)" class="fa fa-trash grid-delete-btn" aria-hidden="true"></i>
                 </li>
-                <li *ngIf="isCoach || isAdmin" title="Share">
+                <li *ngIf="isCoach || isAdmin" title="Share" class="video-share">
                   <i (click)="assignVideo(video._id,$event)" class="fa fa-share-alt text-success"></i>
                 </li>
                 <li *ngIf="isCoach || isAdmin" title="Download">

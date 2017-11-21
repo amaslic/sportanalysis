@@ -86,7 +86,7 @@ export class UserService {
   getUsers(token: String, page) {
     const headers = new Headers({ 'Authorization': token });
     var loggedInUserId = this.localStorageService.get('user')['_id'];
-    const options = new RequestOptions({ headers: headers, params: { loggedInUserId: loggedInUserId } });
+    const options = new RequestOptions({ headers: headers, params: { loggedInUserId: loggedInUserId, filterClub: page.filterClub, filterTeam: page.filterTeam } });
     return this.http.get(this.baseApiUrl + 'user/fetchAll?page=' + page.pageNumber + '&limit=' + page.limit + '&sort=' + page.sort + '&sortDir=' + page.sortDir, options);
   }
   getVideoUsers(token: String) {
@@ -99,7 +99,7 @@ export class UserService {
   getUnApprovedUsers(token: String, page) {
     const headers = new Headers({ 'Authorization': token });
     var loggedInUserId = this.localStorageService.get('user')['_id'];
-    const options = new RequestOptions({ headers: headers, params: { loggedInUserId: loggedInUserId } });
+    const options = new RequestOptions({ headers: headers, params: { loggedInUserId: loggedInUserId, filterClub: page.filterClub, filterTeam: page.filterTeam } });
     return this.http.get(this.baseApiUrl + 'user/fetchUnApprovedUsers?page=' + page.pageNumber + '&limit=' + page.limit + '&sort=' + page.sort + '&sortDir=' + page.sortDir, options);
   }
 

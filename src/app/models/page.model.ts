@@ -13,6 +13,8 @@ export class Page {
 
     public sort: String = '';
     public sortDir: String = '';
+    public filterClub: String;
+    public filterTeam: String;
 
     constructor() { }
 }
