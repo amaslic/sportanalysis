@@ -37,13 +37,12 @@
       <vg-buffering></vg-buffering>
 
 
-      <vg-scrub-bar (mousemove)="onScrubBarMove($event,Container.getBoundingClientRect()) " *ngIf="currentIndex===1 ">
-        <!-- <vg-scrub-bar-thumbnails [vg-thumbnails]="thumbnails"></vg-scrub-bar-thumbnails> -->
+      <!-- <vg-scrub-bar (mousemove)="onScrubBarMove($event,Container.getBoundingClientRect()) " *ngIf="currentIndex===1 ">
         <vg-scrub-bar-current-time></vg-scrub-bar-current-time>
         <vg-scrub-bar-buffering-time></vg-scrub-bar-buffering-time>
 
         <vg-scrub-bar-cue-points id="vg-scrub-bar-cue-points" class="customCuePoints " [vgCuePoints]="metadataTrack.cues " [vgFor]="sportanalysis-video "></vg-scrub-bar-cue-points>
-      </vg-scrub-bar>
+      </vg-scrub-bar> -->
 
       <vg-controls [vgAutohide]="false" [vgAutohideTime]="1.5">
         <vg-play-pause></vg-play-pause>
@@ -51,7 +50,13 @@
 
         <vg-time-display vgProperty="current" vgFormat="{{videoTimeFormat}}"></vg-time-display>
 
-        <vg-scrub-bar></vg-scrub-bar>
+        <vg-scrub-bar (mousemove)="onScrubBarMove($event,Container.getBoundingClientRect()) " *ngIf="currentIndex===1 ">
+          <vg-scrub-bar-current-time></vg-scrub-bar-current-time>
+          <vg-scrub-bar-buffering-time></vg-scrub-bar-buffering-time>
+          <!-- <vg-scrub-bar-cue-points [vgCuePoints]="metadataTrack.cues"></vg-scrub-bar-cue-points> -->
+          <vg-scrub-bar-cue-points id="vg-scrub-bar-cue-points" class="customCuePoints " [vgCuePoints]="metadataTrack.cues " [vgFor]="sportanalysis-video "></vg-scrub-bar-cue-points>
+
+        </vg-scrub-bar>
 
         <vg-time-display vgProperty="left" vgFormat="{{videoTimeFormat}}"></vg-time-display>
         <vg-time-display vgProperty="total" vgFormat="{{videoTimeFormat}}"></vg-time-display>

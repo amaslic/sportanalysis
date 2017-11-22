@@ -1668,13 +1668,14 @@ span.time-tracker-div {
   left: 33%;
 }
 
-:host>>>vg-scrub-bar-current-time .background {
-  background-color: red !important;
-}
-
 /* :host>>>vg-controls {
   z-index: unset !important;
 } */
+
+/* Start comment
+:host>>>vg-scrub-bar-current-time .background {
+  background-color: red !important;
+}
 
 :host>>>vg-scrub-bar{z-index: 9999;}
 
@@ -1715,6 +1716,20 @@ span.time-tracker-div {
 
 :host>>>vg-scrub-bar:hover vg-scrub-bar-cue-points.customCuePoints .cue-point-container .cue-point {
   height: 7px !important;
+}
+End comment */
+
+:host>>>vg-scrub-bar-current-time:after {
+  content: '';
+  background-color: blue;
+  z-index: 500;
+  display: inline-block;
+  position: relative;
+  top: -3.5px;
+  width: 13px;
+  height: 13px;
+  border-radius: 50%;
+  left: -2px;
 }
 
 
