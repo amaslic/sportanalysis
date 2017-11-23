@@ -110,7 +110,7 @@
   <div class="match-status playlist col-xs-12">
     <div class="stats">
       <perfect-scrollbar>
-        <ul *ngIf="playList && playList.length > 0">
+        <ul *ngIf="playList && playList.length > 0" class="p-events">
           <ng-container *ngFor="let event of playList  | search:searchQuery ; let idx=index">
 
             <li>

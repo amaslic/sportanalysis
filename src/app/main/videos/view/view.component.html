@@ -378,7 +378,7 @@
   <div class="match-status playlist col-xs-12" *ngIf="showEvent">
     <div class="stats">
       <perfect-scrollbar>
-        <ul>
+        <ul  class="p-events">
           <ng-container *ngFor="let event of trackingJsonData | searchEvent:'team,name':[teamModel,eventModel,searchQuery]">
 
             <li>

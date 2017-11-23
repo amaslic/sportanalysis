@@ -318,16 +318,19 @@
   float: left;
   max-width: 140px;
   width: 100%;
+  margin-top: 5px;
 }
 
 .timeline-right {
   /*max-width: 900px;*/
   width: calc(100% - 140px);
   float: left;
+  margin-top: 3px;
 }
 
 .video-select-box.clock {
-  margin-bottom: 18px;
+  margin-bottom: 5px;
+  display: none;
 }
 
 .timeline-time {
@@ -336,6 +339,7 @@
   background: transparent;
   position: absolute;
   left: 11%;
+  display: none;
 }
 
 .timeline-time span {
@@ -412,7 +416,7 @@
   float: left;
   width: calc(100% - 140px);
   background: #ffffff;
-  height: 30px;
+  height: 1px;
   position: relative;
 }
 
@@ -558,6 +562,7 @@ div.settings-div {
   margin-bottom: 4px;
   border-top: 1px solid #ccc;
   border-bottom: 1px solid #ccc;
+  height: 32px;
 }
 
 .video-select:last-child {
@@ -735,14 +740,15 @@ ss-multiselect-dropdown /deep/ .btn {
   background: #dddddd;
   text-align: center;
   max-width: 140px;
+ display: none; 
 }
 
 .unvisible-scroll {
   /* max-width: calc(100% - 140px); */
   width: 100%;
   /*overflow: hidden;
-    height: 50px;*/
-  margin-bottom: 45px;
+    height: 50px
+  margin-bottom: 45px;;*/
 }
 
 .video-controls-custom {
@@ -778,13 +784,14 @@ ss-multiselect-dropdown /deep/ .btn {
 .range-slider /deep/ .irs-line-right,
 .range-slider /deep/ .irs-bar,
 .range-slider /deep/ .irs-bar-edge {
-  height: 5px;
+  height: 0px;
   background: #10ea99;
 }
 
 .range-slider /deep/ .irs-slider {
   /*background-color: #9d8863;*/
-  background: url('/assets/images/timeline-circle.png');
+ /* background: url('/assets/images/timeline-circle.png');*/
+ background: transparent;
   background-position: 2.7px;
   background-repeat: no-repeat;
   cursor: pointer;
@@ -796,12 +803,12 @@ ss-multiselect-dropdown /deep/ .btn {
 .range-slider /deep/ .irs-slider.single::after {
   position: absolute;
   content: '';
-  width: 1px;
+  width: 2px;
   height: 1px;
   background: #10ea99;
   left: 7.5px;
   z-index: 9999;
-  top: 15px;
+  top: -22px;
 }
 
 .stats ul li {
@@ -837,6 +844,14 @@ ss-multiselect-dropdown /deep/ .btn {
 
 .playlist ul {
   max-height: 800px !important;
+}
+
+.playlist ul.p-events{
+  min-height: 500px;
+}
+
+vg-scrub-bar{
+  visibility: hidden;
 }
 
 .dots a:hover {

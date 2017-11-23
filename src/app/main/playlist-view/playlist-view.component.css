@@ -1148,10 +1148,15 @@ a.playlist-info:hover .message-list-content h4{
   }
 .dots {
     position: absolute;
-    right: 12px;
+    right: -5px;
     top: 6px;
     font-size: 20px;
   }
+
+.playlist ul.p-events{
+  min-height: 500px;
+}
+
   /*Chat css*/
   .chat-list{    padding: 0px 15px 0;}
   input.send-text{width: 78%;border: none;color:#fff;height: 30px;background-color: transparent;display: inline-block;}
