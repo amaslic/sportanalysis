@@ -49,13 +49,19 @@ export class SearchVideoTimelinePipe implements PipeTransform {
         let greenLineHeight;
         if (fData.length > 0) {
             if (fData.length <= 3) {
-                greenLineHeight = fData.length * 30 + 35;
+                greenLineHeight = fData.length * 30 + 20;
             }
             else {
                 greenLineHeight = fData.length * 30 + 50;
             }
+            // console.log("fData.length: ", fData.length);
+            setTimeout(function () {
+                console.log("box-container: ", document.getElementById("divEvents").offsetHeight);
+                document.styleSheets[0].addRule('.range-slider /deep/ .irs-slider.single::after', 'height: ' + (document.getElementById("divEvents").offsetHeight + 10) + 'px !important');
+            }, 500);
 
-            document.styleSheets[0].addRule('.range-slider /deep/ .irs-slider.single::after', 'height: ' + greenLineHeight + 'px !important');
+
+            // document.styleSheets[0].addRule('.range-slider /deep/ .irs-slider.single::after', 'height: ' + greenLineHeight + 'px !important');
             document.styleSheets[0].addRule('vg-scrub-bar-cue-points .cue-point-container .cue-point', 'pointer-events:auto !important');
             document.styleSheets[0].addRule('vg-scrub-bar-cue-points', 'pointer-events:auto !important');
         }

@@ -516,23 +516,24 @@ export class ViewComponent implements OnInit {
 
       let start = parseInt(event.start);
       let end = start + 0.5;
-      if (event.start !== "NaN" &&
-        // (event.name === "Goal" ||
-        //   event.name === "Kick Off" ||
-        //   event.name === "Red Card" ||
-        //   event.name === "Yellow Card" ||
-        //   event.name === "Change" ||
-        //   event.name === "Free Kick"
-        // ) &&
-        this.api.getDefaultMedia().duration > event.start) {
-        // console.log('add cue');
-        this.track.addCue(
-          new VTTCue(start, end, JSON.stringify({
-            title: event.name,
-            team: event.team
-          }))
-        );
-      }
+      //Cue points code.
+      // if (event.start !== "NaN" &&
+      //   // (event.name === "Goal" ||
+      //   //   event.name === "Kick Off" ||
+      //   //   event.name === "Red Card" ||
+      //   //   event.name === "Yellow Card" ||
+      //   //   event.name === "Change" ||
+      //   //   event.name === "Free Kick"
+      //   // ) &&
+      //   this.api.getDefaultMedia().duration > event.start) {
+      //   // console.log('add cue');
+      //   this.track.addCue(
+      //     new VTTCue(start, end, JSON.stringify({
+      //       title: event.name,
+      //       team: event.team
+      //     }))
+      //   );
+      // }
     });
     // console.log("TRACK", this.track);
     // console.info('Event', this.trackEvent);
@@ -540,9 +541,8 @@ export class ViewComponent implements OnInit {
     this.myOptions1 = this.trackEvent;
     // console.info('Team', this.trackTeam);
 
-
     let greenLineHeight = this.videoEvents.length * 30 + 60;
-    document.styleSheets[0].addRule('.range-slider /deep/ .irs-slider.single::after', 'height: ' + greenLineHeight + 'px !important');
+    // document.styleSheets[0].addRule('.range-slider /deep/ .irs-slider.single::after', 'height: ' + greenLineHeight + 'px !important');
     document.styleSheets[0].addRule('vg-scrub-bar-cue-points .cue-point-container .cue-point', 'pointer-events:auto !important');
     document.styleSheets[0].addRule('vg-scrub-bar-cue-points', 'pointer-events:auto !important');
 
@@ -645,7 +645,8 @@ export class ViewComponent implements OnInit {
 
 
               let greenLineHeight = this.videoEvents.length * 30 + 60;
-              document.styleSheets[0].addRule('.range-slider /deep/ .irs-slider.single::after', 'height: ' + greenLineHeight + 'px !important');
+              //It is working from searchVideoTimeLine.pipe.ts
+              // document.styleSheets[0].addRule('.range-slider /deep/ .irs-slider.single::after', 'height: ' + greenLineHeight + 'px !important');
               document.styleSheets[0].addRule('vg-scrub-bar-cue-points .cue-point-container .cue-point', 'pointer-events:auto !important');
               document.styleSheets[0].addRule('vg-scrub-bar-cue-points', 'pointer-events:auto !important');
 

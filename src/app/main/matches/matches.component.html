@@ -21,7 +21,7 @@
     <li>Away Team</li>
     <li>Created By</li>
     <li>Action</li>
-  </ul>
+  </ul> 
   <perfect-scrollbar>
     <div class="scroll-matches">
       <div *ngIf="matches.length > 0">
@@ -65,7 +65,7 @@
       </ul>
     </div>
 
-    <ngx-datatable class="material" [limit]="page.limit" [headerHeight]="35" [footerHeight]="50" [columnMode]="'force'" [rows]="matches"
+    <ngx-datatable class="material count-matches" [limit]="page.limit" [headerHeight]="35" [footerHeight]="50" [columnMode]="'force'" [rows]="matches"
       [loadingIndicator]="loadingIndicator" [rowHeight]="'auto'" [externalPaging]="true" [count]="page.totalElements" [offset]="page.pageNumber"
       (page)='getAllMatches($event)' [externalSorting]="true" (sort)="onSort($event)">
 

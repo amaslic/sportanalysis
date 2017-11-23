@@ -340,7 +340,7 @@ export class VideoSettingsComponent implements OnInit {
       (response: any) => {
         this.teamsList = JSON.parse(response._body);
         this.getAllClubs();
-        this.getActivatedClubs();
+        // this.getActivatedClubs();
 
         this.matchesPage.limit = 0;
         this.matchesPage.pageNumber = 0;
@@ -439,6 +439,10 @@ export class VideoSettingsComponent implements OnInit {
 
   onGetAllClubsSuccess(response) {
     this.allClubList = JSON.parse(response._body);
+    this.allClubList.forEach(element => {
+      this.clubData.push(element.name);
+    });
+
     this.sub = this.route.params.subscribe(params => {
       this.videoId = params['id'];
       this.getVideoTrackingDataItems(this.videoId);
@@ -1290,6 +1294,15 @@ export class VideoSettingsComponent implements OnInit {
   updateEvent() {
     this.event.name = this.ename;
     this.event.team = this.eteam;
+
+    if (this.eventstart.split(':').length != 3) {
+      this.eventstart += ":00";
+    }
+
+    if (this.eventend.split(':').length != 3) {
+      this.eventend += ":00";
+    }
+
     this.event.start = this.eventstart.split(':').reverse().reduce((prev, curr, i) => prev + curr * Math.pow(60, i), 0);
     this.event.end = this.eventend.split(':').reverse().reduce((prev, curr, i) => prev + curr * Math.pow(60, i), 0);
     this.event.id = this.eid;

@@ -33,6 +33,10 @@
   max-width: 180px;
   width: 100%;
 }
+
+.video-delete{
+  padding-right: 0!important;
+}
  
 .container.videos-list{
   max-width: 1680px;

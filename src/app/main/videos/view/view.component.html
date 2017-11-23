@@ -37,13 +37,12 @@
       <vg-buffering></vg-buffering>
 
 
-      <vg-scrub-bar (mousemove)="onScrubBarMove($event,Container.getBoundingClientRect()) " *ngIf="currentIndex===1 ">
-        <!-- <vg-scrub-bar-thumbnails [vg-thumbnails]="thumbnails"></vg-scrub-bar-thumbnails> -->
+      <!-- <vg-scrub-bar (mousemove)="onScrubBarMove($event,Container.getBoundingClientRect()) " *ngIf="currentIndex===1 ">
         <vg-scrub-bar-current-time></vg-scrub-bar-current-time>
         <vg-scrub-bar-buffering-time></vg-scrub-bar-buffering-time>
 
         <vg-scrub-bar-cue-points id="vg-scrub-bar-cue-points" class="customCuePoints " [vgCuePoints]="metadataTrack.cues " [vgFor]="sportanalysis-video "></vg-scrub-bar-cue-points>
-      </vg-scrub-bar>
+      </vg-scrub-bar> -->
 
       <vg-controls [vgAutohide]="false" [vgAutohideTime]="1.5">
         <vg-play-pause></vg-play-pause>
@@ -51,7 +50,13 @@
 
         <vg-time-display vgProperty="current" vgFormat="{{videoTimeFormat}}"></vg-time-display>
 
-        <vg-scrub-bar></vg-scrub-bar>
+        <vg-scrub-bar (mousemove)="onScrubBarMove($event,Container.getBoundingClientRect()) " *ngIf="currentIndex===1 ">
+          <vg-scrub-bar-current-time></vg-scrub-bar-current-time>
+          <vg-scrub-bar-buffering-time></vg-scrub-bar-buffering-time>
+          <!-- <vg-scrub-bar-cue-points [vgCuePoints]="metadataTrack.cues"></vg-scrub-bar-cue-points> -->
+          <vg-scrub-bar-cue-points id="vg-scrub-bar-cue-points" class="customCuePoints " [vgCuePoints]="metadataTrack.cues " [vgFor]="sportanalysis-video "></vg-scrub-bar-cue-points>
+
+        </vg-scrub-bar>
 
         <vg-time-display vgProperty="left" vgFormat="{{videoTimeFormat}}"></vg-time-display>
         <vg-time-display vgProperty="total" vgFormat="{{videoTimeFormat}}"></vg-time-display>
@@ -71,11 +76,13 @@
       </video>
     </vg-player>
 
+    <!-- Do not remove this code -->
+    <!-- Thumnails code - Start -->
     <!-- class="center-screen" -->
-    <div *ngIf="showTracker" id="divThumbnail" style="height: 90px;width: 150px;position: absolute;z-index: 9999;    margin-top: -150px;">
+    <!-- <div *ngIf="showTracker" id="divThumbnail" style="height: 90px;width: 150px;position: absolute;z-index: 9999;    margin-top: -150px;">
       <img src="{{ThumbnailPath}}" (error)="setDefaultThumbnail(chat)">
       <span class="time-tracker-div">{{fancyTimeFormat(TrackerTime)}}</span>
-    </div>
+    </div> -->
 
     <!-- <div id="divThumbnail" *ngFor="let timestamp of video.timestamps">
       <div class="abc">
@@ -94,6 +101,7 @@
     <!-- <div class="swiper-pagination"></div> -->
     <!-- <div class="swiper-button-next"></div>
         <div class="swiper-button-prev"></div> -->
+    <!-- Thumnails code - END -->
 
   </div>
   <div class="video-timeline " *ngIf="currentIndex===1 ">
@@ -139,7 +147,8 @@
       </div>
     </div>
   </div>
-  <div class="scroll-time " *ngIf="currentIndex===1 && showEvent ">
+
+  <div class="scroll-time " *ngIf="currentIndex===1 && showEvent">
     <div class="timeline-left ">
 
       <div class="video-select-box clock ">
@@ -187,7 +196,7 @@
         </div>
       </div>
 
-      <div class="box-container" style="width:100%">
+      <div id="divEvents" class="box-container" style="width:100%">
         <!-- <perfect-scrollbar class="perfect-scrollbar-timeline"> -->
         <!-- <pre>{{videoEvents | json}}</pre> -->
         <div class="video-select clearfix" style="width:100%" *ngFor="let evtGroup of videoEvents | searchVideoTimeline:'team,name':[teamModel,eventModel,searchQuery]"
@@ -207,6 +216,7 @@
       <!-- </perfect-scrollbar> -->
     </div>
   </div>
+
   <div *ngIf="cuePointData?.title" class="info-layer">
     <!-- <h3>{{ cuePointData?.title }}</h3> -->
   </div>
@@ -390,7 +400,7 @@
   <div class="match-status playlist col-xs-12" *ngIf="showEvent">
     <div class="stats">
       <perfect-scrollbar>
-        <ul>
+        <ul  class="p-events">
           <ng-container *ngFor="let event of trackingJsonData | searchEvent:'team,name':[teamModel,eventModel,searchQuery]">
 
             <li>
