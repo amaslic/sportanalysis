@@ -318,16 +318,19 @@
   float: left;
   max-width: 140px;
   width: 100%;
+  margin-top: 5px;
 }
 
 .timeline-right {
   /*max-width: 900px;*/
   width: calc(100% - 140px);
   float: left;
+  margin-top: 3px;
 }
 
 .video-select-box.clock {
-  margin-bottom: 18px;
+  margin-bottom: 5px;
+  display: none;
 }
 
 .timeline-time {
@@ -413,7 +416,7 @@
   float: left;
   width: calc(100% - 140px);
   background: #ffffff;
-  height: 30px;
+  height: 1px;
   position: relative;
 }
 
@@ -559,6 +562,7 @@ div.settings-div {
   margin-bottom: 4px;
   border-top: 1px solid #ccc;
   border-bottom: 1px solid #ccc;
+  height: 32px;
 }
 
 .video-select:last-child {
@@ -736,15 +740,15 @@ ss-multiselect-dropdown /deep/ .btn {
   background: #dddddd;
   text-align: center;
   max-width: 140px;
-  display: none;
+ display: none; 
 }
 
 .unvisible-scroll {
   /* max-width: calc(100% - 140px); */
   width: 100%;
   /*overflow: hidden;
-    height: 50px;*/
-  margin-bottom: 45px;
+    height: 50px
+  margin-bottom: 45px;;*/
 }
 
 .video-controls-custom {
@@ -804,7 +808,7 @@ ss-multiselect-dropdown /deep/ .btn {
   background: #10ea99;
   left: 7.5px;
   z-index: 9999;
-  top: -19px;
+  top: -22px;
 }
 
 .stats ul li {
@@ -844,6 +848,10 @@ ss-multiselect-dropdown /deep/ .btn {
 
 .playlist ul.p-events{
   min-height: 500px;
+}
+
+vg-scrub-bar{
+  visibility: hidden;
 }
 
 .dots a:hover {
