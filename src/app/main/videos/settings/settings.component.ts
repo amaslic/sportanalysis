@@ -1294,6 +1294,15 @@ export class VideoSettingsComponent implements OnInit {
   updateEvent() {
     this.event.name = this.ename;
     this.event.team = this.eteam;
+
+    if (this.eventstart.split(':').length != 3) {
+      this.eventstart += ":00";
+    }
+
+    if (this.eventend.split(':').length != 3) {
+      this.eventend += ":00";
+    }
+
     this.event.start = this.eventstart.split(':').reverse().reduce((prev, curr, i) => prev + curr * Math.pow(60, i), 0);
     this.event.end = this.eventend.split(':').reverse().reduce((prev, curr, i) => prev + curr * Math.pow(60, i), 0);
     this.event.id = this.eid;

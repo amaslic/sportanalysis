@@ -147,7 +147,8 @@
       </div>
     </div>
   </div>
-  <div class="scroll-time " *ngIf="currentIndex===1 && showEvent ">
+
+  <div class="scroll-time " *ngIf="currentIndex===1 && showEvent">
     <div class="timeline-left ">
 
       <div class="video-select-box clock ">
@@ -195,7 +196,7 @@
         </div>
       </div>
 
-      <div class="box-container" style="width:100%">
+      <div id="divEvents" class="box-container" style="width:100%">
         <!-- <perfect-scrollbar class="perfect-scrollbar-timeline"> -->
         <!-- <pre>{{videoEvents | json}}</pre> -->
         <div class="video-select clearfix" style="width:100%" *ngFor="let evtGroup of videoEvents | searchVideoTimeline:'team,name':[teamModel,eventModel,searchQuery]"
@@ -215,6 +216,7 @@
       <!-- </perfect-scrollbar> -->
     </div>
   </div>
+
   <div *ngIf="cuePointData?.title" class="info-layer">
     <!-- <h3>{{ cuePointData?.title }}</h3> -->
   </div>

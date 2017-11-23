@@ -801,6 +801,7 @@ ss-multiselect-dropdown /deep/ .btn {
   background: #10ea99;
   left: 7.5px;
   z-index: 9999;
+  top: 15px;
 }
 
 .stats ul li {

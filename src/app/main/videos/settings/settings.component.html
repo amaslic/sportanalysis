@@ -400,12 +400,12 @@
           </div>
           <div class="form-group">
             <label class="col-md-6 control-label">Start (HH:MM:SS)</label>
-            <input type="time" name="eventStart" step="1" min="00:00:00" max="23:59:59" [(ngModel)]="eventstart" class="form-control col-md-6"
+            <input type="time" name="eventStart" step="1" min="00:00:00" max="23:59:59" [(ngModel)]="eventstart" class="form-control col-md-6 without_ampm"
               placeholder="Start" required>
           </div>
           <div class="form-group">
             <label class="col-md-6 control-label">End (HH:MM:SS)</label>
-            <input type="time" name="eventEnd" step="1" min="00:00:00" max="23:59:59" [(ngModel)]="eventend" class="form-control col-md-6"
+            <input type="time" name="eventEnd" step="1" min="00:00:00" max="23:59:59" [(ngModel)]="eventend" class="form-control col-md-6 without_ampm"
               placeholder="End" required>
           </div>
         </div>
