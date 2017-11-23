@@ -76,11 +76,13 @@
       </video>
     </vg-player>
 
+    <!-- Do not remove this code -->
+    <!-- Thumnails code - Start -->
     <!-- class="center-screen" -->
-    <div *ngIf="showTracker" id="divThumbnail" style="height: 90px;width: 150px;position: absolute;z-index: 9999;    margin-top: -150px;">
+    <!-- <div *ngIf="showTracker" id="divThumbnail" style="height: 90px;width: 150px;position: absolute;z-index: 9999;    margin-top: -150px;">
       <img src="{{ThumbnailPath}}" (error)="setDefaultThumbnail(chat)">
       <span class="time-tracker-div">{{fancyTimeFormat(TrackerTime)}}</span>
-    </div>
+    </div> -->
 
     <!-- <div id="divThumbnail" *ngFor="let timestamp of video.timestamps">
       <div class="abc">
@@ -99,6 +101,7 @@
     <!-- <div class="swiper-pagination"></div> -->
     <!-- <div class="swiper-button-next"></div>
         <div class="swiper-button-prev"></div> -->
+    <!-- Thumnails code - END -->
 
   </div>
   <div class="video-timeline " *ngIf="currentIndex===1 ">

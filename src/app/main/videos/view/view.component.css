@@ -1672,9 +1672,10 @@ span.time-tracker-div {
   z-index: unset !important;
 } */
 
-/* Start comment
+
 :host>>>vg-scrub-bar-current-time .background {
   background-color: red !important;
+  border: none !important;
 }
 
 :host>>>vg-scrub-bar{z-index: 9999;}
@@ -1685,52 +1686,41 @@ span.time-tracker-div {
   z-index: 500;
   display: inline-block;
   position: relative;
-  top: -3.5px;
+  top: -3.8px;
   width: 13px;
   height: 13px;
   border-radius: 50%;
   left: -2px;
 }
 
+:host>>>vg-controls vg-scrub-bar-current-time{background-color:rgba(255,255,255,0.3) !important;}
+
 :host>>>vg-scrub-bar-buffering-time .background {
   opacity: 0 !important;
 }
-
+/* 
 :host>>>vg-scrub-bar:hover {
   height: 7px !important;
-}
-
+} */
+/* 
 :host>>>vg-scrub-bar:hover vg-scrub-bar-current-time {
   height: 7px !important;
 }
 
 :host>>>vg-scrub-bar:hover vg-scrub-bar-buffering-time {
   height: 7px !important;
-}
+} */
 
 :host>>>vg-scrub-bar:hover :host>>>vg-scrub-bar-current-time:after {
   width: 15px;
   height: 15px;
   left: -1px;
 }
-
+/* 
 :host>>>vg-scrub-bar:hover vg-scrub-bar-cue-points.customCuePoints .cue-point-container .cue-point {
   height: 7px !important;
-}
-End comment */
+} */
 
-:host>>>vg-scrub-bar-current-time:after {
-  content: '';
-  background-color: blue;
-  z-index: 500;
-  display: inline-block;
-  position: relative;
-  top: -3.5px;
-  width: 13px;
-  height: 13px;
-  border-radius: 50%;
-  left: -2px;
-}
 
 
 /* :host >>> vg-scrub-bar-current-time:after{content: '';display: inline-block;background-image: url('/assets/icons/double-up-arrow-angles.svg');width: 30px;height: 30px;background-size: 100%;} */

@@ -497,23 +497,24 @@ export class ViewComponent implements OnInit {
 
       let start = parseInt(event.start);
       let end = start + 0.5;
-      if (event.start !== "NaN" &&
-        // (event.name === "Goal" ||
-        //   event.name === "Kick Off" ||
-        //   event.name === "Red Card" ||
-        //   event.name === "Yellow Card" ||
-        //   event.name === "Change" ||
-        //   event.name === "Free Kick"
-        // ) &&
-        this.api.getDefaultMedia().duration > event.start) {
-        // console.log('add cue');
-        this.track.addCue(
-          new VTTCue(start, end, JSON.stringify({
-            title: event.name,
-            team: event.team
-          }))
-        );
-      }
+      //Cue points code.
+      // if (event.start !== "NaN" &&
+      //   // (event.name === "Goal" ||
+      //   //   event.name === "Kick Off" ||
+      //   //   event.name === "Red Card" ||
+      //   //   event.name === "Yellow Card" ||
+      //   //   event.name === "Change" ||
+      //   //   event.name === "Free Kick"
+      //   // ) &&
+      //   this.api.getDefaultMedia().duration > event.start) {
+      //   // console.log('add cue');
+      //   this.track.addCue(
+      //     new VTTCue(start, end, JSON.stringify({
+      //       title: event.name,
+      //       team: event.team
+      //     }))
+      //   );
+      // }
     });
     // console.log("TRACK", this.track);
     // console.info('Event', this.trackEvent);
