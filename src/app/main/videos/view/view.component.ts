@@ -84,6 +84,18 @@ export interface IMedia {
   styleUrls: ['./view.component.css']
 })
 export class ViewComponent implements OnInit {
+  ConvId: any;
+  feedbackConvFeedbackId: any;
+  feedbackConvChatUserId: any;
+  feedbackConvCreatedId: any;
+  feedbackConvId: any;
+  reciverName: any;
+  reciverProfileImg: string;
+  addFeedbackPersonal: boolean;
+  userFeedbacklist: any;
+  chatUserList: any;
+  reciverId: any;
+  personalMsg: boolean;
   sharedVideo: boolean;
   userfilterModel: any = [];
   feedbackFrontMessages: any = [];
@@ -105,7 +117,7 @@ export class ViewComponent implements OnInit {
   shareEventFlag: boolean;
   eventmodeltitle: string;
   lastMsgId: any = 0;
-  userDetails: {};
+  userDetails: any = {};
   private baseImageUrl = GlobalVariables.BASE_IMAGE_URL;
   private baseUrl = GlobalVariables.BASE_URL;
   showChat: Boolean = true;
@@ -315,7 +327,7 @@ export class ViewComponent implements OnInit {
 
   constructor(private r: Router, private route: ActivatedRoute, private playlistService: PlaylistService, private videoService: VideoService, private userService: UserService, private trackingDataService: TrackingDataService, private chatService: ChatService, private feedbackService: FeedbackService, private renderer: Renderer2, @Inject(DOCUMENT) private document: Document) {
     let link = route.toString();
-    console.log(link);
+    // console.log(link);
 
   }
 
@@ -330,6 +342,7 @@ export class ViewComponent implements OnInit {
     // console.log(url.contains('shared'))
     var user = this.userService.loadUserFromStorage();
     this.userDetails = user;
+
     if (user) {
       if (user['role'] != 3 && user['role'] != 4) {
         this.isCoachOrAnalyst = false;
@@ -350,22 +363,28 @@ export class ViewComponent implements OnInit {
 
         this.eventId = params['eid'];
         this.EID = params['edid'];
-        this.fetchEventMessages(0);
+        // this.fetchEventMessages(0);
         this.trackingDataService.getEventDetails(this.videoId, params['edid'], this.userService.token).subscribe(
           (response) => this.getEventDetailsSuccess(response, params['eid']),
           (error) => this.onError(error)
         )
-        this.timerChat = setInterval(() => {
-          this.fetchEventMessages(this.lastMsgId);
-        }, 5000);
-
+        // this.timerChat = setInterval(() => {
+        //   this.fetchEventMessages(this.lastMsgId);
+        // }, 5000);
+        this.page1.limit = 0
         this.userService.getUsers(this.userService.token, this.page1).subscribe(
           (response) => this.onGetUsersSuccess(response),
           (error) => this.onError(error)
         );
+        // if (!this.isCoachOrAnalyst) {
+        this.feedbackService.getFeedbackUsers(this.userService.token, this.videoId, params['edid'], params['eid']).subscribe(
+          (response) => this.onGetFeedbackUsersSuccess(response),
+          (error) => this.onError(error)
+        );
+        // }
       } else {
-        this.showEvent = true;
 
+        this.showEvent = true;
         //console.log(this.document.location.href);
         let url = this.document.location.href;
         if (url.indexOf('/shared/') > -1) {
@@ -469,7 +488,7 @@ export class ViewComponent implements OnInit {
         this.track.removeCue(this.track.cues[x]);
         this.api.textTracks[0].removeCue(this.track.cues[x]);
       } catch (e) {
-        console.log('removeCue error = ' + e.toString());
+        //   console.log('removeCue error = ' + e.toString());
       }
     }
 
@@ -806,15 +825,17 @@ export class ViewComponent implements OnInit {
   }
   onGetUsersSuccess(response) {
     this.userlist = JSON.parse(response._body).users;
+
     this.trackUserlist = [];
     this.userlist.forEach((usr, index) => {
       this.trackUserlist.push({
         'id': usr._id,
         'name': usr.firstName
       });
+      usr.profileImg = this.baseImageUrl + "/profile/" + usr._id + ".png";
     });
     this.userlistOptions = this.trackUserlist;
-
+    //this.chatUserList = this.userlist;
 
   }
   usersToEvent() {
@@ -877,7 +898,7 @@ export class ViewComponent implements OnInit {
 
     this.api.getDefaultMedia().subscriptions.loadedData.subscribe(
       () => {
-        console.log("Loaded data");
+        //   console.log("Loaded data");
 
         // if (this.currentIndex == 1) {
         this.videoDuration = this.api.getDefaultMedia().duration;
@@ -891,7 +912,7 @@ export class ViewComponent implements OnInit {
         // console.log(this.fancyVideoDuration);
 
         //  this.getVideoTrackingDataItems(this.videoId);
-        console.log('event', this.eventId);
+        //  console.log('event', this.eventId);
         if (!this.eventId) {
           if (this.sharedVideo) {
             this.getVideoSharedEventsData(atob(this.videoId));
@@ -906,7 +927,7 @@ export class ViewComponent implements OnInit {
 
         if (this.currentIndex <= 2) {
           if (this.eventId) {
-            this.showEvent = false;
+            //this.showEvent = false;
             this.sharedEvent();
           }
           this.playVideo();
@@ -1427,7 +1448,7 @@ export class ViewComponent implements OnInit {
   sendMessage() {
 
     if (this.message) {
-      this.chatService.sendMessage(this.message, this.videoId, this.userService.token, 'video').subscribe(
+      this.chatService.sendMessage(this.message, this.videoId, this.userService.token, 'feedback').subscribe(
         (response: any) => {
           this.chatData = JSON.parse(response._body);
           this.lastMsgId = this.chatData.chat._id;
@@ -1458,7 +1479,7 @@ export class ViewComponent implements OnInit {
   fetchEventMessages(lastId) {
     // console.log("last id", lastId)
     // this.feedbackMessages = this.feedbackFrontMessages;
-    this.feedbackService.fetchEventFeedback(lastId, this.videoId, this.EID, this.eventId, this.userService.token, 'video').subscribe(
+    this.feedbackService.fetchEventFeedback(lastId, this.videoId, this.EID, this.eventId, this.userService.token, 'feedback').subscribe(
       (response: any) => {
         this.chatList = JSON.parse(response._body);
         // console.log('chatlist', this.chatList);
@@ -1523,6 +1544,10 @@ export class ViewComponent implements OnInit {
 
   setDefaultPic(element) {
     element.profileImg = "assets/images/user.png";
+
+  }
+  setReciverDefaultPic() {
+    this.reciverProfileImg = "assets/images/user.png";
   }
   // openNav() {
   //   document.getElementById("mySidenav").style.width = "40%";
@@ -1534,6 +1559,10 @@ export class ViewComponent implements OnInit {
   // }
 
   addFeedbacks(vid, e) {
+    console.log('events', e)
+    this.addFeedbackPersonal = false;
+    this.eventDataId = e.eventDataId;
+    this.eId = e.id;
     this.feedbackMessages = [];
     this.feedbackfilteredMessages = [];
     this.userlistModel = [];
@@ -1559,10 +1588,10 @@ export class ViewComponent implements OnInit {
       this.feedbackFlag = true;
       this.page1.limit = 0;
       this.page1.pageNumber = 0;
-      this.feedbackService.getFeedback(this.videoId, e, this.userService.token, 'video').subscribe(
-        (response) => this.getFeedbackSuccess(response),
-        (error) => this.onError(error)
-      )
+      // this.feedbackService.getFeedback(this.videoId, e, this.userService.token, 'feedback').subscribe(
+      //   (response) => this.getFeedbackSuccess(response),
+      //   (error) => this.onError(error)
+      // )
 
       this.userService.getUsers(this.userService.token, this.page1).subscribe(
         (response) => this.onGetUsersSuccess(response),
@@ -1573,6 +1602,7 @@ export class ViewComponent implements OnInit {
       //   (error) => this.onError(error)
       // )
       this.eventsDetails = e;
+      console.log(' this.eventsDetails', this.eventsDetails)
       this.assignEventModal.open();
     } else {
       this.errormsg = "This event is not valid.";
@@ -1607,35 +1637,56 @@ export class ViewComponent implements OnInit {
     }
   }
   eventFeedback(page) {
-    this.users = []
-
+    console.log(this.eventsDetails);
     if (page == 'Feedback' || page == 'feedback') {
       this.eventsDetails.id = this.eventsDetails.id[0];
       this.eventsDetails.name = this.eventsDetails.name[0];
-      this.eventsDetails.eventDataId = this.EID;
+      this.eventsDetails.eventDataId = this.eventsDetails.eventDataId[0];
 
-      if (this.isCoachOrAnalyst) {
-        if (this.userlistModel) {
-          //  this.userlistModel.push(this.userDetails['_id']);
-          this.users = this.userlistModel;
-        }
-        else {
-          alert("Please select users");
-          return false;
-        }
-
-      }
-      else {
-        this.users.push(this.userDetails['_id']);
-      }
 
     }
-
-    this.feedbackService.addFeedback(this.videoId, this.eventsDetails, this.userlistModel, this.feedbackname, this.feebackMsg, this.userService.token, page).subscribe(
+    else {
+      console.log(this.eventDataId);
+      this.eventsDetails.eventDataId = this.eventDataId;
+    }
+    console.log(this.eventsDetails);
+    this.feedbackService.addFeedback(this.videoId, this.eventsDetails, this.reciverId, this.feedbackname, this.feebackMsg, this.userService.token, page).subscribe(
       (response) => this.eventFeedbackSuccess(response),
       (error) => this.onError(error)
     )
+    // this.feedbackService.sendFeedback(this.videoId, this.eventsDetails, this.reciverId, this.feebackMsg, this.userService.token, page).subscribe(
+    //   (response) => this.eventFeedbackSuccess(response),
+    //   (error) => this.onError(error)
+    // )
 
+  }
+  sendFeedback(page) {
+    console.log('before', this.eventsDetails);
+    // this.eventsDetails.id = this.eventId;
+    // if (page == 'Feedback' || page == 'feedback') {
+
+    //   // this.eventsDetails.name = this.eventsDetails.name[0];
+    //   this.eventsDetails.eventDataId = this.EID;
+    // }
+    // else {
+    //   console.log(this.eventDataId);
+    //   this.eventsDetails.eventDataId = this.eventDataId;
+    // }
+    // console.log('after', this.eventsDetails);
+    console.log('feedbackConvId', this.feedbackConvId);
+    console.log('feedbackConvCreatedId', this.feedbackConvCreatedId);
+    console.log('feedbackConvChatUserId', this.feedbackConvChatUserId);
+    this.feedbackService.sendFeedback(this.feedbackConvId, this.feedbackConvFeedbackId, this.feedbackConvCreatedId, this.feebackMsg, this.userService.token, page).subscribe(
+      (response) => this.sendFeedbackSuccess(response),
+      (error) => this.onError(error)
+    )
+
+  }
+  sendFeedbackSuccess(response) {
+    const sendFeedbacklist = JSON.parse(response._body).feedback;
+    this.feedbackMessages.push(sendFeedbacklist);
+    console.log(this.feedbackMessages);
+    this.feebackMsg = '';
   }
   getFeedbackSuccess(response) {
     this.feebackMsg = '';
@@ -1697,8 +1748,8 @@ export class ViewComponent implements OnInit {
       // element.profileImg = this.baseImageUrl + "/profile/" + element.user._id + ".png";
     });
 
-    // console.log('responseFeedback', responseFeedback);
-    this.feedbackMessages.push({ _id: 0, assignedUsersDetails: this.assignedUsersDetails, message: responseFeedback.chat.message, createdAt: responseFeedback.chat.createdAt, user: this.userDetails, profileImg: this.baseImageUrl + "/profile/" + this.userDetails['_id'] + ".png" });
+    console.log('responseFeedback', responseFeedback);
+    this.feedbackMessages.push({ _id: 0, assignedUsersDetails: this.assignedUsersDetails, message: responseFeedback.chat.message, createdAt: responseFeedback.chat.createdAt, user: this.userDetails, profileImg: this.baseImageUrl + "/profile/" + this.userDetails['_id'] + ".png", senderId: responseFeedback.chat.senderId });
     var uniqueArray = this.removeDuplicates(this.feedbackMessages, "user._id");
     // console.log("uniqueArray is: " + JSON.stringify(uniqueArray));
     //console.log("uniqueArray is: " + uniqueArray);
@@ -1784,5 +1835,119 @@ export class ViewComponent implements OnInit {
       );
     }
   }
+  onetoone(chat) {
+    console.log(chat);
+    this.reciverId = chat._id;
+    this.ConvId = chat.convId;
+    this.reciverName = chat.firstName + ' ' + chat.lastName;
+    this.reciverProfileImg = this.baseImageUrl + "/profile/" + this.reciverId + ".png";
+    // console.log(this.eventId);
 
+    this.feedbackMessages = [];
+    this.personalMsg = true;
+    // this.addFeedbackPersonal = true;
+    this.feedbackService.fetchConversation(0, this.reciverId, chat.convId, this.userService.token).subscribe(
+      (response: any) => {
+        this.chatList = JSON.parse(response._body);
+        console.log('chatlist', this.chatList);
+        if (this.chatList.feedbacks.length > 0) {
+          console.log('chatlist', this.feedbackMessages);
+
+          this.chatList.feedbacks.forEach((element, index) => {
+
+            element.profileImg = this.baseImageUrl + "/profile/" + element.user._id + ".png";
+
+
+            console.log('element', element);
+            //   //  this.feedbackMessages = this.feedbackMessages.filter(x => x._id != 0);
+            this.feedbackMessages.push(element);
+            //   // this.feedbackfilteredMessages.push(element);
+
+
+            //   // this.lastMsgId = element._id;
+          });
+
+        }
+        // this.feedbackFrontMessages = this.feedbackMessages
+        // this.feedbackfilteredMessages = this.feedbackMessages;
+        //var uniqueArray = this.removeDuplicates(this.feedbackfilteredMessages, "user._id");
+        //this.userfilterOptions = [];
+        // uniqueArray.forEach((e, index) => {
+        //   this.userfilterOptions.push({ 'id': e._id, 'name': e.firstName })
+        // });
+        // if (this.userfilterModel.length > 0) {
+        //   this.feedbackMessages = this.feedbackfilteredMessages.filter(function (i) {
+        //     //console.log('i', i.user._id)
+        //     return this.indexOf(i.user._id) > - 1;
+        //   }, this.userfilterModel);
+        // }
+        // else {
+        //  this.feedbackMessages = this.feedbackfilteredMessages;
+        //  console.log('feedbackMessages', this.feedbackMessages);
+        //}
+
+      },
+      (error) => this.onError(error)
+    );
+  }
+  createfeedback(chat) {
+    console.log(chat);
+    this.reciverId = chat._id;
+    this.reciverName = chat.firstName + ' ' + chat.lastName;
+    this.addFeedbackPersonal = true;
+    console.log(this.eventsDetails);
+    this.feedbackService.addFeedback(this.videoId, this.eventsDetails, this.reciverId, this.feedbackname, this.feebackMsg, this.userService.token, 'video').subscribe(
+      (response) => this.addFeedbackSuccess(response),
+      (error) => this.onError(error)
+    )
+  }
+  backtochat() {
+    this.personalMsg = false;
+    this.addFeedbackPersonal = false;
+    //this.feedbackMessages = [];
+
+  }
+  addFeedbackSuccess(response) {
+    const feedbacklist = JSON.parse(response._body).feedbackConversation;
+    this.feedbackConvId = feedbacklist.id;
+    this.feedbackConvCreatedId = feedbacklist.createdBy;
+    this.feedbackConvChatUserId = feedbacklist.chatUserId;
+    this.feedbackConvFeedbackId = feedbacklist.feedbackId;
+    this.feedbackMessages = JSON.parse(response._body).messages;
+    console.log('feedbackConvId', this.feedbackConvId);
+    console.log('feedbackConvCreatedId', this.feedbackConvCreatedId);
+    console.log('feedbackConvChatUserId', this.feedbackConvChatUserId);
+  }
+  onGetFeedbackUsersSuccess(response) {
+    this.userFeedbacklist = JSON.parse(response._body).feedbacks;
+
+    this.userFeedbacklist.forEach((usr, index) => {
+      this.userFeedbacklist[index].convId = usr._id;
+      this.userFeedbacklist[index].firstName = usr.UsersData.firstName;
+      this.userFeedbacklist[index].lastName = usr.UsersData.lastName;
+      this.userFeedbacklist[index]._id = usr.UsersData._id;
+      this.userFeedbacklist[index].profileImg = this.baseImageUrl + "/profile/" + usr.UsersData._id + ".png";
+      this.userFeedbacklist[index].message = usr.lastMessage;
+      this.userFeedbacklist[index].createdAt = usr.lastMessageTime;
+
+    });
+
+    console.log('this.userFeedbacklist', this.userFeedbacklist);
+    this.chatUserList = this.userFeedbacklist;
+
+  }
+  sendNewMessage() {
+    this.feedbackService.sendNewMessage(this.ConvId, this.reciverId, this.feebackMsg, this.userService.token).subscribe(
+      (response) => this.sentMessageSuccess(response),
+      (error) => this.onError(error)
+    )
+  }
+  sentMessageSuccess(response) {
+    const sendMesaageData = JSON.parse(response._body).feedback;
+    console.log(sendMesaageData);
+    this.feebackMsg = '';
+
+    this.feedbackMessages.push(sendMesaageData);
+    console.log(this.feedbackMessages)
+  }
 }

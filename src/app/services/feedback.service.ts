@@ -47,6 +47,29 @@ export class FeedbackService {
         });
         return this.http.post(this.baseApiUrl + 'feedback/addFeedback', body, options);
     }
+    sendNewMessage(feedbackConvId: any, reciverId: any, feebackMsg: String, token: String) {
+        const headers = new Headers({
+            'Authorization': token
+        });
+        const body = { feedbackConvId: feedbackConvId, reciverId: reciverId, message: feebackMsg };
+
+        const options = new RequestOptions({
+            headers: headers
+        });
+        return this.http.post(this.baseApiUrl + 'feedback/sendNewMessage', body, options);
+    }
+
+    sendFeedback(feedbackConvId: any, feedbackConvFeedbackId: any, feedbackConvCreatedId: any, message: any, token: String, page: String) {
+        const headers = new Headers({
+            'Authorization': token
+        });
+        const body = { message: message, feedbackConvId: feedbackConvId, page: page, feedbackConvFeedbackId: feedbackConvFeedbackId, feedbackConvCreatedId: feedbackConvCreatedId };
+
+        const options = new RequestOptions({
+            headers: headers
+        });
+        return this.http.post(this.baseApiUrl + 'feedback/sendFeedback', body, options);
+    }
     fetchFeedback(lastId: any, id: any, edata: any, token: String, page: String) {
 
         const headers = new Headers({
@@ -59,6 +82,19 @@ export class FeedbackService {
         });
         return this.http.post(this.baseApiUrl + 'feedback/fetchFeedback', body, options);
     }
+    fetchConversation(lastId: any, reciverId: any, convId: any, token: String) {
+
+        const headers = new Headers({
+            'Authorization': token
+        });
+        const body = { lastId: lastId, reciverId: reciverId, convId: convId };
+
+        const options = new RequestOptions({
+            headers: headers
+        });
+        return this.http.post(this.baseApiUrl + 'feedback/fetchConversation', body, options);
+    }
+
     fetchEventFeedback(lastId: any, id: any, edataId: any, eid: any, token: String, page: String) {
 
         const headers = new Headers({
@@ -70,6 +106,29 @@ export class FeedbackService {
             headers: headers
         });
         return this.http.post(this.baseApiUrl + 'feedback/fetchEventFeedback', body, options);
+    }
+    fetchEventFeedbackUser(user: any, id: any, edataId: any, eid: any, token: String) {
+
+        const headers = new Headers({
+            'Authorization': token
+        });
+        const body = { user: user, id: id, edataId: edataId, eid: eid };
+
+        const options = new RequestOptions({
+            headers: headers
+        });
+        return this.http.post(this.baseApiUrl + 'feedback/fetchEventFeedbackUser', body, options);
+    }
+    getFeedbackUsers(token: String, vid: any, edataId: any, eid: any) {
+        const headers = new Headers({
+            'Authorization': token
+        });
+        const body = { vid: vid, edataId: edataId, eid: eid };
+
+        const options = new RequestOptions({
+            headers: headers
+        });
+        return this.http.post(this.baseApiUrl + 'feedback/getFeedbackUsers', body, options);
     }
     getAllFeedback(token: String, page) {
         const headers = new Headers({ 'Authorization': token });
