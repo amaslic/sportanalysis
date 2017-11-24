@@ -242,7 +242,7 @@ export class PlaylistsComponent implements OnInit {
     userlist.forEach((usr, index) => {
       this.trackUserlist.push({
         'id': usr._id,
-        'name': usr.firstName
+        'name': usr.firstName + ' ' + usr.lastName
       });
     });
 
