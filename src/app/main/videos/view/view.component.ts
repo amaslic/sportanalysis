@@ -1020,9 +1020,7 @@ export class ViewComponent implements OnInit {
     if (this.timerEvent) {
       clearInterval(this.timerEvent);
     }
-    // if (this.timerChat) {
-    //   clearInterval(this.timerChat);
-    // }
+
 
   }
 
@@ -1846,46 +1844,38 @@ export class ViewComponent implements OnInit {
 
     this.feedbackMessages = [];
     this.personalMsg = true;
-    // this.addFeedbackPersonal = true;
-    this.feedbackService.fetchConversation(0, this.reciverId, chat.convId, this.userService.token).subscribe(
+    this.lastMsgId = 0;
+    this.fetchConversation(this.lastMsgId);
+    this.timerChat = setInterval(() => {
+      // console.log("this.lastMsgId", this.lastMsgId);
+      this.fetchConversation(this.lastMsgId);
+    }, 5000);
+
+
+  }
+  fetchConversation(lastid) {
+    this.feedbackService.fetchConversation(lastid, this.reciverId, this.ConvId, this.userService.token).subscribe(
       (response: any) => {
         this.chatList = JSON.parse(response._body);
-        console.log('chatlist', this.chatList);
+        //   console.log('chatlist', this.chatList);
         if (this.chatList.feedbacks.length > 0) {
-          console.log('chatlist', this.feedbackMessages);
+          //    console.log('chatlist', this.feedbackMessages);
 
           this.chatList.feedbacks.forEach((element, index) => {
-
+            this.lastMsgId = element._id;
             element.profileImg = this.baseImageUrl + "/profile/" + element.user._id + ".png";
 
 
-            console.log('element', element);
+            //console.log('element', element);
             //   //  this.feedbackMessages = this.feedbackMessages.filter(x => x._id != 0);
             this.feedbackMessages.push(element);
-            //   // this.feedbackfilteredMessages.push(element);
 
-
-            //   // this.lastMsgId = element._id;
           });
 
         }
-        // this.feedbackFrontMessages = this.feedbackMessages
-        // this.feedbackfilteredMessages = this.feedbackMessages;
-        //var uniqueArray = this.removeDuplicates(this.feedbackfilteredMessages, "user._id");
-        //this.userfilterOptions = [];
-        // uniqueArray.forEach((e, index) => {
-        //   this.userfilterOptions.push({ 'id': e._id, 'name': e.firstName })
-        // });
-        // if (this.userfilterModel.length > 0) {
-        //   this.feedbackMessages = this.feedbackfilteredMessages.filter(function (i) {
-        //     //console.log('i', i.user._id)
-        //     return this.indexOf(i.user._id) > - 1;
-        //   }, this.userfilterModel);
-        // }
-        // else {
-        //  this.feedbackMessages = this.feedbackfilteredMessages;
-        //  console.log('feedbackMessages', this.feedbackMessages);
-        //}
+
+
+
 
       },
       (error) => this.onError(error)
@@ -1905,6 +1895,11 @@ export class ViewComponent implements OnInit {
   backtochat() {
     this.personalMsg = false;
     this.addFeedbackPersonal = false;
+    alert(this.timerChat);
+    if (this.timerChat) {
+      alert("In " + this.timerChat);
+      clearInterval(this.timerChat);
+    }
     //this.feedbackMessages = [];
 
   }
@@ -1947,7 +1942,7 @@ export class ViewComponent implements OnInit {
     const sendMesaageData = JSON.parse(response._body).feedback;
     console.log(sendMesaageData);
     this.feebackMsg = '';
-
+    this.lastMsgId = sendMesaageData._id;
     this.feedbackMessages.push(sendMesaageData);
     console.log(this.feedbackMessages)
   }
