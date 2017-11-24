@@ -850,9 +850,10 @@ ss-multiselect-dropdown /deep/ .btn {
   min-height: 500px;
 }
 
+/*
 vg-scrub-bar{
   visibility: hidden;
-}
+}*/
 
 .dots a:hover {
   color: #59719a!important;
