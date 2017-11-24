@@ -290,9 +290,9 @@
         <div class="text text-r clearfix">
 
           <div class="border-bottom">
-            <input type="textarea" [(ngModel)]="feebackMsg" class="send-text" placeholder="Type a message" (keyup.enter)="sendNewMessage()"
+            <input type="text" maxlength="1000" [(ngModel)]="feebackMsg" class="send-text" placeholder="Type a message" (keyup.enter)="sendNewMessage()"
             />
-            <button (click)="sendFeedback('feedback')" class="send-message">
+            <button (click)="sendNewMessage()" class="send-message">
               <i class="fa fa-send"></i>
             </button>
             <i class="fa fa-smile-o"></i>
@@ -400,7 +400,7 @@
   <div class="match-status playlist col-xs-12" *ngIf="showEvent">
     <div class="stats">
       <perfect-scrollbar>
-        <ul  class="p-events">
+        <ul class="p-events">
           <ng-container *ngFor="let event of trackingJsonData | searchEvent:'team,name':[teamModel,eventModel,searchQuery]">
 
             <li>
@@ -598,10 +598,15 @@
               <input type="text" [(ngModel)]="feedbackname" class="form-control name-input" placeholder="Feedback Name" />
             </div>
           </div>
-          <div *ngIf="addFeedbackPersonal">
+          <div *ngIf="addFeedbackPersonal" class="fb-feedback">
             <i class="fa fa-arrow-left fa-lg" (click)="backtochat()" aria-hidden="true"></i>
 
-            <div class="feedbackname">{{reciverName}}
+            <div class="feedbackname">
+              <div class="fb-profile-pic">
+                <img src="{{reciverProfileImg}}" (error)="setReciverDefaultPic()">
+              </div>
+              {{reciverName}}
+
             </div>
           </div>
 
