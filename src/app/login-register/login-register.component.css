@@ -35,6 +35,14 @@
   overflow: auto;
 }
 
+/*Date - 24/11/2017*/
+.login-top-padding{
+  padding: 50px 10px 0px 10px !important;
+}
+
+
+
+
 .login {
   display: block;
 }
