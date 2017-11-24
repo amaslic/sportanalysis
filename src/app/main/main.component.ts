@@ -54,7 +54,8 @@ export class MainComponent implements OnInit {
     this.coach = user['coach'];
     this.router.events.subscribe((val: any) => {
       if (val.url === "/") {
-        this.router.navigateByUrl('/club/' + user.club);
+        // this.router.navigateByUrl('/club/' + user.club);
+        this.router.navigateByUrl('/videos');
       }
       try {
         document.getElementById("site-title").textContent = "";

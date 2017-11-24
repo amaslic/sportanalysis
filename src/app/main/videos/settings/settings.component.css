@@ -2,18 +2,19 @@
   padding: 20px;
 }
 
-#video-metadata-form input , input.form-control{
-    border: 0;
-    background: transparent;
-    box-shadow: none;
-    padding: 15px;
-    padding: 30px;
-    width: 100%;
-    max-width: 320px;
-    background: #ececec;  
+#video-metadata-form input,
+input.form-control {
+  border: 0;
+  background: transparent;
+  box-shadow: none;
+  padding: 15px;
+  padding: 30px;
+  width: 100%;
+  max-width: 320px;
+  background: #ececec;
 }
 
-.control-label{
+.control-label {
   line-height: 54px;
 }
 
@@ -21,43 +22,42 @@ form.submited .ng-invalid:not(form) {
   border-left: 5px solid #a94442 !important;
 }
 
-
-.btn-save{
+.btn-save {
   max-width: 320px;
   width: 100%;
   background: white;
   padding: 10px;
 }
 
-.video-md-settings /deep/ .mat-ink-bar{
+.video-md-settings /deep/ .mat-ink-bar {
   background-color: #009cff;
 }
 
-.video-md-settings /deep/ .mat-tab-label:focus{
+.video-md-settings /deep/ .mat-tab-label:focus {
   /*background-color: rgba(0, 156, 255, 0.1)*/
   background-color: transparent;
 }
 
-.video-md-settings /deep/ .mat-radio-button.mat-accent .mat-radio-inner-circle{
-    background: #009cff;
+.video-md-settings /deep/ .mat-radio-button.mat-accent .mat-radio-inner-circle {
+  background: #009cff;
 }
 
-.video-md-settings /deep/ .mat-radio-button.mat-accent.mat-radio-checked .mat-radio-outer-circle{
+.video-md-settings /deep/ .mat-radio-button.mat-accent.mat-radio-checked .mat-radio-outer-circle {
   border-color: rgba(0, 156, 255, 0.1);
 }
 
-.video-md-settings /deep/ .mat-tab-body-content{
+.video-md-settings /deep/ .mat-tab-body-content {
   max-width: 1050px;
   width: 100%;
   margin: auto;
   overflow-x: hidden;
 }
 
-.tracking-data{
+.tracking-data {
   padding: 18px;
 }
 
-.btn-add-tracking{
+.btn-add-tracking {
   padding: 10px;
   background: white;
   border-radius: 0;
@@ -68,52 +68,77 @@ form.submited .ng-invalid:not(form) {
   border: 0;
 }
 
-.file-name-tracking{
+.file-name-tracking {
   padding: 40px!important;
 }
 
-.action-button{margin: 0px 5px;}
-.video-title{display: initial !important;}
-.video-md-settings{width: 100%;}
-.mat-tab-header{width: 92.3%;display: block !important;margin: 0px auto;}
-:host >>> .video-md-settings[_ngcontent-c4] .mat-tab-body-content{max-width: 100% !important;}
-
-:host >>> input.completer-input{
-    height: 34px;
-    padding: 30px;
-    width: 100%;
-    max-width: 320px;
-    background: #ececec;
-    border: 0;
-    box-shadow: none;
+.action-button {
+  margin: 0px 5px;
 }
 
-.video-box{height: 320px;}
-:host >>> ng2-completer.ng-invalid {
-    display: block;
+.video-title {
+  display: initial !important;
 }
-:host >>> .mat-checkbox-checked.mat-accent .mat-checkbox-background, .mat-checkbox-indeterminate.mat-accent .mat-checkbox-background{
-    background-color:#009cff;
+
+.video-md-settings {
+  width: 100%;
 }
-:host >>> .drop-down-button button.btn-default {
-    color: #333;
-    background-color: #fff;
-    border-color: #ccc;
-    height: 60px !important;
-    width: 100%;
-    max-width: 320px;
-    background: #ececec;
-    border: 0;
-    box-shadow: none;
-    color: black;
+
+.mat-tab-header {
+  width: 92.3%;
+  display: block !important;
+  margin: 0px auto;
 }
-:host >>> .dropdown-menu{
+
+:host>>>.video-md-settings[_ngcontent-c4] .mat-tab-body-content {
+  max-width: 100% !important;
+}
+
+:host>>>input.completer-input {
+  height: 34px;
+  padding: 30px;
+  width: 100%;
+  max-width: 320px;
+  background: #ececec;
+  border: 0;
+  box-shadow: none;
+}
+
+.video-box {
+  height: 320px;
+}
+
+:host>>>ng2-completer.ng-invalid {
+  display: block;
+}
+
+:host>>>.mat-checkbox-checked.mat-accent .mat-checkbox-background,
+.mat-checkbox-indeterminate.mat-accent .mat-checkbox-background {
+  background-color: #009cff;
+}
+
+:host>>>.drop-down-button button.btn-default {
+  color: #333;
+  background-color: #fff;
+  border-color: #ccc;
+  height: 60px !important;
+  width: 100%;
+  max-width: 320px;
+  background: #ececec;
+  border: 0;
+  box-shadow: none;
+  color: black;
+}
+
+:host>>>.dropdown-menu {
   min-width: 320px;
 }
-.sportscode.dropdown{
+
+.sportscode.dropdown {
   padding-bottom: 20px;
 }
-.sportscode.dropdown button{
+
+.sportscode.dropdown button {
   background: #337ab7;
   color: white;
   border: 0;
@@ -124,7 +149,7 @@ form.submited .ng-invalid:not(form) {
   width: 100%;
 }
 
-.sportscode.dropdown ul.dropdown-menu{
+.sportscode.dropdown ul.dropdown-menu {
   top: 53px;
   left: 15px;
   border-radius: 0;
@@ -136,82 +161,149 @@ form.submited .ng-invalid:not(form) {
   text-align: center;
 }
 
-.sportscode.dropdown ul.dropdown-menu li{
+.sportscode.dropdown ul.dropdown-menu li {
   cursor: pointer;
   padding: 10px;
 }
 
-.sportscode.dropdown ul.dropdown-menu li:hover{
+.sportscode.dropdown ul.dropdown-menu li:hover {
   color: white;
   background: #337ab7;
 }
 
-.col-md-6.data-app{
+.col-md-6.data-app {
   padding: 0;
 }
 
 .loginOverLay {
-    display: table;
-    background: rgba(255,255,255,0.7);
-    /*background-image: url(../img/pattern/overlay-pattern.png);*/
-    z-index: 1000;
-    position: fixed;
-    left: 0px;
-    top: 0px;
-    width: 100%;
-    height: 100vh;
-    z-index: 7000;
+  display: table;
+  background: rgba(255, 255, 255, 0.7);
+  /*background-image: url(../img/pattern/overlay-pattern.png);*/
+  z-index: 1000;
+  position: fixed;
+  left: 0px;
+  top: 0px;
+  width: 100%;
+  height: 100vh;
+  z-index: 7000;
 }
 
-    .loginOverLay > div {
-        display: table-cell;
-        vertical-align: middle;
-        height: 125px;
-        width: 125px;
-        margin: 0px auto;
-        text-align: center;
-    }
+.loginOverLay>div {
+  display: table-cell;
+  vertical-align: middle;
+  height: 125px;
+  width: 125px;
+  margin: 0px auto;
+  text-align: center;
+}
 
-        .loginOverLay > div > img {
-            width: 120px;
-            height: 120px;
-        }
+.loginOverLay>div>img {
+  width: 120px;
+  height: 120px;
+}
 
-        .input-group-btn.add-files{
-          text-align: center;
-        }
-        
-        .input-group-btn.add-files span{
-          max-width: 320px;
-          width: 100%;
-          background: white;
-          color: black;
-        
-        }
+.input-group-btn.add-files {
+  text-align: center;
+}
 
-select.form-control, select.sportscode {
-    height: 60px !important;
-    width: 100%;
-    max-width: 320px;
-    background: #ececec;
-    border: 0;
-    box-shadow: none;
-    color: black;
-}        
+.input-group-btn.add-files span {
+  max-width: 320px;
+  width: 100%;
+  background: white;
+  color: black;
+}
 
-select.sportscode.data{
+select.form-control,
+select.sportscode {
+  height: 60px !important;
+  width: 100%;
+  max-width: 320px;
+  background: #ececec;
+  border: 0;
+  box-shadow: none;
+  color: black;
+}
+
+select.sportscode.data {
   max-width: 220px;
   height: 40px!important;
 }
+
 
 /* .fa-window-close{
   padding-right: 15px;
 } */
 
-.list-group-item span i{
+.list-group-item span i {
   cursor: pointer;
 }
 
-.margin-right-15{
+.margin-right-15 {
   margin-right: 15px;
+}
+
+.without_ampm::-webkit-datetime-edit-ampm-field {
+  display: none;
+}
+
+input[type=time]::-webkit-clear-button {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  -o-appearance: none;
+  -ms-appearance: none;
+  appearance: none;
+  margin: -10px;
+}
+
+input.editcontrol {
+  display: block;
+  width: 100%;
+  height: 34px;
+  padding: 6px 12px;
+  font-size: 14px;
+  line-height: 1.42857143;
+  color: #555;
+  background-color: #fff;
+  background-image: none;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075);
+  transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
+  margin-bottom: 20px;
+}
+
+textarea.editcontrol {
+  display: block;
+  width: 100%;
+  padding: 6px 12px;
+  font-size: 14px;
+  line-height: 1.42857143;
+  color: #555;
+  background-color: #fff;
+  background-image: none;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075);
+  transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
+}
+
+
+/*Date - 24/11/2017*/
+
+.clear-both {
+  clear: both;
+}
+
+.line-height-normal {
+  line-height: normal !important;
+}
+
+.no-padding {
+  padding: 0px !important
+}
+
+.comment-icon {
+  color: #009cff;
+  font-size: 19px;
+  margin-right: 10px;
 }

@@ -1,9 +1,9 @@
 <div class="container" id="login-register-container">
   <div class="cube" [ngClass]="{'registration-side': !showLogin}">
-    <div class="login" *ngIf="showLogin">
+    <div class="login login-top-padding" *ngIf="showLogin">
       <app-login></app-login>
     </div>
-    <div class="register" *ngIf="!showLogin">
+    <div class="register login-top-padding" *ngIf="!showLogin">
       <app-register></app-register>
     </div>
   </div>

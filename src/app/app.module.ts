@@ -127,7 +127,7 @@ const appRoutes: Routes = [
       { path: 'match/view/:id', loadChildren: './main/videos/videos.component.module#VideosComponentModule' },
       { path: 'matchEvents/:id', loadChildren: './main/matchEvents/matchEvents.component.module#matchEventsComponentModule' },
       { path: 'feedbacks', loadChildren: './main/feedback/feedback.component.module#FeedbackComponentModule' },
-
+      { path: 'videos/view/:id/:edid/:eid/:uid', loadChildren: './main/videos/view/view.component.module#ViewComponentModule' },
     ]
   },
   {

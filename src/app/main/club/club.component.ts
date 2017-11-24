@@ -568,7 +568,7 @@ export class ClubComponent implements OnInit {
 
       this.trackUserlist.push({
         'id': element._id,
-        'name': element.firstName
+        'name': element.firstName + ' ' + element.lastName
       });
     });
     this.userlistOptions = this.trackUserlist;

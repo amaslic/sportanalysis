@@ -292,7 +292,7 @@ export class VideosComponent implements OnInit {
     this.userlist.forEach((usr, index) => {
       this.trackUserlist.push({
         'id': usr._id,
-        'name': usr.firstName
+        'name': usr.firstName + ' ' + usr.lastName
       });
     });
     this.userlistOptions = this.trackUserlist;
