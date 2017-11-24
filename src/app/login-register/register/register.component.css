@@ -1,6 +1,6 @@
 
 .login-logo {
-  max-width: 150px;
+  max-width: 180px;
 }
 
 .btn-signup {
@@ -8,7 +8,7 @@
 }
 
 .sign-in-notice {
-  color: #383f87;
+  color: #ef372f;
   text-align: center;
 }
 
@@ -119,6 +119,11 @@ select.form-control{
         transition: border-color ease-in-out .15s,box-shadow ease-in-out .15s;
         outline: none;
 }
+
+/*Date - 24/11/2017*/
+.register-top-margin{margin-top: 34px !important;color: #58585b !important}
+.sign-in-red{background-color: #ef372f !important;}
+.sign-up-gray{background-color: #58585b !important;}
 
 
 @media screen and (max-width: 750px) {
