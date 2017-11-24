@@ -68,6 +68,9 @@ export interface IMedia {
   styleUrls: ['./settings.component.css']
 })
 export class VideoSettingsComponent implements OnInit {
+  popupComment: any;
+  titleComment: any;
+  eventComment: any;
   timer: NodeJS.Timer;
   track: any;
   fancyVideoDuration: string;
@@ -320,6 +323,7 @@ export class VideoSettingsComponent implements OnInit {
   @ViewChild('lnkDownloadLink') lnkDownloadLink: ElementRef;
   @ViewChild('addOffsetModal') addOffsetModal;
   @ViewChild('updateOffsetModal') updateOffsetModal;
+  @ViewChild('CommentModal') CommentModal;
   constructor(private route: ActivatedRoute, private trackingDataService: TrackingDataService, private userService: UserService, private videoService: VideoService, private clubService: ClubService, private teamService: TeamService, private matchService: MatchService, private settingService: SettingService) { }
 
   ngOnInit() {
@@ -1284,7 +1288,8 @@ export class VideoSettingsComponent implements OnInit {
     this.eid = e.id;
     this.eventstart = e.start;
     this.eventend = e.end;
-    this.eventDataId = e.eid
+    this.eventDataId = e.eid;
+    this.eventComment = e.comment;
     // console.log(e);
 
     // this.estart = e.start.split(':').reverse().reduce((prev, curr, i) => prev + curr * Math.pow(60, i), 0);
@@ -1294,7 +1299,7 @@ export class VideoSettingsComponent implements OnInit {
   updateEvent() {
     this.event.name = this.ename;
     this.event.team = this.eteam;
-
+    this.event.comment = this.eventComment;
     if (this.eventstart.split(':').length != 3) {
       this.eventstart += ":00";
     }
@@ -1518,6 +1523,17 @@ export class VideoSettingsComponent implements OnInit {
     }
 
 
+  }
+  viewComment(e) {
+    console.log('Comment', e);
+    this.titleComment = e.name;
+    if (e.comment) {
+      this.popupComment = e.comment;
+    } else {
+      this.popupComment = "No comment found";
+    }
+
+    this.CommentModal.open();
   }
   ngOnDestroy() {
 
