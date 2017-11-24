@@ -598,10 +598,15 @@
               <input type="text" [(ngModel)]="feedbackname" class="form-control name-input" placeholder="Feedback Name" />
             </div>
           </div>
-          <div *ngIf="addFeedbackPersonal">
+          <div *ngIf="addFeedbackPersonal" class="fb-feedback">
             <i class="fa fa-arrow-left fa-lg" (click)="backtochat()" aria-hidden="true"></i>
 
-            <div class="feedbackname">{{reciverName}}
+            <div class="feedbackname">
+              <div class="fb-profile-pic">
+                <img src="{{reciverProfileImg}}" (error)="setReciverDefaultPic()">
+              </div>
+              {{reciverName}}
+
             </div>
           </div>
 

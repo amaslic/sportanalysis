@@ -1885,6 +1885,8 @@ export class ViewComponent implements OnInit {
     console.log(chat);
     this.reciverId = chat._id;
     this.reciverName = chat.firstName + ' ' + chat.lastName;
+
+    this.reciverProfileImg = this.baseImageUrl + "/profile/" + this.reciverId + ".png";
     this.addFeedbackPersonal = true;
     console.log(this.eventsDetails);
     this.feedbackService.addFeedback(this.videoId, this.eventsDetails, this.reciverId, this.feedbackname, this.feebackMsg, this.userService.token, 'video').subscribe(

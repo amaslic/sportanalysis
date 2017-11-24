@@ -1959,11 +1959,30 @@ i.ico-justify {
   font-size: 10px;
 }
 
+.fb-feedback i.fa-arrow-left {
+  display: inline-block;
+}
+
 .feedbackname {
-  width: 100%;
+  width: 90%;
   display: inline-block;
   color: #fff;
   font-size: 14px;
   margin-right: 10px;
   word-break: break-all;
+}
+
+.fb-profile-pic {
+  width: 35px;
+  height: 35px;
+  display: inline-block;
+  border-radius: 50%;
+  margin: 0px 10px;
+}
+
+.fb-profile-pic img {
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  border-radius: 50%;
 }
