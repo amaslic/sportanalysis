@@ -1895,9 +1895,8 @@ export class ViewComponent implements OnInit {
   backtochat() {
     this.personalMsg = false;
     this.addFeedbackPersonal = false;
-    alert(this.timerChat);
+
     if (this.timerChat) {
-      alert("In " + this.timerChat);
       clearInterval(this.timerChat);
     }
     //this.feedbackMessages = [];
